@@ -6,7 +6,8 @@ import gradio as gr
 
 import ui.common.console as uicon
 from scripts import util
-from scripts.service import image_process, video_process, net_process
+from scripts.service import image_process, video_process, net_process, text_process
+from scripts.util import FileIO
 
 
 @uicon.capture_wrap
@@ -91,10 +92,23 @@ def media_fetch_interface(
 
 
 @uicon.capture_wrap
-def text_process_interface(src_dir, des_dir, file_ext, action):
-    if action == "to UTF-8":
-        util.text_to_utf8(src_dir, des_dir)
-    pass
+def text_process_interface(
+        src_dir, des_dir,
+        file_ext, recursive_depth,
+        action
+):
+    if action == "to_utf_8":
+        FileIO.walk_des(
+            src_dir=src_dir,
+            des_dir=des_dir,
+            callback_dir=None,
+            callback_file=text_process.to_utf8,
+            file_ext=file_ext,
+            depth_limit=recursive_depth,
+        )
+        return f"Text files in {src_dir} are converted to UTF-8 and saved in {des_dir}"
+
+    return f"Invalid action selected: {action}"
 
 
 def tab_image_process():
@@ -131,7 +145,7 @@ def tab_image_process():
         rembg_color = gr.ColorPicker(label="Remove Background Color")
         rembg_alpha = gr.Slider(label="Remove Background Alpha", value=-1, minimum=-1, maximum=255)
     with gr.Row():
-        dir_depth = gr.Number(label="Directory Depth", value=0)
+        dir_depth = gr.Number(label="Recursive Depth", value=0)
         run_img = gr.Button("Run Image Processing")
     with gr.Row():
         result = gr.TextArea(label="Result")
@@ -212,12 +226,13 @@ def tab_text():
     src_dir = gr.Textbox(label="Source Directory")
     des_dir = gr.Textbox(label="Destination Directory")
     file_ext = gr.Textbox(label="File Extension", value="txt")
-    action = gr.Dropdown(label="Action", choices=["to UTF-8", ], value="to UTF-8")
+    recursive_depth = gr.Number(label="Recursive Depth", value=0)
+    action = gr.Dropdown(label="Action", choices=["to_utf_8", ], value="to_utf_8")
     result = gr.TextArea(label="Result")
     run = gr.Button("Text Process")
     run.click(
         text_process_interface,
-        inputs=[src_dir, des_dir, file_ext, action],
+        inputs=[src_dir, des_dir, file_ext, recursive_depth, action],
         outputs=[result]
     )
     pass
@@ -240,7 +255,7 @@ def webui():
         with gr.Tab("Media Duration"):
             tab_media_sum_duration()
 
-        with gr.Tab("Tex"):
+        with gr.Tab("Text"):
             tab_text()
 
         text_output = gr.Textbox(label="Console")

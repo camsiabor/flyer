@@ -1,5 +1,18 @@
-def to_utf8(src_file, des_file):
-    with open(src_file, "r", encoding="utf-8") as source:
-        content = source.read()
+import chardet
+
+
+def to_utf8(src_file, des_file, buffer_size=512 * 1024):  # 1MB buffer
+    # Detect the source file encoding
+    with open(src_file, 'rb') as source:
+        rawdata = source.read()
+        result = chardet.detect(rawdata)
+        source_encoding = result['encoding']
+
+    # Read the source file with the detected encoding and write to the destination file in utf-8
+    with open(src_file, "r", encoding=source_encoding) as source:
         with open(des_file, "w", encoding="utf-8") as target:
-            target.write(content)
+            while True:
+                chunk = source.read(buffer_size)
+                if not chunk:
+                    break
+                target.write(chunk)

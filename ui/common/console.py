@@ -1,7 +1,9 @@
 import io
 import sys
 import threading
+import time
 import traceback
+
 
 stdout_stream = io.StringIO()
 stderr_stream = io.StringIO()
@@ -50,10 +52,16 @@ def capture_wrap(func):
         # Create a thread to capture the stdout and stderr
         output_thread = threading.Thread(target=capture_init)
         output_thread.start()
+
+        start_time = time.time_ns() // 1_000_000  # Record the start time
+
         try:
             results = func(*args, **kwargs)  # Execute the decorated function
             # Wait for the thread to finish capturing output
             output_thread.join()
+
+            end_time = time.time_ns() // 1_000_000  # Record the end time
+            time_consumed = end_time - start_time  # Calculate the time consumption
 
             result_text = ""
             result_remain = tuple()
@@ -70,10 +78,13 @@ def capture_wrap(func):
 
             out, err = capture_snapshot()
             message = f"[result]:\n{result_text}\n\n"
+            message += f"[time consumed]: {time_consumed} milliseconds\n\n"  # Add the time consumption to the message
             if out:
                 message += f"[stdout]\n{out}\n\n"
             if err:
                 message += f"[stderr]\n{err}\n\n"
+            if result_remain is None or len(result_remain) <= 0:
+                return message
             return message, *result_remain
         except Exception:
             output_thread.join()
