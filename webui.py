@@ -1,5 +1,6 @@
-
 import os
+import threading
+import time
 
 import gradio as gr
 
@@ -87,6 +88,13 @@ def media_fetch_interface(
         return ret, None
 
     return output_path.resolve(), output_path
+
+
+@uicon.capture_wrap
+def text_process_interface(src_dir, des_dir, file_ext, action):
+    if action == "to UTF-8":
+        util.text_to_utf8(src_dir, des_dir)
+    pass
 
 
 def tab_image_process():
@@ -200,6 +208,21 @@ def tab_media_fetch():
     )
 
 
+def tab_text():
+    src_dir = gr.Textbox(label="Source Directory")
+    des_dir = gr.Textbox(label="Destination Directory")
+    file_ext = gr.Textbox(label="File Extension", value="txt")
+    action = gr.Dropdown(label="Action", choices=["to UTF-8", ], value="to UTF-8")
+    result = gr.TextArea(label="Result")
+    run = gr.Button("Text Process")
+    run.click(
+        text_process_interface,
+        inputs=[src_dir, des_dir, file_ext, action],
+        outputs=[result]
+    )
+    pass
+
+
 def webui():
     with gr.Blocks() as demo:
         with gr.Tab("Image"):
@@ -217,6 +240,9 @@ def webui():
         with gr.Tab("Media Duration"):
             tab_media_sum_duration()
 
+        with gr.Tab("Tex"):
+            tab_text()
+
         text_output = gr.Textbox(label="Console")
 
         def clear_output():
@@ -229,10 +255,20 @@ def webui():
     return demo
 
 
+def browser(server_port: int):
+    import webbrowser
+    time.sleep(2)
+    webbrowser.open(f"http://127.0.0.1:{server_port}")
+
+
 if __name__ == '__main__':
+    server_port = 10005
+
     app = webui()
+    threading.Thread(target=browser, args=(server_port,)).start()
+
     app.queue().launch(
         server_port=10005,
         show_error=True,
-        debug=True
+        debug=True,
     )

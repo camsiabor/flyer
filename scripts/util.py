@@ -60,3 +60,52 @@ def color_string_to_tuple(c_str):
         a = color_values[3]
 
     return r, g, b, a
+
+
+class FileIO:
+    @staticmethod
+    def walk(src_dir, callback_file, file_ext=None, depth_limit=-1):
+        # Depth limit of -1 means no limit
+        src_dir = os.path.normpath(src_dir)
+        base_depth = src_dir.rstrip(os.path.sep).count(os.path.sep)
+        for root, dirs, files in os.walk(src_dir):
+            depth = root.count(os.path.sep) - base_depth
+            if -1 < depth_limit < depth:
+                dirs[:] = []  # Clear dirs list to prevent further walking
+                continue
+            if file_ext:
+                files = [f for f in files if f.endswith(file_ext)]
+            for file in files:
+                src_file = os.path.join(root, file)
+                callback_file(src_file)
+
+    @staticmethod
+    def walk_des(
+            src_dir, des_dir,
+            callback_dir, callback_file,
+            file_ext=None,
+            depth_limit=-1
+    ):
+        # Depth limit of -1 means no limit
+        src_dir = os.path.normpath(src_dir)
+        des_dir = os.path.normpath(des_dir)
+        base_depth = src_dir.rstrip(os.path.sep).count(os.path.sep)
+        for root, dirs, files in os.walk(src_dir):
+            depth = root.count(os.path.sep) - base_depth
+            if -1 < depth_limit < depth:
+                dirs[:] = []  # Clear dirs list to prevent further walking
+                continue
+            # Create the corresponding destination directory if it doesn't exist
+            relative_path = os.path.relpath(root, src_dir)
+            des_path = os.path.join(des_dir, relative_path)
+            os.makedirs(des_path, exist_ok=True)
+            if file_ext:
+                files = [f for f in files if f.endswith(file_ext)]
+            if callback_dir is not None:
+                callback_dir(root, des_path, dirs, files)
+            if callback_file is not None:
+                for file in files:
+                    src_file = os.path.join(root, file)
+                    des_file = os.path.join(des_path, file)
+                    callback_file(src_file, des_file)
+        pass
