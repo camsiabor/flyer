@@ -47,7 +47,7 @@ def capture_clear():
     stderr_stream.seek(0)
 
 
-def capture_wrap(func):
+def capture_wrap(func, num_result=1):
     def wrapper(*args, **kwargs):
         # Create a thread to capture the stdout and stderr
         output_thread = threading.Thread(target=capture_init)
@@ -83,7 +83,7 @@ def capture_wrap(func):
                 message += f"[stdout]\n{out}\n\n"
             if err:
                 message += f"[stderr]\n{err}\n\n"
-            if result_remain is None or len(result_remain) <= 0:
+            if num_result <= 1:
                 return message
             return message, *result_remain
         except Exception:
@@ -96,35 +96,12 @@ def capture_wrap(func):
             if err:
                 message += f"[stderr]\n{err}\n\n"
             message += f"[trace]\n{stack_trace}"
-            return message, None
+            if num_result <= 1:
+                return message
+            padding = (None,) * (num_result - 1)
+            return message, *padding
         finally:
             capture_clear()
 
     return wrapper
 
-
-"""
-def update_output():
-    while True:
-        stdout_value, stderr_value = get_output()
-
-        if stdout_value or stderr_value:  # Check if there is new content
-
-            if text_output.value is None:
-                text_output.value = ''
-
-            if stdout_value:
-                text_output.value += stdout_value
-
-            if stderr_value:
-                text_output.value += stderr_value
-
-        # Clear the captured output
-        stdout_stream.truncate(0)
-        stderr_stream.truncate(0)
-
-        time.sleep(0.5)  # Add a small delay before checking again
-
-output_thread = threading.Thread(target=update_output)
-output_thread.start()
-"""

@@ -77,7 +77,6 @@ def media_duration_sum_interface(directory):
     return f"Total Duration: {t}"
 
 
-@uicon.capture_wrap
 def media_fetch_interface(
         src, des, t_start, t_end,
 ):
@@ -94,17 +93,21 @@ def media_fetch_interface(
 @uicon.capture_wrap
 def text_process_interface(
         src_dir, des_dir,
-        file_ext, recursive_depth,
+        file_ext, recursive_depth, buffer_size,
         action
 ):
+    def callback(src_file, des_file, _):
+        text_process.to_utf8(src_file, des_file, buffer_size)
+
     if action == "to_utf_8":
         FileIO.walk_des(
             src_dir=src_dir,
             des_dir=des_dir,
             callback_dir=None,
-            callback_file=text_process.to_utf8,
+            callback_file=callback,
             file_ext=file_ext,
             depth_limit=recursive_depth,
+            callback_args=buffer_size,
         )
         return f"Text files in {src_dir} are converted to UTF-8 and saved in {des_dir}"
 
@@ -211,7 +214,7 @@ def tab_media_fetch():
             )
 
     button_src_url.click(
-        fn=media_fetch_interface,
+        fn=uicon.capture_wrap(func=media_fetch_interface, num_result=2),
         inputs=[
             text_src_path, text_des_path,
             num_src_start, num_src_end,
@@ -227,12 +230,17 @@ def tab_text():
     des_dir = gr.Textbox(label="Destination Directory")
     file_ext = gr.Textbox(label="File Extension", value="txt")
     recursive_depth = gr.Number(label="Recursive Depth", value=0)
+    buffer_size = gr.Textbox(label="Buffer Size", value="512 * 1024")
     action = gr.Dropdown(label="Action", choices=["to_utf_8", ], value="to_utf_8")
     result = gr.TextArea(label="Result")
     run = gr.Button("Text Process")
     run.click(
         text_process_interface,
-        inputs=[src_dir, des_dir, file_ext, recursive_depth, action],
+        inputs=[
+            src_dir, des_dir,
+            file_ext, recursive_depth, buffer_size,
+            action
+        ],
         outputs=[result]
     )
     pass

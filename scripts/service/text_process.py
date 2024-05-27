@@ -1,10 +1,13 @@
 import chardet
 
 
-def to_utf8(src_file, des_file, buffer_size=512 * 1024):  # 1MB buffer
+def to_utf8(src_file, des_file, buffer_size=512 * 1024):
+    if isinstance(buffer_size, str):
+        buffer_size = eval(buffer_size)
+
     # Detect the source file encoding
     with open(src_file, 'rb') as source:
-        rawdata = source.read()
+        rawdata = source.read(1024)
         result = chardet.detect(rawdata)
         source_encoding = result['encoding']
 

@@ -79,12 +79,14 @@ class FileIO:
                 src_file = os.path.join(root, file)
                 callback_file(src_file)
 
+    # noinspection PyTypeChecker
     @staticmethod
     def walk_des(
             src_dir, des_dir,
             callback_dir, callback_file,
             file_ext=None,
-            depth_limit=-1
+            depth_limit=-1,
+            callback_args=None,
     ):
         # Depth limit of -1 means no limit
         src_dir = os.path.normpath(src_dir)
@@ -102,10 +104,10 @@ class FileIO:
             if file_ext:
                 files = [f for f in files if f.endswith(file_ext)]
             if callback_dir is not None:
-                callback_dir(root, des_path, dirs, files)
+                callback_dir(root, des_path, dirs, files, callback_args)
             if callback_file is not None:
                 for file in files:
                     src_file = os.path.join(root, file)
                     des_file = os.path.join(des_path, file)
-                    callback_file(src_file, des_file)
+                    callback_file(src_file, des_file, callback_args)
         pass
