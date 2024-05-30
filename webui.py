@@ -5,11 +5,20 @@ import threading
 import time
 
 import gradio as gr
+import yaml
 
 import ui.common.console as uicon
 from scripts import util
 from scripts.service import image_process, video_process, net_process, text_process
 from scripts.util import FileIO
+
+cfg_gradio = {
+    "port": 10005,
+}
+
+cfg_http = {
+    "port": 10006,
+}
 
 
 @uicon.capture_wrap
@@ -249,10 +258,10 @@ def tab_text():
 
 
 def tab_kohya_metadata():
-    path = './page/kohya-meta-viewer.html'
-    with open(path, mode='r', encoding='utf-8') as file:
-        html_content = file.read()
-    gr.HTML(html_content)
+    port = cfg_http.get('port', 10006)
+    path = f'http://localhost:{port}/kohya-meta-viewer.html'
+    iframe_html = f'<iframe src="{path}" width="100%" height="600"></iframe>'
+    gr.HTML(iframe_html)
     pass
 
 
@@ -308,22 +317,36 @@ def http_launch(port: int, directory: str):
     pass
 
 
-def gradio_launch(port):
+def gradio_launch():
     app = webui()
     app.queue().launch(
-        server_port=port,
+        server_port=cfg_gradio.get('port', 10005),
         show_error=True,
         debug=True,
     )
 
 
+def config_load():
+    with open('./config/def.yml', mode='r', encoding='utf-8') as file:
+        config = yaml.safe_load(file)
+    return config
+
+
 if __name__ == '__main__':
-    gradio_port = 10005
 
-    http_port = 10006
-    http_directory = "./page"
+    cfg = config_load()
+    cfg_http = cfg['http']
+    cfg_gradio = cfg['gradio']
 
-    threading.Thread(target=browser_launch, args=(gradio_port,)).start()
-    threading.Thread(target=http_launch, args=(http_port, http_directory)).start()
+    port_http = cfg_http.get('port', 10006)
+    port_gradio = cfg_gradio.get('port', 10005)
 
-    gradio_launch(gradio_port)
+    if cfg_gradio.get('auto_open', True):
+        threading.Thread(target=browser_launch, args=(port_gradio,)).start()
+
+    if cfg_http.get('auto_open', True):
+        threading.Thread(target=browser_launch, args=(port_http,)).start()
+
+    http_directory = cfg_http.get('root', './page')
+    threading.Thread(target=http_launch, args=(port_http, http_directory)).start()
+    gradio_launch()

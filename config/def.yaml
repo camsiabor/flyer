@@ -1,0 +1,8 @@
+gradio:
+  port: 10005
+  auto_open: true
+
+http:
+  port: 10006
+  root: './page'
+  auto_open: false
