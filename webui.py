@@ -327,7 +327,7 @@ def gradio_launch():
 
 
 def config_load():
-    with open('./config/def.yml', mode='r', encoding='utf-8') as file:
+    with open('./config/def.yaml', mode='r', encoding='utf-8') as file:
         config = yaml.safe_load(file)
     return config
 
