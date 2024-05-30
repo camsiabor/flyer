@@ -311,6 +311,14 @@ def http_launch(port: int, directory: str):
         def __init__(self, *args, **kwargs):
             super().__init__(*args, directory=directory, **kwargs)
 
+        def log_message(self, format, *args):
+            # Override the log_message method to disable all logging
+            pass
+
+        def log_error(self, format, *args):
+            # This will log only errors
+            self.log_message(format, *args)
+
     with socketserver.TCPServer(("", port), Handler) as httpd:
         print(f"http server port: http://127.0.0.1/{port}")
         httpd.serve_forever()
