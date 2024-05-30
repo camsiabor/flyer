@@ -1,4 +1,6 @@
+import http
 import os
+import socketserver
 import threading
 import time
 
@@ -246,6 +248,14 @@ def tab_text():
     pass
 
 
+def tab_kohya_metadata():
+    path = './page/kohya-meta-viewer.html'
+    with open(path, mode='r', encoding='utf-8') as file:
+        html_content = file.read()
+    gr.HTML(html_content)
+    pass
+
+
 def webui():
     with gr.Blocks() as demo:
         with gr.Tab("Image"):
@@ -266,6 +276,9 @@ def webui():
         with gr.Tab("Text"):
             tab_text()
 
+        with gr.Tab("Kohya Metadata"):
+            tab_kohya_metadata()
+
         text_output = gr.Textbox(label="Console")
 
         def clear_output():
@@ -278,20 +291,39 @@ def webui():
     return demo
 
 
-def browser(server_port: int):
+def browser_launch(port: int):
     import webbrowser
     time.sleep(2)
-    webbrowser.open(f"http://127.0.0.1:{server_port}")
+    webbrowser.open(f"http://127.0.0.1:{port}")
 
 
-if __name__ == '__main__':
-    server_port = 10005
+def http_launch(port: int, directory: str):
+    class Handler(http.server.SimpleHTTPRequestHandler):
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, directory=directory, **kwargs)
 
+    with socketserver.TCPServer(("", port), Handler) as httpd:
+        print(f"http server port: http://127.0.0.1/{port}")
+        httpd.serve_forever()
+    pass
+
+
+def gradio_launch(port):
     app = webui()
-    threading.Thread(target=browser, args=(server_port,)).start()
-
     app.queue().launch(
-        server_port=10005,
+        server_port=port,
         show_error=True,
         debug=True,
     )
+
+
+if __name__ == '__main__':
+    gradio_port = 10005
+
+    http_port = 10006
+    http_directory = "./page"
+
+    threading.Thread(target=browser_launch, args=(gradio_port,)).start()
+    threading.Thread(target=http_launch, args=(http_port, http_directory)).start()
+
+    gradio_launch(gradio_port)
