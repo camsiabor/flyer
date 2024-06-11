@@ -1,12 +1,57 @@
 import concurrent
+import os
 import time
 from pathlib import Path
 
-from PIL import Image
 import rembg
-import os
+from PIL import Image, ImageOps
 
 from scripts import util
+
+
+class ImageProcessParams:
+
+    def __init__(
+            self,
+            src_dir, des_dir,
+            src_file="", des_file="",
+            resize_width=768, resize_height=1024,
+            resize_fill_color="", resize_remove_color="",
+            resize_remove_threshold=100,
+            resize_exec=True,
+            rembg_model="", rembg_color="",
+            rotation="",
+            recursive_depth=None,
+    ):
+        self.src_dir = src_dir
+        self.des_dir = des_dir
+        self.src_file = src_file
+        self.des_file = des_file
+        self.resize_width = int(resize_width)
+        self.resize_height = int(resize_height)
+        self.resize_fill_color = resize_fill_color
+        self.resize_remove_color = resize_remove_color
+        self.resize_remove_threshold = resize_remove_threshold
+        self.resize_exec = bool(resize_exec)
+        self.rembg_model = rembg_model
+        self.rembg_color = rembg_color
+        self.rotation = rotation
+        if recursive_depth is None:
+            recursive_depth = 0
+        self.recursive_depth = int(recursive_depth)
+
+    def clone(self):
+        return ImageProcessParams(
+            self.src_dir, self.des_dir,
+            self.src_file, self.des_file,
+            self.resize_width, self.resize_height,
+            self.resize_fill_color, self.resize_remove_color,
+            self.resize_remove_threshold,
+            self.resize_exec,
+            self.rembg_model, self.rembg_color,
+            self.rotation,
+            self.recursive_depth
+        )
 
 
 def color_distance(color1, color2):
@@ -71,28 +116,23 @@ def color_4_corners(image):
     return background_color
 
 
-def background_remove(
-        rem_src_dir: str,
-        rem_des_dir: str,
-        bg_color_str: str,
-        session
-):
+def background_remove(p: ImageProcessParams, session):
     if session is None:
         return
 
-    print("[rembg] {} ---> {}".format(rem_src_dir, rem_des_dir))
+    print("[rembg] {} ---> {}".format(p.src_dir, p.des_dir))
 
-    os.makedirs(rem_des_dir, mode=777, exist_ok=True)
+    os.makedirs(p.des_dir, mode=777, exist_ok=True)
 
-    files = Path(rem_src_dir).glob('*.[pP][nN][gG]')
+    files = Path(p.src_dir).glob('*.[pP][nN][gG]')
 
-    rgba_color = util.color_string_to_tuple(bg_color_str)
+    rgba_color = util.color_string_to_tuple(p.rembg_color)
 
     index = 0
-    total = util.file_count(rem_src_dir)
+    total = util.file_count(p.src_dir)
     for file in files:
         input_path = str(file)
-        output_path = str(rem_des_dir + os.path.sep + (file.stem + file.suffix))
+        output_path = str(p.des_dir + os.path.sep + (file.stem + file.suffix))
 
         with open(input_path, 'rb') as i:
             with open(output_path, 'wb') as o:
@@ -117,38 +157,32 @@ def background_fill(image_path, bg_color):
     background.save(image_path)
 
 
-def resize_image(
-        input_path, output_path,
-        to_width=512, to_height=512,
-        fill_color="0,0,0,0",
-        remove_color="",
-        remove_threshold=100,
-):
-    image = Image.open(input_path)
+def resize_image(p: ImageProcessParams):
+    image = Image.open(p.src_file)
     image = image.convert('RGBA')
 
-    if util.str_exist(remove_color):
-        image_ex = color_to_transparent(image, remove_color, remove_threshold)
+    if util.str_exist(p.resize_remove_color):
+        image_ex = color_to_transparent(image, p.resize_remove_color, p.resize_remove_threshold)
         if image_ex is not None:
             image = image_ex
 
     ratio = image.width / image.height
-    to_ratio = to_width / to_height
+    to_ratio = p.resize_width / p.resize_height
 
-    color_tuple = util.color_string_to_tuple(fill_color)
+    color_tuple = util.color_string_to_tuple(p.resize_fill_color)
 
     if ratio > to_ratio:
-        new_width = to_width
+        new_width = p.resize_width
         new_height = round(new_width / ratio)
     else:
-        new_height = to_height
+        new_height = p.resize_height
         new_width = round(new_height * ratio)
 
     # Resize the image while maintaining the aspect ratio
     resized_image = image.resize((new_width, new_height))
 
     # Create a new image with the desired dimensions and transparent background
-    padded_image = Image.new("RGBA", (to_width, to_height), color_tuple)
+    padded_image = Image.new("RGBA", (p.resize_width, p.resize_height), color_tuple)
 
     # fill color
     """
@@ -158,51 +192,55 @@ def resize_image(
     """
 
     # Calculate the padding offsets
-    x_offset = (to_width - new_width) // 2
-    y_offset = (to_height - new_height)
+    x_offset = (p.resize_width - new_width) // 2
+    y_offset = (p.resize_height - new_height)
 
     # Paste the resized image onto the padded image with transparent pixels
     padded_image.paste(resized_image, (x_offset, y_offset))
 
+    if "flip" in p.rotation:
+        if "flip_h" in p.rotation:
+            padded_image = ImageOps.mirror(padded_image)
+        if "flip_v" in p.rotation:
+            padded_image = ImageOps.flip(padded_image)
+
     # Save the padded image with transparent pixels
-    padded_image.save(output_path)
+    padded_image.save(p.des_file)
 
 
-def resize_job(image_path, output_path, width, height, fill_color, remove_color, remove_threshold, index, total):
-    resize_image(image_path, output_path, width, height, fill_color, remove_color, remove_threshold)
-    print("[resize] [{}/{}] {}".format(index, total, output_path))
+def resize_job(p: ImageProcessParams, index: int, total: int, ):
+    resize_image(p)
+    print("[resize] [{}/{}] {}".format(index, total, p.des_file))
 
 
-def resize_directory(
-        resize_src_dir,
-        resize_des_dir,
-        width=512, height=512,
-        fill_color="0,0,0,0", remove_color="",
-        resize_remove_threshold=100,
-):
-    print("[resize] {} ---> {} ".format(resize_src_dir, resize_des_dir))
+def resize_directory(p: ImageProcessParams):
+    print("[resize] {} ---> {} ".format(p.src_dir, p.des_dir))
 
-    if width <= 0:
-        width = 512
+    if p.resize_width <= 0:
+        p.resize_width = 768
 
-    os.makedirs(resize_des_dir, mode=0o777, exist_ok=True)
+    if p.resize_height <= 0:
+        p.resize_height = 1024
+
+    os.makedirs(p.des_dir, mode=0o777, exist_ok=True)
 
     file_list = []
-    for filename in os.listdir(resize_src_dir):
+    for filename in os.listdir(p.src_dir):
         if filename.lower().endswith('.png'):
-            image_path = os.path.join(resize_src_dir, filename)
-            output_path = os.path.join(resize_des_dir, filename)
+            image_path = os.path.join(p.src_dir, filename)
+            output_path = os.path.join(p.des_dir, filename)
             file_list.append((image_path, output_path))
 
     total = len(file_list)
     with concurrent.futures.ThreadPoolExecutor() as executor:
         futures = []
         for index, (image_path, output_path) in enumerate(file_list, start=1):
+            p_file = p.clone()
+            p_file.src_file = image_path
+            p_file.des_file = output_path
             future = executor.submit(
                 resize_job,
-                image_path, output_path,
-                width, height,
-                fill_color, remove_color, resize_remove_threshold,
+                p_file,
                 index, total
             )
             futures.append(future)
@@ -217,83 +255,60 @@ def resize_directory(
         print("")
 
 
-def process(
-        src_dir,
-        des_dir,
-        resize_width=512, resize_height=512,
-        resize_fill_color="",
-        resize_remove_color="",
-        resize_remove_threshold=100,
-        resize_exec=True,
-        rembg_model="",
-        rembg_color="",
-        recursive_depth=None,
-):
+def process(p: ImageProcessParams):
     start_time = time.time()
 
     try:
-        src_dir = str(src_dir)
-        des_dir = str(des_dir)
-        resize_width = int(resize_width)
-        resize_height = int(resize_height)
-        resize_fill_color = str(resize_fill_color).strip()
-        resize_exec = bool(resize_exec)
-        rembg_model = str(rembg_model)
-        recursive_depth = int(recursive_depth)
 
-        if resize_width <= 0:
-            resize_width = 512
-        if resize_height <= 0:
-            resize_height = 512
+        if p.resize_width <= 0:
+            p.resize_width = 768
+        if p.resize_height <= 0:
+            p.resize_height = 1024
 
-        os.makedirs(des_dir, mode=0o777, exist_ok=True)
+        os.makedirs(p.des_dir, mode=0o777, exist_ok=True)
 
-        sep_count = src_dir.count(os.path.sep)
+        sep_count = p.src_dir.count(os.path.sep)
 
-        if rembg_model == "def" or rembg_model == "default":
-            rembg_model = "isnet-anime"
+        if p.rembg_model == "def" or p.rembg_model == "default":
+            p.rembg_model = "isnet-anime"
 
-        if rembg_model == "" or rembg_model == "none" or rembg_model == "null":
+        if p.rembg_model == "" or p.rembg_model == "none" or p.rembg_model == "null":
             rembg_session = None
         else:
-            rembg_session = rembg.new_session(model_name=rembg_model)
+            rembg_session = rembg.new_session(model_name=p.rembg_model)
 
-        for root, dirs, files in os.walk(src_dir):
+        for root, dirs, files in os.walk(p.src_dir):
             # Calculate the current depth
             depth = root.count(os.path.sep) - sep_count
 
             # Skip if max_depth is specified and the current depth exceeds it
-            if recursive_depth is not None and depth > recursive_depth:
+            if p.recursive_depth is not None and depth > p.recursive_depth:
                 # print("[img-process] max recursive depth reached {} > {}".format(depth, recursive_depth))
                 continue
 
             dir_name = os.path.basename(root)
             if depth <= 0:
-                des_path = des_dir
+                des_path = p.des_dir
             else:
-                des_path = str(os.path.join(des_dir, dir_name))
+                des_path = str(os.path.join(p.des_dir, dir_name))
 
-            print("[img-process] root: {}, depth: {}, max depth: {}".format(root, depth, recursive_depth))
+            print("[img-process] root: {}, depth: {}, max depth: {}".format(root, depth, p.recursive_depth))
             print("[img-process] name: {}, to: {}".format(dir_name, des_path))
             print("[img-process] resize: {}x{} | fill: {} | remove: {}"
-                  .format(resize_width, resize_height, resize_fill_color, resize_remove_color))
-            print("[img-process] rembg_model: {} | fill {}".format(rembg_model, rembg_color))
+                  .format(p.resize_width, p.resize_height, p.resize_fill_color, p.resize_remove_color))
+            print("[img-process] rembg_model: {} | fill {}".format(p.rembg_model, p.rembg_color))
 
+            p_subdir = p.clone()
+            p_subdir.src_dir = root
+            p_subdir.des_dir = des_path
             if rembg_session is None:
-                if resize_exec:
-                    resize_directory(
-                        root, des_path,
-                        resize_width, resize_height,
-                        resize_fill_color, resize_remove_color, resize_remove_threshold
-                    )
+                if p.resize_exec:
+                    resize_directory(p_subdir)
             else:
-                background_remove(root, des_path, rembg_color, rembg_session)
-                if resize_exec:
-                    resize_directory(
-                        des_path, des_path,
-                        resize_width, resize_height,
-                        resize_fill_color, resize_remove_color, resize_remove_threshold
-                    )
+                background_remove(p_subdir, rembg_session)
+                if p.resize_exec:
+                    p_subdir.src_dir = des_path
+                    resize_directory(p_subdir)
     finally:
         elapsed_time = time.time() - start_time
         print(f"[img-process] elapsed time: {elapsed_time} seconds")

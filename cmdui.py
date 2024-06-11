@@ -1,8 +1,9 @@
 import argparse
 import os
 
-from scripts.service import video_process, image_process
 from scripts import util
+from scripts.service import video_process, image_process
+from scripts.service.image_process import ImageProcessParams
 
 
 def parse_arguments():
@@ -139,7 +140,7 @@ def img_process(args):
     else:
         des_dir = args.des_dir
 
-    image_process.process(
+    params = ImageProcessParams(
         src_dir=args.src_dir,
         des_dir=des_dir,
         resize_width=resize_width,
@@ -150,6 +151,7 @@ def img_process(args):
         rembg_color=args.rembg_color,
         recursive_depth=args.dir_depth,
     )
+    image_process.process(params)
 
 
 def testing(a):

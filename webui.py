@@ -10,6 +10,7 @@ import yaml
 import ui.common.console as uicon
 from scripts import util
 from scripts.service import image_process, video_process, net_process, text_process
+from scripts.service.image_process import ImageProcessParams
 from scripts.util import FileIO
 
 cfg_gradio = {
@@ -54,7 +55,7 @@ def img_process_interface(
     else:
         rembg_color = rembg_color + hex(rembg_alpha)[2:].zfill(2)
 
-    image_process.process(
+    params = ImageProcessParams(
         src_dir=src_dir,
         des_dir=des_dir,
         resize_width=resize_width,
@@ -66,6 +67,9 @@ def img_process_interface(
         rembg_color=rembg_color,
         recursive_depth=dir_depth,
     )
+
+    image_process.process(params)
+
     return f"Processed images are saved in {des_dir}"
 
 
@@ -310,6 +314,7 @@ def browser_launch(port: int):
 def http_launch(port: int, directory: str):
     class Handler(http.server.SimpleHTTPRequestHandler):
         def __init__(self, *args, **kwargs):
+            self.allow_reuse_address = True
             super().__init__(*args, directory=directory, **kwargs)
 
         def log_message(self, format, *args):
@@ -320,7 +325,7 @@ def http_launch(port: int, directory: str):
             # This will log only errors
             self.log_message(format, *args)
 
-    with socketserver.TCPServer(("", port), Handler) as httpd:
+    with socketserver.TCPServer(("127.0.0.1", port), Handler) as httpd:
         print(f"http server port: http://127.0.0.1/{port}")
         httpd.serve_forever()
     pass
@@ -357,5 +362,8 @@ if __name__ == '__main__':
         threading.Thread(target=browser_launch, args=(port_http,)).start()
 
     http_directory = cfg_http.get('root', './page')
-    threading.Thread(target=http_launch, args=(port_http, http_directory)).start()
-    gradio_launch()
+    if port_http >= 80:
+        threading.Thread(target=http_launch, args=(port_http, http_directory)).start()
+
+    if port_gradio >= 80:
+        gradio_launch()

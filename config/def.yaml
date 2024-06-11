@@ -1,8 +1,8 @@
 gradio:
-  port: 10005
+  port: 17015
   auto_open: true
 
 http:
-  port: 10006
+  port: 17016
   root: './page'
   auto_open: false

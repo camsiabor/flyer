@@ -1,12 +1,11 @@
 import traceback
 
 import gradio as gr
-
 import modules.scripts as scripts
 from modules import script_callbacks
-from modules.shared import opts
 
 from scripts.service import image_process
+from scripts.service.image_process import ImageProcessParams
 
 FN_GO_RUNNING = False
 
@@ -60,7 +59,7 @@ def fn_go(
         if resize_color == "" or resize_color is None:
             resize_color = "0,0,0,0"
 
-        image_process.process(
+        params = ImageProcessParams(
             src_dir=str(dir_src),
             des_dir=str(dir_des),
             resize_width=int(resize_width),
@@ -70,6 +69,7 @@ def fn_go(
             rembg_model=str(rembg_model),
             recursive_depth=int(num_depth),
         )
+        image_process.process(params)
     except:
         traceback.print_exc()
     finally:

@@ -130,5 +130,6 @@ if __name__ == "__main__":
 
     # Check for restart
     if os.path.exists('tmp/restart'):
-        launch.main()
+        raise "manually restart is a better choice"
+        # launch.main()
         # subprocess.call([PYTHON, 'launch.py'])
