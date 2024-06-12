@@ -30,7 +30,8 @@ def img_process_interface(
         resize_remove_color, resize_remove_alpha, resize_remove_threshold,
         rembg_model,
         rembg_color, rembg_alpha,
-        dir_depth
+        rotation,
+        recursive_depth,
 ):
     # Convert string resize '512x512' into two integers
     resize_width, resize_height = map(int, resize.split('x'))
@@ -65,7 +66,8 @@ def img_process_interface(
         resize_remove_threshold=resize_remove_threshold,
         rembg_model=rembg_model,
         rembg_color=rembg_color,
-        recursive_depth=dir_depth,
+        rotation=rotation,
+        recursive_depth=recursive_depth,
     )
 
     image_process.process(params)
@@ -163,19 +165,32 @@ def tab_image_process():
         rembg_color = gr.ColorPicker(label="Remove Background Color")
         rembg_alpha = gr.Slider(label="Remove Background Alpha", value=-1, minimum=-1, maximum=255)
     with gr.Row():
-        dir_depth = gr.Number(label="Recursive Depth", value=0)
+        recursive_depth = gr.Number(label="Recursive Depth", value=0)
+        rotation = gr.Dropdown(
+            label="Rotation",
+            value="none",
+            choices=[
+                "none",
+                "flip_horizontally",
+                "flip_vertically",
+                "flip_horizontally_flip_vertically",
+            ]
+        )
         run_img = gr.Button("Run Image Processing")
     with gr.Row():
         result = gr.TextArea(label="Result")
     run_img.click(
         img_process_interface,
-        inputs=[src_dir, des_dir,
-                resize,
-                resize_fill_color, resize_fill_alpha,
-                resize_remove_color, resize_remove_alpha, resize_remove_threshold,
-                rembg_model,
-                rembg_color, rembg_alpha,
-                dir_depth],
+        inputs=[
+            src_dir, des_dir,
+            resize,
+            resize_fill_color, resize_fill_alpha,
+            resize_remove_color, resize_remove_alpha, resize_remove_threshold,
+            rembg_model,
+            rembg_color, rembg_alpha,
+            rotation,
+            recursive_depth
+        ],
         outputs=[result]
     )
 
