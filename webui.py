@@ -24,7 +24,7 @@ cfg_http = {
 def img_process_interface(
         src_dir, des_dir,
         src_file, des_file,
-        src_img, des_img,
+        src_img_active, src_img, des_img,
         resize,
         resize_fill_color, resize_fill_alpha,
         resize_remove_color, resize_remove_alpha, resize_remove_threshold,
@@ -58,7 +58,7 @@ def img_process_interface(
         # src & des
         src_dir=src_dir, des_dir=des_dir,
         src_file=src_file, des_file=des_file,
-        src_img=src_img, des_img=des_img,
+        src_img_active=src_img_active, src_img=src_img, des_img=des_img,
         # resize params
         resize_width=resize_width, resize_height=resize_height,
         resize_fill_color=resize_fill_color,
@@ -74,7 +74,7 @@ def img_process_interface(
 
     image_process.process(params)
 
-    if params.des_img is not None:
+    if params.src_img_active and params.des_img is not None:
         img_processed = params.des_img
         params.des_img = {
             'background': img_processed,
@@ -151,6 +151,7 @@ def tab_image_process():
             des_file = gr.Textbox(label="Destination File")
         with gr.Tab("Single Image"):
             with gr.Column(scale=1):
+                src_img_active = gr.Checkbox(label="Source Image Active", value=False)
                 src_img = gr.ImageEditor(
                     label="Source Image", type="pil",
                     sources=["upload", "clipboard"],
@@ -206,12 +207,13 @@ def tab_image_process():
         run_img = gr.Button("Run Image Processing")
     with gr.Row():
         result = gr.TextArea(label="Result")
+
     run_img.click(
         fn=uicon.capture_wrap(func=img_process_interface, num_result=2),
         inputs=[
             src_dir, des_dir,
             src_file, des_file,
-            src_img, des_img,
+            src_img_active, src_img, des_img,
             resize,
             resize_fill_color, resize_fill_alpha,
             resize_remove_color, resize_remove_alpha, resize_remove_threshold,

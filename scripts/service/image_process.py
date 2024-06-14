@@ -16,7 +16,7 @@ class ImageProcessParams:
             self,
             src_dir, des_dir,
             src_file="", des_file="",
-            src_img=None, des_img=None,
+            src_img_active=False, src_img=None, des_img=None,
             resize_width=768, resize_height=1024,
             resize_fill_color="", resize_remove_color="",
             resize_remove_threshold=100,
@@ -28,10 +28,11 @@ class ImageProcessParams:
     ):
         self.src_dir = src_dir
         self.des_dir = des_dir
-        self.src_img = src_img
-        self.des_img = des_img
         self.src_file = src_file
         self.des_file = des_file
+        self.src_img = src_img
+        self.des_img = des_img
+        self.src_img_active = src_img_active
         self.resize_width = int(resize_width)
         self.resize_height = int(resize_height)
         self.resize_fill_color = resize_fill_color
@@ -50,7 +51,7 @@ class ImageProcessParams:
         return ImageProcessParams(
             self.src_dir, self.des_dir,
             self.src_file, self.des_file,
-            self.src_img, self.des_img,
+            self.src_img_active, self.src_img, self.des_img,
             self.resize_width, self.resize_height,
             self.resize_fill_color, self.resize_remove_color,
             self.resize_remove_threshold,
@@ -128,7 +129,7 @@ def background_remove(p: ImageProcessParams):
     if p.rembg_session is None:
         return
 
-    if p.src_img:
+    if p.src_img_active:
         # Process the image object specified by p.src_img
         src_composite = p.src_img['composite']
         src_img_bytes = io.BytesIO()
@@ -188,7 +189,7 @@ def background_fill(image_path, bg_color):
 def resize_image(p: ImageProcessParams):
     image = None
 
-    if p.src_img:  # Process the image object specified by p.src_img
+    if p.src_img_active:  # Process the image object specified by p.src_img
         image = p.src_img['composite']
 
     if p.src_file:
@@ -244,7 +245,7 @@ def resize_image(p: ImageProcessParams):
 
     # Save the padded image with transparent pixels
 
-    if p.src_img:
+    if p.src_img_active:
         p.des_img = padded_image
 
     if p.src_file:
@@ -397,7 +398,7 @@ def process(p: ImageProcessParams):
         else:
             p.rembg_session = rembg.new_session(model_name=p.rembg_model)
 
-        if p.src_img:
+        if p.src_img_active:
             process_single_image(p)
             return
 
