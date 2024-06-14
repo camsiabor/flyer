@@ -22,6 +22,7 @@ class ImageProcessParams:
             rembg_model="", rembg_color="",
             rotation="",
             recursive_depth=None,
+            rembg_session=None,
     ):
         self.src_dir = src_dir
         self.des_dir = des_dir
@@ -39,6 +40,7 @@ class ImageProcessParams:
         if recursive_depth is None:
             recursive_depth = 0
         self.recursive_depth = int(recursive_depth)
+        self.rembg_session = rembg_session
 
     def clone(self):
         return ImageProcessParams(
@@ -50,7 +52,8 @@ class ImageProcessParams:
             self.resize_exec,
             self.rembg_model, self.rembg_color,
             self.rotation,
-            self.recursive_depth
+            self.recursive_depth,
+            self.rembg_session,
         )
 
 
@@ -116,15 +119,19 @@ def color_4_corners(image):
     return background_color
 
 
-def background_remove(p: ImageProcessParams, session):
-    if session is None:
+def background_remove(p: ImageProcessParams):
+    if p.rembg_session is None:
         return
 
     print("[rembg] {} ---> {}".format(p.src_dir, p.des_dir))
 
-    os.makedirs(p.des_dir, mode=777, exist_ok=True)
+    if p.des_dir:
+        os.makedirs(p.des_dir, mode=777, exist_ok=True)
 
-    files = Path(p.src_dir).glob('*.[pP][nN][gG]')
+    if p.des_file:
+        files = [Path(p.src_file)]
+    else:
+        files = Path(p.src_dir).glob('*.[pP][nN][gG]')
 
     rgba_color = util.color_string_to_tuple(p.rembg_color)
 
@@ -132,12 +139,15 @@ def background_remove(p: ImageProcessParams, session):
     total = util.file_count(p.src_dir)
     for file in files:
         input_path = str(file)
-        output_path = str(p.des_dir + os.path.sep + (file.stem + file.suffix))
+        if p.des_file:
+            output_path = p.des_file
+        else:
+            output_path = str(p.des_dir + os.path.sep + (file.stem + file.suffix))
 
         with open(input_path, 'rb') as i:
             with open(output_path, 'wb') as o:
                 data_in = i.read()
-                data_out = rembg.remove(data_in, session=session)
+                data_out = rembg.remove(data_in, session=p.rembg_session)
                 o.write(data_out)
                 index = index + 1
                 print("[rembg] [{}/{}] {}".format(index, total, output_path))
@@ -255,6 +265,77 @@ def resize_directory(p: ImageProcessParams):
         print("")
 
 
+def process_single_image(p: ImageProcessParams):
+    if p.des_file and os.path.isdir(p.des_file):
+        # Set des_dir to be the same directory as des_file
+        p.des_dir = os.path.dirname(p.des_file)
+        os.makedirs(p.des_dir, exist_ok=True)
+
+    if not p.des_file and os.path.isdir(p.des_dir):
+        # Set des_file to be the same filename as src_file but in the des_dir directory
+        p.des_file = os.path.join(p.des_dir, os.path.basename(p.src_file))
+
+    if p.des_file:
+
+        os.makedirs(os.path.dirname(p.des_file), exist_ok=True)
+
+        print("[img-process] src: {}, des: {}".format(p.src_file, p.des_file))
+        print("[img-process] resize: {}x{} | fill: {} | remove: {}"
+              .format(p.resize_width, p.resize_height, p.resize_fill_color, p.resize_remove_color))
+        print("[img-process] rembg_model: {} | fill {}".format(p.rembg_model, p.rembg_color))
+
+        if p.rembg_session is not None:
+            background_remove(p)
+            if p.resize_exec:
+                resize_job(p, 1, 1)
+        elif p.resize_exec:
+            resize_job(p, 1, 1)
+    else:
+        raise Exception("missing destination file or directory")
+    pass
+
+
+def process_directory(p: ImageProcessParams):
+    sep_count = p.src_dir.count(os.path.sep)
+
+    if p.des_dir:
+        os.makedirs(p.des_dir, exist_ok=True)
+
+    for root, dirs, files in os.walk(p.src_dir):
+        # Calculate the current depth
+        depth = root.count(os.path.sep) - sep_count
+
+        # Skip if max_depth is specified and the current depth exceeds it
+        if p.recursive_depth is not None and depth > p.recursive_depth:
+            # print("[img-process] max recursive depth reached {} > {}".format(depth, recursive_depth))
+            continue
+
+        dir_name = os.path.basename(root)
+        if depth <= 0:
+            des_path = p.des_dir
+        else:
+            des_path = str(os.path.join(p.des_dir, dir_name))
+
+        print("[img-process] root: {}, depth: {}, max depth: {}".format(root, depth, p.recursive_depth))
+        print("[img-process] name: {}, to: {}".format(dir_name, des_path))
+        print("[img-process] resize: {}x{} | fill: {} | remove: {}"
+              .format(p.resize_width, p.resize_height, p.resize_fill_color, p.resize_remove_color))
+        print("[img-process] rembg_model: {} | fill {}".format(p.rembg_model, p.rembg_color))
+
+        p_subdir = p.clone()
+        p_subdir.src_dir = root
+        p_subdir.des_dir = des_path
+        if p.rembg_session is None:
+            if p.resize_exec:
+                resize_directory(p_subdir)
+        else:
+            background_remove(p_subdir)
+            if p.resize_exec:
+                p_subdir.src_dir = des_path
+                resize_directory(p_subdir)
+    pass
+
+
 def process(p: ImageProcessParams):
     start_time = time.time()
 
@@ -265,50 +346,24 @@ def process(p: ImageProcessParams):
         if p.resize_height <= 0:
             p.resize_height = 1024
 
-        os.makedirs(p.des_dir, mode=0o777, exist_ok=True)
-
-        sep_count = p.src_dir.count(os.path.sep)
-
         if p.rembg_model == "def" or p.rembg_model == "default":
             p.rembg_model = "isnet-anime"
 
         if p.rembg_model == "" or p.rembg_model == "none" or p.rembg_model == "null":
-            rembg_session = None
+            p.rembg_session = None
         else:
-            rembg_session = rembg.new_session(model_name=p.rembg_model)
+            p.rembg_session = rembg.new_session(model_name=p.rembg_model)
 
-        for root, dirs, files in os.walk(p.src_dir):
-            # Calculate the current depth
-            depth = root.count(os.path.sep) - sep_count
+        if p.src_file:
+            process_single_image(p)
+            return
 
-            # Skip if max_depth is specified and the current depth exceeds it
-            if p.recursive_depth is not None and depth > p.recursive_depth:
-                # print("[img-process] max recursive depth reached {} > {}".format(depth, recursive_depth))
-                continue
+        if p.src_dir and p.des_dir:
+            process_directory(p)
+            return
 
-            dir_name = os.path.basename(root)
-            if depth <= 0:
-                des_path = p.des_dir
-            else:
-                des_path = str(os.path.join(p.des_dir, dir_name))
+        raise Exception("missing source file or directory")
 
-            print("[img-process] root: {}, depth: {}, max depth: {}".format(root, depth, p.recursive_depth))
-            print("[img-process] name: {}, to: {}".format(dir_name, des_path))
-            print("[img-process] resize: {}x{} | fill: {} | remove: {}"
-                  .format(p.resize_width, p.resize_height, p.resize_fill_color, p.resize_remove_color))
-            print("[img-process] rembg_model: {} | fill {}".format(p.rembg_model, p.rembg_color))
-
-            p_subdir = p.clone()
-            p_subdir.src_dir = root
-            p_subdir.des_dir = des_path
-            if rembg_session is None:
-                if p.resize_exec:
-                    resize_directory(p_subdir)
-            else:
-                background_remove(p_subdir, rembg_session)
-                if p.resize_exec:
-                    p_subdir.src_dir = des_path
-                    resize_directory(p_subdir)
     finally:
         elapsed_time = time.time() - start_time
         print(f"[img-process] elapsed time: {elapsed_time} seconds")

@@ -1,5 +1,4 @@
 import http
-import os
 import socketserver
 import threading
 import time
@@ -25,6 +24,7 @@ cfg_http = {
 @uicon.capture_wrap
 def img_process_interface(
         src_dir, des_dir,
+        src_file, des_file,
         resize,
         resize_fill_color, resize_fill_alpha,
         resize_remove_color, resize_remove_alpha, resize_remove_threshold,
@@ -36,8 +36,6 @@ def img_process_interface(
     # Convert string resize '512x512' into two integers
     resize_width, resize_height = map(int, resize.split('x'))
     # Check if directories exist, if not create
-    if not os.path.exists(des_dir):
-        os.makedirs(des_dir)
 
     if resize_fill_alpha < 0:
         resize_fill_color = ''
@@ -59,6 +57,8 @@ def img_process_interface(
     params = ImageProcessParams(
         src_dir=src_dir,
         des_dir=des_dir,
+        src_file=src_file,
+        des_file=des_file,
         resize_width=resize_width,
         resize_height=resize_height,
         resize_fill_color=resize_fill_color,
@@ -133,11 +133,14 @@ def text_process_interface(
 
 def tab_image_process():
     with gr.Row():
-        src_dir = gr.Textbox(label="Source Directory")
+        with gr.Tab("Directory"):
+            src_dir = gr.Textbox(label="Source Directory")
+            des_dir = gr.Textbox(label="Destination Directory")
+        with gr.Tab("Single File"):
+            src_file = gr.Textbox(label="Source File")
+            des_file = gr.Textbox(label="Destination File")
     with gr.Row():
-        des_dir = gr.Textbox(label="Destination Directory")
-    with gr.Row():
-        resize = gr.Textbox(value="512x512", label="Resize (e.g., 512x512)")
+        resize = gr.Textbox(value="768x1024", label="Resize (e.g., 512x512)")
         resize_fill_color = gr.ColorPicker(label="Resize Fill Color", value='#000000')
         resize_fill_alpha = gr.Slider(label="Resize Fill Alpha", value=-1, minimum=-1, maximum=255)
     with gr.Row():
@@ -183,6 +186,7 @@ def tab_image_process():
         img_process_interface,
         inputs=[
             src_dir, des_dir,
+            src_file, des_file,
             resize,
             resize_fill_color, resize_fill_alpha,
             resize_remove_color, resize_remove_alpha, resize_remove_threshold,
