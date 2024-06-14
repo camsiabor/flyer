@@ -21,7 +21,6 @@ cfg_http = {
 }
 
 
-@uicon.capture_wrap
 def img_process_interface(
         src_dir, des_dir,
         src_file, des_file,
@@ -56,20 +55,32 @@ def img_process_interface(
         rembg_color = rembg_color + hex(rembg_alpha)[2:].zfill(2)
 
     params = ImageProcessParams(
+        # src & des
         src_dir=src_dir, des_dir=des_dir,
         src_file=src_file, des_file=des_file,
         src_img=src_img, des_img=des_img,
+        # resize params
         resize_width=resize_width, resize_height=resize_height,
         resize_fill_color=resize_fill_color,
         resize_remove_color=resize_remove_color,
         resize_remove_threshold=resize_remove_threshold,
+        rotation=rotation,
+        # rembg params
         rembg_model=rembg_model,
         rembg_color=rembg_color,
-        rotation=rotation,
+        # extra
         recursive_depth=recursive_depth,
     )
 
     image_process.process(params)
+
+    if params.des_img is not None:
+        img_processed = params.des_img
+        params.des_img = {
+            'background': img_processed,
+            'layers': [img_processed],
+            'composite': img_processed,
+        }
 
     return f"Processed images are saved in {des_dir}", params.des_img
 
@@ -139,10 +150,10 @@ def tab_image_process():
             src_file = gr.Textbox(label="Source File")
             des_file = gr.Textbox(label="Destination File")
         with gr.Tab("Single Image"):
-            with gr.Column():
-                src_img = gr.ImageEditor(label="Source Image", type="pil")
-            with gr.Column():
-                des_img = gr.ImageEditor(label="Destination Image", type="pil")
+            with gr.Column(scale=1):
+                src_img = gr.ImageEditor(label="Source Image", type="pil", sources=["upload", "clipboard"])
+            with gr.Column(scale=1):
+                des_img = gr.ImageEditor(label="Destination Image", type="pil", sources=["upload", "clipboard"])
     with gr.Row():
         with gr.Tab("Resize"):
             with gr.Row():
@@ -190,7 +201,7 @@ def tab_image_process():
     with gr.Row():
         result = gr.TextArea(label="Result")
     run_img.click(
-        img_process_interface,
+        fn=uicon.capture_wrap(func=img_process_interface, num_result=2),
         inputs=[
             src_dir, des_dir,
             src_file, des_file,
@@ -240,7 +251,7 @@ def tab_media_sum_duration():
 
 def tab_media_fetch():
     with gr.Row():
-        with gr.Column():
+        with gr.Column(scale=1):
             text_src_path = gr.Textbox(label="Source Path", value="")
             text_des_path = gr.Textbox(label="Destination", value="")
             with gr.Group():
@@ -250,7 +261,7 @@ def tab_media_fetch():
                     button_src_url = gr.Button("Fetch Source", variant="primary")
                 with gr.Row():
                     text_result = gr.TextArea(label="Result")
-        with gr.Column():
+        with gr.Column(scale=1):
             audio_src = gr.Audio(
                 label="Source",
                 interactive=True,

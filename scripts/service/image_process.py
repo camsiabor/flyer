@@ -1,4 +1,5 @@
 import concurrent
+import io
 import os
 import time
 from pathlib import Path
@@ -129,9 +130,14 @@ def background_remove(p: ImageProcessParams):
 
     if p.src_img:
         # Process the image object specified by p.src_img
-        data_in = p.src_img.tobytes()
-        data_out = rembg.remove(data_in, session=p.rembg_session)
-        p.des_img = Image.frombytes('RGBA', p.src_img.size, data_out)
+        src_composite = p.src_img['composite']
+        src_img_bytes = io.BytesIO()
+        src_composite.save(src_img_bytes, format='PNG')
+
+        data_out = rembg.remove(src_img_bytes.getvalue(), session=p.rembg_session)
+        # p.des_img = Image.frombytes('RGBA', src_composite.size, data_out)
+        p.des_img = Image.open(io.BytesIO(data_out))
+        p.src_img['composite'] = p.des_img
         return
 
     print("[rembg] {} ---> {}".format(p.src_dir, p.des_dir))
@@ -176,6 +182,7 @@ def background_fill(image_path, bg_color):
     background = Image.new('RGBA', (width, height), bg_color)
     background.paste(image, (0, 0), mask=image.convert('RGBA'))
     background.save(image_path)
+    pass
 
 
 def resize_image(p: ImageProcessParams):

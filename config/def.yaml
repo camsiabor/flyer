@@ -1,6 +1,6 @@
 gradio:
   port: 17015
-  auto_open: true
+  auto_open: false
 
 http:
   port: 17016
