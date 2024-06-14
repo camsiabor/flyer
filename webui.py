@@ -140,9 +140,9 @@ def tab_image_process():
             des_file = gr.Textbox(label="Destination File")
         with gr.Tab("Single Image"):
             with gr.Column():
-                src_img = gr.ImageEditor(label="Source Image")
+                src_img = gr.ImageEditor(label="Source Image", type="pil")
             with gr.Column():
-                des_img = gr.ImageEditor(label="Destination Image")
+                des_img = gr.ImageEditor(label="Destination Image", type="pil")
     with gr.Row():
         with gr.Tab("Resize"):
             with gr.Row():

@@ -182,11 +182,12 @@ def resize_image(p: ImageProcessParams):
     image = None
 
     if p.src_img:  # Process the image object specified by p.src_img
-        image = p.src_img
+        image = p.src_img['composite']
 
     if p.src_file:
         image = Image.open(p.src_file)
-        image = image.convert('RGBA')
+
+    image = image.convert('RGBA')
 
     if image is None:
         raise Exception("missing source image (src_img or src_file)")
@@ -388,6 +389,10 @@ def process(p: ImageProcessParams):
             p.rembg_session = None
         else:
             p.rembg_session = rembg.new_session(model_name=p.rembg_model)
+
+        if p.src_img:
+            process_single_image(p)
+            return
 
         if p.src_file:
             process_single_file(p)
