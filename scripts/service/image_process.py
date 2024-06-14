@@ -15,6 +15,7 @@ class ImageProcessParams:
             self,
             src_dir, des_dir,
             src_file="", des_file="",
+            src_img=None, des_img=None,
             resize_width=768, resize_height=1024,
             resize_fill_color="", resize_remove_color="",
             resize_remove_threshold=100,
@@ -26,6 +27,8 @@ class ImageProcessParams:
     ):
         self.src_dir = src_dir
         self.des_dir = des_dir
+        self.src_img = src_img
+        self.des_img = des_img
         self.src_file = src_file
         self.des_file = des_file
         self.resize_width = int(resize_width)
@@ -46,6 +49,7 @@ class ImageProcessParams:
         return ImageProcessParams(
             self.src_dir, self.des_dir,
             self.src_file, self.des_file,
+            self.src_img, self.des_img,
             self.resize_width, self.resize_height,
             self.resize_fill_color, self.resize_remove_color,
             self.resize_remove_threshold,
@@ -123,6 +127,13 @@ def background_remove(p: ImageProcessParams):
     if p.rembg_session is None:
         return
 
+    if p.src_img:
+        # Process the image object specified by p.src_img
+        data_in = p.src_img.tobytes()
+        data_out = rembg.remove(data_in, session=p.rembg_session)
+        p.des_img = Image.frombytes('RGBA', p.src_img.size, data_out)
+        return
+
     print("[rembg] {} ---> {}".format(p.src_dir, p.des_dir))
 
     if p.des_dir:
@@ -168,8 +179,17 @@ def background_fill(image_path, bg_color):
 
 
 def resize_image(p: ImageProcessParams):
-    image = Image.open(p.src_file)
-    image = image.convert('RGBA')
+    image = None
+
+    if p.src_img:  # Process the image object specified by p.src_img
+        image = p.src_img
+
+    if p.src_file:
+        image = Image.open(p.src_file)
+        image = image.convert('RGBA')
+
+    if image is None:
+        raise Exception("missing source image (src_img or src_file)")
 
     if util.str_exist(p.resize_remove_color):
         image_ex = color_to_transparent(image, p.resize_remove_color, p.resize_remove_threshold)
@@ -215,7 +235,14 @@ def resize_image(p: ImageProcessParams):
             padded_image = ImageOps.flip(padded_image)
 
     # Save the padded image with transparent pixels
-    padded_image.save(p.des_file)
+
+    if p.src_img:
+        p.des_img = padded_image
+
+    if p.src_file:
+        padded_image.save(p.des_file)
+
+    return padded_image
 
 
 def resize_job(p: ImageProcessParams, index: int, total: int, ):
@@ -265,7 +292,7 @@ def resize_directory(p: ImageProcessParams):
         print("")
 
 
-def process_single_image(p: ImageProcessParams):
+def process_single_file(p: ImageProcessParams):
     if p.des_file and os.path.isdir(p.des_file):
         # Set des_dir to be the same directory as des_file
         p.des_dir = os.path.dirname(p.des_file)
@@ -276,9 +303,7 @@ def process_single_image(p: ImageProcessParams):
         p.des_file = os.path.join(p.des_dir, os.path.basename(p.src_file))
 
     if p.des_file:
-
         os.makedirs(os.path.dirname(p.des_file), exist_ok=True)
-
         print("[img-process] src: {}, des: {}".format(p.src_file, p.des_file))
         print("[img-process] resize: {}x{} | fill: {} | remove: {}"
               .format(p.resize_width, p.resize_height, p.resize_fill_color, p.resize_remove_color))
@@ -292,6 +317,16 @@ def process_single_image(p: ImageProcessParams):
             resize_job(p, 1, 1)
     else:
         raise Exception("missing destination file or directory")
+    pass
+
+
+def process_single_image(p: ImageProcessParams):
+    if p.rembg_session is not None:
+        background_remove(p)
+
+    if p.resize_exec:
+        resize_image(p)
+
     pass
 
 
@@ -355,7 +390,7 @@ def process(p: ImageProcessParams):
             p.rembg_session = rembg.new_session(model_name=p.rembg_model)
 
         if p.src_file:
-            process_single_image(p)
+            process_single_file(p)
             return
 
         if p.src_dir and p.des_dir:

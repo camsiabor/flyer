@@ -25,6 +25,7 @@ cfg_http = {
 def img_process_interface(
         src_dir, des_dir,
         src_file, des_file,
+        src_img, des_img,
         resize,
         resize_fill_color, resize_fill_alpha,
         resize_remove_color, resize_remove_alpha, resize_remove_threshold,
@@ -55,12 +56,10 @@ def img_process_interface(
         rembg_color = rembg_color + hex(rembg_alpha)[2:].zfill(2)
 
     params = ImageProcessParams(
-        src_dir=src_dir,
-        des_dir=des_dir,
-        src_file=src_file,
-        des_file=des_file,
-        resize_width=resize_width,
-        resize_height=resize_height,
+        src_dir=src_dir, des_dir=des_dir,
+        src_file=src_file, des_file=des_file,
+        src_img=src_img, des_img=des_img,
+        resize_width=resize_width, resize_height=resize_height,
         resize_fill_color=resize_fill_color,
         resize_remove_color=resize_remove_color,
         resize_remove_threshold=resize_remove_threshold,
@@ -72,7 +71,7 @@ def img_process_interface(
 
     image_process.process(params)
 
-    return f"Processed images are saved in {des_dir}"
+    return f"Processed images are saved in {des_dir}", params.des_img
 
 
 @uicon.capture_wrap
@@ -136,37 +135,45 @@ def tab_image_process():
         with gr.Tab("Directory"):
             src_dir = gr.Textbox(label="Source Directory")
             des_dir = gr.Textbox(label="Destination Directory")
-        with gr.Tab("Single File"):
+        with gr.Tab("Single File Path"):
             src_file = gr.Textbox(label="Source File")
             des_file = gr.Textbox(label="Destination File")
+        with gr.Tab("Single Image"):
+            with gr.Column():
+                src_img = gr.ImageEditor(label="Source Image")
+            with gr.Column():
+                des_img = gr.ImageEditor(label="Destination Image")
     with gr.Row():
-        resize = gr.Textbox(value="768x1024", label="Resize (e.g., 512x512)")
-        resize_fill_color = gr.ColorPicker(label="Resize Fill Color", value='#000000')
-        resize_fill_alpha = gr.Slider(label="Resize Fill Alpha", value=-1, minimum=-1, maximum=255)
-    with gr.Row():
-        resize_remove_color = gr.ColorPicker(label="Resize Remove Color", value='#000000')
-        resize_remove_alpha = gr.Slider(label="Resize Remove Alpha", value=-1, minimum=-1, maximum=255)
-        resize_remove_threshold = gr.Number(label="Resize Remove Threshold", value=100)
-    with gr.Row():
-        rembg_model = gr.Dropdown(
-            label="Remove Background Model  "
-                  "| 'none' for no removing  "
-                  "| first time executing takes a while  ",
-            value="isnet-anime",
-            choices=[
-                "none",
-                "u2net",
-                "u2netp",
-                "u2net_human_seg",
-                "u2net_cloth_seg",
-                "silueta",
-                "isnet-general-use",
-                "isnet-anime",
-                "sam"
-            ]
-        )
-        rembg_color = gr.ColorPicker(label="Remove Background Color")
-        rembg_alpha = gr.Slider(label="Remove Background Alpha", value=-1, minimum=-1, maximum=255)
+        with gr.Tab("Resize"):
+            with gr.Row():
+                resize = gr.Textbox(value="768x1024", label="Resize (e.g., 512x512)")
+                resize_fill_color = gr.ColorPicker(label="Resize Fill Color", value='#000000')
+                resize_fill_alpha = gr.Slider(label="Resize Fill Alpha", value=-1, minimum=-1, maximum=255)
+            with gr.Row():
+                resize_remove_color = gr.ColorPicker(label="Resize Remove Color", value='#000000')
+                resize_remove_alpha = gr.Slider(label="Resize Remove Alpha", value=-1, minimum=-1, maximum=255)
+                resize_remove_threshold = gr.Number(label="Resize Remove Threshold", value=100)
+        with gr.Tab("Remove Background"):
+            with gr.Row():
+                rembg_model = gr.Dropdown(
+                    label="Remove Background Model  "
+                          "| 'none' for no removing  "
+                          "| first time executing takes a while  ",
+                    value="none",
+                    choices=[
+                        "none",
+                        "u2net",
+                        "u2netp",
+                        "u2net_human_seg",
+                        "u2net_cloth_seg",
+                        "silueta",
+                        "isnet-general-use",
+                        "isnet-anime",
+                        "sam"
+                    ]
+                )
+                rembg_color = gr.ColorPicker(label="Remove Background Color")
+                rembg_alpha = gr.Slider(label="Remove Background Alpha", value=-1, minimum=-1, maximum=255)
     with gr.Row():
         recursive_depth = gr.Number(label="Recursive Depth", value=0)
         rotation = gr.Dropdown(
@@ -187,6 +194,7 @@ def tab_image_process():
         inputs=[
             src_dir, des_dir,
             src_file, des_file,
+            src_img, des_img,
             resize,
             resize_fill_color, resize_fill_alpha,
             resize_remove_color, resize_remove_alpha, resize_remove_threshold,
@@ -195,7 +203,9 @@ def tab_image_process():
             rotation,
             recursive_depth
         ],
-        outputs=[result]
+        outputs=[
+            result, des_img
+        ]
     )
 
 
