@@ -17,6 +17,7 @@ class ImageProcessParams:
             src_dir, des_dir,
             src_file="", des_file="",
             src_img_active=False, src_img=None, des_img=None,
+            chop_active=False, chop_left=0, chop_right=0, chop_upper=0, chop_lower=0,
             resize_width=768, resize_height=1024,
             resize_fill_color="", resize_remove_color="",
             resize_remove_threshold=100,
@@ -33,12 +34,23 @@ class ImageProcessParams:
         self.src_img = src_img
         self.des_img = des_img
         self.src_img_active = src_img_active
+
+        # chop
+        self.chop_active = chop_active
+        self.chop_left = chop_left
+        self.chop_right = chop_right
+        self.chop_upper = chop_upper
+        self.chop_lower = chop_lower
+
+        # reszie
         self.resize_width = int(resize_width)
         self.resize_height = int(resize_height)
         self.resize_fill_color = resize_fill_color
         self.resize_remove_color = resize_remove_color
         self.resize_remove_threshold = resize_remove_threshold
         self.resize_exec = bool(resize_exec)
+
+        # rembg
         self.rembg_model = rembg_model
         self.rembg_color = rembg_color
         self.rotation = rotation
@@ -52,6 +64,7 @@ class ImageProcessParams:
             self.src_dir, self.des_dir,
             self.src_file, self.des_file,
             self.src_img_active, self.src_img, self.des_img,
+            self.chop_active, self.chop_left, self.chop_right, self.chop_upper, self.chop_lower,
             self.resize_width, self.resize_height,
             self.resize_fill_color, self.resize_remove_color,
             self.resize_remove_threshold,
@@ -199,6 +212,18 @@ def resize_image(p: ImageProcessParams):
 
     if image is None:
         raise Exception("missing source image (src_img or src_file)")
+
+    # Add chop functionality
+    if p.chop_active:
+        if p.chop_left <= -1 or p.chop_left >= image.width:
+            p.chop_left = 0
+        if p.chop_right <= -1 or p.chop_right >= image.width:
+            p.chop_right = image.width
+        if p.chop_upper <= -1 or p.chop_upper >= image.height:
+            p.chop_upper = 0
+        if p.chop_lower <= -1 or p.chop_lower >= image.height:
+            p.chop_lower = image.height
+        image = image.crop((p.chop_left, p.chop_upper, p.chop_right, p.chop_lower))
 
     if util.str_exist(p.resize_remove_color):
         image_ex = color_to_transparent(image, p.resize_remove_color, p.resize_remove_threshold)

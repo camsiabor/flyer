@@ -1,5 +1,7 @@
 
 import gradio as gr
+from PIL import Image
+from PIL import ImageDraw
 
 import ui.common.console as uicon
 from scripts import util
@@ -20,6 +22,7 @@ def img_process_interface(
         src_dir, des_dir,
         src_file, des_file,
         src_img_active, src_img, des_img,
+        chop_active, chop_left, chop_right, chop_upper, chop_lower,
         resize,
         resize_fill_color, resize_fill_alpha,
         resize_remove_color, resize_remove_alpha, resize_remove_threshold,
@@ -54,6 +57,10 @@ def img_process_interface(
         src_dir=src_dir, des_dir=des_dir,
         src_file=src_file, des_file=des_file,
         src_img_active=src_img_active, src_img=src_img, des_img=des_img,
+        # chop params
+        chop_active=chop_active,
+        chop_left=chop_left, chop_right=chop_right,
+        chop_upper=chop_upper, chop_lower=chop_lower,
         # resize params
         resize_width=resize_width, resize_height=resize_height,
         resize_fill_color=resize_fill_color,
@@ -137,6 +144,26 @@ def text_process_interface(
 
 
 def tab_image_process():
+    def chop_change(preview, left, right, upper, lower):
+        bg = preview['background']
+        n = Image.new('RGBA', bg.size, (0, 0, 0, 0))
+        if left < 0 or left > bg.width:
+            left = 0
+        if right < 0 or right > bg.width:
+            right = bg.width
+        if upper < 0 or upper > bg.height:
+            upper = 0
+        if lower < 0 or lower > bg.height:
+            lower = bg.height
+        if right < left:
+            right = left
+        if lower < upper:
+            lower = upper
+        draw = ImageDraw.Draw(n)
+        draw.rectangle([left, upper, right, lower], outline='red', width=1)
+        preview['layers'] = [n]
+        return preview
+
     with gr.Row():
         with gr.Tab("Directory"):
             src_dir = gr.Textbox(label="Source Directory")
@@ -187,6 +214,24 @@ def tab_image_process():
                 )
                 rembg_color = gr.ColorPicker(label="Remove Background Color")
                 rembg_alpha = gr.Slider(label="Remove Background Alpha", value=-1, minimum=-1, maximum=255)
+        with gr.Tab("Chop"):
+            with gr.Row():
+                chop_active = gr.Checkbox(label="Chop Active", value=False)
+                chop_left = gr.Number(label="Chop Left", value=-1)
+                chop_right = gr.Number(label="Chop Right", value=-1)
+                chop_upper = gr.Number(label="Chop Upper", value=-1)
+                chop_lower = gr.Number(label="Chop Lower", value=-1)
+            with gr.Row():
+                chop_preview = gr.ImageEditor(label="Chop Preview", type="pil")
+            chop_inputs = [chop_preview, chop_left, chop_right, chop_upper, chop_lower]
+            chop_outputs = [chop_preview]
+            chop_left.change(chop_change, chop_inputs, chop_outputs)
+            chop_right.change(chop_change, chop_inputs, chop_outputs)
+            chop_upper.change(chop_change, chop_inputs, chop_outputs)
+            chop_lower.change(chop_change, chop_inputs, chop_outputs)
+            pass
+        with gr.Tab("Mask"):
+            pass
     with gr.Row():
         recursive_depth = gr.Number(label="Recursive Depth", value=0)
         rotation = gr.Dropdown(
@@ -209,6 +254,7 @@ def tab_image_process():
             src_dir, des_dir,
             src_file, des_file,
             src_img_active, src_img, des_img,
+            chop_active, chop_left, chop_right, chop_upper, chop_lower,
             resize,
             resize_fill_color, resize_fill_alpha,
             resize_remove_color, resize_remove_alpha, resize_remove_threshold,
