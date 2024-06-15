@@ -1,4 +1,3 @@
-
 import gradio as gr
 from PIL import Image
 from PIL import ImageDraw
@@ -74,7 +73,7 @@ def img_process_interface(
         recursive_depth=recursive_depth,
     )
 
-    image_process.process(params)
+    ret = image_process.process(params)
 
     if params.src_img_active and params.des_img is not None:
         img_processed = params.des_img
@@ -84,7 +83,7 @@ def img_process_interface(
             'composite': img_processed,
         }
 
-    return f"Processed images are saved in {des_dir}", params.des_img
+    return ret, params.des_img
 
 
 @uicon.capture_wrap

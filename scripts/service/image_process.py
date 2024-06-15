@@ -6,6 +6,7 @@ from pathlib import Path
 
 import rembg
 from PIL import Image, ImageOps
+from moviepy.video.io.VideoFileClip import VideoFileClip
 
 from scripts import util
 
@@ -136,6 +137,18 @@ def color_4_corners(image):
     background_color = max(set(colors), key=colors.count)
 
     return background_color
+
+
+def mp4_to_png(p: ImageProcessParams):
+    if p.des_dir:
+        os.makedirs(p.des_dir, mode=0o777, exist_ok=True)
+    else:
+        raise Exception("missing destination directory")
+    clip = VideoFileClip(p.src_file)
+    num_digits = len(str(int(clip.duration * clip.fps)))
+    for i, frame in enumerate(clip.iter_frames()):
+        frame_image = Image.fromarray(frame)
+        frame_image.save(f"{p.des_dir}/frame_{i:0{num_digits}d}.png")
 
 
 def background_remove(p: ImageProcessParams):
@@ -410,6 +423,12 @@ def process(p: ImageProcessParams):
 
     try:
 
+        if p.src_file:
+            _, src_file_ext = os.path.splitext(p.src_file)
+            if src_file_ext.lower() in ['.mp4']:
+                mp4_to_png(p)
+                return f"video to png saved to {p.des_dir}"
+
         if p.resize_width <= 0:
             p.resize_width = 768
         if p.resize_height <= 0:
@@ -425,15 +444,15 @@ def process(p: ImageProcessParams):
 
         if p.src_img_active:
             process_single_image(p)
-            return
+            return f"image processed"
 
         if p.src_file:
             process_single_file(p)
-            return
+            return f"file processed saved to {p.des_file}"
 
         if p.src_dir and p.des_dir:
             process_directory(p)
-            return
+            return f"directory processed saved to {p.des_dir}"
 
         raise Exception("missing source file or directory")
 

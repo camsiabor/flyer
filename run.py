@@ -30,7 +30,7 @@ def http_launch(port: int, directory: str):
             self.log_message(format, *args)
 
     with socketserver.TCPServer(("127.0.0.1", port), Handler) as httpd:
-        print(f"http server port: http://127.0.0.1/{port}")
+        print(f"http server: http://127.0.0.1:{port}")
         httpd.serve_forever()
     pass
 
