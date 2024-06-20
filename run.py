@@ -35,8 +35,8 @@ def http_launch(port: int, directory: str):
     pass
 
 
-def gradio_launch():
-    app = webui.init()
+def gradio_launch(cfg):
+    app = webui.init(cfg)
     app.queue().launch(
         server_port=cfg_gradio.get('port', 10005),
         show_error=True,
@@ -70,4 +70,4 @@ if __name__ == '__main__':
         threading.Thread(target=http_launch, args=(port_http, http_directory)).start()
 
     if port_gradio >= 80:
-        gradio_launch()
+        gradio_launch(cfg)

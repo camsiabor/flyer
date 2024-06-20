@@ -349,15 +349,15 @@ def tab_text():
     pass
 
 
-def tab_kohya_metadata():
-    port = cfg_http.get('port', 10006)
+def tab_kohya_metadata(cfg):
+    port = cfg.get('http', {}).get('port', 10006)
     path = f'http://localhost:{port}/kohya-meta-viewer.html'
     iframe_html = f'<iframe src="{path}" width="100%" height="600"></iframe>'
     gr.HTML(iframe_html)
     pass
 
 
-def init():
+def init(cfg):
     with gr.Blocks() as app:
         with gr.Tab("Image"):
             tab_image_process()
@@ -378,7 +378,7 @@ def init():
             tab_text()
 
         with gr.Tab("Kohya Metadata"):
-            tab_kohya_metadata()
+            tab_kohya_metadata(cfg)
 
         text_output = gr.Textbox(label="Console")
 
