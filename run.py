@@ -35,8 +35,8 @@ def http_launch(port: int, directory: str):
     pass
 
 
-def gradio_launch(cfg):
-    app = webui.init(cfg)
+def gradio_launch(global_cfg: dict):
+    app = webui.init(global_cfg)
     app.queue().launch(
         server_port=cfg_gradio.get('port', 10005),
         show_error=True,
