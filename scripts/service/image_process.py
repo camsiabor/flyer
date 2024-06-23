@@ -2,13 +2,17 @@ import concurrent
 import io
 import os
 import time
+import traceback
 from pathlib import Path
 
 import rembg
 from PIL import Image, ImageOps
+from PIL import ImageFile
 from moviepy.video.io.VideoFileClip import VideoFileClip
 
 from scripts import util
+
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 
 class ImageProcessParams:
@@ -175,7 +179,10 @@ def background_remove(p: ImageProcessParams):
     if p.des_file:
         files = [Path(p.src_file)]
     else:
-        files = Path(p.src_dir).glob('*.[pP][nN][gG]')
+        pngs = Path(p.src_dir).glob('*.[pP][nN][gG]')
+        jpgs = Path(p.src_dir).glob('*.[jJ][pP][gG]')
+        jpegs = Path(p.src_dir).glob('*.[jJ][pP][eE][gG]')
+        files = list(pngs) + list(jpgs) + list(jpegs)
 
     rgba_color = util.color_string_to_tuple(p.rembg_color)
 
@@ -183,10 +190,18 @@ def background_remove(p: ImageProcessParams):
     total = util.file_count(p.src_dir)
     for file in files:
         input_path = str(file)
+
         if p.des_file:
             output_path = p.des_file
         else:
             output_path = str(p.des_dir + os.path.sep + (file.stem + file.suffix))
+
+        p_file = ImageProcessParams(src_file=input_path, des_file=output_path)
+        img, input_path = open_image(p_file)
+        input_path = str(input_path)
+        output_path = str(output_path)
+        if img is not None:
+            img.close()
 
         with open(input_path, 'rb') as i:
             with open(output_path, 'wb') as o:
@@ -212,6 +227,22 @@ def background_fill(image_path, bg_color):
     pass
 
 
+def open_image(p: ImageProcessParams):
+    if not p.src_file:
+        raise Exception("missing source file")
+    _, ext = os.path.splitext(p.src_file)
+    image = Image.open(p.src_file)
+    if ext.lower() in ['.jpg', '.jpeg']:
+        new_file = os.path.splitext(p.src_file)[0] + '.png'
+        image.save(new_file, 'PNG')
+        image.close()
+        p.src_file = new_file
+        if p.des_file:
+            p.des_file = os.path.splitext(p.des_file)[0] + '.png'
+        image = Image.open(new_file)
+    return image, p.src_file
+
+
 def resize_image(p: ImageProcessParams):
     image = None
 
@@ -219,7 +250,7 @@ def resize_image(p: ImageProcessParams):
         image = p.src_img['composite']
 
     if p.src_file:
-        image = Image.open(p.src_file)
+        image, p.src_file = open_image(p)
 
     image = image.convert('RGBA')
 
@@ -293,8 +324,11 @@ def resize_image(p: ImageProcessParams):
 
 
 def resize_job(p: ImageProcessParams, index: int, total: int, ):
-    resize_image(p)
-    print("[resize] [{}/{}] {}".format(index, total, p.des_file))
+    try:
+        resize_image(p)
+        print("[resize] [{}/{}] {}".format(index, total, p.des_file))
+    except Exception:
+        print(traceback.format_exc())
 
 
 def resize_directory(p: ImageProcessParams):
@@ -310,7 +344,9 @@ def resize_directory(p: ImageProcessParams):
 
     file_list = []
     for filename in os.listdir(p.src_dir):
-        if filename.lower().endswith('.png'):
+        filename = filename.lower()
+
+        if filename.endswith('.png') or filename.endswith('.jpg') or filename.endswith('.jpeg'):
             image_path = os.path.join(p.src_dir, filename)
             output_path = os.path.join(p.des_dir, filename)
             file_list.append((image_path, output_path))
