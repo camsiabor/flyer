@@ -21,6 +21,7 @@ def img_process_interface(
         src_dir, des_dir,
         src_file, des_file,
         src_img_active, src_img, des_img,
+        output_prefix, output_suffix, output_extension,
         chop_active, chop_left, chop_right, chop_upper, chop_lower,
         resize,
         resize_fill_color, resize_fill_alpha,
@@ -56,6 +57,8 @@ def img_process_interface(
         src_dir=src_dir, des_dir=des_dir,
         src_file=src_file, des_file=des_file,
         src_img_active=src_img_active, src_img=src_img, des_img=des_img,
+        # output
+        output_prefix=output_prefix, output_suffix=output_suffix, output_extension=output_extension,
         # chop params
         chop_active=chop_active,
         chop_left=chop_left, chop_right=chop_right,
@@ -229,6 +232,11 @@ def tab_image_process():
             chop_upper.change(chop_change, chop_inputs, chop_outputs)
             chop_lower.change(chop_change, chop_inputs, chop_outputs)
             pass
+        with gr.Tab("Output"):
+            output_prefix = gr.Textbox(label="Output Prefix")
+            output_suffix = gr.Textbox(label="Output Suffix")
+            output_extension = gr.Textbox(label="Output Extension")
+            pass
         with gr.Tab("Mask"):
             pass
     with gr.Row():
@@ -253,6 +261,7 @@ def tab_image_process():
             src_dir, des_dir,
             src_file, des_file,
             src_img_active, src_img, des_img,
+            output_prefix, output_suffix, output_extension,
             chop_active, chop_left, chop_right, chop_upper, chop_lower,
             resize,
             resize_fill_color, resize_fill_alpha,

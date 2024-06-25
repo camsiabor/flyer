@@ -19,9 +19,10 @@ class ImageProcessParams:
 
     def __init__(
             self,
-            src_dir, des_dir,
+            src_dir="", des_dir="",
             src_file="", des_file="",
             src_img_active=False, src_img=None, des_img=None,
+            output_prefix="", output_suffix="", output_extension="",
             chop_active=False, chop_left=0, chop_right=0, chop_upper=0, chop_lower=0,
             resize_width=768, resize_height=1024,
             resize_fill_color="", resize_remove_color="",
@@ -39,6 +40,10 @@ class ImageProcessParams:
         self.src_img = src_img
         self.des_img = des_img
         self.src_img_active = src_img_active
+
+        self.output_prefix = output_prefix
+        self.output_suffix = output_suffix
+        self.output_extension = output_extension
 
         # chop
         self.chop_active = chop_active
@@ -69,6 +74,7 @@ class ImageProcessParams:
             self.src_dir, self.des_dir,
             self.src_file, self.des_file,
             self.src_img_active, self.src_img, self.des_img,
+            self.output_prefix, self.output_suffix, self.output_extension,
             self.chop_active, self.chop_left, self.chop_right, self.chop_upper, self.chop_lower,
             self.resize_width, self.resize_height,
             self.resize_fill_color, self.resize_remove_color,
@@ -79,6 +85,32 @@ class ImageProcessParams:
             self.recursive_depth,
             self.rembg_session,
         )
+
+    def des_file_infer(self, change=True):
+        if not self.src_file:
+            raise Exception("missing source file")
+        if self.des_file:
+            self.des_dir = os.path.dirname(self.des_file)
+        if not self.des_dir:
+            raise Exception("missing destination directory")
+
+        file_name = os.path.basename(self.src_file)
+        file_ext = os.path.splitext(file_name)[1]
+        file_name = os.path.splitext(file_name)[0]
+
+        if self.output_prefix:
+            file_name = self.output_prefix + file_name
+        if self.output_suffix:
+            file_name = file_name + self.output_suffix
+        if self.output_extension:
+            file_name = file_name + "." + self.output_extension
+        else:
+            file_name = file_name + file_ext
+        ret = os.path.join(self.des_dir, file_name)
+        if change:
+            self.des_file = ret
+        return ret
+
 
 
 def color_distance(color1, color2):
@@ -152,7 +184,10 @@ def mp4_to_png(p: ImageProcessParams):
     num_digits = len(str(int(clip.duration * clip.fps)))
     for i, frame in enumerate(clip.iter_frames()):
         frame_image = Image.fromarray(frame)
-        frame_image.save(f"{p.des_dir}/frame_{i:0{num_digits}d}.png")
+        p.output_prefix = p.output_prefix or "frame_"
+        p.output_suffix = p.output_suffix or "png"
+        filename = f"{p.des_dir}/{p.output_prefix}{i:0{num_digits}d}.{p.output_suffix}"
+        frame_image.save(filename)
 
 
 def background_remove(p: ImageProcessParams):
@@ -238,7 +273,7 @@ def open_image(p: ImageProcessParams):
         image.close()
         p.src_file = new_file
         if p.des_file:
-            p.des_file = os.path.splitext(p.des_file)[0] + '.png'
+            p.des_file = p.des_file_infer()
         image = Image.open(new_file)
     return image, p.src_file
 
@@ -347,8 +382,9 @@ def resize_directory(p: ImageProcessParams):
         filename = filename.lower()
 
         if filename.endswith('.png') or filename.endswith('.jpg') or filename.endswith('.jpeg'):
+            p.output_prefix = p.output_prefix or ""
             image_path = os.path.join(p.src_dir, filename)
-            output_path = os.path.join(p.des_dir, filename)
+            output_path = os.path.join(p.des_dir, p.output_prefix + filename)
             file_list.append((image_path, output_path))
 
     total = len(file_list)
@@ -357,7 +393,7 @@ def resize_directory(p: ImageProcessParams):
         for index, (image_path, output_path) in enumerate(file_list, start=1):
             p_file = p.clone()
             p_file.src_file = image_path
-            p_file.des_file = output_path
+            p_file.des_file = p_file.des_file_infer()
             future = executor.submit(
                 resize_job,
                 p_file,
@@ -383,7 +419,7 @@ def process_single_file(p: ImageProcessParams):
 
     if not p.des_file and os.path.isdir(p.des_dir):
         # Set des_file to be the same filename as src_file but in the des_dir directory
-        p.des_file = os.path.join(p.des_dir, os.path.basename(p.src_file))
+        p.des_file = p.des_file_infer()
 
     if p.des_file:
         os.makedirs(os.path.dirname(p.des_file), exist_ok=True)
