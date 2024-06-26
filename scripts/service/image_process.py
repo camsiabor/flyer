@@ -25,10 +25,12 @@ class ImageProcessParams:
             output_prefix="", output_suffix="", output_extension="",
             chop_active=False, chop_left=0, chop_right=0, chop_upper=0, chop_lower=0,
             resize_width=768, resize_height=1024,
-            resize_fill_color="", resize_remove_color="",
+            resize_fill_color="", resize_fill_alpha=-1,
+            resize_remove_color="", resize_remove_alpha=-1,
             resize_remove_threshold=100,
             resize_exec=True,
-            rembg_model="", rembg_color="",
+            rembg_model="",
+            rembg_color="", rembg_alpha=-1,
             rotation="",
             recursive_depth=None,
             rembg_session=None,
@@ -56,13 +58,19 @@ class ImageProcessParams:
         self.resize_width = int(resize_width)
         self.resize_height = int(resize_height)
         self.resize_fill_color = resize_fill_color
+        self.resize_fill_alpha = resize_fill_alpha
+
         self.resize_remove_color = resize_remove_color
+        self.resize_remove_alpha = resize_remove_alpha
         self.resize_remove_threshold = resize_remove_threshold
+
         self.resize_exec = bool(resize_exec)
 
         # rembg
         self.rembg_model = rembg_model
         self.rembg_color = rembg_color
+        self.rembg_alpha = rembg_alpha
+
         self.rotation = rotation
         if recursive_depth is None:
             recursive_depth = 0
@@ -77,10 +85,12 @@ class ImageProcessParams:
             self.output_prefix, self.output_suffix, self.output_extension,
             self.chop_active, self.chop_left, self.chop_right, self.chop_upper, self.chop_lower,
             self.resize_width, self.resize_height,
-            self.resize_fill_color, self.resize_remove_color,
+            self.resize_fill_color, self.resize_fill_alpha,
+            self.resize_remove_color, self.resize_remove_alpha,
             self.resize_remove_threshold,
             self.resize_exec,
-            self.rembg_model, self.rembg_color,
+            self.rembg_model,
+            self.rembg_color, self.rembg_alpha,
             self.rotation,
             self.recursive_depth,
             self.rembg_session,
@@ -110,7 +120,6 @@ class ImageProcessParams:
         if change:
             self.des_file = ret
         return ret
-
 
 
 def color_distance(color1, color2):
@@ -158,6 +167,14 @@ def color_get_most_used(image):
     # Return the most used color
     most_used_color = sorted_colors[0][1]
     return most_used_color
+
+
+def color_merge_alpha(color, alpha):
+    if alpha < 0:
+        return ''
+    if alpha == 0:
+        return 'auto'
+    return color + hex(alpha)[2:].zfill(2)
 
 
 def color_4_corners(image):
@@ -218,6 +235,8 @@ def background_remove(p: ImageProcessParams):
         jpgs = Path(p.src_dir).glob('*.[jJ][pP][gG]')
         jpegs = Path(p.src_dir).glob('*.[jJ][pP][eE][gG]')
         files = list(pngs) + list(jpgs) + list(jpegs)
+
+    p.rembg_color = color_merge_alpha(p.rembg_color, p.rembg_alpha)
 
     rgba_color = util.color_string_to_tuple(p.rembg_color)
 
@@ -304,6 +323,8 @@ def resize_image(p: ImageProcessParams):
             p.chop_lower = image.height
         image = image.crop((p.chop_left, p.chop_upper, p.chop_right, p.chop_lower))
 
+    p.resize_remove_color = color_merge_alpha(p.resize_remove_color, p.resize_remove_alpha)
+
     if util.str_exist(p.resize_remove_color):
         image_ex = color_to_transparent(image, p.resize_remove_color, p.resize_remove_threshold)
         if image_ex is not None:
@@ -312,7 +333,11 @@ def resize_image(p: ImageProcessParams):
     ratio = image.width / image.height
     to_ratio = p.resize_width / p.resize_height
 
-    color_tuple = util.color_string_to_tuple(p.resize_fill_color)
+    p.resize_fill_color = color_merge_alpha(p.resize_fill_color, p.resize_fill_alpha)
+    if p.resize_fill_color == 'auto' or p.resize_fill_color == 'def':
+        color_tuple = color_4_corners(image)
+    else:
+        color_tuple = util.color_string_to_tuple(p.resize_fill_color)
 
     if ratio > to_ratio:
         new_width = p.resize_width

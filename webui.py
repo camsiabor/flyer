@@ -31,26 +31,8 @@ def img_process_interface(
         rotation,
         recursive_depth,
 ):
-    # Convert string resize '512x512' into two integers
+
     resize_width, resize_height = map(int, resize.split('x'))
-    # Check if directories exist, if not create
-
-    if resize_fill_alpha < 0:
-        resize_fill_color = ''
-    else:
-        resize_fill_color = resize_fill_color + hex(resize_fill_alpha)[2:].zfill(2)
-
-    if resize_remove_alpha < 0:
-        resize_remove_color = ''
-    elif resize_remove_alpha == 0:
-        resize_remove_color = 'auto'
-    else:
-        resize_remove_color = resize_remove_color + hex(resize_remove_alpha)[2:].zfill(2)
-
-    if rembg_alpha <= 0:
-        rembg_color = ''
-    else:
-        rembg_color = rembg_color + hex(rembg_alpha)[2:].zfill(2)
 
     params = ImageProcessParams(
         # src & des
@@ -65,13 +47,13 @@ def img_process_interface(
         chop_upper=chop_upper, chop_lower=chop_lower,
         # resize params
         resize_width=resize_width, resize_height=resize_height,
-        resize_fill_color=resize_fill_color,
-        resize_remove_color=resize_remove_color,
+        resize_fill_color=resize_fill_color, resize_fill_alpha=resize_fill_alpha,
+        resize_remove_color=resize_remove_color, resize_remove_alpha=resize_remove_alpha,
         resize_remove_threshold=resize_remove_threshold,
         rotation=rotation,
         # rembg params
         rembg_model=rembg_model,
-        rembg_color=rembg_color,
+        rembg_color=rembg_color, rembg_alpha=rembg_alpha,
         # extra
         recursive_depth=recursive_depth,
     )
