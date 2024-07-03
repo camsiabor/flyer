@@ -53,8 +53,9 @@ def capture_wrap(func, num_result=1):
         output_thread = threading.Thread(target=capture_init)
         output_thread.start()
 
+        out = ''
+        err = ''
         start_time = time.time_ns() // 1_000_000  # Record the start time
-
         try:
             results = func(*args, **kwargs)  # Execute the decorated function
             # Wait for the thread to finish capturing output
@@ -102,6 +103,8 @@ def capture_wrap(func, num_result=1):
             return message, *padding
         finally:
             capture_clear()
+            if err:
+                print(err)
 
     return wrapper
 

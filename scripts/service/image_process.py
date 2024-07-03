@@ -174,6 +174,8 @@ def color_merge_alpha(color, alpha):
         return ''
     if alpha == 0:
         return 'auto'
+    if color is None or len(color) == 0:
+        color = '#000000'
     return color + hex(alpha)[2:].zfill(2)
 
 
