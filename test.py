@@ -6,17 +6,24 @@ import webuiapi
 async def test_webuiapi():
     os.makedirs('output', mode=0o777, exist_ok=True)
 
+    host = '127.0.0.1'
+    port = 30001
+    sampler = 'Euler a'
+    steps = 26
+
     client = webuiapi.WebUIApi(
-        host='127.0.0.1',
-        port=30001,
-        sampler='Euler a',
-        steps=20,
+        host=host, port=port,
+        sampler=sampler, steps=steps,
     )
 
-    model_target = ''
+    model_target = 'tPonynai3'
     model_current = client.util_get_current_model()
-    if model_current != '':
-        client.util_set_model('')
+    if model_current != model_target:
+        client.util_set_model(model_target)
+        print(f'switch model to ${model_target} from ${model_current}')
+
+
+
 
     result = await client.txt2img(
 
