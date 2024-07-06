@@ -1,9 +1,10 @@
-import asyncio
 import os
 
 import webuiapi
 
+from scripts.common.sim import Reflector
 from scripts.sd.sc import alias
+from scripts.sd.sc.box import SDBox
 
 
 async def test_webuiapi():
@@ -62,10 +63,13 @@ async def test_webuiapi():
 
 
 def test():
-    v = alias.HiResUpscalerEx.Latent.value
-    print(v)
+    sdbox = SDBox()
+    sdbox.server.host = '0,0,0,0'
+    sdbox.from_yaml('./config/sd/preset/0.yaml')
+    d = Reflector.to_dict(sdbox)
+    print(d)
 
 
 if __name__ == '__main__':
-    # test()
-    asyncio.run(test_webuiapi())
+    test()
+    # asyncio.run(test_webuiapi())

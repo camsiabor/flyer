@@ -1,4 +1,10 @@
 # =======================================================
+import os
+
+import yaml
+
+from scripts.common.sim import Reflector
+
 
 class SDServer:
     def __init__(
@@ -54,6 +60,19 @@ class SDPrompt:
 
 
 # =======================================================
+class SDUpscaler:
+    def __init__(
+            self,
+            active=False,
+            scale=1,
+            method="ESRGAN_4x_Anime6B",
+    ):
+        self.active = active
+        self.scale = scale
+        self.method = method
+
+
+# =======================================================
 class SDImage:
     def __init__(
             self,
@@ -68,6 +87,7 @@ class SDImage:
         self.batch_count = batch_count
 
 
+# SDFile =======================================================
 class SDFile:
     def __init__(
             self,
@@ -81,9 +101,33 @@ class SDFile:
 # =======================================================
 
 class SDBox:
-    server: SDServer
-    model: SDModel
-    sampler: SDSampler
-    prompt: SDPrompt
-    latent_image: SDImage
-    output: SDFile
+
+    def __init__(self):
+        self.server = SDServer()
+        self.model = SDModel()
+        self.sampler = SDSampler()
+        self.prompt = SDPrompt()
+        self.upscaler = SDUpscaler()
+        self.latent_image = SDImage()
+        self.output = SDFile()
+
+    def from_yaml(self, path):
+        if not os.path.exists(path):
+            raise FileNotFoundError(f"The file {path} does not exist.")
+
+        with open(path, mode='r', encoding='utf-8') as file:
+            data = yaml.safe_load(file)
+            Reflector.from_dict(self, data)
+
+        """
+        for key, value in data.items():
+            if hasattr(self, key):
+                attr = getattr(self, key)
+                if isinstance(attr, (SDServer, SDModel, SDSampler, SDPrompt, SDUpscaler, SDImage, SDFile)):
+                    setattr(self, key, attr.__class__(**value))
+                else:
+                    setattr(self, key, value)
+        """
+        return self
+
+# =======================================================
