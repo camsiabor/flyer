@@ -139,7 +139,7 @@ class SDBox:
             return self.sampler.seed
         return random.randint(1, sys.maxsize - 1)
 
-    def to_params(self):
+    def to_params(self, use_async=True):
         seed = self.seeding()
         p = {
             "prompt": self.prompt.positive,
@@ -150,6 +150,7 @@ class SDBox:
             "seed": seed,
             "width": self.image_latent.width,
             "height": self.image_latent.height,
+            "use_async": use_async,
         }
         return p
 

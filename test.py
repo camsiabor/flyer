@@ -1,3 +1,4 @@
+import asyncio
 import os
 
 import webuiapi
@@ -5,6 +6,7 @@ import webuiapi
 from scripts.common.sim import Reflector
 from scripts.sd.sc import alias
 from scripts.sd.sc.box import SDBox
+from scripts.sd.sc.sdwrap import SDWrap
 
 
 async def test_webuiapi():
@@ -70,6 +72,14 @@ def test():
     print(d)
 
 
+async def test_wrap():
+    box = SDBox().from_yaml('./config/sd/preset/0.yaml')
+    wrap = SDWrap(box).initiate()
+    result = await wrap.txt2img()
+    print(result.info)
+    result.image.save('output/test2.png')
+
 if __name__ == '__main__':
-    test()
+    # test()
+    asyncio.run(test_wrap())
     # asyncio.run(test_webuiapi())

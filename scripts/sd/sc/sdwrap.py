@@ -34,6 +34,8 @@ class SDWrap:
                 self.logger.info(f"switch model to {self.box.model.base} from {current}")
                 self.cli.util_wait_for_ready()
 
+        return self
+
     async def txt2img(self, b: SDBox = None):
         if b is None:
             b = self.box
