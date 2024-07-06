@@ -1,0 +1,26 @@
+server:
+  host: 127.0.0.1
+  port: 30001
+  use_async: true
+
+prompt:
+  positive: |
+    a beautiful girl
+  negative: |
+    low quality, bad anatomy
+
+
+sampler:
+  active: true
+  name: "Euler a"
+  steps: 20
+  cfg_scale: 7
+  seed: -1
+
+latent_image:
+  width: 1024
+  height: 1024
+
+output:
+  dirpath: "./output"
+

@@ -1,6 +1,9 @@
+import asyncio
 import os
 
 import webuiapi
+
+from scripts.sd.sc import alias
 
 
 async def test_webuiapi():
@@ -16,14 +19,15 @@ async def test_webuiapi():
         sampler=sampler, steps=steps,
     )
 
-    model_target = 'tPonynai3'
+    model_target = 'waiANINSFWPONYXL'
     model_current = client.util_get_current_model()
-    if model_current != model_target:
+    print("current model: ", model_current)
+
+    """
+    if model_current not in model_target:
         client.util_set_model(model_target)
         print(f'switch model to ${model_target} from ${model_current}')
-
-
-
+    """
 
     result = await client.txt2img(
 
@@ -41,7 +45,14 @@ async def test_webuiapi():
 
         # async
         use_async=True,
+
+        hr_scale=1.25,
+        hr_upscaler=alias.HiResUpscalerEx.ESRGAN_4x_Anime6B.value,
+        # hr_upscaler= alias.HiResUpscalerEx.ESRGAN_4x_Anime6B,
+
     )
+
+    # webuiapi.HiResUpscaler
 
     print(result.info)
 
@@ -50,7 +61,11 @@ async def test_webuiapi():
     print('done')
 
 
+def test():
+    v = alias.HiResUpscalerEx.Latent.value
+    print(v)
 
 
 if __name__ == '__main__':
-    test_webuiapi()
+    # test()
+    asyncio.run(test_webuiapi())
