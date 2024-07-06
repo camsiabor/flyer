@@ -57,16 +57,16 @@ async def test_webuiapi():
 
     print(result.info)
 
-    result.image.save('output/test.png')
+    result.image_latent.save('output/test.png')
 
     print('done')
 
 
 def test():
     sdbox = SDBox()
-    sdbox.server.host = '0,0,0,0'
     sdbox.from_yaml('./config/sd/preset/0.yaml')
     d = Reflector.to_dict(sdbox)
+    Reflector.to_yaml(sdbox, './config/sd/preset/1.yaml')
     print(d)
 
 

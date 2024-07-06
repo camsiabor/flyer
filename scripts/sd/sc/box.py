@@ -1,5 +1,7 @@
 # =======================================================
 import os
+import random
+import sys
 
 import yaml
 
@@ -9,10 +11,12 @@ from scripts.common.sim import Reflector
 class SDServer:
     def __init__(
             self,
+            name="",
             host="127.0.0.1",
             port=30001,
             use_async=True,
     ):
+        self.name = name
         self.host = host
         self.port = port
         self.use_async = use_async
@@ -108,7 +112,7 @@ class SDBox:
         self.sampler = SDSampler()
         self.prompt = SDPrompt()
         self.upscaler = SDUpscaler()
-        self.latent_image = SDImage()
+        self.image_latent = SDImage()
         self.output = SDFile()
 
     def from_yaml(self, path):
@@ -129,5 +133,24 @@ class SDBox:
                     setattr(self, key, value)
         """
         return self
+
+    def seeding(self):
+        if self.sampler.seed >= 0:
+            return self.sampler.seed
+        return random.randint(1, sys.maxsize - 1)
+
+    def to_params(self):
+        seed = self.seeding()
+        p = {
+            "prompt": self.prompt.positive,
+            "negative_prompt": self.prompt.negative,
+            "sampler_name": self.sampler.name,
+            "steps": self.sampler.steps,
+            "cfg_scale": self.sampler.cfg_scale,
+            "seed": seed,
+            "width": self.image_latent.width,
+            "height": self.image_latent.height,
+        }
+        return p
 
 # =======================================================

@@ -17,9 +17,11 @@ sampler:
   cfg_scale: 7
   seed: -1
 
-latent_image:
+image_latent:
   width: 1024
   height: 1024
+  batch_size: 1
+  batch_count: 1
 
 output:
   dirpath: "./output"
