@@ -27,6 +27,9 @@ def sdwrap_aspect(logger_name="sd-perf"):
                 end_time = time.perf_counter()
                 elapsed_time = end_time - start_time
                 logger = logging.getLogger(logger_name)
+                if wrap.verbose:
+                    info = result.info
+                    logger.info(f"prompt:\n{info.get('prompt', '')}\n")
                 logger.info(f"{func.__name__} completed in {elapsed_time:.2f} seconds")
 
             except Exception as e:
@@ -48,19 +51,17 @@ class SDWrap:
             self,
             box: SDBox,
             cli: webuiapi.WebUIApi = None,
-            log_perf: bool = False,
+            verbose: bool = False,
             progress_poll_delay: float = 0.5,
             progress_poll_interval: float = 5,
     ):
         self.box = box
         self.cli = cli
         self.logger = logging.getLogger(f'sd{self.box.server.name}')
-        self.log_perf = log_perf
         self.active = True
+        self.verbose = verbose
         self.colddown = FloatAsync()
         self.work_count = IntAysnc()
-        if log_perf:
-            self.logger_perf = logging.getLogger(f'sd{self.box.server.name}_perf')
         self.progress_thread = None
         self.progress_poll_delay = progress_poll_delay
         self.progress_poll_interval = progress_poll_interval
@@ -118,8 +119,10 @@ class SDWrap:
                 job = state.get('job', "unknown")
                 job_count = state.get('job_count', -1)
                 text_info = state.get('text_info', "")
+                sampling_step = state.get('sampling_step', -1)
+                sampling_stpes = state.get('sampling_steps', -1)
                 self.logger.info(
-                    f"{job} | {progress:.1f}% | eta: {eta_relative:.1f} | job_count: {job_count} | {text_info}")
+                    f"{job} | {progress:.1f}% | eta: {eta_relative:.1f} | step {sampling_step} / {sampling_stpes} | job_count: {job_count} | {text_info}")
             except Exception as e:
                 self.logger.error(f"progress_loop error: {e}")
             finally:
@@ -164,19 +167,13 @@ class SDWrap:
             img.save(b.output.file_path, pnginfo=png_info)
             img_index += 1
             self.logger.info(f"txt2img => {b.output.file_path} | seed: {seed}")
-        return self
+        return result
 
     # txt2img ==================================================================================================
     @sdwrap_aspect()
     async def txt2img(self, b: SDBox = None):
-        try:
-            if b is None:
-                b = self.box
-            params = b.to_params()
-            await self.work_count.increment()
-            result = await self.cli.txt2img(**params)
-
-            return self.save(b, result)
-        finally:
-            # print(1)
-            await self.work_count.decrement()
+        if b is None:
+            b = self.box
+        params = b.to_params()
+        result = await self.cli.txt2img(**params)
+        return self.save(b, result)

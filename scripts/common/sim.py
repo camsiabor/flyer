@@ -75,16 +75,20 @@ class Reflector:
 
     @staticmethod
     def from_dict(obj: object, data: dict):
-        for attr in dir(obj):
-            if attr.startswith("__"):
+        for attr_name in dir(obj):
+            if attr_name.startswith("__"):
                 continue
-            attr_value = getattr(obj, attr, None)
-            if attr not in data:
+            attr_value = getattr(obj, attr_name, None)
+            if attr_name not in data:
                 continue
-            data_value = data[attr]
+            data_value = data[attr_name]
 
             if isinstance(attr_value, TypeList) and isinstance(data_value, SERIAL_TYPES):
                 Reflector.from_serial(attr_value, data_value)
+                continue
+
+            if attr_value is None and isinstance(data_value, PRIMITIVE_TYPES):
+                setattr(obj, attr_name, data_value)
                 continue
 
             if isinstance(data_value, dict) and not isinstance(attr_value, PRIMITIVE_TYPES):
@@ -94,12 +98,12 @@ class Reflector:
                     # If the attribute is None, try to instantiate it if it's a class.
                     attr_type = type(attr_value)
                     new_obj = attr_type() if attr_type not in PRIMITIVE_TYPES else data_value
-                    setattr(obj, attr, Reflector.from_dict(new_obj, data_value))
+                    setattr(obj, attr_name, Reflector.from_dict(new_obj, data_value))
                 else:
                     # If the attribute already has a value, update it recursively.
-                    setattr(obj, attr, Reflector.from_dict(attr_value, data_value))
+                    setattr(obj, attr_name, Reflector.from_dict(attr_value, data_value))
             else:
-                setattr(obj, attr, data_value)
+                setattr(obj, attr_name, data_value)
 
         return obj
 

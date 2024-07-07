@@ -30,6 +30,7 @@ async def test_wrap():
 
     wrap = SDWrap(
         box=box,
+        verbose=True,
         progress_poll_interval=5,
     ).initiate()
 

@@ -9,6 +9,7 @@ import yaml
 
 from scripts.common.serial import TypeList
 from scripts.common.sim import Reflector
+from scripts.common.textutil import TextUtil
 from scripts.sd.sc.alias import HiResUpscalerEx
 
 SEED_MAX = sys.maxsize // 142857
@@ -63,9 +64,18 @@ class SDPrompt:
             self,
             positive="",
             negative="",
+            positive_params: dict = None,
+            negative_params: dict = None,
     ):
         self.positive = positive
         self.negative = negative
+        self.positive_params = positive_params
+        self.negative_params = negative_params
+
+    def infer(self):
+        pos = TextUtil.replace(self.positive, self.positive_params)
+        neg = TextUtil.replace(self.negative, self.negative_params)
+        return pos, neg
 
 
 # =======================================================
@@ -236,9 +246,11 @@ class SDBox:
             "batch_size": self.image_latent.batch_size,
         }
 
+        pos, neg = self.prompt.infer()
+
         p.update({
-            "prompt": self.prompt.positive,
-            "negative_prompt": self.prompt.negative,
+            "prompt": pos,
+            "negative_prompt": neg,
         })
 
         p.update({
