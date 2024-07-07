@@ -25,15 +25,15 @@ def test():
 
 async def test_wrap():
     conf = './config/sd/preset/pony/belle.yaml'
-    box = SDBox().from_yaml(conf).initiate()
+    box = SDBox().load(conf).initiate()
     wrap = SDWrap(box=box).initiate()
     for i in range(box.image_latent.batch_count):
         await wrap.txt2img()
 
 
 async def dev():
-    c = ConfigUtil.load('./config/sd/preset/dev.yaml')
-    print(c)
+    c, p = ConfigUtil.load('./config/sd/preset/dev.yaml')
+    print(c, p)
     pass
 
 
@@ -41,7 +41,7 @@ async def dev():
 
 if __name__ == '__main__':
     time_start = time.perf_counter()
-    LogUtil.load_yaml('./config/log.yaml')
+    LogUtil.load('./config/log.yaml')
 
     asyncio.run(test_wrap())
     # asyncio.run(dev())

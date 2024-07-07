@@ -201,7 +201,7 @@ class Reflector:
 
 class ConfigUtil:
     @staticmethod
-    def load(*config_paths):
+    def load(*config_paths) -> (any, str):
         """
         Load the first existing configuration file from the given paths.
         :param config_paths: Variable number of paths to configuration files.
@@ -221,13 +221,14 @@ class ConfigUtil:
         raise FileNotFoundError("No configuration file found in the provided paths.")
 
     @staticmethod
-    def load_and_embed(*config_paths):
+    def load_and_embed(*config_paths) -> (any, str):
         config, config_path = ConfigUtil.load(*config_paths)
         config_dir = os.path.dirname(config_path)
-        return ConfigUtil.embed(config, config_dir)
+        ret = ConfigUtil.embed(config, config_dir)
+        return ret, config_path
 
     @staticmethod
-    def embed(data: (dict, list, tuple), base_path=''):
+    def embed(data: (dict, list, tuple), base_path='') -> any:
         """
         Recursively iterates through all string values in a dictionary or list.
         If a string value starts with '#__file__#:', it treats the rest of the string as a file path,
@@ -248,7 +249,7 @@ class ConfigUtil:
                 if isinstance(value, str) and value.startswith(cmd):
                     file_name = value[cmd_len:]
                     file_path = os.path.join(base_path, file_name)
-                    data[key] = ConfigUtil.load(file_path)
+                    data[key], _ = ConfigUtil.load_and_embed(file_path)
                 else:
                     ConfigUtil.embed(value, base_path)
             return data
@@ -258,7 +259,7 @@ class ConfigUtil:
                 if isinstance(item, str) and item.startswith(cmd):
                     file_name = item[cmd_len:]
                     file_path = os.path.join(base_path, file_name)
-                    data[i] = ConfigUtil.load_and_embed(file_path)
+                    data[i], _ = ConfigUtil.load_and_embed(file_path)
                 else:
                     ConfigUtil.embed(item, base_path)
             return data
@@ -270,15 +271,15 @@ class ConfigUtil:
 
 class LogUtil:
     @staticmethod
-    def load_yaml(*config_path):
-        config = ConfigUtil.load(*config_path)
-        log_path = getv(config, "", "handlers", "file_handler", "filename")
+    def load(*config_path):
+        cfg, cfg_path = ConfigUtil.load(*config_path)
+        log_path = getv(cfg, "", "handlers", "file_handler", "filename")
         if not os.path.exists(log_path):
             log_dir_path = os.path.dirname(log_path)
             os.makedirs(log_dir_path, exist_ok=True)
         # noinspection PyUnresolvedReferences
-        logging.config.dictConfig(config)
-        return config
+        logging.config.dictConfig(cfg)
+        return cfg, cfg_path
 
     @staticmethod
     def elapsed_async(opts: dict):
