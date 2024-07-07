@@ -164,7 +164,12 @@ class SDWrap:
             b.output.infer(img_index)
             seed = result.info.get("seed", -1)
             png_info = SDWrap.meta_infer(b, result, img_index)
+
+            # save_start = time.perf_counter()
             img.save(b.output.file_path, pnginfo=png_info)
+            # save_end = time.perf_counter()
+            # self.logger.info(f"save {b.output.file_path} in {save_end - save_start:.2f} seconds")
+
             img_index += 1
             self.logger.info(f"txt2img => {b.output.file_path} | seed: {seed}")
         return result

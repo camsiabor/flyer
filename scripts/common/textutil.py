@@ -28,7 +28,7 @@ class TextUtil:
         cycle_current = cycle
         for placeholder, target in params.items():
             if isinstance(target, (list, tuple)):
-                if cycle_current < 0:
+                if cycle < 0:
                     cycle_current = random.randint(0, 142857)
                 length = len(target)
                 if length > 0:
