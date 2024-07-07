@@ -10,7 +10,8 @@ prompt:
   positive: |
     1girl, solo, 
     (score_9, score_8_up, score_7_up, source_anime, rating_all),
-    $$expressive_h$$, 
+    $$expressive_h$$,
+    $$nsfw_common$$,
     $$nsfw_posture$$,
     $$nsfw_act$$,
     $$nsfw_body$$,
@@ -22,14 +23,16 @@ prompt:
     $$scene$$,
   negative: |
     (score_5,score_4,score_3,score_2,score_1),
-    (worst quality:2),(low quality:2),(normal quality:2), 
-    low res,normal quality, 
-    (extra legs：1.2),(extra hands:1.2),(extra digits:1.2),(fewer digits;1.2),
+    (text:1.2), (logo:1.2), (watermark:1.2),
+    (bad anatomy:1.2),
+    (extra legs：1.2),(extra hands:1.2), 
+    (extra digits:1.2),(fewer digits;1.2),
   params_cycle: -1
   params_pos_1:
     character_lora: "<lora:Belle_from_Zenless_Zone_Zero:0.95>, belle (zenless zone zero)"
     character: "earrings,jewelry,shirt,black shirt,long sleeves,hooded jacket"
-    expressive_h: "<lora:Expressive_H:1>,expressiveh,motion lines,hetero,sex"
+    expressive_h: "<lora:Expressive_H:1>,expressiveh"
+    nsfw_common: "motion lines, hetero, sex"
     nsfw_posture: [
       "standing sex",
       "standing sex, split, leg up",
@@ -59,21 +62,17 @@ prompt:
       "topless",
     ]
     perspective: [
-      # "pov, from above",
-      # "pov, from back",
-      "pov",
-      # "from side",
-      # "front view",
-      # "from below",
-      "",
     ]
     facial_expression: [
-      "blush", "blush, tongue out"
+      "blush",
     ]
     facial_expression_sub: [
-      "open mouth, tongue out", "embarrassed, open mouth", "open mouth",
+      "open mouth",
+      "open mouth, tongue out",
+      "open mouth, embarrassed",
+      "closed mouth, embarrassed"
+      "embarrassed",
       "looking to the side, embarrassed",
-      "peace sign, v",
     ]
     scene: [
       "bedroom", "alley", "simple background", "street, night"

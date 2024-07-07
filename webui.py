@@ -1,4 +1,5 @@
 import json
+import os
 
 import gradio as gr
 from PIL import Image
@@ -102,6 +103,34 @@ def image_metadata_interface(image):
     meta_parameters = meta.get('parameters', '')
     # Optionally, remove the file after processing if not needed
     return meta_parameters, meta_full, image
+
+
+def image_batch_metadata_interface(image_dir, text_remove):
+    if not os.path.isdir(image_dir):
+        return "Directory not found", []
+    images_info = []
+    removes = text_remove.split('|')
+    for filename in os.listdir(image_dir):
+        if filename.endswith(".png"):
+            image_path = os.path.join(image_dir, filename)
+            try:
+                with Image.open(image_path) as img:
+                    meta = img.info
+                    meta_parameters = meta.get('parameters', '')
+                    meta_parameters = meta_parameters.split('Negative prompt:')[0].strip()
+                    for remove in removes:
+                        meta_parameters = meta_parameters.replace(remove, '')
+                    images_info.append((image_path, meta_parameters))
+            except Exception as e:
+                print(f"Error processing {image_path}: {e}")
+                continue  # Skip files that cannot be opened as images
+
+    images = []
+    for img_path, i in images_info:
+        images.append((img_path, i + ''))
+    # images = [(img[0], img[0]) for img in images_info]
+    metas = "\n\n".join([img[1] for img in images_info])
+    return "Processed successfully", images, metas
 
 
 def media_fetch_interface(
@@ -364,20 +393,12 @@ def tab_meta_viewer(cfg):
     with gr.Tab("Image Meta"):
         with gr.Row():
             with gr.Column(scale=1):
-                """
-                file_upload = gr.File(
-                    label="Drag and Drop",
-                    interactive=True,
-                    type="binary",
-                )
-                """
                 file_upload = gr.Image(label="Image", interactive=True, type="pil")
             with gr.Column(scale=2):
                 meta_parameters = gr.Textbox(label="Parameters")
                 meta_full = gr.Textbox(label="Full")
         with gr.Row():
             image_display = gr.Image()
-
         file_upload.change(
             fn=image_metadata_interface,
             inputs=[file_upload],
@@ -387,6 +408,19 @@ def tab_meta_viewer(cfg):
                 image_display
             ]
         )
+    with gr.Tab("Image Meta Batch"):
+        image_dir = gr.Textbox(label="Image Directory")
+        text_remove = gr.TextArea(label="Remove")
+        run_button = gr.Button("Read")
+        images_output = gr.Gallery(label="Images")
+        meta_output = gr.TextArea(label="Metadata")
+        result_text = gr.TextArea(label="Result")
+        run_button.click(
+            fn=image_batch_metadata_interface,
+            inputs=[image_dir, text_remove],
+            outputs=[result_text, images_output, meta_output]
+        )
+
     pass
 
 

@@ -26,10 +26,10 @@ class TextUtil:
             return src
         result = src
         cycle_current = cycle
-        if cycle_current < 0:
-            cycle_current = random.randint(0, 142857)
         for placeholder, target in params.items():
             if isinstance(target, (list, tuple)):
+                if cycle_current < 0:
+                    cycle_current = random.randint(0, 142857)
                 length = len(target)
                 if length > 0:
                     target = target[cycle_current % length]
