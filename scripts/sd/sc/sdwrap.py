@@ -1,14 +1,45 @@
 import asyncio
 import datetime
+import functools
 import json
 import logging
+import time
 
 from PIL.PngImagePlugin import PngInfo
 from webuiapi import webuiapi
 
-from scripts.common.atomic import IntAysnc
-from scripts.common.sim import LogUtil
+from scripts.common.atomic import IntAysnc, FloatAsync
 from scripts.sd.sc.box import SDBox
+
+
+def sdwrap_aspect(logger_name="sd-perf"):
+    def decorator(func):
+        @functools.wraps(func)
+        async def wrapper(*args, **kwargs):
+            wrap: SDWrap = args[0]
+            start_time = time.perf_counter()
+            colddown = wrap.box.options.colddown
+            try:
+                if colddown > 0:
+                    await asyncio.sleep(colddown)
+                await wrap.work_count.increment()
+                result = await func(*args, **kwargs)  # Await the function execution
+                end_time = time.perf_counter()
+                elapsed_time = end_time - start_time
+                logger = logging.getLogger(logger_name)
+                logger.info(f"{func.__name__} completed in {elapsed_time:.2f} seconds")
+
+            except Exception as e:
+                wrap.logger.error(f"error: {e}")
+                raise e
+            finally:
+                await wrap.work_count.decrement()
+
+            return result
+
+        return wrapper
+
+    return decorator
 
 
 class SDWrap:
@@ -26,6 +57,7 @@ class SDWrap:
         self.logger = logging.getLogger(f'sd{self.box.server.name}')
         self.log_perf = log_perf
         self.active = True
+        self.colddown = FloatAsync()
         self.work_count = IntAysnc()
         if log_perf:
             self.logger_perf = logging.getLogger(f'sd{self.box.server.name}_perf')
@@ -134,7 +166,7 @@ class SDWrap:
         return self
 
     # txt2img ==================================================================================================
-    @LogUtil.elapsed_async({"name": "sd_perf"})
+    @sdwrap_aspect()
     async def txt2img(self, b: SDBox = None):
         try:
             if b is None:

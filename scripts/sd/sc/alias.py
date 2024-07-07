@@ -22,3 +22,16 @@ class HiResUpscalerEx(str, Enum):
     SwinIR_4x = "SwinIR 4x"
     # extra
     ESRGAN_4x_Anime6B = "R-ESRGAN 4x+ Anime6B"
+
+
+class ADetailerModel(str, Enum):
+    face_yolov8n = "face_yolov8n.pt"
+    face_yolov8s = "face_yolov8s.pt"
+    hand_yolov8n = "hand_yolov8n.pt"
+    person_yolov8n_seg = "person_yolov8n-seg.pt"
+    person_yolov8s_seg = "person_yolov8s-seg.pt"
+    yolov8x_worldv2 = "yolov8x-worldv2.pt"
+    mediapipe_face_full = "mediapipe_face_full"
+    mediapipe_face_short = "mediapipe_face_short"
+    mediapipe_face_mesh = "mediapipe_face_mesh"
+    mediapipe_face_mesh_eyes_only = "mediapipe_face_mesh_eyes_only"

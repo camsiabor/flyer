@@ -9,9 +9,9 @@ prompt:
     low quality, bad anatomy
 
 image_latent:
-  width: 1024
+  width: 768
   height: 1024
-  batch_size: 2
+  batch_size: 1
   batch_count: 1
 
 sampler:
@@ -29,6 +29,7 @@ upscaler:
   name: "ESRGAN_4x_Anime6B"
 
 options:
+  colddown: 0.1
   use_async: true
 
 output:

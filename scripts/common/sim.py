@@ -6,8 +6,15 @@ import time
 
 import yaml
 
+from scripts.common.serial import TypeList
 
 # get / set / clone =============================================================================== #
+
+
+VALUE_TYPES = (int, str, float, bool)
+SERIAL_TYPES = (list, tuple, set)
+PRIMITIVE_TYPES = (int, str, float, bool, list, tuple, set, dict)
+
 
 def getv(cfg: dict, default=None, *keys):
     value = cfg
@@ -68,37 +75,55 @@ class Reflector:
 
     @staticmethod
     def from_dict(obj: object, data: dict):
-        primitive_types = (int, str, float, bool, list, tuple, set)
         for attr in dir(obj):
             if attr.startswith("__"):
                 continue
             attr_value = getattr(obj, attr, None)
-            if attr in data:
-                if isinstance(data[attr], dict) and not isinstance(attr_value, primitive_types):
-                    # If the attribute is a complex type and the corresponding data is a dictionary,
-                    # recursively update or instantiate this attribute.
-                    if attr_value is None:
-                        # If the attribute is None, try to instantiate it if it's a class.
-                        attr_type = type(attr_value)
-                        new_obj = attr_type() if attr_type not in primitive_types else data[attr]
-                        setattr(obj, attr, Reflector.from_dict(new_obj, data[attr]))
-                    else:
-                        # If the attribute already has a value, update it recursively.
-                        setattr(obj, attr, Reflector.from_dict(attr_value, data[attr]))
+            if attr not in data:
+                continue
+            data_value = data[attr]
+
+            if isinstance(attr_value, TypeList) and isinstance(data_value, SERIAL_TYPES):
+                Reflector.from_serial(attr_value, data_value)
+                continue
+
+            if isinstance(data_value, dict) and not isinstance(attr_value, PRIMITIVE_TYPES):
+                # If the attribute is a complex type and the corresponding data is a dictionary,
+                # recursively update or instantiate this attribute.
+                if attr_value is None:
+                    # If the attribute is None, try to instantiate it if it's a class.
+                    attr_type = type(attr_value)
+                    new_obj = attr_type() if attr_type not in PRIMITIVE_TYPES else data_value
+                    setattr(obj, attr, Reflector.from_dict(new_obj, data_value))
                 else:
-                    # For primitive types or non-dictionary data, directly set the attribute.
-                    setattr(obj, attr, data[attr])
+                    # If the attribute already has a value, update it recursively.
+                    setattr(obj, attr, Reflector.from_dict(attr_value, data_value))
+                continue
+
+            if isinstance(attr_value, PRIMITIVE_TYPES) and isinstance(data_value, PRIMITIVE_TYPES):
+                setattr(obj, attr, data_value)
+                continue
+
         return obj
+
+    @staticmethod
+    def from_serial(type_list: TypeList, serials: (list, tuple, set)):
+        for one in serials:
+            if isinstance(one, type_list.item_type):
+                type_list.add(one)
+                continue
+            item = type_list.item_type()
+            Reflector.from_dict(item, one)
+            type_list.add(item)
 
     @staticmethod
     def to_dict(obj: object) -> dict:
         result = {}
-        primitive_types = (int, str, float, bool, list, tuple, set, dict)
         for attr in dir(obj):
             if attr.startswith("__") or callable(getattr(obj, attr)):
                 continue
             value = getattr(obj, attr, None)
-            if isinstance(value, primitive_types):
+            if isinstance(value, PRIMITIVE_TYPES):
                 result[attr] = value
             else:
                 result[attr] = Reflector.to_dict(value)

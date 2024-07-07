@@ -73,3 +73,40 @@ class IntAysnc:
         async with self.lock:
             self.value = new_value
             self.condition.notify_all()
+
+
+# ==================================================================================================
+
+
+class FloatAsync:
+    def __init__(self, initial=0.0):
+        self.value = initial
+        self.lock = asyncio.Lock()
+        self.condition = asyncio.Condition(self.lock)
+
+    async def wait_until_gte(self, threshold: float = 1.0):
+        async with self.lock:
+            while self.value < threshold:
+                await self.condition.wait()
+            return self.value
+
+    async def increment(self, value: float = 1.0):
+        async with self.lock:
+            self.value += value
+            self.condition.notify_all()
+            return self.value
+
+    async def decrement(self, value: float = 1.0):
+        async with self.lock:
+            self.value -= value
+            self.condition.notify_all()
+            return self.value
+
+    async def get(self):
+        async with self.lock:
+            return self.value
+
+    async def set(self, new_value: float):
+        async with self.lock:
+            self.value = new_value
+            self.condition.notify_all()

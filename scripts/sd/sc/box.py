@@ -6,8 +6,9 @@ from datetime import datetime
 
 import yaml
 
+from scripts.common.serial import TypeList
 from scripts.common.sim import Reflector
-from scripts.sd.sc.alias import HiResUpscalerEx
+from scripts.sd.sc.alias import HiResUpscalerEx, ADetailerModel
 
 SEED_MAX = sys.maxsize // 142857
 
@@ -151,7 +152,7 @@ class SDOptions:
             do_not_save_samples=True,
             use_async=True,
             save_metadata=True,
-            colddown=1.0,
+            colddown=0.1,
 
     ):
         if styles is None:
@@ -163,6 +164,22 @@ class SDOptions:
         self.use_async = use_async
         self.save_metadata = save_metadata
         self.colddown = colddown
+
+
+# SDADetailer =======================================================
+
+class SDADetailer:
+
+    def __init__(
+            self,
+            enable=False,
+            models=None,
+    ):
+        if models is None:
+            models = [ADetailerModel.face_yolov8n]
+        self.enable = enable
+        self.models = models
+
 
 
 # =======================================================
@@ -177,7 +194,9 @@ class SDBox:
         self.upscaler = SDUpscaler()
         self.image_latent = SDImage()
         self.output = SDFile()
+        self.adetailers = TypeList(SDADetailer)
         self.options = SDOptions()
+
 
     def from_yaml(self, path):
         if not os.path.exists(path):
@@ -236,6 +255,17 @@ class SDBox:
                     "hr_resize_x": self.upscaler.resize_x,
                     "hr_resize_y": self.upscaler.resize_y,
                 })
+
+        """
+        if self.adetailer.enable and len(self.adetailer.models) > 0:
+            ads = []
+            for model in self.adetailer.models:
+                ad = webuiapi.ADetailer(ad_model=model)
+                ads.append(ad)
+            p.update({
+                "adetailer": ads,
+            })
+        """
 
         # options
         p.update({
