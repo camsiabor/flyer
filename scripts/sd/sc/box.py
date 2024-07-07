@@ -4,11 +4,12 @@ import random
 import sys
 from datetime import datetime
 
+import webuiapi
 import yaml
 
 from scripts.common.serial import TypeList
 from scripts.common.sim import Reflector
-from scripts.sd.sc.alias import HiResUpscalerEx, ADetailerModel
+from scripts.sd.sc.alias import HiResUpscalerEx
 
 SEED_MAX = sys.maxsize // 142857
 
@@ -61,7 +62,7 @@ class SDPrompt:
     def __init__(
             self,
             positive="",
-            negative="low quality, worst quality, bad anatomy",
+            negative="",
     ):
         self.positive = positive
         self.negative = negative
@@ -173,13 +174,25 @@ class SDADetailer:
     def __init__(
             self,
             enable=False,
-            models=None,
+            model=None,
+            confidence=0.3,
+            denoising_strength=0.4,
     ):
-        if models is None:
-            models = [ADetailerModel.face_yolov8n]
         self.enable = enable
-        self.models = models
+        self.model = model
+        self.prompt = SDPrompt()
+        self.confidence = confidence
+        self.denoising_strength = denoising_strength
 
+    def to_api_obj(self):
+        ad = webuiapi.ADetailer(
+            ad_model=self.model,
+            ad_prompt=self.prompt.positive,
+            ad_negative_prompt=self.prompt.negative,
+            ad_confidence=self.confidence,
+            ad_denoising_strength=self.denoising_strength,
+        )
+        return ad
 
 
 # =======================================================
@@ -196,7 +209,6 @@ class SDBox:
         self.output = SDFile()
         self.adetailers = TypeList(SDADetailer)
         self.options = SDOptions()
-
 
     def from_yaml(self, path):
         if not os.path.exists(path):
@@ -256,16 +268,14 @@ class SDBox:
                     "hr_resize_y": self.upscaler.resize_y,
                 })
 
-        """
-        if self.adetailer.enable and len(self.adetailer.models) > 0:
+        if len(self.adetailers) > 0:
             ads = []
-            for model in self.adetailer.models:
-                ad = webuiapi.ADetailer(ad_model=model)
-                ads.append(ad)
-            p.update({
-                "adetailer": ads,
-            })
-        """
+            for one in self.adetailers:
+                ad: SDADetailer = one
+                if ad.enable:
+                    ads.append(ad.to_api_obj())
+            if len(ads) > 0:
+                p.update({"adetailer": ads})
 
         # options
         p.update({

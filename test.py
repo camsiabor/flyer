@@ -25,7 +25,7 @@ def test():
 
 async def test_wrap():
     box = SDBox().from_yaml(
-        './config/sd/preset/0.yaml'
+        './config/sd/preset/test.yaml'
     ).initiate()
 
     wrap = SDWrap(

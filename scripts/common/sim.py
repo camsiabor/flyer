@@ -98,11 +98,8 @@ class Reflector:
                 else:
                     # If the attribute already has a value, update it recursively.
                     setattr(obj, attr, Reflector.from_dict(attr_value, data_value))
-                continue
-
-            if isinstance(attr_value, PRIMITIVE_TYPES) and isinstance(data_value, PRIMITIVE_TYPES):
+            else:
                 setattr(obj, attr, data_value)
-                continue
 
         return obj
 

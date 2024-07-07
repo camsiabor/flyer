@@ -174,6 +174,7 @@ class SDWrap:
             params = b.to_params()
             await self.work_count.increment()
             result = await self.cli.txt2img(**params)
+
             return self.save(b, result)
         finally:
             # print(1)
