@@ -29,7 +29,7 @@ def sdwrap_aspect(logger_name="sd-perf"):
                 logger = logging.getLogger(logger_name)
                 if wrap.verbose:
                     info = result.info
-                    logger.info(f"prompt:\n{info.get('prompt', '')}\n")
+                    logger.info(f"prompt:\n{info.get('prompt', '')}")
                 logger.info(f"{func.__name__} completed in {elapsed_time:.2f} seconds")
 
             except Exception as e:

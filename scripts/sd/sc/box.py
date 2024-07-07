@@ -50,12 +50,15 @@ class SDSampler:
             steps=20,
             cfg_scale=7,
             seed=-1,
+            subseed=-1,
             scheduler=None,
     ):
         self.name = name
         self.steps = steps
         self.cfg_scale = cfg_scale
         self.seed = seed
+        self.subseed = subseed
+        self.scheduler = scheduler
 
 
 # =======================================================
@@ -66,15 +69,34 @@ class SDPrompt:
             negative="",
             positive_params: dict = None,
             negative_params: dict = None,
+            params_cycle: int = 0,
+            params_prefix: str = "$$",
+            params_suffix: str = "$$",
     ):
         self.positive = positive
         self.negative = negative
         self.positive_params = positive_params
         self.negative_params = negative_params
+        self.params_cycle = params_cycle
+        self.params_prefix = params_prefix
+        self.params_suffix = params_suffix
 
     def infer(self):
-        pos = TextUtil.replace(self.positive, self.positive_params)
-        neg = TextUtil.replace(self.negative, self.negative_params)
+        pos = TextUtil.replace(
+            src=self.positive,
+            params=self.positive_params,
+            cycle=self.params_cycle,
+            prefix=self.params_prefix,
+            suffix=self.params_suffix,
+        )
+        neg = TextUtil.replace(
+            src=self.negative,
+            params=self.negative_params,
+            cycle=self.params_cycle,
+            prefix=self.params_prefix,
+            suffix=self.params_suffix,
+        )
+        self.params_cycle += 1
         return pos, neg
 
 

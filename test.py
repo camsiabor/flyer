@@ -34,7 +34,7 @@ async def test_wrap():
         progress_poll_interval=5,
     ).initiate()
 
-    for i in range(1):
+    for i in range(3):
         await wrap.txt2img()
 
 
@@ -42,12 +42,9 @@ async def test_wrap():
 
 if __name__ == '__main__':
     time_start = time.perf_counter()
-
     LogUtil.load_yaml('./config/log.yaml')
 
-    # test()
     asyncio.run(test_wrap())
 
     time_end = time.perf_counter()
-    logging.info(f"completed in {time_end - time_start:.2f} seconds")
-    # asyncio.run(test_webuiapi())
+    logging.info(f"============= fin in {time_end - time_start:.2f} seconds =========== ")
