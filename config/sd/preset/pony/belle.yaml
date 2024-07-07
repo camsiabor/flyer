@@ -1,0 +1,116 @@
+server:
+  host: 127.0.0.1
+  port: 30001
+  progress_poll_delay: 3
+  progress_poll_interval: 15
+  verbose: true
+
+image_latent:
+  width: 1024
+  height: 1024
+  batch_size: 1
+  batch_count: 2
+
+prompt:
+  positive: |
+    1girl, solo, 
+    (score_9, score_8_up, score_7_up, source_anime, rating_all),
+    $$expressive_h$$, 
+    $$nsfw_posture$$,
+    $$nsfw_act$$,
+    $$nsfw_body$$,
+    $$perspective$$,
+    $$character_lora$$,
+    $$character$$,
+    $$facial_expression$$,
+    $$facial_expression_sub$$,    
+    $$scene$$,
+  negative: |
+    (score_5,score_4,score_3,score_2,score_1),
+    (worst quality:2),(low quality:2),(normal quality:2), 
+    low res,normal quality, 
+    (extra legs：1.2),(extra hands:1.2),(extra digits:1.2),(fewer digits;1.2),
+  params_cycle: -1
+  positive_params:
+    character_lora: "<lora:Belle_from_Zenless_Zone_Zero:0.95>, belle (zenless zone zero)"
+    character: "earrings,jewelry,shirt,black shirt,long sleeves,hooded jacket"
+    expressive_h: "<lora:Expressive_H:1>,expressiveh,motion lines,hetero,sex"
+    nsfw_posture: [
+      "standing sex",
+      "standing sex, split, leg up",
+      "doggy style",
+      "missionary",
+      "cowgirl", "reverse cowgirl",
+      "spooning", "69", "oral",
+      "top-down bottom-up, sex_from_behind, grabbing ass by another's hands",
+      "top-down bottom-up, sex_from_behind, face_focus, front_view",
+      "fingering", "masturbation",
+    ]
+    nsfw_act: [
+      "licking penis",
+      "grabbing own breasts",
+      "grabbing another's breast",
+      "masturbation",
+      "ass grab",
+      "licking penis, deep throat",
+      "fingering",
+      "",
+    ]
+    nsfw_body: [
+      "pussy, pussy juice, nipples, breasts",
+      "pussy, pussy juice",
+      "nipples breasts",
+      "slap mark, bottomless",
+      "topless",
+    ]
+    perspective: [
+      # "pov, from above",
+      # "pov, from back",
+      "pov",
+      # "from side",
+      # "front view",
+      # "from below",
+      "",
+    ]
+    facial_expression: [
+      "blush", "blush, tongue out"
+    ]
+    facial_expression_sub: [
+      "open mouth, tongue out", "embarrassed, open mouth", "open mouth",
+      "looking to the side, embarrassed",
+      "peace sign, v",
+    ]
+    scene: [
+      "bedroom", "alley", "simple background", "street, night"
+    ]
+
+
+
+sampler:
+  active: true
+  name: "Euler a"
+  steps: 20
+  cfg_scale: 5
+  seed: -1
+
+upscaler:
+  enable: false
+  scale: 1.2
+  second_pass_steps: 10
+  denoising_strength: 0.5
+  name: "ESRGAN_4x_Anime6B"
+
+adetailers:
+  - enable: true
+    model: "face_yolov8n.pt"
+  - enable: false
+    model: "hand_yolov8n.pt"
+
+options:
+  colddown: 1
+  use_async: true
+
+output:
+  file_format: "./output/%Y%m%d/belle/0/%H%M%S"
+  file_extension: "png"
+
