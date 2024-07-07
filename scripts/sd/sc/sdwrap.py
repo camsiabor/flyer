@@ -26,13 +26,16 @@ class SDWrap:
         self.cli.util_wait_for_ready()
 
         current = self.cli.util_get_current_model()
-        self.logger.info(f"current model: {current}")
 
         if self.box.model.base:
             if current != self.box.model.base:
                 self.cli.util_set_model(self.box.model.base)
                 self.logger.info(f"switch model to {self.box.model.base} from {current}")
                 self.cli.util_wait_for_ready()
+        else:
+            self.box.model.base = current
+
+        self.logger.info(f"current model: {self.box.model.base}")
 
         return self
 
