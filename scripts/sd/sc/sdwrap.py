@@ -96,6 +96,24 @@ class SDWrap:
         self.logger.info("progress_loop end")
         pass
 
+    @staticmethod
+    def meta_infer(b: SDBox, result, index):
+        png_info = PngInfo()
+        if not b.options.save_metadata:
+            return png_info
+        info = result.info
+        full = json.dumps(info)
+        png_info.add_text("full", full)
+        infotexts = info.get("infotexts", [])
+        if len(infotexts) <= 0:
+            return png_info
+        index = index - 1
+        if index < 0:
+            index = 0
+        parameters = infotexts[index]
+        png_info.add_text("parameters", parameters)
+        return png_info
+
     def save(self, b: SDBox, result):
 
         if not result.images or len(result.images) == 0:
@@ -106,15 +124,10 @@ class SDWrap:
         if img_count > 1:
             img_index = 1
         else:
-            img_index = -1
-
-        png_info = PngInfo()
-        if b.options.save_metadata:
-            meta_text = json.dumps(result.info)
-            png_info.add_text("meta", meta_text)
-
+            img_index = 0
         for img in result.images:
             b.output.infer(img_index)
+            png_info = SDWrap.meta_infer(b, result, img_index)
             img.save(b.output.file_path, pnginfo=png_info)
             img_index += 1
             self.logger.info(f"txt2img => {b.output.file_path}")

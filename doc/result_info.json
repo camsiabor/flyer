@@ -1,0 +1,49 @@
+{
+  'prompt': 'a beautiful girl\n',
+  'all_prompts': [
+    'a beautiful girl\n',
+    'a beautiful girl\n'
+  ],
+  'negative_prompt': 'low quality, bad anatomy\n',
+  'all_negative_prompts': [
+    'low quality, bad anatomy\n',
+    'low quality, bad anatomy\n'
+  ],
+  'seed': 19345768266620,
+  'all_seeds': [
+    19345768266620,
+    19345768266621
+  ],
+  'subseed': 2731291026,
+  'all_subseeds': [
+    2731291026,
+    2731291027
+  ],
+  'subseed_strength': 0.0,
+  'width': 1024,
+  'height': 1024,
+  'sampler_name': 'Euler a',
+  'cfg_scale': 7.0,
+  'steps': 20,
+  'batch_size': 2,
+  'restore_faces': False,
+  'face_restoration_model': None,
+  'sd_model_name': '0_animagineXLV31_v31',
+  'sd_model_hash': 'e3c47aedb0',
+  'sd_vae_name': '0_XL_animagine_v3_vae.safetensors',
+  'sd_vae_hash': '63aeecb90f',
+  'seed_resize_from_w': 0,
+  'seed_resize_from_h': 0,
+  'denoising_strength': 0.7,
+  'extra_generation_params': {},
+  'index_of_first_image': 0,
+  'infotexts': [
+    'a beautiful girl\n\nNegative prompt: low quality, bad anatomy\n\nSteps: 20, Sampler: Euler a, CFG scale: 7.0, Seed: 19345768266620, Size: 1024x1024, Model hash: e3c47aedb0, Model: 0_animagineXLV31_v31, VAE hash: 63aeecb90f, VAE: 0_XL_animagine_v3_vae.safetensors, Version: f0.0.17v1.8.0rc-latest-276-g29be1da7',
+    'a beautiful girl\n\nNegative prompt: low quality, bad anatomy\n\nSteps: 20, Sampler: Euler a, CFG scale: 7.0, Seed: 19345768266621, Size: 1024x1024, Model hash: e3c47aedb0, Model: 0_animagineXLV31_v31, VAE hash: 63aeecb90f, VAE: 0_XL_animagine_v3_vae.safetensors, Version: f0.0.17v1.8.0rc-latest-276-g29be1da7'
+  ],
+  'styles': [],
+  'job_timestamp': '20240707181946',
+  'clip_skip': 1,
+  'is_using_inpainting_conditioning': False,
+  'version': 'f0.0.17v1.8.0rc-latest-276-g29be1da7'
+}

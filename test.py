@@ -1,4 +1,4 @@
-import logging
+import asyncio
 import logging
 import time
 
@@ -44,8 +44,8 @@ if __name__ == '__main__':
 
     LogUtil.load_yaml('./config/log.yaml')
 
-    test()
-    # asyncio.run(test_wrap())
+    # test()
+    asyncio.run(test_wrap())
 
     time_end = time.perf_counter()
     logging.info(f"completed in {time_end - time_start:.2f} seconds")

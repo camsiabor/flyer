@@ -1,4 +1,3 @@
-import io
 import json
 
 import gradio as gr
@@ -92,12 +91,12 @@ def media_duration_sum_interface(directory):
     return f"Total Duration: {t}"
 
 
-def image_metadata_interface(file_info):
-    if file_info is None:
+def image_metadata_interface(image):
+    if image is None:
         return "", "", None
     # Save the uploaded file to process
-    image_stream = io.BytesIO(file_info)
-    image = Image.open(image_stream)
+    # image_stream = io.BytesIO(file_info)
+    # image = Image.open(image_stream)
     meta = image.info
     meta_full = json.dumps(meta, indent=4)
     meta_parameters = meta.get('parameters', '')
@@ -363,24 +362,31 @@ def tab_meta_viewer(cfg):
         iframe_html = f'<iframe src="{path}" width="100%" height="600"></iframe>'
         gr.HTML(iframe_html)
     with gr.Tab("Image Meta"):
-        with gr.Column():
-            file_upload = gr.File(
-                label="Drag and Drop",
-                interactive=True,
-                type="binary",
-            )
-            meta_parameters = gr.Textbox(label="Parameters")
-            meta_full = gr.Textbox(label="Full")
+        with gr.Row():
+            with gr.Column(scale=1):
+                """
+                file_upload = gr.File(
+                    label="Drag and Drop",
+                    interactive=True,
+                    type="binary",
+                )
+                """
+                file_upload = gr.Image(label="Image", interactive=True, type="pil")
+            with gr.Column(scale=2):
+                meta_parameters = gr.Textbox(label="Parameters")
+                meta_full = gr.Textbox(label="Full")
+        with gr.Row():
             image_display = gr.Image()
-            file_upload.change(
-                fn=image_metadata_interface,
-                inputs=[file_upload],
-                outputs=[
-                    meta_parameters,
-                    meta_full,
-                    image_display
-                ]
-            )
+
+        file_upload.change(
+            fn=image_metadata_interface,
+            inputs=[file_upload],
+            outputs=[
+                meta_parameters,
+                meta_full,
+                image_display
+            ]
+        )
     pass
 
 

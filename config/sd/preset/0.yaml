@@ -11,7 +11,7 @@ prompt:
 image_latent:
   width: 1024
   height: 1024
-  batch_size: 1
+  batch_size: 2
   batch_count: 1
 
 sampler:
