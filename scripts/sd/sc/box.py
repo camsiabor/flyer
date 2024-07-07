@@ -21,10 +21,16 @@ class SDServer:
             name="",
             host="127.0.0.1",
             port=30001,
+            progress_poll_delay=1,
+            progress_poll_interval=6,
+            verbose=False,
     ):
         self.name = name
         self.host = host
         self.port = port
+        self.progress_poll_delay = progress_poll_delay
+        self.progress_poll_interval = progress_poll_interval
+        self.verbose = verbose
 
 
 # =======================================================

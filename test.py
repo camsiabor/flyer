@@ -24,16 +24,9 @@ def test():
 # ==================================================================================================
 
 async def test_wrap():
-    box = SDBox().from_yaml(
-        './config/sd/preset/pony/belle.yaml'
-    ).initiate()
-
-    wrap = SDWrap(
-        box=box,
-        verbose=True,
-        progress_poll_interval=5,
-    ).initiate()
-
+    conf = './config/sd/preset/pony/belle.yaml'
+    box = SDBox().from_yaml(conf).initiate()
+    wrap = SDWrap(box=box).initiate()
     for i in range(box.image_latent.batch_count):
         await wrap.txt2img()
 

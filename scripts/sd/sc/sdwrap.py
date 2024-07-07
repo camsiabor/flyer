@@ -51,20 +51,20 @@ class SDWrap:
             self,
             box: SDBox,
             cli: webuiapi.WebUIApi = None,
-            verbose: bool = False,
-            progress_poll_delay: float = 0.5,
-            progress_poll_interval: float = 5,
     ):
         self.box = box
         self.cli = cli
         self.logger = logging.getLogger(f'sd{self.box.server.name}')
         self.active = True
-        self.verbose = verbose
         self.colddown = FloatAsync()
         self.work_count = IntAysnc()
+
+        self.verbose = box.server.verbose
+        self.progress_poll_delay = box.server.progress_poll_delay
+        self.progress_poll_interval = box.server.progress_poll_interval
+
         self.progress_thread = None
-        self.progress_poll_delay = progress_poll_delay
-        self.progress_poll_interval = progress_poll_interval
+        pass
 
     def initiate(self):
         self.cli = webuiapi.WebUIApi(
