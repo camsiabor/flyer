@@ -1,5 +1,6 @@
 import datetime
 import functools
+import json
 import logging
 import os
 import time
@@ -200,7 +201,7 @@ class Reflector:
 
 class ConfigUtil:
     @staticmethod
-    def load_yaml(*config_paths):
+    def load(*config_paths):
         """
         Load the first existing configuration file from the given paths.
         :param config_paths: Variable number of paths to configuration files.
@@ -209,14 +210,21 @@ class ConfigUtil:
         for config_path in config_paths:
             if os.path.exists(config_path):
                 with open(config_path, mode='r', encoding='utf-8') as config_file:
-                    return yaml.safe_load(config_file)
+                    if config_path.endswith('.yaml') or config_path.endswith('.yml'):
+                        return yaml.safe_load(config_file), config_path
+                    if config_path.endswith('.json'):
+                        return json.load(config_file), config_path
+                    if config_path.endswith('.py'):
+                        return eval(config_file.read()), config_path
+                    raise ValueError(f"Unsupported configuration file format: {config_path}")
         # Optionally, return a default configuration or raise an exception if no file is found.
         raise FileNotFoundError("No configuration file found in the provided paths.")
 
     @staticmethod
-    def load_yaml_and_embed(base_path='', *config_paths):
-        config = ConfigUtil.load_yaml(*config_paths)
-        return ConfigUtil.embed(config, base_path)
+    def load_and_embed(*config_paths):
+        config, config_path = ConfigUtil.load(*config_paths)
+        config_dir = os.path.dirname(config_path)
+        return ConfigUtil.embed(config, config_dir)
 
     @staticmethod
     def embed(data: (dict, list, tuple), base_path=''):
@@ -238,9 +246,9 @@ class ConfigUtil:
         if isinstance(data, dict):
             for key, value in data.items():
                 if isinstance(value, str) and value.startswith(cmd):
-                    file_path = os.path.join(base_path, value[cmd_len:])
-                    with open(file_path, 'r') as file:
-                        data[key] = file.read()
+                    file_name = value[cmd_len:]
+                    file_path = os.path.join(base_path, file_name)
+                    data[key] = ConfigUtil.load(file_path)
                 else:
                     ConfigUtil.embed(value, base_path)
             return data
@@ -248,9 +256,9 @@ class ConfigUtil:
         if isinstance(data, (list, tuple)):
             for i, item in enumerate(data):
                 if isinstance(item, str) and item.startswith(cmd):
-                    file_path = os.path.join(base_path, item[cmd_len:])
-                    with open(file_path, 'r') as file:
-                        data[i] = file.read()
+                    file_name = item[cmd_len:]
+                    file_path = os.path.join(base_path, file_name)
+                    data[i] = ConfigUtil.load_and_embed(file_path)
                 else:
                     ConfigUtil.embed(item, base_path)
             return data
@@ -263,7 +271,7 @@ class ConfigUtil:
 class LogUtil:
     @staticmethod
     def load_yaml(*config_path):
-        config = ConfigUtil.load_yaml(*config_path)
+        config = ConfigUtil.load(*config_path)
         log_path = getv(config, "", "handlers", "file_handler", "filename")
         if not os.path.exists(log_path):
             log_dir_path = os.path.dirname(log_path)

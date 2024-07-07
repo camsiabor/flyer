@@ -1,15 +1,10 @@
-server:
-  host: 127.0.0.1
-  port: 30001
-  progress_poll_delay: 3
-  progress_poll_interval: 15
-  verbose: true
+server: '#__file__#:../server.yaml'
 
 image_latent:
   width: 1024
   height: 1024
   batch_size: 1
-  batch_count: 2
+  batch_count: 0
 
 prompt:
   positive: |

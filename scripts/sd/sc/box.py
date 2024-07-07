@@ -276,8 +276,8 @@ class SDBox:
     def from_yaml(self, config_path):
         if not os.path.exists(config_path):
             raise FileNotFoundError(f"The file {config_path} does not exist.")
-        config = ConfigUtil.load_yaml_and_embed(
-            ".", config_path,
+        config = ConfigUtil.load_and_embed(
+            config_path,
         )
         Reflector.from_dict(self, config)
         return self
