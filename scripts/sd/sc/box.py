@@ -122,6 +122,7 @@ class SDFile:
 
         return self
 
+
 # =======================================================
 
 class SDBox:
@@ -144,9 +145,7 @@ class SDBox:
         return self
 
     def initiate(self):
-        _, success = Reflector.invoke_children(self, "initiate")
-        if not success:
-            raise AttributeError(f"Method 'initiate' not found in {self.__class__.__name__}.")
+        Reflector.invoke_children(self, "initiate")
         return self
 
     def seeding(self):

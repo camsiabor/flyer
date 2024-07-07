@@ -52,5 +52,6 @@ class SDWrap:
         if result.image:
             b.output.infer()
             result.image.save(b.output.file_path)
+            self.logger.info(f"saved image to {b.output.file_path}")
 
         return result

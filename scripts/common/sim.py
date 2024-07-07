@@ -126,8 +126,9 @@ class Reflector:
         if not hasattr(obj, method_name):
             return None, False
         method = getattr(obj, method_name)
-        if not callable(method):
+        if (method is None) or (not callable(method)):
             return None, False
+        print("invoke!!!: ", obj, method_name, args, kwargs)
         ret = method(*args, **kwargs)
         return ret, True
 
@@ -138,18 +139,25 @@ class Reflector:
             invoke_protected: bool = True,
             *args, **kwargs
     ):
-        for attr in dir(obj):
+        attrs = dir(obj)
+        for attr in attrs:
             if not invoke_protected and attr.startswith("_"):
                 continue
-            if attr.startswith("__") or callable(getattr(obj, attr)):
+            if attr.startswith("__"):
                 continue
+            if callable(getattr(obj, attr)):
+                continue
+            print(f"getattr: {attr}")
             value = getattr(obj, attr, None)
+            print(f"value: {value}")
             if value is None:
                 continue
             if isinstance(value, (int, str, float, bool, list, tuple, set, dict)):
                 continue
+            print(f"invoke: {value} {method_name} {args} {kwargs}")
             Reflector.invoke(value, method_name, *args, **kwargs)
-        return obj
+
+        return obj, True
 
     @staticmethod
     def invoke_self_and_children(
