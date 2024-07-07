@@ -159,10 +159,11 @@ class SDWrap:
             img_index = 0
         for img in result.images:
             b.output.infer(img_index)
+            seed = result.info.get("seed", -1)
             png_info = SDWrap.meta_infer(b, result, img_index)
             img.save(b.output.file_path, pnginfo=png_info)
             img_index += 1
-            self.logger.info(f"txt2img => {b.output.file_path}")
+            self.logger.info(f"txt2img => {b.output.file_path} | seed: {seed}")
         return self
 
     # txt2img ==================================================================================================
