@@ -4,7 +4,7 @@ image_latent:
   width: 1024
   height: 1024
   batch_size: 1
-  batch_count: 0
+  batch_count: 5
 
 prompt:
   positive: |
@@ -129,7 +129,7 @@ prompt:
       "open mouth",
       "open mouth, tongue out",
       "open mouth, embarrassed",
-      "closed mouth, embarrassed"
+      "closed mouth, embarrassed",
       "embarrassed",
       "looking to the side, embarrassed",
     ]
