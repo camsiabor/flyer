@@ -208,6 +208,10 @@ class LogUtil:
             if opts is None:
                 return func
 
+            active = opts.get("active", True)
+            if not active:
+                return func
+
             @functools.wraps(func)
             async def wrapper(*args, **kwargs):
                 start_time = time.perf_counter()

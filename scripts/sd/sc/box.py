@@ -7,6 +7,7 @@ from datetime import datetime
 import yaml
 
 from scripts.common.sim import Reflector
+from scripts.sd.sc.alias import HiResUpscalerEx
 
 
 class SDServer:
@@ -68,13 +69,17 @@ class SDPrompt:
 class SDUpscaler:
     def __init__(
             self,
-            active=False,
-            scale=1,
-            method="ESRGAN_4x_Anime6B",
+            enable=False,
+            scale=1.25,
+            method=HiResUpscalerEx.ESRGAN_4x_Anime6B,
+            second_pass_steps=10,
+            denoising_strength=0.5,
     ):
-        self.active = active
+        self.enable = enable
         self.scale = scale
         self.method = method
+        self.second_pass_steps = second_pass_steps
+        self.denoising_strength = denoising_strength
 
 
 # =======================================================
@@ -123,6 +128,69 @@ class SDFile:
         return self
 
 
+# SDOptions =======================================================
+
+
+class SDOptions:
+
+    def __init__(
+            self,
+            do_not_save_grid=True,
+    ):
+        self.do_not_save_grid = do_not_save_grid
+
+    """
+    enable_hr=False,
+        denoising_strength=0.7,
+        firstphase_width=0,
+        firstphase_height=0,
+        hr_scale=2,
+        hr_upscaler=HiResUpscaler.Latent,
+        hr_second_pass_steps=0,
+        hr_resize_x=0,
+        hr_resize_y=0,
+        prompt="",
+        styles=[],
+        seed=-1,
+        subseed=-1,
+        subseed_strength=0.0,
+        seed_resize_from_h=0,
+        seed_resize_from_w=0,
+        sampler_name=None,  # use this instead of sampler_index
+        scheduler=None,
+        batch_size=1,
+        n_iter=1,
+        steps=None,
+        cfg_scale=7.0,
+        width=512,
+        height=512,
+        restore_faces=False,
+        tiling=False,
+        do_not_save_samples=False,
+        do_not_save_grid=False,
+        negative_prompt="",
+        eta=1.0,
+        s_churn=0,
+        s_tmax=0,
+        s_tmin=0,
+        s_noise=1,
+        override_settings={},
+        override_settings_restore_afterwards=True,
+        script_args=None,  # List of arguments for the script "script_name"
+        script_name=None,
+        send_images=True,
+        save_images=False,
+        alwayson_scripts={},
+        controlnet_units: List[ControlNetUnit] = [],
+        adetailer: List[ADetailer] = [],
+        roop: Roop = None,
+        reactor: ReActor = None,
+        sag: Sag = None,
+        sampler_index=None,  # deprecated: use sampler_name
+        use_deprecated_controlnet=False,
+        use_async=False,
+        """
+
 # =======================================================
 
 class SDBox:
@@ -166,6 +234,18 @@ class SDBox:
             "height": self.image_latent.height,
             "use_async": use_async,
         }
+
+        if self.upscaler.enable and self.upscaler.scale > 1:
+            if not self.upscaler.method:
+                self.upscaler.method = HiResUpscalerEx.ESRGAN_4x_Anime6B
+            p.update({
+                "enable_hr": self.upscaler.enable,
+                "hr_scale": self.upscaler.scale,
+                "hr_upscaler": self.upscaler.method,
+                "hr_second_pass_steps": self.upscaler.second_pass_steps,
+                "denoising_strength": self.upscaler.denoising_strength,
+            })
+
         return p
 
 # =======================================================

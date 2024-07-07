@@ -23,8 +23,10 @@ sampler:
   seed: -1
 
 upscaler:
-  active: true
+  enable: false
   scale: 1.25
+  second_pass_steps: 10
+  denoising_strength: 0.5
   name: "ESRGAN_4x_Anime6B"
 
 output:
