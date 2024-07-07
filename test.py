@@ -25,7 +25,7 @@ def test():
 
 async def test_wrap():
     box = SDBox().from_yaml(
-        './config/sd/preset/test.yaml'
+        './config/sd/preset/pony/belle.yaml'
     ).initiate()
 
     wrap = SDWrap(
@@ -34,7 +34,7 @@ async def test_wrap():
         progress_poll_interval=5,
     ).initiate()
 
-    for i in range(3):
+    for i in range(box.image_latent.batch_count):
         await wrap.txt2img()
 
 

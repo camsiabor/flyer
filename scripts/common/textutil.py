@@ -1,3 +1,5 @@
+import random
+
 
 class TextUtil:
 
@@ -23,11 +25,14 @@ class TextUtil:
         if params is None or len(params) == 0:
             return src
         result = src
+        cycle_current = cycle
+        if cycle_current < 0:
+            cycle_current = random.randint(0, 142857)
         for placeholder, target in params.items():
             if isinstance(target, (list, tuple)):
                 length = len(target)
                 if length > 0:
-                    target = target[cycle % length]
+                    target = target[cycle_current % length]
                 else:
                     target = ""
             token = f"{prefix}{placeholder}{suffix}"
