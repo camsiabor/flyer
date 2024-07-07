@@ -1,3 +1,4 @@
+import datetime
 import logging
 
 from webuiapi import webuiapi
@@ -37,6 +38,9 @@ class SDWrap:
 
         self.logger.info(f"current model: {self.box.model.base}")
 
+        if self.box.output.dir_path:
+            self.box.output.dir_path = datetime.datetime.now().strftime("./output/%Y%m%d")
+
         return self
 
     async def txt2img(self, b: SDBox = None):
@@ -44,4 +48,9 @@ class SDWrap:
             b = self.box
         params = b.to_params()
         result = await self.cli.txt2img(**params)
+
+        if result.image:
+            b.output.infer()
+            result.image.save(b.output.file_path)
+
         return result

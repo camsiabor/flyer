@@ -9,6 +9,11 @@ prompt:
   negative: |
     low quality, bad anatomy
 
+image_latent:
+  width: 1024
+  height: 1024
+  batch_size: 1
+  batch_count: 1
 
 sampler:
   active: true
@@ -17,12 +22,12 @@ sampler:
   cfg_scale: 7
   seed: -1
 
-image_latent:
-  width: 1024
-  height: 1024
-  batch_size: 1
-  batch_count: 1
+upscaler:
+  active: true
+  scale: 1.25
+  name: "ESRGAN_4x_Anime6B"
 
 output:
-  dirpath: "./output"
+  file_format: "./output/%Y%m%d/test_%H%M%S"
+  file_extension: "png"
 

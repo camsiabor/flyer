@@ -79,11 +79,10 @@ def test():
 # ==================================================================================================
 
 async def test_wrap():
-    box = SDBox().from_yaml('./config/sd/preset/0.yaml')
+    box = SDBox().from_yaml('./config/sd/preset/0.yaml').initiate()
     wrap = SDWrap(box).initiate()
-    result = await wrap.txt2img()
-    print(result.info)
-    result.image.save('output/test2.png')
+    await wrap.txt2img()
+
 
 
 # ==================================================================================================

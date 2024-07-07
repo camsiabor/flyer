@@ -118,9 +118,49 @@ class Reflector:
         return Reflector.from_dict(data.__class__(), data)
 
     @staticmethod
-    def clone(obj):
+    def clone(obj: object):
         return Reflector.from_dict(obj.__class__(), obj.__dict__)
 
+    @staticmethod
+    def invoke(obj: object, method_name: str, *args, **kwargs):
+        if not hasattr(obj, method_name):
+            return None, False
+        method = getattr(obj, method_name)
+        if not callable(method):
+            return None, False
+        ret = method(*args, **kwargs)
+        return ret, True
+
+    @staticmethod
+    def invoke_children(
+            obj: object,
+            method_name: str,
+            invoke_protected: bool = True,
+            *args, **kwargs
+    ):
+        for attr in dir(obj):
+            if not invoke_protected and attr.startswith("_"):
+                continue
+            if attr.startswith("__") or callable(getattr(obj, attr)):
+                continue
+            value = getattr(obj, attr, None)
+            if value is None:
+                continue
+            if isinstance(value, (int, str, float, bool, list, tuple, set, dict)):
+                continue
+            Reflector.invoke(value, method_name, *args, **kwargs)
+        return obj
+
+    @staticmethod
+    def invoke_self_and_children(
+            obj: object,
+            method_name: str,
+            invoke_protected: bool = True,
+            *args, **kwargs
+    ):
+        ret, success = Reflector.invoke(obj, method_name, *args, **kwargs)
+        Reflector.invoke_children(obj, method_name, invoke_protected, *args, **kwargs)
+        return ret, success
 
 # ConfigLoader =============================================================================== #
 
@@ -153,6 +193,7 @@ class LogUtil:
         # noinspection PyUnresolvedReferences
         logging.config.dictConfig(config)
         return config
+
 
 # Text =============================================================================== #
 

@@ -2,6 +2,7 @@
 import os
 import random
 import sys
+from datetime import datetime
 
 import yaml
 
@@ -95,12 +96,31 @@ class SDImage:
 class SDFile:
     def __init__(
             self,
-            dirpath="",
-            filepath="",
+            dir_path="",
+            dir_format="",
+            file_path="",
+            file_format="",
+            file_extension="png",
     ):
-        self.filepath = filepath
-        self.dirpath = dirpath
+        self.dir_path = dir_path
+        self.dir_format = dir_format
+        self.file_path = file_path
+        self.file_format = file_format
+        self.file_extension = file_extension
 
+    def infer(self):
+        if self.dir_format:
+            self.dir_path = datetime.now().strftime(self.dir_format)
+            os.makedirs(self.dir_path, exist_ok=True)
+
+        if self.file_format:
+            filename = datetime.now().strftime(self.file_format)
+            os.makedirs(os.path.dirname(self.file_path), exist_ok=True)
+            self.file_path = f"{filename}.{self.file_extension}"
+        else:
+            self.file_path = f"{self.dir_path}/{datetime.now().strftime('%Y%m%d%H%M%S')}.{self.file_extension}"
+
+        return self
 
 # =======================================================
 
@@ -118,20 +138,15 @@ class SDBox:
     def from_yaml(self, path):
         if not os.path.exists(path):
             raise FileNotFoundError(f"The file {path} does not exist.")
-
         with open(path, mode='r', encoding='utf-8') as file:
             data = yaml.safe_load(file)
             Reflector.from_dict(self, data)
+        return self
 
-        """
-        for key, value in data.items():
-            if hasattr(self, key):
-                attr = getattr(self, key)
-                if isinstance(attr, (SDServer, SDModel, SDSampler, SDPrompt, SDUpscaler, SDImage, SDFile)):
-                    setattr(self, key, attr.__class__(**value))
-                else:
-                    setattr(self, key, value)
-        """
+    def initiate(self):
+        _, success = Reflector.invoke_children(self, "initiate")
+        if not success:
+            raise AttributeError(f"Method 'initiate' not found in {self.__class__.__name__}.")
         return self
 
     def seeding(self):
