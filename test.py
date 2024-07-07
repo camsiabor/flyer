@@ -4,7 +4,7 @@ import time
 
 from PIL import Image
 
-from scripts.common.sim import LogUtil
+from scripts.common.sim import LogUtil, ConfigUtil
 from scripts.sd.sc.box import SDBox
 from scripts.sd.sc.sdwrap import SDWrap
 
@@ -31,13 +31,20 @@ async def test_wrap():
         await wrap.txt2img()
 
 
+async def dev():
+    c = ConfigUtil.load_yaml('./config/sd/preset/dev.yaml')
+    print(c)
+    pass
+
+
 # ==================================================================================================
 
 if __name__ == '__main__':
     time_start = time.perf_counter()
     LogUtil.load_yaml('./config/log.yaml')
 
-    asyncio.run(test_wrap())
+    # asyncio.run(test_wrap())
+    asyncio.run(dev())
 
     time_end = time.perf_counter()
     logging.info(f"============= fin in {time_end - time_start:.2f} seconds =========== ")

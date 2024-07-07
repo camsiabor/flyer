@@ -31,7 +31,7 @@ prompt:
     low res,normal quality, 
     (extra legs：1.2),(extra hands:1.2),(extra digits:1.2),(fewer digits;1.2),
   params_cycle: -1
-  positive_params:
+  params_pos_1:
     character_lora: "<lora:Belle_from_Zenless_Zone_Zero:0.95>, belle (zenless zone zero)"
     character: "earrings,jewelry,shirt,black shirt,long sleeves,hooded jacket"
     expressive_h: "<lora:Expressive_H:1>,expressiveh,motion lines,hetero,sex"

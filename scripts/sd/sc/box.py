@@ -5,10 +5,9 @@ import sys
 from datetime import datetime
 
 import webuiapi
-import yaml
 
 from scripts.common.serial import TypeList
-from scripts.common.sim import Reflector
+from scripts.common.sim import Reflector, ConfigUtil
 from scripts.common.textutil import TextUtil
 from scripts.sd.sc.alias import HiResUpscalerEx
 
@@ -73,36 +72,62 @@ class SDPrompt:
             self,
             positive="",
             negative="",
-            positive_params: dict = None,
-            negative_params: dict = None,
             params_cycle: int = 0,
             params_prefix: str = "$$",
             params_suffix: str = "$$",
+            params_pos_1: dict = None,
+            params_pos_2: dict = None,
+            params_pos_3: dict = None,
+            params_neg_1: dict = None,
+            params_neg_2: dict = None,
+            params_neg_3: dict = None,
     ):
         self.positive = positive
         self.negative = negative
-        self.positive_params = positive_params
-        self.negative_params = negative_params
+
         self.params_cycle = params_cycle
         self.params_prefix = params_prefix
         self.params_suffix = params_suffix
 
+        self.params_pos_1 = params_pos_1
+        self.params_pos_2 = params_pos_2
+        self.params_pos_3 = params_pos_3
+        self.params_neg_1 = params_neg_1
+        self.params_neg_2 = params_neg_2
+        self.params_neg_3 = params_neg_3
+        pass
+
+
     def infer(self):
-        pos = TextUtil.replace(
-            src=self.positive,
-            params=self.positive_params,
-            cycle=self.params_cycle,
-            prefix=self.params_prefix,
-            suffix=self.params_suffix,
-        )
-        neg = TextUtil.replace(
-            src=self.negative,
-            params=self.negative_params,
-            cycle=self.params_cycle,
-            prefix=self.params_prefix,
-            suffix=self.params_suffix,
-        )
-        self.params_cycle += 1
+
+        pos = self.positive
+        neg = self.negative
+
+        for i in range(1, 3):
+            params = getattr(self, f"params_pos_{i}")
+            if params is not None:
+                pos = TextUtil.replace(
+                    src=pos,
+                    params=params,
+                    cycle=self.params_cycle,
+                    prefix=self.params_prefix,
+                    suffix=self.params_suffix,
+                )
+            params = getattr(self, f"params_neg_{i}")
+            if params is not None:
+                neg = TextUtil.replace(
+                    src=neg,
+                    params=params,
+                    cycle=self.params_cycle,
+                    prefix=self.params_prefix,
+                    suffix=self.params_suffix,
+                )
+
+        if self.params_cycle >= 0:
+            self.params_cycle += 1
+        else:
+            self.params_cycle -= 1
+
         return pos, neg
 
 
@@ -248,12 +273,13 @@ class SDBox:
         self.adetailers = TypeList(SDADetailer)
         self.options = SDOptions()
 
-    def from_yaml(self, path):
-        if not os.path.exists(path):
-            raise FileNotFoundError(f"The file {path} does not exist.")
-        with open(path, mode='r', encoding='utf-8') as file:
-            data = yaml.safe_load(file)
-            Reflector.from_dict(self, data)
+    def from_yaml(self, config_path):
+        if not os.path.exists(config_path):
+            raise FileNotFoundError(f"The file {config_path} does not exist.")
+        config = ConfigUtil.load_yaml_and_embed(
+            ".", config_path,
+        )
+        Reflector.from_dict(self, config)
         return self
 
     def initiate(self):

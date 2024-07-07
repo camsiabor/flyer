@@ -213,6 +213,50 @@ class ConfigUtil:
         # Optionally, return a default configuration or raise an exception if no file is found.
         raise FileNotFoundError("No configuration file found in the provided paths.")
 
+    @staticmethod
+    def load_yaml_and_embed(base_path='', *config_paths):
+        config = ConfigUtil.load_yaml(*config_paths)
+        return ConfigUtil.embed(config, base_path)
+
+    @staticmethod
+    def embed(data: (dict, list, tuple), base_path=''):
+        """
+        Recursively iterates through all string values in a dictionary or list.
+        If a string value starts with '#__file__#:', it treats the rest of the string as a file path,
+        loads the content of the file, and embeds it back into the original dictionary or list.
+
+        :param data: The dictionary or list to process.
+        :param base_path: The base path to resolve relative file paths.
+        """
+
+        if data is None:
+            return None
+
+        cmd = '#__file__#:'
+        cmd_len = len(cmd)
+
+        if isinstance(data, dict):
+            for key, value in data.items():
+                if isinstance(value, str) and value.startswith(cmd):
+                    file_path = os.path.join(base_path, value[cmd_len:])
+                    with open(file_path, 'r') as file:
+                        data[key] = file.read()
+                else:
+                    ConfigUtil.embed(value, base_path)
+            return data
+
+        if isinstance(data, (list, tuple)):
+            for i, item in enumerate(data):
+                if isinstance(item, str) and item.startswith(cmd):
+                    file_path = os.path.join(base_path, item[cmd_len:])
+                    with open(file_path, 'r') as file:
+                        data[i] = file.read()
+                else:
+                    ConfigUtil.embed(item, base_path)
+            return data
+
+        return data
+
 
 # Logging =============================================================================== #
 
