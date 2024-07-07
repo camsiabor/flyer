@@ -13,10 +13,12 @@ prompt:
     $$expressive_h$$,
     $$nsfw_common$$,
     $$nsfw_posture$$,
-    $$nsfw_act$$,    
+    $$nsfw_act$$,   
+    $$nsfw_act_sub$$,
     $$nsfw_act_by$$,
     $$nsfw_body$$,    
     $$character_lora$$,
+    $$perspective$$,
     $$character$$,
     $$facial_expression$$,
     $$facial_expression_sub$$,    
@@ -113,15 +115,15 @@ prompt:
       "pussy, pussy juice",
       "slap mark, bottomless, ass",
       "slap mark, topless, breasts, nipples",
-      "half nude",
-      "nude",
       "choker, bondage, rope, bdsm",
       "lingerie, lace",
       "torn clothes, half nude",
-      "mouth ball gag",
       "black blindfold",
       "sex slave, dog leash, dog lead",
-      "",
+      "womb tattoo, bottomless",
+      "tattoo, half nude",
+      "half nude",
+      "nude",
     ]
     perspective: [
     ]
@@ -132,13 +134,14 @@ prompt:
       "open mouth",
       "open mouth, tongue out",
       "open mouth, embarrassed",
-      "embarrassed",
-      "looking to the side, embarrassed",
+      "embarrassed, tongue out",
+      "tears",
+      "(mouth ball gag:1.1)",
+      "(black blindfold:1.1)",
     ]
     scene: [
-      "bedroom", "alley", "simple background", "street, night"
+      "bedroom", "alley", "simple background, light", "simple background, dark", "bathroom",
     ]
-
 
 
 sampler:
@@ -162,7 +165,7 @@ adetailers:
     model: "hand_yolov8n.pt"
 
 options:
-  colddown: 2
+  colddown: 5
   use_async: true
 
 output:
