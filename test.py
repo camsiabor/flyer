@@ -81,8 +81,15 @@ def test():
 # ==================================================================================================
 
 async def test_wrap():
-    box = SDBox().from_yaml('./config/sd/preset/0.yaml').initiate()
-    wrap = SDWrap(box).initiate()
+    box = SDBox().from_yaml(
+        './config/sd/preset/0.yaml'
+    ).initiate()
+
+    wrap = SDWrap(
+        box=box,
+        progress_poll_interval=5
+    ).initiate()
+
     for i in range(1):
         await wrap.txt2img()
 

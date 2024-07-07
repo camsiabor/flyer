@@ -23,7 +23,7 @@ sampler:
   seed: -1
 
 upscaler:
-  enable: false
+  enable: true
   scale: 1.25
   second_pass_steps: 10
   denoising_strength: 0.5

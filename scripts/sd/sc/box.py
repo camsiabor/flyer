@@ -191,6 +191,7 @@ class SDOptions:
         use_async=False,
         """
 
+
 # =======================================================
 
 class SDBox:
@@ -203,6 +204,7 @@ class SDBox:
         self.upscaler = SDUpscaler()
         self.image_latent = SDImage()
         self.output = SDFile()
+        self.options = SDOptions()
 
     def from_yaml(self, path):
         if not os.path.exists(path):
@@ -245,6 +247,10 @@ class SDBox:
                 "hr_second_pass_steps": self.upscaler.second_pass_steps,
                 "denoising_strength": self.upscaler.denoising_strength,
             })
+
+        p.update({
+            "do_not_save_grid": self.options.do_not_save_grid,
+        })
 
         return p
 
