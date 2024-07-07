@@ -37,10 +37,12 @@ def http_launch(port: int, directory: str):
 
 def gradio_launch(global_cfg: dict):
     app = webui.init(global_cfg)
+    allowed_paths = cfg_gradio.get('allowed_paths', ['/', '.'])
     app.queue().launch(
         server_port=cfg_gradio.get('port', 10005),
         show_error=True,
         debug=True,
+        allowed_paths=allowed_paths,
     )
 
 

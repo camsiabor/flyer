@@ -2,6 +2,7 @@ import json
 import os
 
 import gradio as gr
+import pandas
 from PIL import Image
 from PIL import ImageDraw
 
@@ -107,9 +108,9 @@ def image_metadata_interface(image):
 
 def image_batch_metadata_interface(image_dir, text_remove):
     if not os.path.isdir(image_dir):
-        return "Directory not found", []
+        return "Directory not found", pandas.DataFrame()
     image_index = 1
-    images_info = []
+    data = []
     removes = text_remove.split('|')
     for filename in os.listdir(image_dir):
         if filename.endswith(".png"):
@@ -121,19 +122,27 @@ def image_batch_metadata_interface(image_dir, text_remove):
                     meta_parameters = meta_parameters.split('Negative prompt:')[0].strip()
                     for remove in removes:
                         meta_parameters = meta_parameters.replace(remove, '')
-                    meta_parameters = f"[{image_index}]:\n{meta_parameters}"
-                    images_info.append((image_path, meta_parameters, image_index))
+                    meta_parameters = f"```\n{meta_parameters}\n```"
+                    # image_path_markdown = f"![{filename}](file/{image_path})"
+                    image_path_markdown = f"""
+<div style='text-align: center;'>
+    <img src="file/{image_path}" alt="{filename}" style="max-width: 200px; max-height: 200px; display: block; margin-left: auto; margin-right: auto;">
+    <div>{filename}</div>
+</div>
+"""
+
+                    data.append({
+                        'Image Path': image_path_markdown,
+                        'Metadata': meta_parameters,
+                        'Index': image_index
+                    })
                     image_index += 1
             except Exception as e:
                 print(f"Error processing {image_path}: {e}")
                 continue  # Skip files that cannot be opened as images
 
-    images = []
-    for img_path, _, index in images_info:
-        images.append((img_path, str(index)))
-    # images = [(img[0], img[0]) for img in images_info]
-    metas = "\n\n".join([img[1] for img in images_info])
-    return "Processed successfully", images, metas
+    frames = pandas.DataFrame(data)
+    return "Processed successfully", frames
 
 
 def media_fetch_interface(
@@ -415,13 +424,15 @@ def tab_meta_viewer(cfg):
         image_dir = gr.Textbox(label="Image Directory")
         text_remove = gr.TextArea(label="Remove")
         run_button = gr.Button("Read")
-        images_output = gr.Gallery(label="Images")
-        meta_output = gr.TextArea(label="Metadata")
+        images_df = gr.Dataframe(
+            label="Images and Metadata",
+            datatype="markdown",
+        )
         result_text = gr.TextArea(label="Result")
         run_button.click(
             fn=image_batch_metadata_interface,
             inputs=[image_dir, text_remove],
-            outputs=[result_text, images_output, meta_output]
+            outputs=[result_text, images_df]
         )
 
     pass

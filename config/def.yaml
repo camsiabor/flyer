@@ -1,6 +1,11 @@
 gradio:
   port: 17015
   auto_open: false
+  allowed_paths: [
+    ".",
+    "/",
+    "D:/snapshot"
+  ]
 
 http:
   port: 17016
