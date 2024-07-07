@@ -108,6 +108,7 @@ def image_metadata_interface(image):
 def image_batch_metadata_interface(image_dir, text_remove):
     if not os.path.isdir(image_dir):
         return "Directory not found", []
+    image_index = 1
     images_info = []
     removes = text_remove.split('|')
     for filename in os.listdir(image_dir):
@@ -120,14 +121,16 @@ def image_batch_metadata_interface(image_dir, text_remove):
                     meta_parameters = meta_parameters.split('Negative prompt:')[0].strip()
                     for remove in removes:
                         meta_parameters = meta_parameters.replace(remove, '')
-                    images_info.append((image_path, meta_parameters))
+                    meta_parameters = f"[{image_index}]:\n{meta_parameters}"
+                    images_info.append((image_path, meta_parameters, image_index))
+                    image_index += 1
             except Exception as e:
                 print(f"Error processing {image_path}: {e}")
                 continue  # Skip files that cannot be opened as images
 
     images = []
-    for img_path, i in images_info:
-        images.append((img_path, i + ''))
+    for img_path, _, index in images_info:
+        images.append((img_path, str(index)))
     # images = [(img[0], img[0]) for img in images_info]
     metas = "\n\n".join([img[1] for img in images_info])
     return "Processed successfully", images, metas
