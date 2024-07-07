@@ -1,6 +1,8 @@
 import datetime
+import functools
 import logging
 import os
+import time
 
 import yaml
 
@@ -167,6 +169,7 @@ class Reflector:
         Reflector.invoke_children(obj, method_name, invoke_protected, *args, **kwargs)
         return ret, success
 
+
 # ConfigLoader =============================================================================== #
 
 class ConfigUtil:
@@ -198,6 +201,26 @@ class LogUtil:
         # noinspection PyUnresolvedReferences
         logging.config.dictConfig(config)
         return config
+
+    @staticmethod
+    def elapsed_async(opts: dict):
+        def decorator(func):
+            if opts is None:
+                return func
+
+            @functools.wraps(func)
+            async def wrapper(*args, **kwargs):
+                start_time = time.perf_counter()
+                result = await func(*args, **kwargs)  # Await the function execution
+                end_time = time.perf_counter()
+                elapsed_time = end_time - start_time
+                logger = logging.getLogger(opts.get("name", "perf"))
+                logger.info(f"{func.__name__} completed in {elapsed_time:.2f} seconds")
+                return result
+
+            return wrapper
+
+        return decorator
 
 
 # Text =============================================================================== #

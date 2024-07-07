@@ -3,6 +3,7 @@ import logging
 
 from webuiapi import webuiapi
 
+from scripts.common.sim import LogUtil
 from scripts.sd.sc.box import SDBox
 
 
@@ -12,10 +13,14 @@ class SDWrap:
             self,
             box: SDBox,
             cli: webuiapi.WebUIApi = None,
+            log_perf: bool = False,
     ):
         self.box = box
         self.cli = cli
         self.logger = logging.getLogger(f'sdwrap{self.box.server.name}')
+        self.log_perf = log_perf
+        if log_perf:
+            self.logger_perf = logging.getLogger(f'sdwrap{self.box.server.name}_perf')
 
     def initiate(self):
         self.cli = webuiapi.WebUIApi(
@@ -43,6 +48,7 @@ class SDWrap:
 
         return self
 
+    @LogUtil.elapsed_async({"name": "txt2img"})
     async def txt2img(self, b: SDBox = None):
         if b is None:
             b = self.box
@@ -52,6 +58,8 @@ class SDWrap:
         if result.image:
             b.output.infer()
             result.image.save(b.output.file_path)
-            self.logger.info(f"saved image to {b.output.file_path}")
+            self.logger.info(f"txt2img => {b.output.file_path}")
+        else:
+            self.logger.error(f"txt2img => {result.info}")
 
         return result

@@ -1,5 +1,7 @@
 import asyncio
+import logging
 import os
+import time
 
 import webuiapi
 
@@ -81,14 +83,20 @@ def test():
 async def test_wrap():
     box = SDBox().from_yaml('./config/sd/preset/0.yaml').initiate()
     wrap = SDWrap(box).initiate()
-    await wrap.txt2img()
-
+    for i in range(1):
+        await wrap.txt2img()
 
 
 # ==================================================================================================
 
 if __name__ == '__main__':
-    # test()
+    time_start = time.perf_counter()
+
     LogUtil.load_yaml('./config/log.yaml')
+
+    # test()
     asyncio.run(test_wrap())
+
+    time_end = time.perf_counter()
+    logging.info(f"completed in {time_end - time_start:.2f} seconds")
     # asyncio.run(test_webuiapi())
