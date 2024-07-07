@@ -115,8 +115,8 @@ class SDFile:
 
         if self.file_format:
             filename = datetime.now().strftime(self.file_format)
-            os.makedirs(os.path.dirname(self.file_path), exist_ok=True)
             self.file_path = f"{filename}.{self.file_extension}"
+            os.makedirs(os.path.dirname(self.file_path), exist_ok=True)
         else:
             self.file_path = f"{self.dir_path}/{datetime.now().strftime('%Y%m%d%H%M%S')}.{self.file_extension}"
 

@@ -147,14 +147,11 @@ class Reflector:
                 continue
             if callable(getattr(obj, attr)):
                 continue
-            print(f"getattr: {attr}")
             value = getattr(obj, attr, None)
-            print(f"value: {value}")
             if value is None:
                 continue
             if isinstance(value, (int, str, float, bool, list, tuple, set, dict)):
                 continue
-            print(f"invoke: {value} {method_name} {args} {kwargs}")
             Reflector.invoke(value, method_name, *args, **kwargs)
 
         return obj, True
