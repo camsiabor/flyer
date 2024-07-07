@@ -97,7 +97,6 @@ class SDPrompt:
         self.params_neg_3 = params_neg_3
         pass
 
-
     def infer(self):
 
         pos = self.positive
