@@ -1,7 +1,9 @@
 import asyncio
 import datetime
+import json
 import logging
 
+from PIL.PngImagePlugin import PngInfo
 from webuiapi import webuiapi
 
 from scripts.common.atomic import IntAysnc
@@ -16,17 +18,19 @@ class SDWrap:
             box: SDBox,
             cli: webuiapi.WebUIApi = None,
             log_perf: bool = False,
-            progress_poll_interval: int = -1,
+            progress_poll_delay: float = 0.5,
+            progress_poll_interval: float = 5,
     ):
         self.box = box
         self.cli = cli
-        self.logger = logging.getLogger(f'sdwrap{self.box.server.name}')
+        self.logger = logging.getLogger(f'sd{self.box.server.name}')
         self.log_perf = log_perf
         self.active = True
         self.work_count = IntAysnc()
         if log_perf:
-            self.logger_perf = logging.getLogger(f'sdwrap{self.box.server.name}_perf')
+            self.logger_perf = logging.getLogger(f'sd{self.box.server.name}_perf')
         self.progress_thread = None
+        self.progress_poll_delay = progress_poll_delay
         self.progress_poll_interval = progress_poll_interval
 
     def initiate(self):
@@ -62,6 +66,7 @@ class SDWrap:
         self.active = False
         return self
 
+    # not working
     async def progress_internal_get(self):
         return await self.cli.async_post("/internal/progress", {})
 
@@ -73,20 +78,50 @@ class SDWrap:
                     continue
                 if not self.active:
                     break
-                # info = self.cli.get_progress()
-                # info = await self.progress_internal_get()
+                await asyncio.sleep(self.progress_poll_delay)
                 info = await loop.run_in_executor(None, self.cli.get_progress)
                 progress = info.get('progress', 0) * 100
                 eta_relative = info.get('eta_relative', 0)
-                self.logger.info(f"{progress:.1f}% | eta: {eta_relative:.1f}")
+                state = info.get('state', {})
+                job = state.get('job', "unknown")
+                job_count = state.get('job_count', -1)
+                text_info = state.get('text_info', "")
+                self.logger.info(
+                    f"{job} | {progress:.1f}% | eta: {eta_relative:.1f} | job_count: {job_count} | {text_info}")
             except Exception as e:
                 self.logger.error(f"progress_loop error: {e}")
             finally:
-                await asyncio.sleep(self.progress_poll_interval)
+                await asyncio.sleep(self.progress_poll_interval - self.progress_poll_delay)
 
         self.logger.info("progress_loop end")
+        pass
 
-    @LogUtil.elapsed_async({"name": "txt2img"})
+    def save(self, b: SDBox, result):
+
+        if not result.images or len(result.images) == 0:
+            self.logger.error(f"txt2img => {result.info}")
+            return result
+
+        img_count = len(result.images)
+        if img_count > 1:
+            img_index = 1
+        else:
+            img_index = -1
+
+        png_info = PngInfo()
+        if b.options.save_metadata:
+            meta_text = json.dumps(result.info)
+            png_info.add_text("meta", meta_text)
+
+        for img in result.images:
+            b.output.infer(img_index)
+            img.save(b.output.file_path, pnginfo=png_info)
+            img_index += 1
+            self.logger.info(f"txt2img => {b.output.file_path}")
+        return self
+
+    # txt2img ==================================================================================================
+    @LogUtil.elapsed_async({"name": "sd_perf"})
     async def txt2img(self, b: SDBox = None):
         try:
             if b is None:
@@ -94,14 +129,7 @@ class SDWrap:
             params = b.to_params()
             await self.work_count.increment()
             result = await self.cli.txt2img(**params)
-
-            if result.image:
-                b.output.infer()
-                result.image.save(b.output.file_path)
-                self.logger.info(f"txt2img => {b.output.file_path}")
-            else:
-                self.logger.error(f"txt2img => {result.info}")
-            return result
+            return self.save(b, result)
         finally:
             # print(1)
             await self.work_count.decrement()

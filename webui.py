@@ -1,3 +1,5 @@
+import io
+
 import gradio as gr
 from PIL import Image
 from PIL import ImageDraw
@@ -31,7 +33,6 @@ def img_process_interface(
         rotation,
         recursive_depth,
 ):
-
     resize_width, resize_height = map(int, resize.split('x'))
 
     params = ImageProcessParams(
@@ -88,6 +89,17 @@ def media_duration_sum_interface(directory):
     total_sec = video_process.duration_sum(directory)
     t = util.format_time(total_sec)
     return f"Total Duration: {t}"
+
+
+def image_metadata_interface(file_info):
+    if file_info is None:
+        return "No file uploaded", {}
+    # Save the uploaded file to process
+    image_stream = io.BytesIO(file_info)
+    image = Image.open(image_stream)
+    metadata = image.info
+    # Optionally, remove the file after processing if not needed
+    return metadata, image
 
 
 def media_fetch_interface(
@@ -340,11 +352,27 @@ def tab_text():
     pass
 
 
-def tab_kohya_metadata(cfg):
+def tab_meta_viewer(cfg):
     port = cfg.get('http', {}).get('port', 10006)
-    path = f'http://localhost:{port}/kohya-meta-viewer.html'
-    iframe_html = f'<iframe src="{path}" width="100%" height="600"></iframe>'
-    gr.HTML(iframe_html)
+    path_base = f'http://localhost:{port}'
+    with gr.Tab("Lora Meta"):
+        path = f'{path_base}/kohya-meta-viewer.html'
+        iframe_html = f'<iframe src="{path}" width="100%" height="600"></iframe>'
+        gr.HTML(iframe_html)
+    with gr.Tab("Image Meta"):
+        with gr.Column():
+            file_upload = gr.File(
+                label="Drag and Drop",
+                interactive=True,
+                type="binary",
+            )
+            metadata_display = gr.Textbox(label="Image Metadata")
+            image_display = gr.Image()
+            file_upload.change(
+                fn=image_metadata_interface,
+                inputs=[file_upload],
+                outputs=[metadata_display, image_display]
+            )
     pass
 
 
@@ -368,8 +396,8 @@ def init(cfg):
         with gr.Tab("Text"):
             tab_text()
 
-        with gr.Tab("Kohya Metadata"):
-            tab_kohya_metadata(cfg)
+        with gr.Tab("Metadata"):
+            tab_meta_viewer(cfg)
 
         text_output = gr.Textbox(label="Console")
 

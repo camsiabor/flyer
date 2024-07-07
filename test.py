@@ -1,81 +1,24 @@
-import asyncio
 import logging
-import os
+import logging
 import time
 
-import webuiapi
+from PIL import Image
 
-from scripts.common.sim import Reflector, LogUtil
-from scripts.sd.sc import alias
+from scripts.common.sim import LogUtil
 from scripts.sd.sc.box import SDBox
 from scripts.sd.sc.sdwrap import SDWrap
 
 
 # ==================================================================================================
 
-async def test_webuiapi():
-    os.makedirs('output', mode=0o777, exist_ok=True)
-
-    host = '127.0.0.1'
-    port = 30001
-    sampler = 'Euler a'
-    steps = 26
-
-    client = webuiapi.WebUIApi(
-        host=host, port=port,
-        sampler=sampler, steps=steps,
-    )
-
-    model_target = 'waiANINSFWPONYXL'
-    model_current = client.util_get_current_model()
-    print("current model: ", model_current)
-
-    """
-    if model_current not in model_target:
-        client.util_set_model(model_target)
-        print(f'switch model to ${model_target} from ${model_current}')
-    """
-
-    result = await client.txt2img(
-
-        # prompt
-        prompt="1girl, solo",
-        negative_prompt='low quality, worst quality',
-        # sampler
-        sampler_name='Euler a',
-        steps=20,
-        cfg_scale=7,
-        seed=1003,
-        # latent image
-        width=1024,
-        height=1024,
-
-        # async
-        use_async=True,
-
-        hr_scale=1.25,
-        hr_upscaler=alias.HiResUpscalerEx.ESRGAN_4x_Anime6B.value,
-        # hr_upscaler= alias.HiResUpscalerEx.ESRGAN_4x_Anime6B,
-
-    )
-
-    # webuiapi.HiResUpscaler
-
-    print(result.info)
-
-    result.image_latent.save('output/test.png')
-
-    print('done')
-
 
 # ==================================================================================================
 
 def test():
-    sdbox = SDBox()
-    sdbox.from_yaml('./config/sd/preset/0.yaml')
-    d = Reflector.to_dict(sdbox)
-    Reflector.to_yaml(sdbox, './config/sd/preset/1.yaml')
-    print(d)
+    png_file_path = './output/20240707/test_172049.png'
+    with Image.open(png_file_path) as img:
+        metadata = img.info  # This contains a dictionary of metadata, including text chunks
+        print(metadata)
 
 
 # ==================================================================================================
@@ -87,7 +30,7 @@ async def test_wrap():
 
     wrap = SDWrap(
         box=box,
-        progress_poll_interval=5
+        progress_poll_interval=5,
     ).initiate()
 
     for i in range(1):
@@ -101,8 +44,8 @@ if __name__ == '__main__':
 
     LogUtil.load_yaml('./config/log.yaml')
 
-    # test()
-    asyncio.run(test_wrap())
+    test()
+    # asyncio.run(test_wrap())
 
     time_end = time.perf_counter()
     logging.info(f"completed in {time_end - time_start:.2f} seconds")

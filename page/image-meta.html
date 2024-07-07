@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PNG EXIF Info Reader</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .upload-btn, .drop-area {
+            background: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            display: inline-block;
+        }
+
+        .upload-btn:hover, .drop-area:hover {
+            background: #0056b3;
+        }
+
+        .drop-area {
+            border: 2px dashed #007bff;
+            padding: 40px;
+            margin-top: 20px;
+        }
+
+        .output {
+            margin-top: 20px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>PNG EXIF Info Reader</h1>
+    <input type="file" id="fileInput" accept="image/png">
+    <label for="fileInput" class="upload-btn">Upload PNG Image</label>
+    <div class="drop-area" id="dropArea">
+        Drag & Drop PNG Image Here
+    </div>
+    <div class="output" id="output"></div>
+</div>
+
+<script src="./js/exif.min.js"></script>
+<script>
+    const fileInput = document.getElementById('fileInput');
+    const dropArea = document.getElementById('dropArea');
+    const outputElement = document.getElementById('output');
+
+    function handleFile(file) {
+        const reader = new FileReader();
+
+        console.log('handling', file);
+        reader.onload = function (e) {
+            const buffer = e.target.result;
+            const arrayBufferView = new Uint8Array(buffer);
+            const blob = new Blob([arrayBufferView], {type: "image/png"});
+            EXIF.getData(blob, function () {
+                const allMetaData = EXIF.getAllTags(this);
+                const exifData = EXIF.pretty(this);
+                console.log('exifData', exifData);
+                outputElement.innerHTML = `<pre>${exifData}</pre>`;
+            });
+        };
+        reader.readAsArrayBuffer(file);
+    }
+
+    fileInput.addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            handleFile(file);
+        }
+    });
+
+    dropArea.addEventListener('dragover', (event) => {
+        event.preventDefault();
+        dropArea.style.background = "#e9e9e9";
+    });
+
+    dropArea.addEventListener('dragleave', (event) => {
+        event.preventDefault();
+        dropArea.style.background = "#fff";
+    });
+
+    dropArea.addEventListener('drop', (event) => {
+        event.preventDefault();
+        dropArea.style.background = "#fff";
+        const file = event.dataTransfer.files[0];
+        if (file) {
+            handleFile(file);
+        }
+    });
+</script>
+</body>
+</html>

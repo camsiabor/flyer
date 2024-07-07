@@ -1,7 +1,6 @@
 server:
   host: 127.0.0.1
   port: 30001
-  use_async: true
 
 prompt:
   positive: |
@@ -23,11 +22,14 @@ sampler:
   seed: -1
 
 upscaler:
-  enable: true
+  enable: false
   scale: 1.25
   second_pass_steps: 10
   denoising_strength: 0.5
   name: "ESRGAN_4x_Anime6B"
+
+options:
+  use_async: true
 
 output:
   file_format: "./output/%Y%m%d/test_%H%M%S"

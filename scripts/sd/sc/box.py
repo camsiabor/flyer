@@ -9,6 +9,8 @@ import yaml
 from scripts.common.sim import Reflector
 from scripts.sd.sc.alias import HiResUpscalerEx
 
+SEED_MAX = sys.maxsize // 142857
+
 
 class SDServer:
     def __init__(
@@ -16,12 +18,10 @@ class SDServer:
             name="",
             host="127.0.0.1",
             port=30001,
-            use_async=True,
     ):
         self.name = name
         self.host = host
         self.port = port
-        self.use_async = use_async
 
 
 # =======================================================
@@ -47,6 +47,7 @@ class SDSampler:
             steps=20,
             cfg_scale=7,
             seed=-1,
+            scheduler=None,
     ):
         self.name = name
         self.steps = steps
@@ -74,10 +75,14 @@ class SDUpscaler:
             method=HiResUpscalerEx.ESRGAN_4x_Anime6B,
             second_pass_steps=10,
             denoising_strength=0.5,
+            resize_x=0,
+            resize_y=0,
     ):
         self.enable = enable
-        self.scale = scale
         self.method = method
+        self.scale = scale
+        self.resize_x = resize_x
+        self.resize_y = resize_y
         self.second_pass_steps = second_pass_steps
         self.denoising_strength = denoising_strength
 
@@ -113,17 +118,22 @@ class SDFile:
         self.file_format = file_format
         self.file_extension = file_extension
 
-    def infer(self):
+    def infer(self, index=-1):
         if self.dir_format:
             self.dir_path = datetime.now().strftime(self.dir_format)
             os.makedirs(self.dir_path, exist_ok=True)
 
+        if index <= 0:
+            index_str = ""
+        else:
+            index_str = "-" + str(index).zfill(2)
+
         if self.file_format:
             filename = datetime.now().strftime(self.file_format)
-            self.file_path = f"{filename}.{self.file_extension}"
+            self.file_path = f"{filename}{index_str}.{self.file_extension}"
             os.makedirs(os.path.dirname(self.file_path), exist_ok=True)
         else:
-            self.file_path = f"{self.dir_path}/{datetime.now().strftime('%Y%m%d%H%M%S')}.{self.file_extension}"
+            self.file_path = f"{self.dir_path}/{datetime.now().strftime('%Y%m%d%H%M%S')}{index_str}.{self.file_extension}"
 
         return self
 
@@ -135,61 +145,24 @@ class SDOptions:
 
     def __init__(
             self,
+            styles=None,
+            tiling=False,
             do_not_save_grid=True,
-    ):
-        self.do_not_save_grid = do_not_save_grid
+            do_not_save_samples=True,
+            use_async=True,
+            save_metadata=True,
+            colddown=1.0,
 
-    """
-    enable_hr=False,
-        denoising_strength=0.7,
-        firstphase_width=0,
-        firstphase_height=0,
-        hr_scale=2,
-        hr_upscaler=HiResUpscaler.Latent,
-        hr_second_pass_steps=0,
-        hr_resize_x=0,
-        hr_resize_y=0,
-        prompt="",
-        styles=[],
-        seed=-1,
-        subseed=-1,
-        subseed_strength=0.0,
-        seed_resize_from_h=0,
-        seed_resize_from_w=0,
-        sampler_name=None,  # use this instead of sampler_index
-        scheduler=None,
-        batch_size=1,
-        n_iter=1,
-        steps=None,
-        cfg_scale=7.0,
-        width=512,
-        height=512,
-        restore_faces=False,
-        tiling=False,
-        do_not_save_samples=False,
-        do_not_save_grid=False,
-        negative_prompt="",
-        eta=1.0,
-        s_churn=0,
-        s_tmax=0,
-        s_tmin=0,
-        s_noise=1,
-        override_settings={},
-        override_settings_restore_afterwards=True,
-        script_args=None,  # List of arguments for the script "script_name"
-        script_name=None,
-        send_images=True,
-        save_images=False,
-        alwayson_scripts={},
-        controlnet_units: List[ControlNetUnit] = [],
-        adetailer: List[ADetailer] = [],
-        roop: Roop = None,
-        reactor: ReActor = None,
-        sag: Sag = None,
-        sampler_index=None,  # deprecated: use sampler_name
-        use_deprecated_controlnet=False,
-        use_async=False,
-        """
+    ):
+        if styles is None:
+            styles = []
+        self.styles = styles
+        self.tiling = tiling
+        self.do_not_save_grid = do_not_save_grid
+        self.do_not_save_samples = do_not_save_samples
+        self.use_async = use_async
+        self.save_metadata = save_metadata
+        self.colddown = colddown
 
 
 # =======================================================
@@ -221,35 +194,59 @@ class SDBox:
     def seeding(self):
         if self.sampler.seed >= 0:
             return self.sampler.seed
-        return random.randint(1, sys.maxsize - 1)
+        return random.randint(0, SEED_MAX)
 
-    def to_params(self, use_async=True):
+    def to_params(self):
         seed = self.seeding()
+
         p = {
+            "width": self.image_latent.width,
+            "height": self.image_latent.height,
+            "batch_size": self.image_latent.batch_size,
+        }
+
+        p.update({
             "prompt": self.prompt.positive,
             "negative_prompt": self.prompt.negative,
+        })
+
+        p.update({
             "sampler_name": self.sampler.name,
             "steps": self.sampler.steps,
             "cfg_scale": self.sampler.cfg_scale,
             "seed": seed,
-            "width": self.image_latent.width,
-            "height": self.image_latent.height,
-            "use_async": use_async,
-        }
+        })
 
-        if self.upscaler.enable and self.upscaler.scale > 1:
+        # upscale
+        if self.upscaler.enable:
             if not self.upscaler.method:
                 self.upscaler.method = HiResUpscalerEx.ESRGAN_4x_Anime6B
             p.update({
-                "enable_hr": self.upscaler.enable,
-                "hr_scale": self.upscaler.scale,
+                "enable_hr": True,
                 "hr_upscaler": self.upscaler.method,
                 "hr_second_pass_steps": self.upscaler.second_pass_steps,
                 "denoising_strength": self.upscaler.denoising_strength,
             })
 
+            if self.upscaler.scale > 1:
+                p.update({"hr_scale": self.upscaler.scale, })
+
+            if self.upscaler.resize_x > 0 and self.upscaler.resize_y > 0:
+                p.update({
+                    "hr_resize_x": self.upscaler.resize_x,
+                    "hr_resize_y": self.upscaler.resize_y,
+                })
+
+        # options
         p.update({
+            "styles": self.options.styles,
+            "tiling": self.options.tiling,
             "do_not_save_grid": self.options.do_not_save_grid,
+            "do_not_save_samples": self.options.do_not_save_samples,
+        })
+
+        p.update({
+            "use_async": self.options.use_async,
         })
 
         return p
