@@ -1,4 +1,5 @@
 import io
+import json
 
 import gradio as gr
 from PIL import Image
@@ -93,13 +94,15 @@ def media_duration_sum_interface(directory):
 
 def image_metadata_interface(file_info):
     if file_info is None:
-        return "No file uploaded", {}
+        return "", "", None
     # Save the uploaded file to process
     image_stream = io.BytesIO(file_info)
     image = Image.open(image_stream)
-    metadata = image.info
+    meta = image.info
+    meta_full = json.dumps(meta, indent=4)
+    meta_parameters = meta.get('parameters', '')
     # Optionally, remove the file after processing if not needed
-    return metadata, image
+    return meta_parameters, meta_full, image
 
 
 def media_fetch_interface(
@@ -366,12 +369,17 @@ def tab_meta_viewer(cfg):
                 interactive=True,
                 type="binary",
             )
-            metadata_display = gr.Textbox(label="Image Metadata")
+            meta_parameters = gr.Textbox(label="Parameters")
+            meta_full = gr.Textbox(label="Full")
             image_display = gr.Image()
             file_upload.change(
                 fn=image_metadata_interface,
                 inputs=[file_upload],
-                outputs=[metadata_display, image_display]
+                outputs=[
+                    meta_parameters,
+                    meta_full,
+                    image_display
+                ]
             )
     pass
 
