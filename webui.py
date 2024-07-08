@@ -8,6 +8,7 @@ from PIL import ImageDraw
 
 import ui.common.console as uicon
 from scripts import util
+from scripts.common.sim import ConfigUtil
 from scripts.service import image_process, video_process, net_process, text_process
 from scripts.service.image_process import ImageProcessParams
 from scripts.util import FileIO
@@ -34,8 +35,13 @@ def img_process_interface(
         rembg_color, rembg_alpha,
         rotation,
         recursive_depth,
+        crypto_enable, crypto_key,
 ):
     resize_width, resize_height = map(int, resize.split('x'))
+
+    if crypto_enable and len(crypto_key) <= 0:
+        cfg = ConfigUtil.retrieve('cfg')
+        crypto_key = cfg.get('box_key', '')
 
     params = ImageProcessParams(
         # src & des
@@ -59,6 +65,8 @@ def img_process_interface(
         rembg_color=rembg_color, rembg_alpha=rembg_alpha,
         # extra
         recursive_depth=recursive_depth,
+        # crypto
+        crypto_enable=crypto_enable, crypto_key=crypto_key,
     )
 
     ret = image_process.process(params)
@@ -276,6 +284,10 @@ def tab_image_process():
             pass
         with gr.Tab("Mask"):
             pass
+        with gr.Tab("Crypto"):
+            crypto_enable = gr.Checkbox(label="Crypto Enable", value=True)
+            crypto_key = gr.Textbox(label="Crypto Key", value="")
+            pass
     with gr.Row():
         recursive_depth = gr.Number(label="Recursive Depth", value=0)
         rotation = gr.Dropdown(
@@ -306,7 +318,8 @@ def tab_image_process():
             rembg_model,
             rembg_color, rembg_alpha,
             rotation,
-            recursive_depth
+            recursive_depth,
+            crypto_enable, crypto_key,
         ],
         outputs=[
             result, des_img

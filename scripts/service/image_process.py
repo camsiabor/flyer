@@ -6,11 +6,13 @@ import traceback
 from pathlib import Path
 
 import rembg
-from PIL import Image, ImageOps
+from PIL import Image, ImageOps, PngImagePlugin
 from PIL import ImageFile
 from moviepy.video.io.VideoFileClip import VideoFileClip
 
 from scripts import util
+from scripts.common.crypto import CryptoUtil
+from scripts.common.sim import Reflector
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
@@ -34,6 +36,8 @@ class ImageProcessParams:
             rotation="",
             recursive_depth=None,
             rembg_session=None,
+            crypto_enable=False,
+            crypto_key="",
     ):
         self.src_dir = src_dir
         self.des_dir = des_dir
@@ -77,24 +81,13 @@ class ImageProcessParams:
         self.recursive_depth = int(recursive_depth)
         self.rembg_session = rembg_session
 
+        # box key
+        self.crypto_ensable = crypto_enable
+        self.crypto_key = crypto_key
+
+
     def clone(self):
-        return ImageProcessParams(
-            self.src_dir, self.des_dir,
-            self.src_file, self.des_file,
-            self.src_img_active, self.src_img, self.des_img,
-            self.output_prefix, self.output_suffix, self.output_extension,
-            self.chop_active, self.chop_left, self.chop_right, self.chop_upper, self.chop_lower,
-            self.resize_width, self.resize_height,
-            self.resize_fill_color, self.resize_fill_alpha,
-            self.resize_remove_color, self.resize_remove_alpha,
-            self.resize_remove_threshold,
-            self.resize_exec,
-            self.rembg_model,
-            self.rembg_color, self.rembg_alpha,
-            self.rotation,
-            self.recursive_depth,
-            self.rembg_session,
-        )
+        return Reflector.clone(self)
 
     def des_file_infer(self, change=True):
         if not self.src_file:
@@ -308,6 +301,10 @@ def resize_image(p: ImageProcessParams):
     if p.src_file:
         image, p.src_file = open_image(p)
 
+    image_info = image.info
+    if p.crypto_ensable:
+        image_info = CryptoUtil.encrypt_dict(image_info, p.crypto_key)
+
     image = image.convert('RGBA')
 
     if image is None:
@@ -383,11 +380,19 @@ def resize_image(p: ImageProcessParams):
 
     # Save the padded image with transparent pixels
 
+    padded_image.info = image_info
+
     if p.src_img_active:
         p.des_img = padded_image
 
     if p.src_file:
-        padded_image.save(p.des_file)
+        if p.des_file.endswith('png'):
+            image_info_obj = PngImagePlugin.PngInfo()
+            for key, value in image_info.items():
+                image_info_obj.add_text(key, value)
+            padded_image.save(p.des_file, format='PNG', pnginfo=image_info_obj)
+        else:
+            padded_image.save(p.des_file)
 
     return padded_image
 
