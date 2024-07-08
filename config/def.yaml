@@ -1,3 +1,5 @@
+box_key: '==pox=='
+
 gradio:
   port: 17015
   auto_open: false

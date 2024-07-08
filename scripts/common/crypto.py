@@ -20,6 +20,12 @@ class CryptoUtil:
             base64_encode: bool = True,
             dict_hint: str = DICT_HINT_DEF
     ) -> [dict]:
+
+        if dict_hint and len(dict_hint) > 0:
+            content = info_dict.get(dict_hint, None)
+            if content is not None:
+                return info_dict
+
         fernet = Fernet(key)
         # Convert the dictionary to a JSON string and then to bytes
         info_bytes = json.dumps(info_dict).encode('utf-8')
