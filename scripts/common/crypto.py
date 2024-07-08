@@ -32,6 +32,14 @@ class CryptoUtil:
         return encrypted_info
 
     @staticmethod
+    def encrypt_probe(
+            info: dict,
+            dict_hint: str = DICT_HINT_DEF
+    ) -> bool:
+        content = info.get(dict_hint, None)
+        return content is not None
+
+    @staticmethod
     def decrypt(
             encrypted_data: any,
             key: any,

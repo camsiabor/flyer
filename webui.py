@@ -105,15 +105,17 @@ def media_duration_sum_interface(directory):
 def image_metadata_interface(image):
     if image is None:
         return "", "", None
-    # Save the uploaded file to process
-    # image_stream = io.BytesIO(file_info)
-    # image = Image.open(image_stream)
+
     box_key = ConfigUtil.retrieve('cfg').get('box_key', '')
     meta = image.info
-    meta = CryptoUtil.decrypt_dict(meta, box_key)
+    is_encrypt = CryptoUtil.encrypt_probe(meta)
+    if is_encrypt:
+        meta = CryptoUtil.decrypt_dict(meta, box_key)
     meta_full = json.dumps(meta, indent=4)
     meta_parameters = meta.get('parameters', '')
-    # Optionally, remove the file after processing if not needed
+    if is_encrypt:
+        meta_full = f"encrypt:\n{meta_full}"
+
     return meta_parameters, meta_full, image
 
 
@@ -130,24 +132,30 @@ def image_batch_metadata_interface(image_dir, text_remove):
             try:
                 with Image.open(image_path) as img:
                     meta = img.info
-                    meta = CryptoUtil.decrypt_dict(meta, box_key)
+                    is_encrypt = CryptoUtil.encrypt_probe(meta)
+                    if is_encrypt:
+                        meta = CryptoUtil.decrypt_dict(meta, box_key)
                     meta_parameters = meta.get('parameters', '')
                     meta_parameters = meta_parameters.split('Negative prompt:')[0].strip()
                     for remove in removes:
                         meta_parameters = meta_parameters.replace(remove, '')
                     meta_parameters = f"```\n{meta_parameters}\n```"
                     # image_path_markdown = f"![{filename}](file/{image_path})"
+
+                    color = 'orange' if is_encrypt else 'black'
+
                     image_path_markdown = f"""
 <div style='text-align: center;'>
     <img src="file/{image_path}" alt="{filename}" style="max-width: 200px; max-height: 200px; display: block; margin-left: auto; margin-right: auto;">
-    <div>{filename}</div>
+    <div style='color: {color};'>{filename}</div>
 </div>
 """
 
+                    index_info = f"<span style='color: {color};'>{image_index}</span>"
                     data.append({
                         'Image Path': image_path_markdown,
                         'Metadata': meta_parameters,
-                        'Index': image_index
+                        'Index': index_info
                     })
                     image_index += 1
             except Exception as e:
