@@ -332,8 +332,11 @@ def resize_image(p: ImageProcessParams):
         if image_ex is not None:
             image = image_ex
 
+    resize_width = p.resize_width if p.resize_width > 0 else image.width
+    resize_height = p.resize_height if p.resize_height > 0 else image.height
+
     ratio = image.width / image.height
-    to_ratio = p.resize_width / p.resize_height
+    to_ratio = resize_width / resize_height
 
     p.resize_fill_color = color_merge_alpha(p.resize_fill_color, p.resize_fill_alpha)
     if p.resize_fill_color == 'auto' or p.resize_fill_color == 'def':
@@ -341,18 +344,22 @@ def resize_image(p: ImageProcessParams):
     else:
         color_tuple = util.color_string_to_tuple(p.resize_fill_color)
 
-    if ratio > to_ratio:
-        new_width = p.resize_width
-        new_height = round(new_width / ratio)
+    if resize_width == image.width and resize_height == image.height:
+        new_width = image.width
+        new_height = image.height
     else:
-        new_height = p.resize_height
-        new_width = round(new_height * ratio)
+        if ratio > to_ratio:
+            new_width = resize_width
+            new_height = round(new_width / ratio)
+        else:
+            new_height = resize_height
+            new_width = round(new_height * ratio)
 
     # Resize the image while maintaining the aspect ratio
     resized_image = image.resize((new_width, new_height))
 
     # Create a new image with the desired dimensions and transparent background
-    padded_image = Image.new("RGBA", (p.resize_width, p.resize_height), color_tuple)
+    padded_image = Image.new("RGBA", (resize_width, resize_height), color_tuple)
 
     # fill color
     """
@@ -362,8 +369,8 @@ def resize_image(p: ImageProcessParams):
     """
 
     # Calculate the padding offsets
-    x_offset = (p.resize_width - new_width) // 2
-    y_offset = (p.resize_height - new_height)
+    x_offset = (resize_width - new_width) // 2
+    y_offset = (resize_height - new_height)
 
     # Paste the resized image onto the padded image with transparent pixels
     padded_image.paste(resized_image, (x_offset, y_offset))
@@ -395,12 +402,6 @@ def resize_job(p: ImageProcessParams, index: int, total: int, ):
 
 def resize_directory(p: ImageProcessParams):
     print("[resize] {} ---> {} ".format(p.src_dir, p.des_dir))
-
-    if p.resize_width <= 0:
-        p.resize_width = 768
-
-    if p.resize_height <= 0:
-        p.resize_height = 1024
 
     os.makedirs(p.des_dir, mode=0o777, exist_ok=True)
 
@@ -527,11 +528,6 @@ def process(p: ImageProcessParams):
             if src_file_ext.lower() in ['.mp4']:
                 mp4_to_png(p)
                 return f"video to png saved to {p.des_dir}"
-
-        if p.resize_width <= 0:
-            p.resize_width = 768
-        if p.resize_height <= 0:
-            p.resize_height = 1024
 
         if p.rembg_model == "def" or p.rembg_model == "default":
             p.rembg_model = "isnet-anime"

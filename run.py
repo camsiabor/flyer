@@ -6,6 +6,7 @@ import time
 import yaml
 
 import webui
+from scripts.common.sim import ConfigUtil
 
 
 def browser_launch(port: int):
@@ -54,9 +55,14 @@ def config_load():
 
 if __name__ == '__main__':
 
-    cfg = config_load()
+    cfg_path = './config/def.yaml'
+    cfg, _ = ConfigUtil.load_and_embed(cfg_path)
     cfg_http = cfg['http']
     cfg_gradio = cfg['gradio']
+
+    ConfigUtil.store('cfg', cfg)
+    ConfigUtil.store('cfg_http', cfg_http)
+    ConfigUtil.store('cfg_gradio', cfg_gradio)
 
     port_http = cfg_http.get('port', 10006)
     port_gradio = cfg_gradio.get('port', 10005)

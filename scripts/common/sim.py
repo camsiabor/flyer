@@ -4,6 +4,7 @@ import json
 import logging
 import os
 import time
+from typing import Type
 
 import yaml
 
@@ -200,6 +201,8 @@ class Reflector:
 # ConfigLoader =============================================================================== #
 
 class ConfigUtil:
+    _storage = {}
+
     @staticmethod
     def load(*config_paths) -> (any, str):
         """
@@ -265,6 +268,15 @@ class ConfigUtil:
             return data
 
         return data
+
+    @staticmethod
+    def store(key: str, data: any) -> Type['ConfigUtil']:
+        ConfigUtil._storage[key] = data
+        return ConfigUtil
+
+    @staticmethod
+    def retrieve(key: str) -> any:
+        return ConfigUtil._storage.get(key, None)
 
 
 # Logging =============================================================================== #
