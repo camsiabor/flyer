@@ -87,8 +87,8 @@ class SDWrap:
 
         self.logger.info(f"current model: {self.box.model.base}")
 
-        if self.box.output.dir_path:
-            self.box.output.dir_path = datetime.datetime.now().strftime("./output/%Y%m%d")
+        if self.box.output_txt2img.dir_path:
+            self.box.output_txt2img.dir_path = datetime.datetime.now().strftime("./output/%Y%m%d")
 
         if self.progress_thread is None and self.progress_poll_interval > 0:
             self.progress_thread = asyncio.create_task(self.progress_loop())
@@ -132,9 +132,9 @@ class SDWrap:
         pass
 
     @staticmethod
-    def meta_infer(b: SDBox, result, index):
+    def meta_infer(result: webuiapi.WebUIApiResult, index: int, save_metadata=True):
         png_info = PngInfo()
-        if not b.options.save_metadata:
+        if not save_metadata:
             return png_info
         info = result.info
         full = json.dumps(info)
@@ -149,7 +149,7 @@ class SDWrap:
         png_info.add_text("parameters", parameters)
         return png_info
 
-    def save(self, b: SDBox, result):
+    def save(self, b: SDBox, result: webuiapi.WebUIApiResult, save_metadata=True):
 
         if not result.images or len(result.images) == 0:
             self.logger.error(f"txt2img => {result.info}")
@@ -161,17 +161,17 @@ class SDWrap:
         else:
             img_index = 0
         for img in result.images:
-            b.output.infer(img_index)
+            b.output_txt2img.infer(img_index)
             seed = result.info.get("seed", -1)
-            png_info = SDWrap.meta_infer(b, result, img_index)
+            png_info = SDWrap.meta_infer(result, img_index, save_metadata)
 
             # save_start = time.perf_counter()
-            img.save(b.output.file_path, pnginfo=png_info)
+            img.save(b.output_txt2img.file_path, pnginfo=png_info)
             # save_end = time.perf_counter()
             # self.logger.info(f"save {b.output.file_path} in {save_end - save_start:.2f} seconds")
 
             img_index += 1
-            self.logger.info(f"txt2img => {b.output.file_path} | seed: {seed}")
+            self.logger.info(f"txt2img => {b.output_txt2img.file_path} | seed: {seed}")
         return result
 
     # txt2img ==================================================================================================
@@ -179,6 +179,19 @@ class SDWrap:
     async def txt2img(self, b: SDBox = None):
         if b is None:
             b = self.box
-        params = b.to_params()
+        params = b.to_txt2img_params()
         result = await self.cli.txt2img(**params)
-        return self.save(b, result)
+        return self.save(b, result, b.options.save_metadata)
+
+    @sdwrap_aspect()
+    async def extra(self, b: SDBox, *images):
+        if len(images) <= 0:
+            raise ValueError("images is empty")
+        if b is None:
+            b = self.box
+        params = b.to_extra_params()
+        params.update({
+            "images": images
+        })
+        result = await self.cli.extra_batch_images(**params)
+        return self.save(b, result, b.extra.save_metadata)

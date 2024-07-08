@@ -4,7 +4,7 @@ image_latent:
   width: 1024
   height: 1024
   batch_size: 1
-  batch_count: 10
+  batch_count: 20
 
 prompt:
   positive: |
@@ -133,11 +133,14 @@ prompt:
     facial_expression_sub: [
       "open mouth",
       "open mouth, tongue out",
-      "open mouth, embarrassed",
+      "open mouth, saliva, saliva trail",
+      "open mouth, finger in mouth",
+      "embarrassed, open mouth",
       "embarrassed, tongue out",
       "tears",
       "(mouth ball gag:1.1)",
       "(black blindfold:1.1)",
+      "(black blindfold:1.1), (mouth ball gag:1.1)",
     ]
     scene: [
       "bedroom", "alley", "simple background, light", "simple background, dark", "bathroom",
@@ -167,6 +170,10 @@ adetailers:
 options:
   colddown: 5
   use_async: true
+
+extra:
+  upscaler_1: "ESRGAN_4x_Anime6B"
+  upscaling_resize: 1.25
 
 output:
   file_format: "./output/%Y%m%d/belle/0/%H%M%S"

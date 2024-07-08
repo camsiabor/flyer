@@ -257,6 +257,43 @@ class SDADetailer:
         return ad
 
 
+# SDExtra =======================================================
+
+class SDExtra:
+    def __init__(
+            self,
+            resize_mode=0,
+            show_extras_results=True,
+            gfpgan_visibility=0,
+            codeformer_visibility=0,
+            codeformer_weight=0,
+            upscaling_resize=1.5,
+            upscaling_resize_w=1024,
+            upscaling_resize_h=1024,
+            upscaling_crop=True,
+            upscaler_1="ESRGAN_4x_Anime6B",
+            upscaler_2="None",
+            extras_upscaler_2_visibility=0,
+            upscale_first=False,
+            keep_metadata=False,
+    ):
+        self.resize_mode = resize_mode
+        self.show_extras_results = show_extras_results
+        self.gfpgan_visibility = gfpgan_visibility
+        self.codeformer_visibility = codeformer_visibility
+        self.codeformer_weight = codeformer_weight
+        self.upscaling_resize = upscaling_resize
+        self.upscaling_resize_w = upscaling_resize_w
+        self.upscaling_resize_h = upscaling_resize_h
+        self.upscaling_crop = upscaling_crop
+        self.upscaler_1 = upscaler_1
+        self.upscaler_2 = upscaler_2
+        self.extras_upscaler_2_visibility = extras_upscaler_2_visibility
+        self.upscale_first = upscale_first
+        self.keep_metadata = keep_metadata
+        pass
+
+
 # =======================================================
 
 class SDBox:
@@ -268,8 +305,11 @@ class SDBox:
         self.prompt = SDPrompt()
         self.upscaler = SDUpscaler()
         self.image_latent = SDImage()
-        self.output = SDFile()
         self.adetailers = TypeList(SDADetailer)
+        self.extra = SDExtra()
+        self.output_txt2img = SDFile()
+        self.output_img2img = SDFile()
+        self.output_extra = SDFile()
         self.options = SDOptions()
 
     def load(self, config_path):
@@ -290,7 +330,8 @@ class SDBox:
             return self.sampler.seed
         return random.randint(0, SEED_MAX)
 
-    def to_params(self):
+    def to_txt2img_params(self):
+
         seed = self.seeding()
 
         p = {
@@ -354,6 +395,43 @@ class SDBox:
             "use_async": self.options.use_async,
         })
 
+        return p
+
+    def to_extra_params(self):
+
+        p = {
+            "upscaler_1": self.extra.upscaler_1,
+            "resize_mode": self.extra.resize_mode,
+            "show_extras_results": self.extra.show_extras_results,
+            "gfpgan_visibility": self.extra.gfpgan_visibility,
+            "codeformer_visibility": self.extra.codeformer_visibility,
+            "codeformer_weight": self.extra.codeformer_weight,
+            "upscaling_crop": self.extra.upscaling_crop,
+            "extras_upscaler_2_visibility": self.extra.extras_upscaler_2_visibility,
+            "upscale_first": self.extra.upscale_first,
+        }
+
+        if self.extra.upscaler_2 and self.extra.upscaler_2 != "None":
+            p.update({
+                "upscaler_2": self.extra.upscaler_2,
+            })
+
+        if self.extra.upscaling_resize > 1:
+            p.update({
+                "upscaling_resize": self.extra.upscaling_resize,
+            })
+
+        if self.extra.upscaling_resize_w > 0 and self.extra.upscaling_resize_h > 0:
+            p.update({
+                "upscaling_resize_w": self.extra.upscaling_resize_w,
+                "upscaling_resize_h": self.extra.upscaling_resize_h,
+            })
+
+        p.update({
+            "use_async": self.options.use_async,
+        })
+
+        webuiapi.WebUIApi().extra_batch_images(p)
         return p
 
 # =======================================================
