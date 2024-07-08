@@ -8,6 +8,7 @@ from PIL import ImageDraw
 
 import ui.common.console as uicon
 from scripts import util
+from scripts.common.crypto import CryptoUtil
 from scripts.common.sim import ConfigUtil
 from scripts.service import image_process, video_process, net_process, text_process
 from scripts.service.image_process import ImageProcessParams
@@ -107,7 +108,9 @@ def image_metadata_interface(image):
     # Save the uploaded file to process
     # image_stream = io.BytesIO(file_info)
     # image = Image.open(image_stream)
+    box_key = ConfigUtil.retrieve('cfg').get('box_key', '')
     meta = image.info
+    meta = CryptoUtil.decrypt_dict(meta, box_key)
     meta_full = json.dumps(meta, indent=4)
     meta_parameters = meta.get('parameters', '')
     # Optionally, remove the file after processing if not needed
@@ -120,12 +123,14 @@ def image_batch_metadata_interface(image_dir, text_remove):
     image_index = 1
     data = []
     removes = text_remove.split('|')
+    box_key = ConfigUtil.retrieve('cfg').get('box_key', '')
     for filename in os.listdir(image_dir):
         if filename.endswith(".png"):
             image_path = os.path.join(image_dir, filename)
             try:
                 with Image.open(image_path) as img:
                     meta = img.info
+                    meta = CryptoUtil.decrypt_dict(meta, box_key)
                     meta_parameters = meta.get('parameters', '')
                     meta_parameters = meta_parameters.split('Negative prompt:')[0].strip()
                     for remove in removes:
