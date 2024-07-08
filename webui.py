@@ -145,8 +145,8 @@ def image_batch_metadata_interface(image_dir, text_remove):
                     image_path_markdown = f"""
 <div style='text-align: center;'>
     <img src="file/{image_path}" alt="{filename}" style="max-width: 200px; max-height: 200px; display: block; margin-left: auto; margin-right: auto;">
-    <div style='color: {color}; font: 1.0em; '>{img.width}x{img.height}</div>
-    <div style='color: {color}; font: 0.8em; '>{filename}</div>
+    <div style='color: {color}; font: 0.9em; '>{img.width} x {img.height}</div>
+    <div style='color: {color}; font: 0.7em; '>{filename}</div>
 </div>
 """
 
