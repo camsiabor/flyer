@@ -141,7 +141,7 @@ def image_batch_metadata_interface(image_dir, text_remove):
                         meta_parameters = meta_parameters.replace(remove, '')
                     meta_parameters = f"```\n{meta_parameters}\n```"
 
-                    color = 'orange' if is_encrypt else 'black'
+                    color = 'orange' if is_encrypt else 'white'
                     image_path_markdown = f"""
 <div style='text-align: center;'>
     <img src="file/{image_path}" alt="{filename}" style="max-width: 200px; max-height: 200px; display: block; margin-left: auto; margin-right: auto;">
