@@ -307,17 +307,22 @@ class SDBox:
         self.image_latent = SDImage()
         self.adetailers = TypeList(SDADetailer)
         self.extra = SDExtra()
+        self.output = SDFile()
         self.output_txt2img = SDFile()
         self.output_img2img = SDFile()
         self.output_extra = SDFile()
         self.options = SDOptions()
 
-    def load(self, config_path):
-        if not os.path.exists(config_path):
-            raise FileNotFoundError(f"The file {config_path} does not exist.")
-        config, _ = ConfigUtil.load_and_embed(
-            config_path,
-        )
+    def load(self, cfg_ptr: any):
+        config = {}
+        if isinstance(cfg_ptr, str):
+            if not os.path.exists(cfg_ptr):
+                raise FileNotFoundError(f"The file {cfg_ptr} does not exist.")
+            config, _ = ConfigUtil.load_and_embed(
+                cfg_ptr,
+            )
+        if isinstance(cfg_ptr, dict):
+            config = cfg_ptr
         Reflector.from_dict(self, config)
         return self
 

@@ -3,6 +3,8 @@ import json
 
 from cryptography.fernet import Fernet
 
+from scripts.common.sim import Reflector
+
 DICT_HINT_DEF = 'p_box_p'
 
 
@@ -62,7 +64,8 @@ class CryptoUtil:
             content = info_dict.get(dict_hint, None)
             if content is not None:
                 return info_dict
-        info_bytes = json.dumps(info_dict).encode('utf-8')
+        dict_values = Reflector.clone_dict(info_dict)
+        info_bytes = json.dumps(dict_values).encode('utf-8')
         encrypted_info = CryptoUtil.encrypt(info_bytes, key)
         return {dict_hint: encrypted_info}
 

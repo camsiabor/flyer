@@ -47,6 +47,14 @@ def sdwrap_aspect(logger_name="sd-perf"):
 
 class SDWrap:
 
+    @staticmethod
+    def generate(conf: any):
+        if isinstance(conf, SDBox):
+            box = conf
+        else:
+            box = SDBox().load(conf).initiate()
+        return SDWrap(box=box).initiate()
+
     def __init__(
             self,
             box: SDBox,

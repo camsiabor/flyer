@@ -152,6 +152,38 @@ class Reflector:
         return Reflector.from_dict(obj.__class__(), obj.__dict__)
 
     @staticmethod
+    def clone_dict(d: dict, accept_types=None):
+        ret = {}
+        for key, value in d.items():
+            if isinstance(value, VALUE_TYPES):
+                ret[key] = value
+                continue
+            if isinstance(value, SERIAL_TYPES):
+                ret[key] = Reflector.clone_serial(value, accept_types)
+                continue
+            if accept_types is not None and isinstance(value, accept_types):
+                value = Reflector.to_dict(value)
+            if isinstance(value, dict):
+                ret[key] = Reflector.clone_dict(value, accept_types)
+        return ret
+
+    @staticmethod
+    def clone_serial(serial: (list, tuple, set), accept_types=None):
+        ret = []
+        for item in serial:
+            if isinstance(item, VALUE_TYPES):
+                ret.append(item)
+                continue
+            if isinstance(item, SERIAL_TYPES):
+                ret.append(Reflector.clone_serial(item, accept_types))
+                continue
+            if accept_types is not None and isinstance(item, accept_types):
+                item = Reflector.to_dict(item)
+            if isinstance(item, dict):
+                ret.append(Reflector.clone_dict(item, accept_types))
+        return ret
+
+    @staticmethod
     def invoke(obj: object, method_name: str, *args, **kwargs):
         if not hasattr(obj, method_name):
             return None, False
@@ -296,20 +328,16 @@ class LogUtil:
     @staticmethod
     def elapsed_async(opts: dict):
         def decorator(func):
-            if opts is None:
-                return func
-
-            active = opts.get("active", True)
-            if not active:
-                return func
-
             @functools.wraps(func)
             async def wrapper(*args, **kwargs):
                 start_time = time.perf_counter()
                 result = await func(*args, **kwargs)  # Await the function execution
                 end_time = time.perf_counter()
                 elapsed_time = end_time - start_time
-                logger = logging.getLogger(opts.get("name", "perf"))
+                if opts is None:
+                    logger = logging.RootLogger
+                else:
+                    logger = logging.getLogger(opts.get("name", "perf"))
                 logger.info(f"{func.__name__} completed in {elapsed_time:.2f} seconds")
                 return result
 
