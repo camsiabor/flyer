@@ -9,7 +9,7 @@ image_latent:
   width: 1024
   height: 1024
   batch_size: 1
-  batch_count: 3
+  batch_count: 1
 
 prompt:
   positive: |
@@ -46,7 +46,8 @@ prompt:
     # expressive_h: "<lora:Expressive_H:1>,expressiveh"
     common: ""
     posture: [
-      "wariza, w_sitting, ass, barefeet, from back",
+      # "wariza, w_sitting, ass, barefeet, from back",
+      "barefoot, foot focus, from below, toes, open mouth, tongue out, hand on own face"
       # "all fours, open mouth, tongue out, from side",
       # "paw pose, open mouth, tongue out, from above, pov",
     ]
@@ -90,7 +91,7 @@ upscaler:
   name: "ESRGAN_4x_Anime6B"
 
 adetailers:
-  - enable: true
+  - enable: false
     model: "face_yolov8n.pt"
   - enable: false
     model: "hand_yolov8n.pt"

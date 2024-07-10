@@ -210,7 +210,7 @@ class SDWrap:
             b = self.box
         params = b.to_txt2img_params()
         result = await self.cli.txt2img(**params)
-        return self.save(b, result, b.options.save_metadata)
+        return self.save(b, result)
 
     @sdwrap_aspect()
     async def extra(self, b: SDBox, *images):
