@@ -170,7 +170,8 @@ class SDWrap:
             if key is None or len(key) <= 0:
                 raise ValueError("metadata_key is empty")
             metadata_dict = CryptoUtil.encrypt_dict(metadata_dict, b.options.metadata_key)
-            png_info.add_text(CryptoUtil.DICT_HINT_DEF, json.dumps(metadata_dict))
+            metadata_content = metadata_dict.get(CryptoUtil.DICT_HINT_DEF)
+            png_info.add_text(CryptoUtil.DICT_HINT_DEF, metadata_content)
         else:
             png_info.add_text("full", full)
             png_info.add_text("parameters", parameters)
