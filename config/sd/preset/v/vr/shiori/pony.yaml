@@ -9,7 +9,7 @@ image_latent:
   width: 1024
   height: 1024
   batch_size: 1
-  batch_count: 3
+  batch_count: 2
 
 prompt:
   positive: |
@@ -47,7 +47,7 @@ prompt:
     common: ""
     posture: [
       # "wariza, w_sitting, ass, barefeet, from back",
-      "barefoot, foot focus, from below, toes, open mouth, tongue out, hand on own face"
+      "barefoot, (foot focus:0.9), from below, open mouth, finger to mouth"
       # "all fours, open mouth, tongue out, from side",
       # "paw pose, open mouth, tongue out, from above, pov",
     ]
