@@ -5,16 +5,14 @@ from cryptography.fernet import Fernet
 
 from scripts.common.sim import Reflector
 
-DICT_HINT_DEF = 'p_box_p'
-
 
 class CryptoUtil:
+    DICT_HINT_DEF = 'p_box_p'
 
     @staticmethod
     def gen_key(password):
         # Use a password to generate a key. This is a simple way to ensure a consistent key from a string.
         return base64.urlsafe_b64encode(password.ljust(32)[:32].encode('utf-8'))
-
 
     @staticmethod
     def encrypt(

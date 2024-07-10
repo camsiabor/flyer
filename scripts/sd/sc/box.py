@@ -214,7 +214,9 @@ class SDOptions:
             do_not_save_grid=True,
             do_not_save_samples=True,
             use_async=True,
-            save_metadata=True,
+            metadata_keep=True,
+            metadata_encrypt=True,
+            metadata_key="",
             colddown=0.1,
 
     ):
@@ -225,8 +227,11 @@ class SDOptions:
         self.do_not_save_grid = do_not_save_grid
         self.do_not_save_samples = do_not_save_samples
         self.use_async = use_async
-        self.save_metadata = save_metadata
+        self.metadata_keep = metadata_keep
+        self.metadata_encrypt = metadata_encrypt
+        self.metadata_key = metadata_key
         self.colddown = colddown
+        pass
 
 
 # SDADetailer =======================================================
@@ -275,7 +280,6 @@ class SDExtra:
             upscaler_2="None",
             extras_upscaler_2_visibility=0,
             upscale_first=False,
-            keep_metadata=False,
     ):
         self.resize_mode = resize_mode
         self.show_extras_results = show_extras_results
@@ -290,7 +294,6 @@ class SDExtra:
         self.upscaler_2 = upscaler_2
         self.extras_upscaler_2_visibility = extras_upscaler_2_visibility
         self.upscale_first = upscale_first
-        self.keep_metadata = keep_metadata
         pass
 
 

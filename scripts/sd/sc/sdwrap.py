@@ -9,6 +9,7 @@ from PIL.PngImagePlugin import PngInfo
 from webuiapi import webuiapi
 
 from scripts.common.atomic import IntAysnc, FloatAsync
+from scripts.common.crypto import CryptoUtil
 from scripts.sd.sc.box import SDBox
 
 
@@ -140,13 +141,16 @@ class SDWrap:
         pass
 
     @staticmethod
-    def meta_infer(result: webuiapi.WebUIApiResult, index: int, save_metadata=True):
+    def meta_infer(
+            b: SDBox,
+            result: webuiapi.WebUIApiResult,
+            index: int,
+    ):
         png_info = PngInfo()
-        if not save_metadata:
+        if not b.options.metadata_keep:
             return png_info
         info = result.info
-        full = json.dumps(info)
-        png_info.add_text("full", full)
+
         infotexts = info.get("infotexts", [])
         if len(infotexts) <= 0:
             return png_info
@@ -154,10 +158,25 @@ class SDWrap:
         if index < 0:
             index = 0
         parameters = infotexts[index]
-        png_info.add_text("parameters", parameters)
+        full = json.dumps(info)
+
+        metadata_dict = {
+            "full": full,
+            "parameters": parameters,
+        }
+
+        if b.options.metadata_encrypt:
+            key = b.options.metadata_key
+            if key is None or len(key) <= 0:
+                raise ValueError("metadata_key is empty")
+            metadata_dict = CryptoUtil.encrypt_dict(metadata_dict, b.options.metadata_key)
+            png_info.add_text(CryptoUtil.DICT_HINT_DEF, json.dumps(metadata_dict))
+        else:
+            png_info.add_text("full", full)
+            png_info.add_text("parameters", parameters)
         return png_info
 
-    def save(self, b: SDBox, result: webuiapi.WebUIApiResult, save_metadata=True):
+    def save(self, b: SDBox, result: webuiapi.WebUIApiResult):
 
         if not result.images or len(result.images) == 0:
             self.logger.error(f"txt2img => {result.info}")
@@ -171,7 +190,9 @@ class SDWrap:
         for img in result.images:
             b.output_txt2img.infer(img_index)
             seed = result.info.get("seed", -1)
-            png_info = SDWrap.meta_infer(result, img_index, save_metadata)
+            png_info = SDWrap.meta_infer(
+                b, result, img_index,
+            )
 
             # save_start = time.perf_counter()
             img.save(b.output_txt2img.file_path, pnginfo=png_info)
