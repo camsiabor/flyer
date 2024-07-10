@@ -316,10 +316,11 @@ class SDBox:
     def load(self, cfg_ptr: any):
         config = {}
         if isinstance(cfg_ptr, str):
-            if not os.path.exists(cfg_ptr):
-                raise FileNotFoundError(f"The file {cfg_ptr} does not exist.")
+            cfg_ptr_abs = os.path.abspath(cfg_ptr)
+            if not os.path.exists(cfg_ptr_abs):
+                raise FileNotFoundError(f"The file {cfg_ptr} does not exist => {cfg_ptr_abs}")
             config, _ = ConfigUtil.load_and_embed(
-                cfg_ptr,
+                cfg_ptr_abs,
             )
         if isinstance(cfg_ptr, dict):
             config = cfg_ptr

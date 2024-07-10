@@ -251,9 +251,9 @@ class ConfigUtil:
                         return json.load(config_file), config_path
                     if config_path.endswith('.py'):
                         return eval(config_file.read()), config_path
-                    raise ValueError(f"Unsupported configuration file format: {config_path}")
+                    raise ValueError(f"Unsupported config file format: {config_path}")
         # Optionally, return a default configuration or raise an exception if no file is found.
-        raise FileNotFoundError("No configuration file found in the provided paths.")
+        raise FileNotFoundError(f"None found: {config_paths}")
 
     @staticmethod
     def load_and_embed(*config_paths) -> (any, str):
