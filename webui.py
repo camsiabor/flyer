@@ -119,6 +119,64 @@ def image_metadata_interface(image):
     return meta_parameters, meta_full, image
 
 
+def image_batch_metadata_one(
+        filename: str,
+        image_dir: str,
+        removes: list,
+        data: any,
+        box_key: str,
+        image_index: int,
+):
+    if not filename.endswith(".png"):
+        return image_index
+
+    image_path = os.path.join(image_dir, filename)
+    try:
+        with Image.open(image_path) as img:
+            meta = img.info
+
+        is_encrypt = CryptoUtil.encrypt_probe(meta)
+        if is_encrypt:
+            meta = CryptoUtil.decrypt_dict(meta, box_key)
+
+        meta_strs = []
+        for k, v in meta.items():
+            if not isinstance(v, str):
+                v_str = str(v)
+                v_str_2 = ''
+                if k == 'parameters':
+                    fragments = v_str.split('Negative prompt:')
+                    v_str = fragments[0].strip()
+                    v_str_2 = fragments[1].strip()
+                for remove in removes:
+                    v_str = v_str.replace(remove, '')
+                meta_strs.append(f"```\n{v_str}\n```")
+                if v_str_2:
+                    meta_strs.append(f"```\n{v_str_2}\n```")
+
+        color = 'orange' if is_encrypt else 'white'
+        image_path_markdown = f"""
+<div style='text-align: center;'>
+    <img src="file/{image_path}" alt="{filename}" style="max-width: 200px; max-height: 200px; display: block; margin-left: auto; margin-right: auto;">
+    <div style='color: {color}; font: 0.9em; '>{img.width} x {img.height}</div>
+    <div style='color: {color}; font: 0.7em; '>{filename}</div>
+</div>
+"""
+        meta_strs_all = '\n'.join(meta_strs)
+        index_info = f"<span style='color: {color};'>{image_index}</span>"
+        data.append({
+            'Image Path': image_path_markdown,
+            'Metadata': meta_strs_all,
+            'Index': index_info
+        })
+        image_index += 1
+        return image_index
+    except Exception as e:
+        print(f"Error processing {image_path}: {e}")
+
+    return image_index
+
+
 def image_batch_metadata_interface(image_dir, text_remove):
     if not os.path.isdir(image_dir):
         return "Directory not found", pandas.DataFrame()
@@ -127,39 +185,14 @@ def image_batch_metadata_interface(image_dir, text_remove):
     removes = text_remove.split('|')
     box_key = ConfigUtil.retrieve('cfg').get('box_key', '')
     for filename in os.listdir(image_dir):
-        if filename.endswith(".png"):
-            image_path = os.path.join(image_dir, filename)
-            try:
-                with Image.open(image_path) as img:
-                    meta = img.info
-                    is_encrypt = CryptoUtil.encrypt_probe(meta)
-                    if is_encrypt:
-                        meta = CryptoUtil.decrypt_dict(meta, box_key)
-                    meta_parameters = meta.get('parameters', '')
-                    meta_parameters = meta_parameters.split('Negative prompt:')[0].strip()
-                    for remove in removes:
-                        meta_parameters = meta_parameters.replace(remove, '')
-                    meta_parameters = f"```\n{meta_parameters}\n```"
-
-                    color = 'orange' if is_encrypt else 'white'
-                    image_path_markdown = f"""
-<div style='text-align: center;'>
-    <img src="file/{image_path}" alt="{filename}" style="max-width: 200px; max-height: 200px; display: block; margin-left: auto; margin-right: auto;">
-    <div style='color: {color}; font: 0.9em; '>{img.width} x {img.height}</div>
-    <div style='color: {color}; font: 0.7em; '>{filename}</div>
-</div>
-"""
-
-                    index_info = f"<span style='color: {color};'>{image_index}</span>"
-                    data.append({
-                        'Image Path': image_path_markdown,
-                        'Metadata': meta_parameters,
-                        'Index': index_info
-                    })
-                    image_index += 1
-            except Exception as e:
-                print(f"Error processing {image_path}: {e}")
-                continue  # Skip files that cannot be opened as images
+        image_index = image_batch_metadata_one(
+            filename=filename,
+            image_dir=image_dir,
+            removes=removes,
+            data=data,
+            box_key=box_key,
+            image_index=image_index,
+        )
 
     frames = pandas.DataFrame(data)
     return "Processed successfully", frames
