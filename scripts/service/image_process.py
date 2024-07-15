@@ -12,7 +12,7 @@ from moviepy.video.io.VideoFileClip import VideoFileClip
 
 from scripts import util
 from scripts.common.crypto import CryptoUtil
-from scripts.common.sim import Reflector
+from scripts.common.sim import Reflector, NumUtil
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
@@ -336,6 +336,8 @@ def resize_image(p: ImageProcessParams):
     if p.resize_scale_use:
         resize_width = round(image.width * p.resize_width_scale)
         resize_height = round(image.height * p.resize_height_scale)
+        resize_width = NumUtil.odd_to_even(resize_width)
+        resize_height = NumUtil.odd_to_even(resize_height)
     else:
         resize_width = p.resize_width
         resize_height = p.resize_height

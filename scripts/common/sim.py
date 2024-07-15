@@ -397,3 +397,17 @@ class FileIO:
             os.makedirs(parent_directory, exist_ok=True)
         file = open(file_path, mode=mode, encoding=encoding)
         return file
+
+
+class NumUtil:
+    @staticmethod
+    def is_odd(num: int) -> bool:
+        return num % 2 == 1
+
+    @staticmethod
+    def is_even(num: int) -> bool:
+        return num % 2 == 0
+
+    @staticmethod
+    def odd_to_even(num: int) -> int:
+        return num + 1 if NumUtil.is_even(num) else num
