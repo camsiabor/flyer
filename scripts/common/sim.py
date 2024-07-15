@@ -409,5 +409,9 @@ class NumUtil:
         return num % 2 == 0
 
     @staticmethod
-    def odd_to_even(num: int) -> int:
-        return num + 1 if NumUtil.is_even(num) else num
+    def odd_to_even(num: int, direction: int = 1) -> int:
+        return (num + direction) if NumUtil.is_odd(num) else num
+
+    @staticmethod
+    def round_to_even(num: any, direction: int = 1):
+        return NumUtil.odd_to_even(round(num), direction)

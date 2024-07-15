@@ -334,10 +334,8 @@ def resize_image(p: ImageProcessParams):
             image = image_ex
 
     if p.resize_scale_use:
-        resize_width = round(image.width * p.resize_width_scale)
-        resize_height = round(image.height * p.resize_height_scale)
-        resize_width = NumUtil.odd_to_even(resize_width)
-        resize_height = NumUtil.odd_to_even(resize_height)
+        resize_width = NumUtil.round_to_even(image.width * p.resize_width_scale)
+        resize_height = NumUtil.round_to_even(image.height * p.resize_height_scale)
     else:
         resize_width = p.resize_width
         resize_height = p.resize_height
