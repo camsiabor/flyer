@@ -27,6 +27,7 @@ class ImageProcessParams:
             output_prefix="", output_suffix="", output_extension="",
             chop_active=False, chop_left=0, chop_right=0, chop_upper=0, chop_lower=0,
             resize_width=768, resize_height=1024,
+            resize_width_scale=1.0, resize_height_scale=1.0, resize_scale_use=False,
             resize_fill_color="", resize_fill_alpha=-1,
             resize_remove_color="", resize_remove_alpha=-1,
             resize_remove_threshold=100,
@@ -61,6 +62,9 @@ class ImageProcessParams:
         # reszie
         self.resize_width = int(resize_width)
         self.resize_height = int(resize_height)
+        self.resize_width_scale = float(resize_width_scale)
+        self.resize_height_scale = float(resize_height_scale)
+        self.resize_scale_use = bool(resize_scale_use)
         self.resize_fill_color = resize_fill_color
         self.resize_fill_alpha = resize_fill_alpha
 
@@ -84,7 +88,7 @@ class ImageProcessParams:
         # box key
         self.crypto_ensable = crypto_enable
         self.crypto_key = crypto_key
-
+        pass
 
     def clone(self):
         return Reflector.clone(self)
@@ -329,8 +333,17 @@ def resize_image(p: ImageProcessParams):
         if image_ex is not None:
             image = image_ex
 
-    resize_width = p.resize_width if p.resize_width > 0 else image.width
-    resize_height = p.resize_height if p.resize_height > 0 else image.height
+    if p.resize_scale_use:
+        resize_width = round(image.width * p.resize_width_scale)
+        resize_height = round(image.height * p.resize_height_scale)
+    else:
+        resize_width = p.resize_width
+        resize_height = p.resize_height
+
+    if resize_width <= 0:
+        resize_width = image.width
+    if resize_height <= 0:
+        resize_height = image.height
 
     ratio = image.width / image.height
     to_ratio = resize_width / resize_height
@@ -456,10 +469,18 @@ def process_single_file(p: ImageProcessParams):
 
     if p.des_file:
         os.makedirs(os.path.dirname(p.des_file), exist_ok=True)
+
         print("[img-process] src: {}, des: {}".format(p.src_file, p.des_file))
-        print("[img-process] resize: {}x{} | fill: {} | remove: {}"
-              .format(p.resize_width, p.resize_height, p.resize_fill_color, p.resize_remove_color))
-        print("[img-process] rembg_model: {} | fill {}".format(p.rembg_model, p.rembg_color))
+
+        if p.resize_scale_use:
+            print(f"[img-process] resize scale: {p.resize_width_scale}x{p.resize_height_scale} |"
+                  f" fill: {p.resize_fill_color} | remove: {p.resize_remove_color}")
+        else:
+            print(f"[img-process] resize: {p.resize_width}x{p.resize_height} |"
+                  f" fill: {p.resize_fill_color} | remove: {p.resize_remove_color}")
+
+        if p.rembg_model and p.rembg_model != "none":
+            print("[img-process] rembg_model: {} | fill {}".format(p.rembg_model, p.rembg_color))
 
         if p.rembg_session is not None:
             background_remove(p)

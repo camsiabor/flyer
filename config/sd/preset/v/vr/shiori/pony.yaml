@@ -39,7 +39,7 @@ prompt:
     character_lora: "<lora:shiori-3d-pony-6-lokr-5-c16-1-r1-000008:0.9>, KanKanShiori"
     character: |
       blue eyes,
-      brown hair,multicolored hair,
+      brown hair,multicolored hair, 
       (brown dress:0.9), (white shirt:0.9), (bell:0.9), 
       skirt, frills, thigh strap, headwear, animal ears,
     expressive_h: ""

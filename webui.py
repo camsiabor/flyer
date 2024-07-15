@@ -29,7 +29,8 @@ def img_process_interface(
         src_img_active, src_img, des_img,
         output_prefix, output_suffix, output_extension,
         chop_active, chop_left, chop_right, chop_upper, chop_lower,
-        resize,
+        resize_numbers,
+        resize_scales, resize_scale_use,
         resize_fill_color, resize_fill_alpha,
         resize_remove_color, resize_remove_alpha, resize_remove_threshold,
         rembg_model,
@@ -38,7 +39,8 @@ def img_process_interface(
         recursive_depth,
         crypto_enable, crypto_key,
 ):
-    resize_width, resize_height = map(int, resize.split('x'))
+    resize_width, resize_height = map(int, resize_numbers.split('x'))
+    resize_width_scale, resize_height_scale = map(float, resize_scales.split('x'))
 
     if crypto_enable and len(crypto_key) <= 0:
         cfg = ConfigUtil.retrieve('cfg')
@@ -57,6 +59,8 @@ def img_process_interface(
         chop_upper=chop_upper, chop_lower=chop_lower,
         # resize params
         resize_width=resize_width, resize_height=resize_height,
+        resize_width_scale=resize_width_scale, resize_height_scale=resize_height_scale,
+        resize_scale_use=resize_scale_use,
         resize_fill_color=resize_fill_color, resize_fill_alpha=resize_fill_alpha,
         resize_remove_color=resize_remove_color, resize_remove_alpha=resize_remove_alpha,
         resize_remove_threshold=resize_remove_threshold,
@@ -278,7 +282,10 @@ def tab_image_process():
     with gr.Row():
         with gr.Tab("Resize"):
             with gr.Row():
-                resize = gr.Textbox(value="768x1024", label="Resize (e.g., 512x512)")
+                resize_numbers = gr.Textbox(value="0x0", label="Resize (e.g., 512x512)")
+                resize_scales = gr.Textbox(value="1.0x1.0", label="Resize Scales (e.g., 0.5x0.5)")
+                resize_scale_use = gr.Checkbox(label="Use Scales", value=False)
+            with gr.Row():
                 resize_fill_color = gr.ColorPicker(label="Resize Fill Color", value='#000000')
                 resize_fill_alpha = gr.Slider(label="Resize Fill Alpha", value=-1, minimum=-1, maximum=255)
             with gr.Row():
@@ -357,7 +364,8 @@ def tab_image_process():
             src_img_active, src_img, des_img,
             output_prefix, output_suffix, output_extension,
             chop_active, chop_left, chop_right, chop_upper, chop_lower,
-            resize,
+            resize_numbers,
+            resize_scales, resize_scale_use,
             resize_fill_color, resize_fill_alpha,
             resize_remove_color, resize_remove_alpha, resize_remove_threshold,
             rembg_model,
