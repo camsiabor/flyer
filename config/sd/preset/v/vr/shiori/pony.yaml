@@ -98,7 +98,7 @@ adetailers:
     model: "hand_yolov8n.pt"
 
 options:
-  colddown: 5
+  colddown: 3
   use_async: true
   metadata_key: "b_pox_b"
 

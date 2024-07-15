@@ -9,7 +9,7 @@ image_latent:
   width: 1024
   height: 1024
   batch_size: 2
-  batch_count: 6
+  batch_count: 3
 
 prompt:
   positive: |
@@ -39,8 +39,11 @@ prompt:
     character_lora: "<lora:Belle_from_Zenless_Zone_Zero:0.95>, belle (zenless zone zero)"
     character: "earrings,jewelry,shirt,black shirt,long sleeves,hooded jacket"
     expressive_h: "<lora:Expressive_H:1>,expressiveh"
-    common: "motion lines, hetero, sex"
+    common: "motion lines, (nsfw:0.1)"
     posture: [
+      "standing sex, split, leg up"
+    ]
+    posture2: [
       "top-down bottom-up, face_focus, bottomless",
       "top-down bottom-up, face_focus, bottomless, front view",
       "top-down bottom-up, bottomless, from_side",
@@ -94,25 +97,10 @@ prompt:
       "fingering, from back, ass, pussy, pussy juice",
     ]
     act: [
-      "fellatio",
-      "sex",
-      "arms up",
-      "arms behind back",
-      "grabbing own breasts",
-      "grabbing own ass",
-      "masturbation",
-      "fingering",
-      "",
     ]
     act_sub: [
     ]
     act_by: [
-      "grabbing another's breast",
-      "grabbing another's ass",
-      "grabbing another's hair, hair_pull",
-      "hand on head",
-      "hand on ass",
-      "", "", "", "", "", "",
     ]
     body: [
       "nipples, breasts",
@@ -149,7 +137,7 @@ prompt:
     ]
     scene: [
       # "bedroom", "alley", "simple background, light", "simple background, dark", "bathroom",
-      "alley",
+      "alley, night",
     ]
 
 

@@ -321,7 +321,8 @@ class SDBox:
         if isinstance(cfg_ptr, str):
             cfg_ptr_abs = os.path.abspath(cfg_ptr)
             if not os.path.exists(cfg_ptr_abs):
-                raise FileNotFoundError(f"The file {cfg_ptr} does not exist => {cfg_ptr_abs}")
+                msg = f"The file {cfg_ptr} does not exist => {cfg_ptr_abs}"
+                raise FileNotFoundError(msg)
             config, _ = ConfigUtil.load_and_embed(
                 cfg_ptr_abs,
             )
