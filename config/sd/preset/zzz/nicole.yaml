@@ -1,0 +1,175 @@
+server:
+  host: 127.0.0.1
+  port: 30001
+  progress_poll_delay: 1024
+  progress_poll_interval: 1024
+  verbose: false
+
+image_latent:
+  width: 1024
+  height: 1024
+  batch_size: 1
+  batch_count: 6
+
+prompt:
+  positive: |
+    1girl,  
+    (score_9, score_8_up, score_7_up, source_anime, rating_all),
+    $$expressive_h$$,
+    $$common$$,
+    $$posture$$,
+    $$act$$,   
+    $$act_sub$$,
+    $$act_by$$,
+    $$body$$,    
+    $$character_lora$$,
+    $$perspective$$,
+    $$character$$,
+    $$facial_expression$$,
+    $$facial_expression_sub$$,    
+    $$scene$$,
+  negative: |
+    (score_6,score_5,score_4,score_3,score_2,score_1),
+    (text:1.2), (logo:1.2), (watermark:1.2),
+    (bad anatomy:1.2),
+    (extra legs：1.2),(extra hands:1.2), 
+    (extra digits:1.2),(fewer digits;1.2),
+  params_cycle: -1
+  params_pos_1:
+    character_lora: "<lora:Char-ZZZ-Nicole-Pony-V1:0.85>,nicole demara"
+    character: |
+      tube top,single thighhigh,short shorts,cropped jacket,
+      belt boots, hair ribbon, hairclip,earrings,single sock,
+      high belt, thigh strap, detached sleeves,doll,black collar,
+    expressive_h: "<lora:Expressive_H:1>,expressiveh"
+    common: "motion lines, blush, slutty"
+    posture: [
+      "top-down bottom-up, face_focus, bottomless",
+      "top-down bottom-up, face_focus, bottomless, front view",
+      "top-down bottom-up, bottomless, from_side",
+      "bent over desk, pov, skirt pulled down, panty pulled down, looking back, hands on ass, pussy, pussy juice, pov",
+      "bent over desk, pov, skirt pulled down, panty pulled down, looking back, hands on ass, doggy style sex, pussy juice, penetration, pov",
+      "squatting, no panties, spread knees, clothes lift, lifted by self, from below",
+      "squatting",
+      "skirt lift, lifted by self, bottomless, no panties",
+      "lying on back, pov, arms up,arms bound, rope, head tilt, knees up, cunninggulus, waist grab",
+      "lying on back, from side, arms up,arms bound, rope, head tilt, knees up, cunninggulus, waist grab",
+      "lying on side, penetration, vaginal",
+      "lying on stomach, sex from behind, hand on head",
+      "licking penis, fellatio, hand on head",
+      "licking penis, fellatio, hand on head, pov, from above",
+      "licking penis, nipples, from side, kneeling, hand on head,",
+      "licking penis, deep throat",
+      "licking penis, handjob, orgy",
+      "licking penis, pov",
+      "licking penis, deep throat, pov",
+      "licking penis, 69",
+      "slapping with penis on face",
+      "sitting on face, boy on top",
+      "cock tease, grabbing hair",
+      "open mouth, kneeling, cum on face, cum in mouth, from above",
+      "kneeling, spreading own ass",
+      "sex_from_behind, against wall, hands on wall, from back, from above",
+      "standing sex",
+      "standing sex, split, leg up",
+      "female masturbation, grabbing own breast, bathing, topless",
+      "female masturbation, spread legs, female masturation, spread pussy by self",
+      "missionary sex, pov, grabbing another's breast",
+      "standing missionary",
+      "doggy style, kneeling",
+      "sex from behind, from below",
+      "cowgirl",
+      "cowgirl, grabbing own breast",
+      "reverse cowgirl, slutty",
+      "girl on top, legs lock",
+      "french kiss, missionary, faceless male",
+      "breast sex, titfucking, pov, breasts, nipple, penis",
+      "foggy, exposed_pussy,vaginal, riding a dick, jizz oozing out of pussy, cum, orgasm,",
+      "wariza, w_sitting, ass, ass_focus, feet",
+      "wariza, w_sttiing, pov, from_above",
+      "spreading own ass, from behind, pov",
+      "spread pussy, spread legs, looking to the side, v hand, pussy juice",
+      "ahegao, peace sign, v hands, v",
+      "spooning",
+      "orgy, double penetration, anal, vaginal, penetration",
+      "orgy, penetration, licking penis",
+      "fingering, pussy, pussy juice",
+      "fingering, from back, ass, pussy, pussy juice",
+    ]
+    act: [
+    ]
+    act_sub: [
+    ]
+    act_by: [
+      "hetero",
+      "orgy",
+    ]
+    body: [
+      "(half nude:0.5), (saliva trail:0.5), (saliva:0.5), (cum:0.5)",
+      "half nude, (saliva trail:0.5), (saliva:0.5), (cum:0.5)",
+      "half nude, torn clothes, (saliva trail:0.5), (saliva:0.5), (cum:0.5)",
+      "(nude:0.5), (saliva trail:0.5), (saliva:0.5), (cum:0.5)",
+      "(nude:0.75), (saliva trail:0.5), (saliva:0.5), (cum:0.5)",
+      "nude, (saliva trail:0.5), (saliva:0.5), (cum:0.5)",
+      "lingerie, (nude:0.66)",
+      "bondage, (nude:0.5)",
+    ]
+    perspective: [
+    ]
+    facial_expression: [
+      "shy, moaning",
+      "tears",
+      "ahegao",
+      "facepalm",
+      "rolling eyes",
+      "(spasm:0.9), (trembling:0.9), (twitching:0.9)",
+      "embarrass",
+      "embarrass, looking to the side",
+      "open mouth",
+      "open mouth, tongue out",
+      "mouth ball gag",
+      "black blindfold",
+      "black blindfold, mouth ball gag",
+    ]
+    facial_expression_sub: [
+    ]
+    scene: [
+      # "bedroom", "alley", "simple background, light", "simple background, dark", "bathroom",
+      "alley, light and shadow"
+    ]
+
+
+sampler:
+  active: true
+  name: "Euler a"
+  steps: 20
+  cfg_scale: 6
+  seed: -1
+
+upscaler:
+  enable: false
+  scale: 1.25
+  second_pass_steps: 10
+  denoising_strength: 0.5
+  name: "ESRGAN_4x_Anime6B"
+
+adetailers:
+  - enable: true
+    model: "face_yolov8n.pt"
+  - enable: false
+    model: "hand_yolov8n.pt"
+
+options:
+  colddown: 2
+  use_async: true
+  metadata_key: "b_pox_b"
+
+extra:
+  upscaler_1: "ESRGAN_4x_Anime6B"
+  upscaling_resize: 1.25
+
+output_txt2img:
+  #file_format: "./output/%Y%m%d/belle/0/%H%M%S"
+  file_format: "D:/snapshot/character/hoyoverse/zenless_zone_zero/nicole/%Y%m%d/0/%H%M%S"
+  file_extension: "png"
+
