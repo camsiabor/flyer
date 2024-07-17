@@ -1,15 +1,15 @@
 server:
   host: 127.0.0.1
   port: 30001
-  progress_poll_delay: 3
-  progress_poll_interval: 15
+  progress_poll_delay: 1024
+  progress_poll_interval: 1024
   verbose: false
 
 image_latent:
   width: 1024
   height: 1024
-  batch_size: 2
-  batch_count: 3
+  batch_size: 1
+  batch_count: 5
 
 prompt:
   positive: |
@@ -38,10 +38,15 @@ prompt:
   params_pos_1:
     character_lora: "<lora:Belle_from_Zenless_Zone_Zero:0.95>, belle (zenless zone zero)"
     character: "earrings,jewelry,shirt,black shirt,long sleeves,hooded jacket"
-    expressive_h: "<lora:Expressive_H:1>,expressiveh"
+    # expressive_h: "<lora:Expressive_H:1>,expressiveh"
     common: "motion lines, (nsfw:0.1)"
     posture: [
-      "standing sex, split, leg up"
+      "spread legs, peace sign, v hand, cum in pussy, cum on body, looking to the side",
+      "spread legs, peace sign, v hand, spread pussy by own hand, cum in pussy, cum on body, open mouth, tongue out",
+      "from back, ass, pussy, cum in pussy, cum on body, grab ass by own hands",
+      "squat, paw pose, cum in pussy, cum on body, open mouth, tongue out, pussy",
+      "squat, from below, cum in pussy",
+      "from above, pov, cum in mouth, open mouth, tongue out, v hand, peace sign",
     ]
     posture2: [
       "top-down bottom-up, face_focus, bottomless",
@@ -137,15 +142,16 @@ prompt:
     ]
     scene: [
       # "bedroom", "alley", "simple background, light", "simple background, dark", "bathroom",
-      "alley, night",
+      # "alley, night", "alley, day"
+      "simple background, light"
     ]
 
 
 sampler:
   active: true
   name: "Euler a"
-  steps: 20
-  cfg_scale: 5
+  steps: 26
+  cfg_scale: 5.5
   seed: -1
 
 upscaler:
@@ -162,7 +168,7 @@ adetailers:
     model: "hand_yolov8n.pt"
 
 options:
-  colddown: 3
+  colddown: 2
   use_async: true
   metadata_key: "b_pox_b"
 

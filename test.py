@@ -24,7 +24,7 @@ def test():
 # ==================================================================================================
 
 async def test_wrap():
-    conf = './config/sd/preset/pony/belle2.yaml'
+    conf = './config/sd/preset/zzz/belle.yaml'
     box = SDBox().load(conf).initiate()
     wrap = SDWrap(box=box).initiate()
     for i in range(box.image_latent.batch_count):
