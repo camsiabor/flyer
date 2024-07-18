@@ -6,8 +6,8 @@ server:
   verbose: false
 
 image_latent:
-  width: 1216
-  height: 1216
+  width: 1024
+  height: 1024
   batch_size: 1
   batch_count: 3
 
@@ -16,6 +16,7 @@ prompt:
     (score_9, score_8_up, score_7_up, source_anime, rating_all, rating_explicit),
     $$character_lora$$,    
     $$character_cloth$$,
+    BREAK
     $$phone_lora$$,
     $$posture$$,
     $$facial_expression$$,    
@@ -29,21 +30,29 @@ prompt:
   params_cycle: -1
   params_pos_1:
     phone_lora: "<lora:PhoneExposurePDXL:1>,phone exposure,phone pov"
-    character_lora: "<lora:Char-ZZZ-Belle-Pony-V1:0.9>,belle (zenless zone zero)"
+    character_lora: "<lora:Anby-PDXL_scarxzys:0.9>,anby"
+    # character_lora: "<lora:Char-ZZZ-Belle-Pony-V1:0.9>,belle (zenless zone zero)"
+    character_cloth_belle: |
+      single fingerless glove,black shirt,single thighhigh,earrings,hairclip,
+      layered skirt,single sock,sleeveless jacket,asymmetrical legwear,necklace,bracelet
     character_cloth: |
-      single fingerless glove,black shirt,single thighhigh,earrings,
-      hairclip,sneakers,layered skirt,single sock,
-      sleeveless jacket,asymmetrical legwear,necklace,bracelet
+      orange eyes,white hair,blunt bangs,short hair,side braid,headphones,
+      crop top,black jacket,detached sleeves,fingerless gloves,
+      black skirt,pleated skirt,black belt,single thigh strap,thighhighs
     posture: [
+      "nude, pov, fellatio, from above, picking penis",
       "nude, fellatio, blowjow, licking penis",
       "nude, penetration, vaginal, pussy",
       "nude, doggystyle position, vaginal, penetration",
-      "nude, foggy, penetration, vaginal",s
+      "nude, foggy, penetration, vaginal",
       "nude, split, leg up, standing sex, penetration, vaginal, pussy, pussy juice",
       "nude, missionary position, penetration, pussy juice",
       "nude, cowgirl position, penetration, pussy juice",
       "nude, female masturation, grabbing own breasts",
       "nude, top-down_bottom-up, face focus, bottomless, sex from behind",
+      "nude, v hand, peace sign, spread pussy, cum on body",
+    ]
+    posture2: [
       "nude, v hand, peace sign, spread pussy, cum on body",
     ]
     common: ""
@@ -80,7 +89,7 @@ adetailers:
     model: "hand_yolov8n.pt"
 
 options:
-  colddown: 1
+  colddown: 1.5
   use_async: true
   metadata_key: "b_pox_b"
 
@@ -90,6 +99,6 @@ extra:
 
 output_txt2img:
   #file_format: "./output/%Y%m%d/belle/0/%H%M%S"
-  file_format: "D:/snapshot/character/hoyoverse/zenless_zone_zero/belle/%Y%m%d/0_phone/%H%M%S"
+  file_format: "D:/snapshot/character/hoyoverse/zenless_zone_zero/anby/%Y%m%d/0_phone/%H%M%S"
   file_extension: "png"
 

@@ -4,7 +4,8 @@ import time
 
 from PIL import Image
 
-from scripts.common.sim import LogUtil, ConfigUtil
+from scripts.common.cfg import ConfigUtil
+from scripts.common.log import LogUtil
 from scripts.sd.sc.box import SDBox
 from scripts.sd.sc.sdwrap import SDWrap
 

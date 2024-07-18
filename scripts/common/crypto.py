@@ -3,7 +3,7 @@ import json
 
 from cryptography.fernet import Fernet
 
-from scripts.common.sim import Reflector
+from scripts.common.reflect import Reflector
 
 
 class CryptoUtil:

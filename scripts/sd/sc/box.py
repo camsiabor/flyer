@@ -6,8 +6,9 @@ from datetime import datetime
 
 import webuiapi
 
+from scripts.common.cfg import ConfigUtil
+from scripts.common.reflect import Reflector
 from scripts.common.serial import TypeList
-from scripts.common.sim import Reflector, ConfigUtil
 from scripts.common.textutil import TextUtil
 from scripts.sd.sc.alias import HiResUpscalerEx
 
