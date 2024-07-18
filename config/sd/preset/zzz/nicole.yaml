@@ -13,7 +13,7 @@ image_latent:
 
 prompt:
   positive: |
-    1girl,  
+    1girl, solo,   
     (score_9, score_8_up, score_7_up, source_anime, rating_all),
     $$expressive_h$$,
     $$common$$,
@@ -29,7 +29,8 @@ prompt:
     $$facial_expression_sub$$,    
     $$scene$$,
   negative: |
-    (score_6,score_5,score_4,score_3,score_2,score_1),
+    (score_5,score_4,score_3,score_2,score_1),
+    pony, muscular, censored, furry, child, kid, chibi, 3d, monochrome,
     (text:1.2), (logo:1.2), (watermark:1.2),
     (bad anatomy:1.2),
     (extra legs：1.2),(extra hands:1.2), 
@@ -42,39 +43,27 @@ prompt:
       belt boots, hair ribbon, hairclip,earrings,single sock,
       high belt, thigh strap, detached sleeves,doll,black collar,
     expressive_h: "<lora:Expressive_H:1>,expressiveh"
-    common: "motion lines, blush, slutty"
+    common: "(motion lines:0.9), blush, penetration, sex"
     posture: [
       "top-down bottom-up, face_focus, bottomless",
       "top-down bottom-up, face_focus, bottomless, front view",
       "top-down bottom-up, bottomless, from_side",
       "bent over desk, pov, skirt pulled down, panty pulled down, looking back, hands on ass, pussy, pussy juice, pov",
-      "bent over desk, pov, skirt pulled down, panty pulled down, looking back, hands on ass, doggy style sex, pussy juice, penetration, pov",
+      "bent over desk, pov, skirt pulled down, panty pulled down, looking back, hands on ass, doggystyle sex, pussy juice, penetration, pov",
       "squatting, no panties, spread knees, clothes lift, lifted by self, from below",
       "squatting",
-      "skirt lift, lifted by self, bottomless, no panties",
+      "skirt lift, lifted by self, bottomless, no panties, from below",
       "lying on back, pov, arms up,arms bound, rope, head tilt, knees up, cunninggulus, waist grab",
       "lying on back, from side, arms up,arms bound, rope, head tilt, knees up, cunninggulus, waist grab",
       "lying on side, penetration, vaginal",
       "lying on stomach, sex from behind, hand on head",
-      "licking penis, fellatio, hand on head",
-      "licking penis, fellatio, hand on head, pov, from above",
-      "licking penis, nipples, from side, kneeling, hand on head,",
-      "licking penis, deep throat",
-      "licking penis, handjob, orgy",
-      "licking penis, pov",
-      "licking penis, deep throat, pov",
-      "licking penis, 69",
-      "slapping with penis on face",
-      "sitting on face, boy on top",
-      "cock tease, grabbing hair",
-      "open mouth, kneeling, cum on face, cum in mouth, from above",
-      "kneeling, spreading own ass",
       "sex_from_behind, against wall, hands on wall, from back, from above",
       "standing sex",
       "standing sex, split, leg up",
       "female masturbation, grabbing own breast, bathing, topless",
       "female masturbation, spread legs, female masturation, spread pussy by self",
       "missionary sex, pov, grabbing another's breast",
+      "missionary, pov, from above",
       "standing missionary",
       "doggy style, kneeling",
       "sex from behind, from below",
@@ -93,26 +82,24 @@ prompt:
       "spooning",
       "orgy, double penetration, anal, vaginal, penetration",
       "orgy, penetration, licking penis",
-      "fingering, pussy, pussy juice",
-      "fingering, from back, ass, pussy, pussy juice",
     ]
     act: [
     ]
     act_sub: [
     ]
     act_by: [
-      "hetero",
-      "orgy",
+      ""
     ]
     body: [
-      "(half nude:0.5), (saliva trail:0.5), (saliva:0.5), (cum:0.5)",
-      "half nude, (saliva trail:0.5), (saliva:0.5), (cum:0.5)",
-      "half nude, torn clothes, (saliva trail:0.5), (saliva:0.5), (cum:0.5)",
-      "(nude:0.5), (saliva trail:0.5), (saliva:0.5), (cum:0.5)",
-      "(nude:0.75), (saliva trail:0.5), (saliva:0.5), (cum:0.5)",
-      "nude, (saliva trail:0.5), (saliva:0.5), (cum:0.5)",
+      "(half nude:0.5), (saliva trail:0.5)",
+      "half nude, (saliva trail:0.5), ",
+      "half nude, torn clothes, (saliva trail:0.5)",
+      "(nude:0.5), (saliva trail:0.5)",
+      "(nude:0.75), (saliva trail:0.5)",
+      "nude, (saliva trail:0.5), (saliva:0.5)",
+      "nude, (saliva trail:0.5), (saliva:0.5), slap mark (on ass)",
       "lingerie, (nude:0.66)",
-      "bondage, (nude:0.5)",
+      "bondage, (nude:0.5), dog leash",
     ]
     perspective: [
     ]
@@ -122,7 +109,7 @@ prompt:
       "ahegao",
       "facepalm",
       "rolling eyes",
-      "(spasm:0.9), (trembling:0.9), (twitching:0.9)",
+      "spasm",
       "embarrass",
       "embarrass, looking to the side",
       "open mouth",
@@ -130,6 +117,7 @@ prompt:
       "mouth ball gag",
       "black blindfold",
       "black blindfold, mouth ball gag",
+      "slave, dog leash"
     ]
     facial_expression_sub: [
     ]
@@ -143,7 +131,7 @@ sampler:
   active: true
   name: "Euler a"
   steps: 20
-  cfg_scale: 6
+  cfg_scale: 5.75
   seed: -1
 
 upscaler:
@@ -170,6 +158,6 @@ extra:
 
 output_txt2img:
   #file_format: "./output/%Y%m%d/belle/0/%H%M%S"
-  file_format: "D:/snapshot/character/hoyoverse/zenless_zone_zero/nicole/%Y%m%d/0/%H%M%S"
+  file_format: "D:/snapshot/character/hoyoverse/zenless_zone_zero/nicole/%Y%m%d/1/%H%M%S"
   file_extension: "png"
 
