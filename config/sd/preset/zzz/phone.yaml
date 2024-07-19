@@ -14,8 +14,7 @@ image_latent:
 prompt:
   positive: |
     (score_9, score_8_up, score_7_up, source_anime, rating_all, rating_explicit),
-    $$character_lora$$,    
-    $$character_cloth$$,
+    $$character$$,        
     BREAK
     $$phone_lora$$,
     $$posture$$,
@@ -29,16 +28,22 @@ prompt:
     (extra digits:1.2),(fewer digits;1.2),
   params_cycle: -1
   params_pos_1:
-    phone_lora: "<lora:PhoneExposurePDXL:1>,phone exposure,phone pov"
-    character_lora: "<lora:Anby-PDXL_scarxzys:0.9>,anby"
-    # character_lora: "<lora:Char-ZZZ-Belle-Pony-V1:0.9>,belle (zenless zone zero)"
-    character_cloth_belle: |
+    phone_lora: <lora:PhoneExposurePDXL:0.95>,phone exposure,phone pov
+    character: |
+      <lora:ellen_joe_pony:0.9>,ellen_joe,
+      maid_headdress,black_dress,wrist_cuffs,puffy_short_sleeves,mole_under_eye,
+      frilled_dress,black_pantyhose,(two-toned_hair:0.1),(colored inner hair:0.1),short hair,
+      (shark tail:0.35)
+    character_anby: |
+      <lora:Char-ZZZ-AnbyDemara-V1-Pony:0.9>, anby demara,
+      white short hair, headphones,
+      (orange eyes:0.5), (multicolored eyes:0.75),
+      black thighhighs,black pleated skirt,fingerless gloves,
+      choker,cropped jacket,detached sleeves,thigh strap
+    character_belle: |
+      <lora:Char-ZZZ-Belle-Pony-V1:0.9>,belle (zenless zone zero),
       single fingerless glove,black shirt,single thighhigh,earrings,hairclip,
       layered skirt,single sock,sleeveless jacket,asymmetrical legwear,necklace,bracelet
-    character_cloth: |
-      orange eyes,white hair,blunt bangs,short hair,side braid,headphones,
-      crop top,black jacket,detached sleeves,fingerless gloves,
-      black skirt,pleated skirt,black belt,single thigh strap,thighhighs
     posture: [
       "nude, pov, fellatio, from above, picking penis",
       "nude, fellatio, blowjow, licking penis",
@@ -59,12 +64,13 @@ prompt:
     facial_expression: [
       "blush, embarrass",
       "blush, black blindfold, open mouth, saliva",
-      # "blush, mouth gag, saliva",
+      "blush, mouth gag, saliva",
       "blush, embarrass, open mouth, saliva trail",
       "blush, embarrass, open mouth, saliva trail, tongue out",
       "blush, embarrass, (looking to the side:1.1)",
     ]
     scene: [
+      "indoors, (european decora:0.2), (european architecture:0.2), light and shadow",
     ]
 
 sampler:
@@ -89,7 +95,7 @@ adetailers:
     model: "hand_yolov8n.pt"
 
 options:
-  colddown: 1.5
+  colddown: 2
   use_async: true
   metadata_key: "b_pox_b"
 
@@ -99,6 +105,6 @@ extra:
 
 output_txt2img:
   #file_format: "./output/%Y%m%d/belle/0/%H%M%S"
-  file_format: "D:/snapshot/character/hoyoverse/zenless_zone_zero/anby/%Y%m%d/0_phone/%H%M%S"
+  file_format: "D:/snapshot/character/hoyoverse/zenless_zone_zero/ellen_joe/%Y%m%d/0_phone/%H%M%S"
   file_extension: "png"
 

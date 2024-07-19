@@ -84,17 +84,18 @@ class SDWrap:
         )
         self.cli.util_wait_for_ready()
 
+        ready_start = time.perf_counter()
         current = self.cli.util_get_current_model()
-
         if self.box.model.base:
             if current != self.box.model.base:
                 self.cli.util_set_model(self.box.model.base)
                 self.logger.info(f"switch model to {self.box.model.base} from {current}")
-                self.cli.util_wait_for_ready()
         else:
             self.box.model.base = current
 
-        self.logger.info(f"current model: {self.box.model.base}")
+        self.cli.util_wait_for_ready()
+        ready_end = time.perf_counter()
+        self.logger.info(f"current model: {self.box.model.base} | ready in {ready_end - ready_start:.2f} seconds")
 
         if self.box.output_txt2img.dir_path:
             self.box.output_txt2img.dir_path = datetime.datetime.now().strftime("./output/%Y%m%d")
