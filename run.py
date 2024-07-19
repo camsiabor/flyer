@@ -6,7 +6,7 @@ import time
 import yaml
 
 import webui
-from scripts.common.sim import ConfigUtil
+from scripts.common.cfg import ConfigUtil
 
 
 def browser_launch(port: int):

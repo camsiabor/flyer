@@ -5,6 +5,12 @@ server:
   progress_poll_interval: 1024
   verbose: false
 
+test: |
+  <#>
+  </#>
+
+
+
 image_latent:
   width: 1024
   height: 1024

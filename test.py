@@ -38,13 +38,25 @@ async def dev():
     pass
 
 
+async def xml():
+    import xml.etree.ElementTree as ET
+    x = f"""<OvO>
+        <a>power</a>
+    </OvO>"""
+
+    tree = ET.fromstring(x)
+    print(tree)
+    pass
+
+
 # ==================================================================================================
 
 if __name__ == '__main__':
     time_start = time.perf_counter()
     LogUtil.load('./config/log.yaml')
 
-    asyncio.run(test_wrap())
+    # asyncio.run(test_wrap())
+    asyncio.run(xml())
     # asyncio.run(dev())
 
     time_end = time.perf_counter()

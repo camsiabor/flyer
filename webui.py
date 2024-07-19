@@ -8,8 +8,8 @@ from PIL import ImageDraw
 
 import ui.common.console as uicon
 from scripts import util
+from scripts.common.cfg import ConfigUtil
 from scripts.common.crypto import CryptoUtil
-from scripts.common.sim import ConfigUtil
 from scripts.service import image_process, video_process, net_process, text_process
 from scripts.service.image_process import ImageProcessParams
 from scripts.util import FileIO

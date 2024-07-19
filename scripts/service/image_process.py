@@ -12,7 +12,8 @@ from moviepy.video.io.VideoFileClip import VideoFileClip
 
 from scripts import util
 from scripts.common.crypto import CryptoUtil
-from scripts.common.sim import Reflector, NumUtil
+from scripts.common.reflect import Reflector
+from scripts.common.sim import NumUtil
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
