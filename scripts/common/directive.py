@@ -62,9 +62,14 @@ class DData:
     def __init__(
             self,
             element: ET.Element = None,
+            src: str = "",
+            des: str = "",
             base: str = "",
+
     ):
         self.element = element
+        self.src = src
+        self.des = des
         self.base = base
         self.content = DValue()
         self.items = TypeList(DValue)
@@ -93,6 +98,38 @@ class DData:
                 ))
 
         return self
+
+    def infer(self, src_def: str):
+
+        src = self.src
+        if not src:
+            src = src_def
+
+        count = 0
+
+        is_text = src in ['text']
+        is_eval = src in ['eval']
+        is_file = src in ['file']
+
+        for one in self:
+
+            if is_text:
+                one.value = one.text
+                one.convert = True
+
+            if is_eval and one.text:
+                one.value = eval(one.text)
+                one.convert = True
+
+            if is_file and one.text:
+                file_path = os.path.join(self.base, one.text)
+                one.value = Directorate.load_and_embed(file_path)
+                one.convert = True
+
+            if one.convert:
+                count += 1
+
+        return count
 
 
 # Directive =============================================================================== #
@@ -138,8 +175,8 @@ class Directive:
         return ''
 
     def infer(self) -> any:
-        if self.root.src == 'file':
-            self.infer_file()
+        for data, _ in self:
+            data.infer(self.root.src)
         return self.converge()
 
     def converge(self):
@@ -157,15 +194,6 @@ class Directive:
                     ret.append(one.value)
 
         return ret
-
-    def infer_file(self) -> any:
-        for data, one in self:
-            if not one.text:
-                continue
-            file_path = os.path.join(data.base, one.text)
-            one.value = Directorate.load_and_embed(file_path)
-            one.convert = True
-        return None
 
 
 # ================================================================================================== #

@@ -1,6 +1,7 @@
 import os
 from typing import Type
 
+from scripts.common.directive import Directorate
 from scripts.common.fileutil import FileUtil
 
 
@@ -23,48 +24,8 @@ class ConfigUtil:
     @staticmethod
     def load_and_embed(*config_paths) -> (any, str):
         config, config_path = ConfigUtil.load(*config_paths)
-        config_dir = os.path.dirname(config_path)
-        ret = ConfigUtil.embed(config, config_dir)
+        ret = Directorate.embed(config)
         return ret, config_path
-
-    @staticmethod
-    def embed(data: (dict, list, tuple), base_path='') -> any:
-        """
-        Recursively iterates through all string values in a dictionary or list.
-        If a string value starts with '#__file__#:', it treats the rest of the string as a file path,
-        loads the content of the file, and embeds it back into the original dictionary or list.
-
-        :param data: The dictionary or list to process.
-        :param base_path: The base path to resolve relative file paths.
-        """
-
-        if data is None:
-            return None
-
-        cmd = '#__file__#:'
-        cmd_len = len(cmd)
-
-        if isinstance(data, dict):
-            for key, value in data.items():
-                if isinstance(value, str) and value.startswith(cmd):
-                    file_name = value[cmd_len:]
-                    file_path = os.path.join(base_path, file_name)
-                    data[key], _ = ConfigUtil.load_and_embed(file_path)
-                else:
-                    ConfigUtil.embed(value, base_path)
-            return data
-
-        if isinstance(data, (list, tuple)):
-            for i, item in enumerate(data):
-                if isinstance(item, str) and item.startswith(cmd):
-                    file_name = item[cmd_len:]
-                    file_path = os.path.join(base_path, file_name)
-                    data[i], _ = ConfigUtil.load_and_embed(file_path)
-                else:
-                    ConfigUtil.embed(item, base_path)
-            return data
-
-        return data
 
     @staticmethod
     def store(key: str, data: any) -> Type['ConfigUtil']:
