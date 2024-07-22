@@ -17,15 +17,16 @@ class FileUtil:
 
     @staticmethod
     def load(file_path, mode: str = 'r', encoding: str = 'utf-8'):
+        file_path = file_path.strip()
         if not os.path.exists(file_path):
             raise FileNotFoundError(f"None found: {file_path}")
         with open(file_path, mode=mode, encoding=encoding) as config_file:
             if file_path.endswith('.yaml') or file_path.endswith('.yml'):
-                return yaml.safe_load(config_file), file_path
+                return yaml.safe_load(config_file)
             if file_path.endswith('.json'):
-                return json.load(config_file), file_path
+                return json.load(config_file)
             if file_path.endswith('.py'):
-                return eval(config_file.read()), file_path
+                return eval(config_file.read())
             raise ValueError(f"Unsupported config file format: {file_path}")
         pass
 

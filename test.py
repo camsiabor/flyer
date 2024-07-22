@@ -40,28 +40,23 @@ async def dev():
 
 
 async def xml():
-    d = Directive()
+
     text = f"""<OvO src="file" des="list" category="">	
 	<data base="D:/work/ai/1_util/flyer/config/sd/preset/">
 		<item>server.yaml</item>	
-		<item>server2.yaml</item>
-		<item>server3.yaml</item>
+		<item>dev.yaml</item>
 	</data>
-	<data base="try">
-		<item>server.yaml</item>	
-		<item>server2.yaml</item>
-		<item>server3.yaml</item>
+	<data base="D:/work/ai/1_util/flyer/config/sd/preset/">
+		<item>server.yaml</item>
+		<item>dev.yaml</item>
 	</data>
 </OvO>"""
 
-    r = d.parse(text)
-    print(r)
+    d = Directive(text)
+
 
     r = d.infer()
     print(r)
-
-
-
 
     pass
 

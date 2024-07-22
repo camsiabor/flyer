@@ -16,7 +16,7 @@ class ConfigUtil:
         """
         for config_path in config_paths:
             if os.path.exists(config_path):
-                return FileUtil.load(config_path)
+                return FileUtil.load(config_path), config_path
         # Optionally, return a default configuration or raise an exception if no file is found.
         raise FileNotFoundError(f"None found: {config_paths}")
 

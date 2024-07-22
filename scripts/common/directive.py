@@ -85,7 +85,7 @@ class DData:
         if element is None:
             return self
         self.base = element.attrib.get('base', '')
-        self.content.text = element.text
+        self.content.text = element.text.strip()
         for tag in ['i', 'item']:
             for data_element in element.findall(tag):
                 self.items.append(DValue(
@@ -163,8 +163,8 @@ class Directive:
             if not one.text:
                 continue
             file_path = os.path.join(data.base, one.text)
-            data.content.value = Directorate.load_and_embed(file_path)
-            data.content.convert = True
+            one.value = Directorate.load_and_embed(file_path)
+            one.convert = True
         return None
 
 
