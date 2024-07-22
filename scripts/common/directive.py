@@ -211,10 +211,14 @@ class Directive:
                 self.data.append(DData(element=data_element))
         return ''
 
-    def infer(self) -> any:
+    def infer(self, counting: bool = False) -> any:
+        count = 0
         for data, _ in self:
-            data.infer(self.root.src)
-        return self.converge()
+            count += data.infer(self.root.src)
+        con = self.converge()
+        if counting:
+            return con, count
+        return con
 
     def converge(self):
         ret = None
@@ -235,6 +239,7 @@ class Directive:
                     Collection.merge_list(ret, one.value)
                 else:
                     ret.append(one.value)
+
         return ret
 
 
