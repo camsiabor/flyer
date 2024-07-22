@@ -10,10 +10,10 @@ import ui.common.console as uicon
 from scripts import util
 from scripts.common.cfg import ConfigUtil
 from scripts.common.crypto import CryptoUtil
+from scripts.common.fileutil import FileUtil
 from scripts.sd.sc.parsing import SDParser
 from scripts.service import image_process, video_process, net_process, text_process
 from scripts.service.image_process import ImageProcessParams
-from scripts.util import FileIO
 
 cfg_gradio = {
     "port": 10005,
@@ -220,7 +220,7 @@ def text_process_interface(
         text_process.to_utf8(src_file, des_file, buffer_size)
 
     if action == "to_utf_8":
-        FileIO.walk_des(
+        FileUtil.walk_des(
             src_dir=src_dir,
             des_dir=des_dir,
             callback_dir=None,

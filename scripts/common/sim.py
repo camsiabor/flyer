@@ -1,10 +1,7 @@
 import datetime
-import os
 
 
 # get / set / clone =============================================================================== #
-
-
 
 
 def getv(cfg: dict, default=None, *keys):
@@ -61,8 +58,6 @@ def clonev(src: dict, des: dict, default=None, *keys):
     return current_des
 
 
-
-
 # Text =============================================================================== #
 
 class Text:
@@ -103,18 +98,22 @@ class Collection:
                 high = mid
         container.insert(low, unit)
 
-
-# FileIO =============================================================================== #
-class FileIO:
-
+    # generate a function that merge dict
     @staticmethod
-    def fopen(file_path, mode: str = 'rw', encoding: str = 'utf-8', mkdir=True):
-        if mkdir:
-            parent_directory = os.path.dirname(file_path)
-            os.makedirs(parent_directory, exist_ok=True)
-        file = open(file_path, mode=mode, encoding=encoding)
-        return file
+    def merge_dict(ret: dict, *dicts):
+        if dicts is None:
+            return ret
+        for d in dicts:
+            if d is None:
+                continue
+            if not isinstance(d, dict):
+                continue
+            for k, v in d.items():
+                ret[k] = v
+        return ret
 
+
+# NumUtil =============================================================================== #
 
 class NumUtil:
     @staticmethod

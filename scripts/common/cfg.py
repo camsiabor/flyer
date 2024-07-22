@@ -1,8 +1,7 @@
-import json
 import os
 from typing import Type
 
-import yaml
+from scripts.common.fileutil import FileUtil
 
 
 class ConfigUtil:
@@ -17,14 +16,7 @@ class ConfigUtil:
         """
         for config_path in config_paths:
             if os.path.exists(config_path):
-                with open(config_path, mode='r', encoding='utf-8') as config_file:
-                    if config_path.endswith('.yaml') or config_path.endswith('.yml'):
-                        return yaml.safe_load(config_file), config_path
-                    if config_path.endswith('.json'):
-                        return json.load(config_file), config_path
-                    if config_path.endswith('.py'):
-                        return eval(config_file.read()), config_path
-                    raise ValueError(f"Unsupported config file format: {config_path}")
+                return FileUtil.load(config_path)
         # Optionally, return a default configuration or raise an exception if no file is found.
         raise FileNotFoundError(f"None found: {config_paths}")
 

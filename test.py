@@ -5,6 +5,7 @@ import time
 from PIL import Image
 
 from scripts.common.cfg import ConfigUtil
+from scripts.common.directive import Directive
 from scripts.common.log import LogUtil
 from scripts.sd.sc.box import SDBox
 from scripts.sd.sc.sdwrap import SDWrap
@@ -39,13 +40,29 @@ async def dev():
 
 
 async def xml():
-    import xml.etree.ElementTree as ET
-    x = f"""<OvO>
-        <a>power</a>
-    </OvO>"""
+    d = Directive()
+    text = f"""<OvO src="file" des="list" category="">	
+	<data base="D:/work/ai/1_util/flyer/config/sd/preset/">
+		<item>server.yaml</item>	
+		<item>server2.yaml</item>
+		<item>server3.yaml</item>
+	</data>
+	<data base="try">
+		<item>server.yaml</item>	
+		<item>server2.yaml</item>
+		<item>server3.yaml</item>
+	</data>
+</OvO>"""
 
-    tree = ET.fromstring(x)
-    print(tree)
+    r = d.parse(text)
+    print(r)
+
+    r = d.infer()
+    print(r)
+
+
+
+
     pass
 
 
@@ -55,8 +72,8 @@ if __name__ == '__main__':
     time_start = time.perf_counter()
     LogUtil.load('./config/log.yaml')
 
-    asyncio.run(test_wrap())
-    # asyncio.run(xml())
+    # asyncio.run(test_wrap())
+    asyncio.run(xml())
     # asyncio.run(dev())
 
     time_end = time.perf_counter()
