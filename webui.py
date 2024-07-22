@@ -10,6 +10,7 @@ import ui.common.console as uicon
 from scripts import util
 from scripts.common.cfg import ConfigUtil
 from scripts.common.crypto import CryptoUtil
+from scripts.sd.sc.parsing import SDParser
 from scripts.service import image_process, video_process, net_process, text_process
 from scripts.service.image_process import ImageProcessParams
 from scripts.util import FileIO
@@ -143,20 +144,7 @@ def image_batch_metadata_one(
         if is_encrypt:
             meta = CryptoUtil.decrypt_dict(meta, box_key)
 
-        meta_strs = []
-        for k, v in meta.items():
-            if not isinstance(v, str):
-                v_str = str(v)
-                v_str_2 = ''
-                if k == 'parameters':
-                    fragments = v_str.split('Negative prompt:')
-                    v_str = fragments[0].strip()
-                    v_str_2 = fragments[1].strip()
-                for remove in removes:
-                    v_str = v_str.replace(remove, '')
-                meta_strs.append(f"```\n{v_str}\n```")
-                if v_str_2:
-                    meta_strs.append(f"```\n{v_str_2}\n```")
+        meta_markdown = SDParser.meta_to_markdown(meta)
 
         color = 'orange' if is_encrypt else 'white'
         image_path_markdown = f"""
@@ -166,11 +154,11 @@ def image_batch_metadata_one(
     <div style='color: {color}; font: 0.7em; '>{filename}</div>
 </div>
 """
-        meta_strs_all = '\n'.join(meta_strs)
+
         index_info = f"<span style='color: {color};'>{image_index}</span>"
         data.append({
             'Image Path': image_path_markdown,
-            'Metadata': meta_strs_all,
+            'Metadata': meta_markdown,
             'Index': index_info
         })
         image_index += 1

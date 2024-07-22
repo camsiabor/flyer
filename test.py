@@ -25,7 +25,7 @@ def test():
 # ==================================================================================================
 
 async def test_wrap():
-    conf = './config/sd/preset/zzz/phone.yaml'
+    conf = './config/sd/preset/zzz/feet.yaml'
     box = SDBox().load(conf).initiate()
     wrap = SDWrap(box=box).initiate()
     for i in range(box.image_latent.batch_count):

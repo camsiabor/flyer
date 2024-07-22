@@ -1,6 +1,6 @@
 server:
   host: 127.0.0.1
-  port: 30001
+  port: 30002
   progress_poll_delay: 1024
   progress_poll_interval: 1024
   verbose: false
@@ -9,7 +9,7 @@ image_latent:
   width: 1024
   height: 1024
   batch_size: 1
-  batch_count: 3
+  batch_count: 10
 
 prompt:
   positive: |
@@ -28,15 +28,15 @@ prompt:
     (extra digits:1.2),(fewer digits;1.2),
   params_cycle: -1
   params_pos_1:
-    phone_lora: <lora:PhoneExposurePDXL:0.95>,phone exposure,phone pov
-    character: |
+    phone_lora: <lora:PhoneExposurePDXL:1.05>,phone exposure,phone pov
+    character_ellen: |
       <lora:ellen_joe_pony:0.9>,ellen_joe,
       maid_headdress,black_dress,wrist_cuffs,puffy_short_sleeves,mole_under_eye,
       frilled_dress,black_pantyhose,(two-toned_hair:0.1),(colored inner hair:0.1),short hair,
       (shark tail:0.35)
-    character_anby: |
-      <lora:Char-ZZZ-AnbyDemara-V1-Pony:0.9>, anby demara,
-      white short hair, headphones,
+    character: |
+      <lora:Char-ZZZ-AnbyDemara-V1-Pony:0.85>, anby demara,
+      (white hair:0.5), short hair, headphones,
       (orange eyes:0.5), (multicolored eyes:0.75),
       black thighhighs,black pleated skirt,fingerless gloves,
       choker,cropped jacket,detached sleeves,thigh strap
@@ -70,14 +70,16 @@ prompt:
       "blush, embarrass, (looking to the side:1.1)",
     ]
     scene: [
-      "indoors, (european decora:0.2), (european architecture:0.2), light and shadow",
+      "simple background, light and shadow",
+      "indoors, (european decora:0.2), (european architecture:0.2), light and shadow, detailed background",
+      "bedroom, dark, shadow, (european decora:0.2)",
     ]
 
 sampler:
   active: true
   name: "Euler a"
   steps: 26
-  cfg_scale: 6
+  cfg_scale: 5.75
   seed: -1
 
 upscaler:
@@ -105,6 +107,6 @@ extra:
 
 output_txt2img:
   #file_format: "./output/%Y%m%d/belle/0/%H%M%S"
-  file_format: "D:/snapshot/character/hoyoverse/zenless_zone_zero/ellen_joe/%Y%m%d/0_phone/%H%M%S"
+  file_format: "D:/snapshot/character/hoyoverse/zenless_zone_zero/anby/%Y%m%d/0_phone/%H%M%S"
   file_extension: "png"
 

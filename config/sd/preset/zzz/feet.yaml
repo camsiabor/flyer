@@ -1,0 +1,179 @@
+server:
+  host: 127.0.0.1
+  port: 30002
+  progress_poll_delay: 1024
+  progress_poll_interval: 1024
+  verbose: false
+
+
+image_latent:
+  width: 1024
+  height: 1024
+  batch_size: 1
+  batch_count: 3
+
+prompt:
+  positive: |
+    (score_9, score_8_up, score_7_up, source_anime, rating_all),
+    $$expressive_h$$,
+    $$common$$,
+    $$posture$$,
+    $$act$$,   
+    $$act_sub$$,
+    $$act_by$$,
+    $$body$$,    
+    $$character_lora$$,
+    $$perspective$$,
+    $$character$$,
+    $$facial_expression$$,
+    $$facial_expression_sub$$,    
+    $$scene$$,
+  negative: |
+    score_6,score_5,score_4,score_3,score_2,score_1,
+    censored,
+    (text:1.2), (logo:1.2), (watermark:1.2),
+    (bad anatomy:1.2),
+    (extra legs：1.2),(extra hands:1.2), 
+    (extra digits:1.2),(fewer digits;1.2),
+  params_cycle: -1
+  params_pos_1:
+    character_lora: ""
+    character: |
+      <lora:ellen_joe_pony:0.9>,
+      1girl,ellen_joe,maid_headdress,red eyes,
+      black_dress,wrist_cuffs,puffy_short_sleeves,mole_under_eye,large_breasts,frilled_dress,black_pantyhose
+    expressive_h: "<lora:Expressive_H:1>,expressiveh"
+    common: ""
+    posture: [
+      # "cowgirl position, penetration, bottomless, pussy juice",
+      # "cowgirl position, penetration, grabbing own breast, bottomless, pussy juice",
+      "reverse cowgirl position, penetration, slutty, bottomless, pussy juice",
+      "reverse cowgirl position, penetration, grabbing ass, bottomless, pussy juice",
+    ]
+    posture2: [
+      "top-down bottom-up, face_focus, bottomless",
+      "top-down bottom-up, face_focus, bottomless, front view",
+      "top-down bottom-up, bottomless, from_side",
+      "bent over desk, pov, skirt pulled down, panty pulled down, looking back, hands on ass, pussy, pussy juice, pov",
+      "bent over desk, pov, skirt pulled down, panty pulled down, looking back, hands on ass, doggystyle sex, pussy juice, penetration, pov",
+      "squatting, no panties, spread knees, clothes lift, lifted by self, from below",
+      "squatting",
+      "skirt lift, lifted by self, bottomless, no panties, from below",
+
+      "licking penis, fellatio, hand on head",
+      "licking penis, fellatio, hand on head, pov, from above",
+      "licking penis, nipples, from side, kneeling, hand on head,",
+      "licking penis, deep throat",
+      "licking penis, handjob, orgy",
+      "licking penis, pov",
+      "licking penis, pov, from above",
+      "licking penis, bottomless, masturbation, squatting",
+      "licking penis, bottomless, spread pussy by own hand",
+      "licking penis, topless, grabbing own breast",
+
+      "lying on back, pov, arms up,arms bound, rope, head tilt, knees up, cunninggulus, waist grab",
+      "lying on back, from side, arms up,arms bound, rope, head tilt, knees up, cunninggulus, waist grab",
+      "lying on side, penetration, vaginal",
+      "lying on stomach, sex from behind, hand on head",
+      "sex_from_behind, against wall, hands on wall, from back, from above",
+      "standing sex",
+      "standing sex, split, leg up",
+      "female masturbation, grabbing own breast, bathing, topless",
+      "female masturbation, spread legs, female masturation, spread pussy by self",
+      "missionary sex, pov, grabbing another's breast",
+      "missionary, pov, from above",
+      "standing missionary",
+      "doggy style, kneeling",
+      "sex from behind, from below",
+
+      "cowgirl position, penetration, bottomless, pussy juice",
+      "cowgirl position, penetration, grabbing own breast, bottomless, pussy juice",
+      "reverse cowgirl position, penetration, slutty, bottomless, pussy juice",
+      "reverse cowgirl position, penetration, grabbing ass, bottomless, pussy juice",
+
+      "girl on top, legs lock",
+      "french kiss, missionary, faceless male",
+      "breast sex, titfucking, pov, breasts, nipple, penis",
+      "foggy, exposed_pussy,vaginal, riding a dick, jizz oozing out of pussy, cum, orgasm,",
+      "wariza, w_sitting, ass, ass_focus, feet",
+      "wariza, w_sttiing, pov, from_above",
+      "spreading own ass, from behind, pov",
+      "spread pussy, spread legs, looking to the side, v hand, pussy juice",
+      "ahegao, peace sign, v hands, v",
+      "spooning",
+      "orgy, double penetration, anal, vaginal, penetration",
+      "orgy, penetration, licking penis",
+    ]
+    act: [
+    ]
+    act_sub: [
+    ]
+    act_by: [
+      ""
+    ]
+    body: [
+    ]
+    body2: [
+      "(half nude:0.5)",
+      "half nude",
+      "half nude, torn clothes",
+      "(nude:0.5)",
+      "(nude:0.75)",
+      "(nude:1)",
+      "lingerie, (nude:0.5)",
+      "lingerie, (nude:0.75)",
+      "bondage, (nude:0.5)",
+      "bondage, (nude:0.75)",
+      "bondage, (saliva trail:0.5)",
+    ]
+    perspective: [
+    ]
+    facial_expression: [
+      "embarrassed",
+      "embarrassed, looking to the side",
+      "open mouth",
+      "open mouth, tongue out",
+    ]
+    facial_expression_sub: [
+      "blush, (saliva trail:0.75)"
+    ]
+    scene: [
+      "bedroom"
+    ]
+
+
+sampler:
+  active: true
+  name: "Euler a"
+  steps: 26
+  cfg_scale: 5
+  seed: -1
+
+upscaler:
+  enable: false
+  scale: 1.25
+  second_pass_steps: 10
+  denoising_strength: 0.5
+  name: "ESRGAN_4x_Anime6B"
+
+adetailers:
+  - enable: true
+    model: "face_yolov8n.pt"
+    denoising_strength: 0.3
+  - enable: false
+    model: "hand_yolov8n.pt"
+
+options:
+  colddown: 2
+  use_async: true
+  metadata_key: "b_pox_b"
+
+extra:
+  upscaler_1: "ESRGAN_4x_Anime6B"
+  upscaling_resize: 1.25
+
+output_txt2img:
+  #file_format: "./output/%Y%m%d/belle/0/%H%M%S"
+  file_format: "D:/snapshot/character/hoyoverse/zenless_zone_zero/ellen_joe/%Y%m%d/0_feet/%H%M%S"
+  file_extension: "png"
+

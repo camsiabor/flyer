@@ -244,7 +244,7 @@ class SDADetailer:
             enable=False,
             model=None,
             confidence=0.3,
-            denoising_strength=0.4,
+            denoising_strength=0.3,
     ):
         self.enable = enable
         self.model = model
