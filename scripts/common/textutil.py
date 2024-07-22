@@ -38,3 +38,47 @@ class TextUtil:
             token = f"{prefix}{placeholder}{suffix}"
             result = result.replace(token, target)
         return result
+
+    @staticmethod
+    def wrap_lines(text: str, line_length=72, sep_word=",") -> str:
+        words = text.split(sep_word)
+        current_line = ""
+        lines = []
+
+        for word in words:
+            word = word.strip()
+            if current_line:
+                # Check if adding the word plus a comma and space exceeds the line length
+                if len(current_line) + len(word) + 2 > line_length:
+                    lines.append(current_line)
+                    current_line = word
+                else:
+                    current_line += ", " + word
+            else:
+                current_line = word
+
+        if current_line:
+            lines.append(current_line)
+
+        return ",\n".join(lines)
+
+    @staticmethod
+    def wrap_lines_ex(text: str, line_length=72, sep_word=",", sep_line="\n") -> str:
+        lines = text.split(sep_line)
+        for i, line in enumerate(lines):
+            lines[i] = TextUtil.wrap_lines(line, line_length, sep_word)
+        return sep_line.join(lines)
+
+
+class MarkdownUtil:
+    @staticmethod
+    def dict_to_table(meta: dict, headers="| Key | Value |\n", *excludes) -> str:
+        # Start with the table headers
+        sperator = "| --- | --- |\n"
+        rows = []
+        for k, v in meta.items():
+            if k in excludes:
+                continue
+            rows.append(f"| {k} | {v} |")
+        table = headers + sperator + "\n".join(rows)
+        return table

@@ -144,6 +144,7 @@ def image_batch_metadata_one(
         if is_encrypt:
             meta = CryptoUtil.decrypt_dict(meta, box_key)
 
+        # meta_markdown = SDParser.meta_to_markdown(meta)
         meta_markdown = SDParser.meta_to_markdown(meta)
 
         color = 'orange' if is_encrypt else 'white'
