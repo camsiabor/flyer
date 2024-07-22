@@ -59,8 +59,8 @@ prompt:
     posture_ref: |
       <OvO des="list">
         <d src="file" base="./config/sd/preset/0_posture/">
-          <i>back.yaml</i>
-          <i>front.yaml</i>
+          <i active="0">back.yaml</i>
+          <i active="1">front.yaml</i>
         </d>        
       </OvO>
     posture: [

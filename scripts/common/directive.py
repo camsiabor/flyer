@@ -45,11 +45,13 @@ class DValue:
     def __init__(
             self,
             element: ET.Element = None,
+            parent: ET.Element = None,
             text: str = "",
             value: any = None,
             active: str = '1',
     ):
         self.element = element
+        self.parent = parent
         self.text = text
         self.value = value
         self.convert = False
@@ -58,6 +60,8 @@ class DValue:
         pass
 
     def init(self):
+        if self.element is None:
+            return self
         self.text = self.element.text.strip()
         self.active = self.element.attrib.get('active', '1')
         return self
@@ -83,7 +87,7 @@ class DData:
         self.des = des
         self.base = base
         self.active = active
-        self.content = DValue()
+        self.content = DValue(active=active, parent=element)
         self.items = TypeList(DValue)
         self.init(element)
         pass
