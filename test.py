@@ -25,9 +25,8 @@ def test():
 
 # ==================================================================================================
 
-async def test_wrap():
-    conf = './config/sd/preset/zzz/feet.yaml'
-    box = SDBox().load(conf).initiate()
+async def test_wrap(preset):
+    box = SDBox().load(preset).initiate()
     wrap = SDWrap(box=box).initiate()
     for i in range(box.image_latent.batch_count):
         await wrap.txt2img()
@@ -67,8 +66,10 @@ if __name__ == '__main__':
     time_start = time.perf_counter()
     LogUtil.load('./config/log.yaml')
 
-    # asyncio.run(test_wrap())
-    asyncio.run(xml())
+    # preset = './config/sd/preset/zzz/feet.yaml'
+    preset = './config/sd/preset/v/vr/shiori/white.yaml'
+    asyncio.run(test_wrap(preset))
+    # asyncio.run(xml())
     # asyncio.run(dev())
 
     time_end = time.perf_counter()

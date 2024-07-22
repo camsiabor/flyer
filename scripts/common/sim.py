@@ -112,6 +112,19 @@ class Collection:
                 ret[k] = v
         return ret
 
+    @staticmethod
+    def merge_list(ret: list, *lists):
+        if lists is None:
+            return ret
+        for li in lists:
+            if li is None:
+                continue
+            if not isinstance(li, (list, tuple)):
+                continue
+            for v in li:
+                ret.append(v)
+        return ret
+
 
 # NumUtil =============================================================================== #
 

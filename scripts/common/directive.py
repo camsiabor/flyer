@@ -15,6 +15,7 @@ class DNode:
             element: ET.Element = None,
             src: str = "",
             des: str = "",
+            converge: str = "",
             action: str = "",
             category: str = "",
     ):
@@ -23,6 +24,7 @@ class DNode:
         self.des = des
         self.action = action
         self.category = category
+        self.converge = converge
         self.init(element)
         pass
 
@@ -32,6 +34,7 @@ class DNode:
         self.des = element.attrib.get('des', '')
         self.action = element.attrib.get('action', '')
         self.category = element.attrib.get('category', '')
+        self.converge = element.attrib.get('converge', '')
         return self
 
 
@@ -89,6 +92,8 @@ class DData:
     def init(self, element: ET.Element):
         if element is None:
             return self
+        self.src = element.attrib.get('src', '')
+        self.des = element.attrib.get('des', '')
         self.base = element.attrib.get('base', '')
         self.content.text = element.text.strip()
         for tag in ['i', 'item']:
@@ -105,6 +110,9 @@ class DData:
         if not src:
             src = src_def
 
+        if not src:
+            raise ValueError('src is empty')
+
         count = 0
 
         is_text = src in ['text']
@@ -116,13 +124,18 @@ class DData:
             if is_text:
                 one.value = one.text
                 one.convert = True
+                count += 1
+                continue
 
-            if is_eval and one.text:
+            if not one.text:
+                continue
+
+            if is_eval:
                 one.value = eval(one.text)
                 one.convert = True
 
-            if is_file and one.text:
-                file_path = os.path.join(self.base, one.text)
+            if is_file:
+                file_path = os.path.join(self.base + "/", one.text)
                 one.value = Directorate.load_and_embed(file_path)
                 one.convert = True
 
@@ -142,14 +155,14 @@ class Directive:
             suffix="</OvO>",
             logger_name=__name__,
     ):
-        self.text = text
+        self.text = text.strip()
         self.root = root
         self.data = TypeList(DData)
         self.prefix = prefix
         self.suffix = suffix
         self.logger = logging.getLogger(logger_name)
         if text:
-            self.parse(text)
+            self.parse(self.text)
         pass
 
     def __iter__(self):
@@ -164,9 +177,13 @@ class Directive:
 
     def parse(self, text) -> str:
         if not text:
-            return 'empty text'
+            msg = 'empty text'
+            self.logger.error(msg)
+            return msg
         if not text.startswith(self.prefix) or not text.endswith(self.suffix):
-            return 'prefix & suffix unmatched'
+            msg = 'prefix & suffix unmatched:\n' + text
+            self.logger.error(msg)
+            return msg
         root = ET.fromstring(text)
         self.root = DNode(element=root)
         for tag in ['d', 'data']:
@@ -184,15 +201,20 @@ class Directive:
         if self.root.des in ['dict', 'object', '']:
             ret = {}
             for data, one in self:
-                if one.convert:
-                    Collection.merge_dict(ret, one.value)
+                if not one.convert:
+                    continue
+                Collection.merge_dict(ret, one.value)
 
         if self.root.des in ['list', 'tuple', 'array']:
             ret = []
+            is_sep = 'seperate' in self.root.converge
             for data, one in self:
-                if one.convert:
+                if not one.convert:
+                    continue
+                if not is_sep and isinstance(one.value, (list, tuple)):
+                    Collection.merge_list(ret, one.value)
+                else:
                     ret.append(one.value)
-
         return ret
 
 
@@ -217,12 +239,15 @@ class Directorate:
 
         if isinstance(data, dict):
             for key, value in data.items():
-                if isinstance(value, str) and value.startswith(prefix) and value.endswith(suffix):
-                    directive = Directive(text=value, prefix=prefix, suffix=suffix)
-                    parsed = directive.infer()
-                    data[key] = Directorate.embed(parsed)
-                else:
-                    Directorate.embed(value)
+                if isinstance(value, str):
+                    value_strip = value.strip()
+                    if value_strip.startswith(prefix) and value_strip.endswith(suffix):
+                        directive = Directive(text=value, prefix=prefix, suffix=suffix)
+                        parsed = directive.infer()
+                        data[key] = Directorate.embed(parsed)
+                        continue
+
+                Directorate.embed(value)
             return data
 
         if isinstance(data, (list, tuple)):
