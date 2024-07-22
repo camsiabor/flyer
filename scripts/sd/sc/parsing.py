@@ -19,7 +19,7 @@ class SDParser:
             remain = fragments[1].strip()
             fragments = remain.split('Steps:')
             ret['Negative Prompt'] = fragments[0].strip()
-            remain = fragments[1].strip()
+            remain = 'Steps:' + fragments[1].strip()
 
             parts = remain.split(seperator)
             # Iterate over each part
@@ -37,15 +37,28 @@ class SDParser:
         return ret
 
     @staticmethod
-    def meta_to_markdown(meta: dict, wrap_max=72) -> str:
+    def meta_to_markdown(meta: dict, list_display: list, wrap_max=96) -> str:
         d = SDParser.meta_to_dict(meta)
-        pos = d.get('Positive Prompt', '')
-        neg = d.get('Negative Prompt', '')
-        pos = TextUtil.wrap_lines_ex(pos, wrap_max)
-        neg = TextUtil.wrap_lines_ex(neg, wrap_max)
-        pos_neg = f"```\n{pos}\n```\n```\n{neg}\n```\n"
+        display_all = (list_display is not None) and ('All' in list_display)
+        pos = ""
+        neg = ""
+        pos_neg = ""
+        if display_all or ('Positive Prompt' in list_display):
+            pos = d.get('Positive Prompt', '')
+            pos = TextUtil.wrap_lines_ex(pos, wrap_max)
+            pos_neg = f"```\n{pos}\n```\n"
+
+        if display_all or ('Negative Prompt' in list_display):
+            neg = d.get('Negative Prompt', '')
+            neg = TextUtil.wrap_lines_ex(neg, wrap_max)
+            pos_neg += f"```\n{neg}\n```\n"
+
+        if display_all:
+            list_display = None
+
         table = MarkdownUtil.dict_to_table(
-            d, "",
-            'Positive Prompt', 'Negative Prompt'
+            meta=d, headers="",
+            excludes=['Positive Prompt', 'Negative Prompt'],
+            includes=list_display,
         )
         return pos_neg + table

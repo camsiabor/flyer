@@ -127,6 +127,7 @@ def image_metadata_interface(image):
 def image_batch_metadata_one(
         filename: str,
         image_dir: str,
+        list_display: list,
         removes: list,
         data: any,
         box_key: str,
@@ -145,7 +146,9 @@ def image_batch_metadata_one(
             meta = CryptoUtil.decrypt_dict(meta, box_key)
 
         # meta_markdown = SDParser.meta_to_markdown(meta)
-        meta_markdown = SDParser.meta_to_markdown(meta)
+        meta_markdown = SDParser.meta_to_markdown(meta, list_display)
+        for remove in removes:
+            meta_markdown = meta_markdown.replace(remove, '')
 
         color = 'orange' if is_encrypt else 'white'
         image_path_markdown = f"""
@@ -170,8 +173,10 @@ def image_batch_metadata_one(
     return image_index
 
 
-def image_batch_metadata_interface(image_dir, text_remove):
-    if not os.path.isdir(image_dir):
+def image_batch_metadata_interface(
+        image_dir, list_display, text_remove
+):
+    if not image_dir or not os.path.isdir(image_dir):
         return "Directory not found", pandas.DataFrame()
     image_index = 1
     data = []
@@ -181,6 +186,7 @@ def image_batch_metadata_interface(image_dir, text_remove):
         image_index = image_batch_metadata_one(
             filename=filename,
             image_dir=image_dir,
+            list_display=list_display,
             removes=removes,
             data=data,
             box_key=box_key,
@@ -477,16 +483,36 @@ def tab_meta_viewer(cfg):
         )
     with gr.Tab("Image Meta Batch"):
         image_dir = gr.Textbox(label="Image Directory")
-        text_remove = gr.TextArea(label="Remove")
-        run_button = gr.Button("Read")
+        list_display = gr.CheckboxGroup(
+            label="Display List",
+            choices=[
+                "All",
+                "Positive Prompt", "Negative Prompt",
+                "Steps", "Sampler", "CFG Scale", "Seed",
+                "Size", "Denoising strength",
+                "Model", "Model Hash",
+                "Hire upscale", "Hire steps", "Hire upscaler",
+                "ADetailer model", "ADetailer denoising strength",
+            ],
+            value=[
+                "Positive Prompt", "Negative Prompt",
+                "Steps", "Sampler", "CFG scale", "Seed",
+                "Denoising strength",
+                "Model",
+                "Hire upscale", "Hire steps", "Hire upscaler",
+                "ADetailer model", "ADetailer denoising strength",
+            ],
+        )
+        run_button = gr.Button("Read", variant="primary")
         images_df = gr.Dataframe(
             label="Images and Metadata",
             datatype="markdown",
         )
-        result_text = gr.TextArea(label="Result")
+        text_remove = gr.Textbox(label="Remove")
+        result_text = gr.Textbox(label="Result")
         run_button.click(
             fn=image_batch_metadata_interface,
-            inputs=[image_dir, text_remove],
+            inputs=[image_dir, list_display, text_remove],
             outputs=[result_text, images_df]
         )
 

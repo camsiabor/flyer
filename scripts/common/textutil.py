@@ -72,12 +72,15 @@ class TextUtil:
 
 class MarkdownUtil:
     @staticmethod
-    def dict_to_table(meta: dict, headers="| Key | Value |\n", *excludes) -> str:
-        # Start with the table headers
+    def dict_to_table(meta: dict, headers="", includes=None, excludes=None) -> str:
+        if not headers:
+            headers = "| Key | Value |\n"
         sperator = "| --- | --- |\n"
         rows = []
         for k, v in meta.items():
-            if k in excludes:
+            if excludes is not None and k in excludes:
+                continue
+            if includes is not None and k not in includes:
                 continue
             rows.append(f"| {k} | {v} |")
         table = headers + sperator + "\n".join(rows)
