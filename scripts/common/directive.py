@@ -47,12 +47,20 @@ class DValue:
             element: ET.Element = None,
             text: str = "",
             value: any = None,
+            active: str = '1',
     ):
         self.element = element
         self.text = text
         self.value = value
         self.convert = False
+        self.active = active
+        self.init()
         pass
+
+    def init(self):
+        self.text = self.element.text.strip()
+        self.active = self.element.attrib.get('active', '1')
+        return self
 
     def __str__(self):
         return self.text
@@ -68,12 +76,13 @@ class DData:
             src: str = "",
             des: str = "",
             base: str = "",
-
+            active: str = '1',
     ):
         self.element = element
         self.src = src
         self.des = des
         self.base = base
+        self.active = active
         self.content = DValue()
         self.items = TypeList(DValue)
         self.init(element)
@@ -95,16 +104,19 @@ class DData:
         self.src = element.attrib.get('src', '')
         self.des = element.attrib.get('des', '')
         self.base = element.attrib.get('base', '')
+        self.active = element.attrib.get('active', '1')
         self.content.text = element.text.strip()
         for tag in ['i', 'item']:
             for data_element in element.findall(tag):
-                self.items.append(DValue(
-                    element=data_element, text=data_element.text,
-                ))
+                dv = DValue(element=data_element)
+                self.items.append(dv)
 
         return self
 
     def infer(self, src_def: str):
+
+        if self.active == '0' or self.active == 'false':
+            return 0
 
         src = self.src
         if not src:
@@ -121,6 +133,9 @@ class DData:
 
         for one in self:
 
+            if one.active == '0' or one.active == 'false':
+                continue
+
             if is_text:
                 one.value = one.text
                 one.convert = True
@@ -135,7 +150,8 @@ class DData:
                 one.convert = True
 
             if is_file:
-                file_path = os.path.join(self.base + "/", one.text)
+                file_name = one.text.strip()
+                file_path = os.path.join(self.base + "/", file_name)
                 one.value = Directorate.load_and_embed(file_path)
                 one.convert = True
 

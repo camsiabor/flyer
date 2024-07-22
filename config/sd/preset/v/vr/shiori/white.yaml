@@ -9,7 +9,7 @@ image_latent:
   width: 1024
   height: 1024
   batch_size: 1
-  batch_count: 6
+  batch_count: 3
 
 prompt:
   positive: |
@@ -36,17 +36,18 @@ prompt:
   params_cycle: -1
   params_pos_1:
     # expressive_h: "<lora:Expressive_H:1>,expressiveh"
-    character_lora: "<lora:shiori-white-pony-6-lokr-5-c-16-1-r2-000016:0.9>"
+    character_lora: "<lora:shiori-white-pony-6-lokr-5-c-16-1-r2-000012:0.85>"
     character: |
       KanKanShiori,      
-      streaked hair, light brown hair, medium hair, (two side up:0.5),
+      streaked hair (brown), light brown hair, medium hair, 
+      (two side up:0.75), hair ornament, 
       (blue eyes:0.5), 
       (blue skirt:0.5),
       (white thighhighs:0.8),
     body: [
       "",
-      "beret, bareshoulders",
-      "beret, coat, open clothes",
+      "beret, bareshoulders, bow",
+      "beret, coat, open clothes, bow",
       "hood up, coat, open clothes",
       "hood up, coat, open clothes",
     ]
@@ -59,6 +60,7 @@ prompt:
       <OvO des="list">
         <d src="file" base="./config/sd/preset/0_posture/">
           <i>back.yaml</i>
+          <i>front.yaml</i>
         </d>        
       </OvO>
     posture: [
@@ -71,7 +73,7 @@ prompt:
       "blush",
     ]
     facial_expression_sub: [
-      "embarrassed",
+      "(embarrassed:0.5)",
       "open mouth",
       "open mouth, tongue out",
     ]
@@ -81,7 +83,6 @@ prompt:
 
 
 sampler:
-  active: true
   name: "Euler a"
   steps: 26
   cfg_scale: 5
@@ -95,7 +96,7 @@ upscaler:
   name: "ESRGAN_4x_Anime6B"
 
 adetailers:
-  - enable: true
+  - enable: false
     model: "face_yolov8n.pt"
     denoising_strength: 0.3
   - enable: false
@@ -107,6 +108,7 @@ options:
   metadata_key: "b_pox_b"
 
 extra:
+  enable: false
   upscaler_1: "ESRGAN_4x_Anime6B"
   upscaling_resize: 1.25
 
