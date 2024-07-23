@@ -4,7 +4,7 @@ import time
 
 from PIL import Image
 
-from scripts.common.cfg import ConfigUtil
+from scripts.common.directive import Directorate
 from scripts.common.log import LogUtil
 from scripts.sd.sc.box import SDBox
 from scripts.sd.sc.sdwrap import SDWrap
@@ -32,8 +32,8 @@ async def test_wrap(preset):
 
 
 async def dev():
-    c, p = ConfigUtil.load('./config/sd/preset/dev.yaml')
-    print(c, p)
+    v = Directorate.load_and_embed('./config/sd/preset/0_posture/nsfw/doggy.py')
+    print(v)
     pass
 
 
@@ -46,9 +46,9 @@ if __name__ == '__main__':
     # preset = './config/sd/preset/zzz/feet.yaml'
     # preset = './config/sd/preset/v/vr/shiori/white.yaml'
     preset = './config/sd/preset/hoyoverse/starrail/firefly.yaml'
-    asyncio.run(test_wrap(preset))
+    # asyncio.run(test_wrap(preset))
 
-    # asyncio.run(dev())
+    asyncio.run(dev())
 
     time_end = time.perf_counter()
     logging.info(f"============= fin in {time_end - time_start:.2f} seconds =========== ")

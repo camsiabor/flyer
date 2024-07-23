@@ -1,4 +1,5 @@
 # FileIO =============================================================================== #
+import importlib
 import json
 import os
 
@@ -16,7 +17,25 @@ class FileUtil:
         return file
 
     @staticmethod
-    def load(file_path, mode: str = 'r', encoding: str = 'utf-8'):
+    def call(file_path, func_name='init', *args, **kwargs) -> any:
+        # Ensure the file exists
+        if not os.path.exists(file_path):
+            raise FileNotFoundError(f"No such file: {file_path}")
+
+        # Extract module name from the file path
+        module_name = os.path.splitext(os.path.basename(file_path))[0]
+
+        # Import the module dynamically
+        spec = importlib.util.spec_from_file_location(module_name, file_path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+
+        # Call the function from the imported module
+        func = getattr(module, func_name)
+        return func(*args, **kwargs)
+
+    @staticmethod
+    def load(file_path, mode: str = 'r', encoding: str = 'utf-8', func_name='init', *args):
         file_path = file_path.strip()
         if not os.path.exists(file_path):
             raise FileNotFoundError(f"None found: {file_path}")
@@ -26,7 +45,7 @@ class FileUtil:
             if file_path.endswith('.json'):
                 return json.load(config_file)
             if file_path.endswith('.py'):
-                return eval(config_file.read())
+                return FileUtil.call(file_path, func_name, *args)
             raise ValueError(f"Unsupported config file format: {file_path}")
         pass
 

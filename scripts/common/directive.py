@@ -13,6 +13,7 @@ class DNode:
     def __init__(
             self,
             element: ET.Element = None,
+            state: any = None,
             src: str = "",
             des: str = "",
             converge: str = "",
@@ -20,6 +21,7 @@ class DNode:
             category: str = "",
     ):
         self.element = element
+        self.state = state
         self.src = src
         self.des = des
         self.action = action
@@ -45,12 +47,14 @@ class DValue:
     def __init__(
             self,
             element: ET.Element = None,
+            state: any = None,
             parent: ET.Element = None,
             text: str = "",
             value: any = None,
             active: str = '1',
     ):
         self.element = element
+        self.state = state
         self.parent = parent
         self.text = text
         self.value = value
@@ -77,17 +81,19 @@ class DData:
     def __init__(
             self,
             element: ET.Element = None,
+            state: any = None,
             src: str = "",
             des: str = "",
             base: str = "",
             active: str = '1',
     ):
         self.element = element
+        self.state = state
         self.src = src
         self.des = des
         self.base = base
         self.active = active
-        self.content = DValue(active=active, parent=element)
+        self.content = DValue(active=active, parent=element, state=state)
         self.items = TypeList(DValue)
         self.init(element)
         pass
@@ -112,7 +118,7 @@ class DData:
         self.content.text = element.text.strip()
         for tag in ['i', 'item']:
             for data_element in element.findall(tag):
-                dv = DValue(element=data_element)
+                dv = DValue(element=data_element, parent=element, state=self.state)
                 self.items.append(dv)
 
         return self
@@ -175,6 +181,7 @@ class Directive:
             root: DNode = None,
             prefix="<OvO",
             suffix="</OvO>",
+            state: any = None,
             logger_name=__name__,
     ):
         self.text = text.strip()
@@ -182,6 +189,7 @@ class Directive:
         self.data = TypeList(DData)
         self.prefix = prefix
         self.suffix = suffix
+        self.state = state
         self.logger = logging.getLogger(logger_name)
         if text:
             self.parse(self.text)
@@ -207,10 +215,11 @@ class Directive:
             self.logger.error(msg)
             return msg
         root = ET.fromstring(text)
-        self.root = DNode(element=root)
+        self.root = DNode(element=root, state=self.state)
         for tag in ['d', 'data']:
             for data_element in root.findall(tag):
-                self.data.append(DData(element=data_element))
+                ddata = DData(element=data_element, state=self.state)
+                self.data.append(ddata)
         return ''
 
     def infer(self, counting: bool = False) -> any:
@@ -250,8 +259,10 @@ class Directive:
 class Directorate:
 
     @staticmethod
-    def load_and_embed(file_path) -> any:
-        config = FileUtil.load(file_path)
+    def load_and_embed(file_path: str, func_name: str = 'init', state: any = None) -> any:
+        config = FileUtil.load(
+            file_path, 'r', 'utf-8', func_name, state
+        )
         return Directorate.embed(config)
 
     @staticmethod
@@ -259,6 +270,8 @@ class Directorate:
             data: (dict, list, tuple),
             prefix: str = '<OvO',
             suffix: str = '</OvO>',
+            func_name: str = 'init',
+            state: any = None,
     ) -> any:
 
         if data is None:
@@ -269,12 +282,24 @@ class Directorate:
                 if isinstance(value, str):
                     value_strip = value.strip()
                     if value_strip.startswith(prefix) and value_strip.endswith(suffix):
-                        directive = Directive(text=value, prefix=prefix, suffix=suffix)
+                        directive = Directive(text=value, prefix=prefix, suffix=suffix, state=state)
                         parsed = directive.infer()
-                        data[key] = Directorate.embed(parsed)
+                        data[key] = Directorate.embed(
+                            data=parsed,
+                            prefix=prefix,
+                            suffix=suffix,
+                            func_name=func_name,
+                            state=state,
+                        )
                         continue
 
-                Directorate.embed(value)
+                Directorate.embed(
+                    data=value,
+                    prefix=prefix,
+                    suffix=suffix,
+                    func_name=func_name,
+                    state=state,
+                )
             return data
 
         if isinstance(data, (list, tuple)):
@@ -282,9 +307,21 @@ class Directorate:
                 if isinstance(item, str) and item.startswith(prefix) and item.endswith(suffix):
                     directive = Directive(text=item, prefix=prefix, suffix=suffix)
                     parsed = directive.infer()
-                    data[i] = Directorate.embed(parsed)
+                    data[i] = Directorate.embed(
+                        data=parsed,
+                        prefix=prefix,
+                        suffix=suffix,
+                        func_name=func_name,
+                        state=state,
+                    )
                 else:
-                    Directorate.embed(item)
+                    Directorate.embed(
+                        data=item,
+                        prefix=prefix,
+                        suffix=suffix,
+                        func_name=func_name,
+                        state=state,
+                    )
             return data
 
         return data
