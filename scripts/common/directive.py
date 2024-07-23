@@ -82,6 +82,7 @@ class DData:
             self,
             element: ET.Element = None,
             state: any = None,
+            func_name: str = 'init',
             src: str = "",
             des: str = "",
             base: str = "",
@@ -89,6 +90,7 @@ class DData:
     ):
         self.element = element
         self.state = state
+        self.func_name = func_name
         self.src = src
         self.des = des
         self.base = base
@@ -115,6 +117,9 @@ class DData:
         self.des = element.attrib.get('des', '')
         self.base = element.attrib.get('base', '')
         self.active = element.attrib.get('active', '1')
+        self.func_name = element.attrib.get('func_name', self.func_name)
+        if not self.func_name:
+            self.func_name = 'init'
         self.content.text = element.text.strip()
         for tag in ['i', 'item']:
             for data_element in element.findall(tag):
@@ -164,7 +169,11 @@ class DData:
             if is_file:
                 file_name = text_strip
                 file_path = os.path.join(self.base + "/", file_name)
-                one.value = Directorate.load_and_embed(file_path)
+                one.value = Directorate.load_and_embed(
+                    file_path=file_path,
+                    func_name=self.func_name,
+                    state=self.state
+                )
                 one.convert = True
 
             if one.convert:
@@ -182,6 +191,7 @@ class Directive:
             prefix="<OvO",
             suffix="</OvO>",
             state: any = None,
+            func_name: str = 'init',
             logger_name=__name__,
     ):
         self.text = text.strip()
@@ -190,6 +200,7 @@ class Directive:
         self.prefix = prefix
         self.suffix = suffix
         self.state = state
+        self.func_name = func_name
         self.logger = logging.getLogger(logger_name)
         if text:
             self.parse(self.text)
@@ -282,45 +293,45 @@ class Directorate:
                 if isinstance(value, str):
                     value_strip = value.strip()
                     if value_strip.startswith(prefix) and value_strip.endswith(suffix):
-                        directive = Directive(text=value, prefix=prefix, suffix=suffix, state=state)
+                        directive = Directive(
+                            text=value,
+                            prefix=prefix, suffix=suffix,
+                            state=state, func_name=func_name
+                        )
                         parsed = directive.infer()
                         data[key] = Directorate.embed(
                             data=parsed,
-                            prefix=prefix,
-                            suffix=suffix,
-                            func_name=func_name,
-                            state=state,
+                            prefix=prefix, suffix=suffix,
+                            func_name=func_name, state=state,
                         )
                         continue
 
                 Directorate.embed(
                     data=value,
-                    prefix=prefix,
-                    suffix=suffix,
-                    func_name=func_name,
-                    state=state,
+                    prefix=prefix, suffix=suffix,
+                    func_name=func_name, state=state,
                 )
             return data
 
         if isinstance(data, (list, tuple)):
             for i, item in enumerate(data):
                 if isinstance(item, str) and item.startswith(prefix) and item.endswith(suffix):
-                    directive = Directive(text=item, prefix=prefix, suffix=suffix)
+                    directive = Directive(
+                        text=item,
+                        prefix=prefix, suffix=suffix,
+                        func_name=func_name, state=state,
+                    )
                     parsed = directive.infer()
                     data[i] = Directorate.embed(
                         data=parsed,
-                        prefix=prefix,
-                        suffix=suffix,
-                        func_name=func_name,
-                        state=state,
+                        prefix=prefix, suffix=suffix,
+                        func_name=func_name, state=state,
                     )
                 else:
                     Directorate.embed(
                         data=item,
-                        prefix=prefix,
-                        suffix=suffix,
-                        func_name=func_name,
-                        state=state,
+                        prefix=prefix, suffix=suffix,
+                        func_name=func_name, state=state,
                     )
             return data
 

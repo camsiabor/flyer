@@ -6,7 +6,8 @@ def init(*_):
         1,
         "spread legs, peace sign, v hand, cum in pussy, cum on body, looking to the side",
         1,
-        "spread legs, peace sign, v hand, spread pussy by own hand, cum in pussy, cum on body, open mouth, tongue out",
+        "spread legs, peace sign, v hand, spread pussy by own hand, "
+        "cum in pussy, cum on body, open mouth, tongue out",
         1,
         "from back, ass, pussy, cum in pussy, cum on body, grab ass by own hands",
         1,
