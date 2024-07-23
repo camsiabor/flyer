@@ -45,7 +45,7 @@ if __name__ == '__main__':
 
     # preset = './config/sd/preset/zzz/feet.yaml'
     # preset = './config/sd/preset/v/vr/shiori/white.yaml'
-    preset = './config/sd/preset//vr/shiori/white'
+    preset = './config/sd/preset/hoyoverse/starrail/firefly.yaml'
     asyncio.run(test_wrap(preset))
 
     # asyncio.run(dev())

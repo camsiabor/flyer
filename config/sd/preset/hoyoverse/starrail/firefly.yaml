@@ -35,6 +35,7 @@ prompt:
     (bad anatomy:1.2),
     (extra legs：1.2),(extra hands:1.2), 
     (extra digits:1.2),(fewer digits;1.2),
+    (looking at viewer:1.2),
   params_cycle: -1
   params_pos_1:
     character_lora: ""
@@ -44,15 +45,21 @@ prompt:
       black_dress,wrist_cuffs,puffy_short_sleeves,mole_under_eye,large_breasts,frilled_dress,black_pantyhose
     character: |
       <lora:firefly_V3_pony:1>, firefly_\(honkai:_star_rail\),
+      (black_hairband:0.8), 
+      (yellow_neckerchief:0.8), (black_jacket:0.8), 
+      (sailor_jacket:0.8), (hair_intakes:0.8), (aqua_skirt:0.8)
     expressive_h: "<lora:Expressive_H:1>,expressiveh"
     common: ""
     posture: [
+      "cum in pussy, peace sign, v, v hand, spread pussy by own hand, spread legs"
+    ]
+    __posture: [
       # "cowgirl position, penetration, bottomless, pussy juice",
       # "cowgirl position, penetration, grabbing own breast, bottomless, pussy juice",
-      "reverse cowgirl position, penetration, slutty, bottomless, pussy juice",
-      "reverse cowgirl position, penetration, grabbing ass, bottomless, pussy juice",
+      # "reverse cowgirl position, penetration, slutty, bottomless, pussy juice",
+      # "reverse cowgirl position, penetration, grabbing ass, bottomless, pussy juice",
     ]
-    posture2: [
+    ___posture: [
       "top-down bottom-up, face_focus, bottomless",
       "top-down bottom-up, face_focus, bottomless, front view",
       "top-down bottom-up, bottomless, from_side",
@@ -113,37 +120,36 @@ prompt:
     act_by: [
       ""
     ]
-    body: [
+    __body: [
     ]
-    body2: [
-      "(half nude:0.5)",
-      "half nude",
+    body: [
+      # "(half nude:0.5)",
+      # "half nude",
       "half nude, torn clothes",
-      "(nude:0.5)",
-      "(nude:0.75)",
-      "(nude:1)",
-      "lingerie, (nude:0.5)",
-      "lingerie, (nude:0.75)",
-      "bondage, (nude:0.5)",
-      "bondage, (nude:0.75)",
-      "bondage, (saliva trail:0.5)",
+      "(nude:0.65)",
+      "(nude:0.85)",
+      "(nude:1.05)",
+      "lingerie, (nude:0.6)",
+      "lingerie, (nude:0.8)",
+      "bondage, (nude:0.65)",
+      "bondage, (nude:0.85)",
+      "bondage, (nude:0.85), (saliva trail:0.5)",
     ]
     perspective: [
+
     ]
     facial_expression: [
       "embarrassed",
       "embarrassed, looking to the side",
       "open mouth",
       "open mouth, tongue out",
-      "black blindfold, open mouth",
+      # "black blindfold, open mouth",
     ]
     facial_expression_sub: [
       "blush, (saliva trail:0.75)"
     ]
     scene: [
-      "outdoors, night, light and shaodw",
-      "indoors, night, light and shadow",
-      "simple background, night",
+      "outdoors, night, (night sky:0.5), (fireflies:0.5), (light particles:0.1), aesthetic",
     ]
 
 
@@ -179,6 +185,6 @@ extra:
 
 output_txt2img:
   #file_format: "./output/%Y%m%d/belle/0/%H%M%S"
-  file_format: "D:/snapshot/character/hoyoverse/starrail/flyfire/%Y%m%d/0/%H%M%S"
+  file_format: "D:/snapshot/character/hoyoverse/starrail/firefly/%Y%m%d/0/%H%M%S"
   file_extension: "png"
 
