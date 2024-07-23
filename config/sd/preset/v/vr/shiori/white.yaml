@@ -9,7 +9,7 @@ image_latent:
   width: 1024
   height: 1024
   batch_size: 1
-  batch_count: 3
+  batch_count: 2
 
 prompt:
   positive: |

@@ -3,7 +3,7 @@ server:
   port: 30002
   progress_poll_delay: 1024
   progress_poll_interval: 1024
-  verbose: false
+  verbose: true
 
 
 image_latent:
@@ -38,10 +38,12 @@ prompt:
   params_cycle: -1
   params_pos_1:
     character_lora: ""
-    character: |
+    __character: |
       <lora:ellen_joe_pony:0.9>,
       1girl,ellen_joe,maid_headdress,red eyes,
       black_dress,wrist_cuffs,puffy_short_sleeves,mole_under_eye,large_breasts,frilled_dress,black_pantyhose
+    character: |
+      <lora:firefly_V3_pony:1>, firefly_\(honkai:_star_rail\),
     expressive_h: "<lora:Expressive_H:1>,expressiveh"
     common: ""
     posture: [
@@ -133,12 +135,15 @@ prompt:
       "embarrassed, looking to the side",
       "open mouth",
       "open mouth, tongue out",
+      "black blindfold, open mouth",
     ]
     facial_expression_sub: [
       "blush, (saliva trail:0.75)"
     ]
     scene: [
-      "bedroom"
+      "outdoors, night, light and shaodw",
+      "indoors, night, light and shadow",
+      "simple background, night",
     ]
 
 
@@ -174,6 +179,6 @@ extra:
 
 output_txt2img:
   #file_format: "./output/%Y%m%d/belle/0/%H%M%S"
-  file_format: "D:/snapshot/character/hoyoverse/zenless_zone_zero/ellen_joe/%Y%m%d/0_feet/%H%M%S"
+  file_format: "D:/snapshot/character/hoyoverse/starrail/flyfire/%Y%m%d/0/%H%M%S"
   file_extension: "png"
 

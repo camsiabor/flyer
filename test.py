@@ -44,7 +44,8 @@ if __name__ == '__main__':
     LogUtil.load('./config/log.yaml')
 
     # preset = './config/sd/preset/zzz/feet.yaml'
-    preset = './config/sd/preset/v/vr/shiori/white.yaml'
+    # preset = './config/sd/preset/v/vr/shiori/white.yaml'
+    preset = './config/sd/preset//vr/shiori/white'
     asyncio.run(test_wrap(preset))
 
     # asyncio.run(dev())
