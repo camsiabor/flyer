@@ -10,9 +10,11 @@ def init(*_):
         1,
         "top-down bottom-up, bottomless, from_side",
         1,
-        "bent over desk, pov, skirt pulled down, panty pulled down, looking back, hands on ass, pussy, pussy juice, pov",
+        "bent over desk, pov, skirt pulled down, panty pulled down, "
+        "looking back, hands on ass, pussy, pussy juice, pov",
         1,
-        "bent over desk, pov, skirt pulled down, panty pulled down, looking back, hands on ass, doggystyle sex, "
+        "bent over desk, pov, skirt pulled down, panty pulled down, "
+        "looking back, hands on ass, doggystyle sex, "
         "pussy juice, penetration, pov",
     ]
     return PresetCommon.to_array(data)
