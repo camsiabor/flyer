@@ -27,14 +27,19 @@ class TextUtil:
         result = src
         cycle_current = cycle
         for placeholder, target in params.items():
-            if isinstance(target, (list, tuple)):
-                if cycle < 0:
-                    cycle_current = random.randint(0, 142857)
-                length = len(target)
-                if length > 0:
-                    target = target[cycle_current % length]
-                else:
-                    target = ""
+            if placeholder.startswith("_"):
+                placeholder = placeholder[1:]
+                target = ""
+            else:
+                if isinstance(target, (list, tuple)):
+                    if cycle < 0:
+                        cycle_current = random.randint(0, 142857)
+                    length = len(target)
+                    if length > 0:
+                        target = target[cycle_current % length]
+                    else:
+                        target = ""
+
             token = f"{prefix}{placeholder}{suffix}"
             result = result.replace(token, target)
         return result

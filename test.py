@@ -5,7 +5,6 @@ import time
 from PIL import Image
 
 from scripts.common.cfg import ConfigUtil
-from scripts.common.directive import Directive
 from scripts.common.log import LogUtil
 from scripts.sd.sc.box import SDBox
 from scripts.sd.sc.sdwrap import SDWrap
@@ -38,28 +37,6 @@ async def dev():
     pass
 
 
-async def xml():
-
-    text = f"""<OvO src="file" des="list" category="">	
-	<data base="D:/work/ai/1_util/flyer/config/sd/preset/">
-		<item>server.yaml</item>	
-		<item>dev.yaml</item>
-	</data>
-	<data base="D:/work/ai/1_util/flyer/config/sd/preset/">
-		<item>server.yaml</item>
-		<item>dev.yaml</item>
-	</data>
-</OvO>"""
-
-    d = Directive(text)
-
-
-    r = d.infer()
-    print(r)
-
-    pass
-
-
 # ==================================================================================================
 
 if __name__ == '__main__':
@@ -69,7 +46,7 @@ if __name__ == '__main__':
     # preset = './config/sd/preset/zzz/feet.yaml'
     preset = './config/sd/preset/v/vr/shiori/white.yaml'
     asyncio.run(test_wrap(preset))
-    # asyncio.run(xml())
+
     # asyncio.run(dev())
 
     time_end = time.perf_counter()

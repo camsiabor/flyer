@@ -146,15 +146,17 @@ class DData:
                 count += 1
                 continue
 
+            text_strip = one.text.strip()
+
             if not one.text:
                 continue
 
             if is_eval:
-                one.value = eval(one.text)
+                one.value = eval(text_strip)
                 one.convert = True
 
             if is_file:
-                file_name = one.text.strip()
+                file_name = text_strip
                 file_path = os.path.join(self.base + "/", file_name)
                 one.value = Directorate.load_and_embed(file_path)
                 one.convert = True
