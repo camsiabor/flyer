@@ -16,5 +16,8 @@ def init(*_):
         "from behind, top-down_bottom-up, cum in pussy, cum on body, pussy, ass",
         1,
         "from above, pov, cum in mouth, open mouth, tongue out, v hand, peace sign",
+        1,
+
+        "ahegao, peace sign, v hands, v",
     ]
     return PresetCommon.to_array(data)

@@ -32,7 +32,7 @@ async def test_wrap(preset):
 
 
 async def dev():
-    v = Directorate.load_and_embed('./config/sd/preset/0_posture/nsfw/doggy.py')
+    v = Directorate.load_and_embed('config/sd/preset/0_posture/nsfw/back.py')
     print(v)
     pass
 

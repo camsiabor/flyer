@@ -16,5 +16,13 @@ def init(*_):
         "bent over desk, pov, skirt pulled down, panty pulled down, "
         "looking back, hands on ass, doggystyle sex, "
         "pussy juice, penetration, pov",
+        1,
+        "lying on stomach, sex from behind, hand on head",
+        1,
+        "sex_from_behind, against wall, hands on wall, from back, from above",
+        1,
+        "sex from behind, from below",
+        1,
+        "doggy style, kneeling",
     ]
     return PresetCommon.to_array(data)
