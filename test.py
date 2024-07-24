@@ -24,8 +24,8 @@ def test():
 
 # ==================================================================================================
 
-async def test_wrap(preset):
-    box = SDBox().load(preset).initiate()
+async def test_wrap(cfg: str):
+    box = SDBox(config=cfg)
     wrap = SDWrap(box=box).initiate()
     for i in range(box.image_latent.batch_count):
         await wrap.txt2img()
@@ -45,10 +45,11 @@ if __name__ == '__main__':
 
     # preset = './config/sd/preset/zzz/feet.yaml'
     # preset = './config/sd/preset/v/vr/shiori/white.yaml'
-    preset = './config/sd/preset/hoyoverse/starrail/firefly.yaml'
-    # asyncio.run(test_wrap(preset))
+    # preset = './config/sd/preset/hoyoverse/starrail/firefly.yaml'
+    preset = './config/sd/preset/safe.yaml'
+    asyncio.run(test_wrap(preset))
 
-    asyncio.run(dev())
+    # asyncio.run(dev())
 
     time_end = time.perf_counter()
     logging.info(f"============= fin in {time_end - time_start:.2f} seconds =========== ")

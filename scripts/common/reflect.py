@@ -127,7 +127,7 @@ class Reflector:
         method = getattr(obj, method_name)
         if (method is None) or (not callable(method)):
             return None, False
-        print("invoke!!!: ", obj, method_name, args, kwargs)
+        # print("invoke!!!: ", obj, method_name, args, kwargs)
         ret = method(*args, **kwargs)
         return ret, True
 

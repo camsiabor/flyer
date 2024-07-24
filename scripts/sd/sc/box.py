@@ -302,7 +302,7 @@ class SDExtra:
 
 class SDBox:
 
-    def __init__(self):
+    def __init__(self, config: any = None):
         self.server = SDServer()
         self.model = SDModel()
         self.sampler = SDSampler()
@@ -316,23 +316,31 @@ class SDBox:
         self.output_img2img = SDFile()
         self.output_extra = SDFile()
         self.options = SDOptions()
+        self.config = config
+        if self.config:
+            self.load(self.config)
+            self.initiate()
+
+        pass
 
     def load(self, cfg_ptr: any):
-        config = {}
+        cfg_dict = {}
         if isinstance(cfg_ptr, str):
             cfg_ptr_abs = os.path.abspath(cfg_ptr)
             if not os.path.exists(cfg_ptr_abs):
                 msg = f"The file {cfg_ptr} does not exist => {cfg_ptr_abs}"
                 raise FileNotFoundError(msg)
-            config, _ = ConfigUtil.load_and_embed(
+            cfg_dict, _ = ConfigUtil.load_and_embed(
                 cfg_ptr_abs,
             )
         if isinstance(cfg_ptr, dict):
-            config = cfg_ptr
-        Reflector.from_dict(self, config)
+            cfg_dict = cfg_ptr
+        Reflector.from_dict(self, cfg_dict)
         return self
 
     def initiate(self):
+        if self.config is None:
+            raise ValueError("config is None")
         Reflector.invoke_children(self, "initiate")
         return self
 
