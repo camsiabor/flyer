@@ -162,6 +162,7 @@ class DData:
         is_file = src in ['file']
 
         for one in self:
+            print(f"[{count}] {one}")
 
             if one.active == '0' or one.active == 'false':
                 continue
@@ -174,7 +175,7 @@ class DData:
 
             text_strip = one.text.strip()
 
-            if not one.text:
+            if not text_strip:
                 continue
 
             if is_eval:
@@ -216,6 +217,8 @@ class Directive:
             prefix="<OvO",
             suffix="</OvO>",
             state: any = None,
+            func_name: str = 'init',
+            func_args: any = None,
             logger_name=__name__,
     ):
         self.text = text.strip()
@@ -224,6 +227,8 @@ class Directive:
         self.prefix = prefix
         self.suffix = suffix
         self.state = state
+        self.func_name = func_name
+        self.func_args = func_args
         self.logger = logging.getLogger(logger_name)
         if text:
             self.parse(self.text)
@@ -249,7 +254,11 @@ class Directive:
             self.logger.error(msg)
             return msg
         root = ET.fromstring(text)
-        self.root = DNode(element=root, state=self.state)
+        self.root = DNode(
+            element=root,
+            state=self.state,
+            func_name=self.func_name, func_args=self.func_args,
+        )
         for tag in ['d', 'data']:
             for data_element in root.findall(tag):
                 ddata = DData(
@@ -261,7 +270,7 @@ class Directive:
 
     def infer(self, counting: bool = False) -> any:
         count = 0
-        for data, _ in self:
+        for data in self.data:
             count += data.infer(self.root.src)
         con = self.converge()
         if counting:
@@ -323,26 +332,22 @@ class Directorate:
         if data is None:
             return None
 
+        if isinstance(data, str):
+            data_strip = data.strip()
+            if data_strip.startswith(prefix) and data_strip.endswith(suffix):
+                directive = Directive(
+                    text=data_strip,
+                    prefix=prefix, suffix=suffix,
+                    func_name=func_name, func_args=func_args,
+                    state=state,
+                )
+                return directive.infer()
+            else:
+                return data
+
         if isinstance(data, dict):
             for key, value in data.items():
-                if isinstance(value, str):
-                    value_strip = value.strip()
-                    if value_strip.startswith(prefix) and value_strip.endswith(suffix):
-                        directive = Directive(
-                            text=value,
-                            prefix=prefix, suffix=suffix,
-                            state=state,
-                        )
-                        parsed = directive.infer()
-                        data[key] = Directorate.embed(
-                            data=parsed,
-                            prefix=prefix, suffix=suffix,
-                            func_name=func_name, func_args=func_args,
-                            state=state,
-                        )
-                        continue
-
-                Directorate.embed(
+                data[key] = Directorate.embed(
                     data=value,
                     prefix=prefix, suffix=suffix,
                     func_name=func_name, func_args=func_args,
@@ -352,26 +357,12 @@ class Directorate:
 
         if isinstance(data, (list, tuple)):
             for i, item in enumerate(data):
-                if isinstance(item, str) and item.startswith(prefix) and item.endswith(suffix):
-                    directive = Directive(
-                        text=item,
-                        prefix=prefix, suffix=suffix,
-                        state=state,
-                    )
-                    parsed = directive.infer()
-                    data[i] = Directorate.embed(
-                        data=parsed,
-                        prefix=prefix, suffix=suffix,
-                        func_name=func_name, func_args=func_args,
-                        state=state,
-                    )
-                else:
-                    Directorate.embed(
-                        data=item,
-                        prefix=prefix, suffix=suffix,
-                        func_name=func_name, func_args=func_args,
-                        state=state,
-                    )
+                data[i] = Directorate.embed(
+                    data=item,
+                    prefix=prefix, suffix=suffix,
+                    func_name=func_name, func_args=func_args,
+                    state=state,
+                )
             return data
 
         return data
