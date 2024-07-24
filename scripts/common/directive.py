@@ -49,6 +49,8 @@ class DValue:
             element: ET.Element = None,
             state: any = None,
             parent: ET.Element = None,
+            func_name: str = 'init',
+            func_arg: any = None,
             text: str = "",
             value: any = None,
             active: str = '1',
@@ -56,6 +58,8 @@ class DValue:
         self.element = element
         self.state = state
         self.parent = parent
+        self.func_name = func_name
+        self.func_arg = func_arg
         self.text = text
         self.value = value
         self.convert = False
@@ -67,7 +71,9 @@ class DValue:
         if self.element is None:
             return self
         self.text = self.element.text.strip()
-        self.active = self.element.attrib.get('active', '1')
+        self.active = self.element.attrib.get('a', '1')
+        self.func_name = self.element.attrib.get('func', self.func_name)
+        self.func_arg = self.element.attrib.get('arg', None)
         return self
 
     def __str__(self):
@@ -83,6 +89,7 @@ class DData:
             element: ET.Element = None,
             state: any = None,
             func_name: str = 'init',
+            func_arg: any = None,
             src: str = "",
             des: str = "",
             base: str = "",
@@ -91,6 +98,7 @@ class DData:
         self.element = element
         self.state = state
         self.func_name = func_name
+        self.func_arg = func_arg
         self.src = src
         self.des = des
         self.base = base
@@ -116,8 +124,9 @@ class DData:
         self.src = element.attrib.get('src', '')
         self.des = element.attrib.get('des', '')
         self.base = element.attrib.get('base', '')
-        self.active = element.attrib.get('active', '1')
-        self.func_name = element.attrib.get('func_name', self.func_name)
+        self.active = element.attrib.get('a', '1')
+        self.func_name = element.attrib.get('func', self.func_name)
+        self.func_arg = element.attrib.get('arg', None)
         if not self.func_name:
             self.func_name = 'init'
         self.content.text = element.text.strip()
@@ -167,19 +176,30 @@ class DData:
                 one.convert = True
 
             if is_file:
-                file_name = text_strip
-                file_path = os.path.join(self.base + "/", file_name)
-                one.value = Directorate.load_and_embed(
-                    file_path=file_path,
-                    func_name=self.func_name,
-                    state=self.state
-                )
-                one.convert = True
+                self.infer_file(one, text_strip)
 
             if one.convert:
                 count += 1
 
         return count
+
+    def infer_file(self, one: DValue, text_strip: str):
+        file_name = text_strip
+        file_path = os.path.join(self.base + "/", file_name)
+        func_name = one.func_name
+        if not func_name:
+            func_name = self.func_name
+        func_arg = one.func_arg
+        if not func_arg:
+            func_arg = self.func_arg
+        one.value = Directorate.load_and_embed(
+            file_path=file_path,
+            func_name=func_name,
+            state=self.state,
+            *func_arg,
+        )
+        one.convert = True
+        return one.value
 
 
 # Directive =============================================================================== #
@@ -270,9 +290,9 @@ class Directive:
 class Directorate:
 
     @staticmethod
-    def load_and_embed(file_path: str, func_name: str = 'init', state: any = None) -> any:
+    def load_and_embed(file_path: str, func_name: str = 'init', state: any = None, *func_args) -> any:
         config = FileUtil.load(
-            file_path, 'r', 'utf-8', func_name, state
+            file_path, 'r', 'utf-8', func_name, state, *func_args
         )
         return Directorate.embed(config)
 
@@ -283,6 +303,7 @@ class Directorate:
             suffix: str = '</OvO>',
             func_name: str = 'init',
             state: any = None,
+            *func_args,
     ) -> any:
 
         if data is None:
@@ -296,13 +317,15 @@ class Directorate:
                         directive = Directive(
                             text=value,
                             prefix=prefix, suffix=suffix,
-                            state=state, func_name=func_name
+                            func_name=func_name, state=state,
+                            *func_args,
                         )
                         parsed = directive.infer()
                         data[key] = Directorate.embed(
                             data=parsed,
                             prefix=prefix, suffix=suffix,
                             func_name=func_name, state=state,
+                            *func_args,
                         )
                         continue
 
@@ -310,6 +333,7 @@ class Directorate:
                     data=value,
                     prefix=prefix, suffix=suffix,
                     func_name=func_name, state=state,
+                    *func_args,
                 )
             return data
 
@@ -320,18 +344,21 @@ class Directorate:
                         text=item,
                         prefix=prefix, suffix=suffix,
                         func_name=func_name, state=state,
+                        *func_args,
                     )
                     parsed = directive.infer()
                     data[i] = Directorate.embed(
                         data=parsed,
                         prefix=prefix, suffix=suffix,
                         func_name=func_name, state=state,
+                        *func_args,
                     )
                 else:
                     Directorate.embed(
                         data=item,
                         prefix=prefix, suffix=suffix,
                         func_name=func_name, state=state,
+                        *func_args,
                     )
             return data
 

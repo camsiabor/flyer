@@ -35,7 +35,14 @@ class FileUtil:
         return func(*args, **kwargs)
 
     @staticmethod
-    def load(file_path, mode: str = 'r', encoding: str = 'utf-8', func_name='init', *args):
+    def load(
+            file_path,
+            mode: str = 'r',
+            encoding: str = 'utf-8',
+            func_name='init',
+            state: any = None,
+            *args
+    ):
         file_path = file_path.strip()
         if not os.path.exists(file_path):
             raise FileNotFoundError(f"None found: {file_path}")
