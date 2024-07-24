@@ -10,6 +10,7 @@ from webuiapi import webuiapi
 
 from scripts.common.atomic import IntAysnc, FloatAsync
 from scripts.common.crypto import CryptoUtil
+from scripts.common.textutil import TextUtil
 from scripts.sd.sc.box import SDBox
 
 
@@ -30,7 +31,9 @@ def sdwrap_aspect(logger_name="sd-perf"):
                 logger = logging.getLogger(logger_name)
                 if wrap.verbose:
                     info = result.info
-                    logger.info(f"prompt:\n{info.get('prompt', '')}")
+                    prompt = info.get('prompt', '')
+                    prompt = TextUtil.wrap_lines_ex(prompt, 72)
+                    logger.info(f"prompt:\n{prompt}")
                 logger.info(f"{func.__name__} completed in {elapsed_time:.2f} seconds")
 
             except Exception as e:
