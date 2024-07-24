@@ -46,8 +46,9 @@ prompt:
     character_lora: |
       <OvO des="list">
         <d src="file" base="./config/sd/preset/0_character/">
-          <i a="1" arg="byb0.game">psplive</i>          
+          <i a="1" arg="byb0.game">psplive.py</i>          
         </d>
+      </OvO>
 
     character: |
       loli, solo,                            

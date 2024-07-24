@@ -40,8 +40,8 @@ class FileUtil:
             mode: str = 'r',
             encoding: str = 'utf-8',
             func_name='init',
+            func_args=None,
             state: any = None,
-            *args
     ):
         file_path = file_path.strip()
         if not os.path.exists(file_path):
@@ -52,7 +52,7 @@ class FileUtil:
             if file_path.endswith('.json'):
                 return json.load(config_file)
             if file_path.endswith('.py'):
-                return FileUtil.call(file_path, func_name, *args)
+                return FileUtil.call(file_path, func_name, state, func_args)
             raise ValueError(f"Unsupported config file format: {file_path}")
         pass
 

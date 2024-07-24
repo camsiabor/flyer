@@ -1,5 +1,5 @@
-def init(state: any, *args):
-    print('i am here')
+def init(state: any, args: any):
+    print('[x] i am here')
     print(state)
-    print(*args)
+    print(args)
     return []
