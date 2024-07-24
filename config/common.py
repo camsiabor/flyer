@@ -4,6 +4,20 @@ import random
 class PresetCommon:
 
     @staticmethod
+    def get(cfg: dict, default=KeyError, *keys):
+        value = cfg
+        for key in keys:
+            if isinstance(value, dict):
+                value = value.get(key)
+            else:
+                value = default
+        if value is None:
+            value = default
+        if isinstance(value, KeyError):
+            raise KeyError(f"KeyError: {keys}")
+        return value
+
+    @staticmethod
     def to_array(data):
         ret = []
         repeat = 1

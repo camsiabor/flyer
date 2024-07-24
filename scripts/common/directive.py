@@ -162,7 +162,7 @@ class DData:
         is_file = src in ['file']
 
         for one in self:
-            print(f"[{count}] {one}")
+            # print(f"[{count}] {one}")
 
             if one.active == '0' or one.active == 'false':
                 continue
