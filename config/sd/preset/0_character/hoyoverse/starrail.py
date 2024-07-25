@@ -1,10 +1,12 @@
 from config.common import PresetCommon
 
 firefly = {
-    'lora': '<lora:firefly_V3_pony:1>, firefly_(honkai:_star_rail)',
-    'cloth': """(black_hairband:0.8), 
-            (yellow_neckerchief:0.8), (black_jacket:0.8), 
-            (sailor_jacket:0.8), (hair_intakes:0.8), (aqua_skirt:0.8)""",
+    'L': '<lora:firefly_V3_pony:1>, firefly_(honkai:_star_rail)',
+    'C': """
+    (black_hairband:0.8), 
+    (yellow_neckerchief:0.8), (black_jacket:0.8), 
+    (sailor_jacket:0.8), (hair_intakes:0.8), (aqua_skirt:0.8)
+    """,
 }
 
 everyone = {
