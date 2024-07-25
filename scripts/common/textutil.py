@@ -49,13 +49,16 @@ class TextUtil:
     @staticmethod
     # Example command processor function
     def replace_cmd_processer(cmd, *args):
-        if cmd == 'rand':
+        if cmd == 'rand' or cmd == 'randint':
             range_min = 0
             range_max = sys.maxsize
             if not args or len(args) > 0:
                 range_str = args[0]
                 range_min, range_max = map(float, range_str.split('~'))
-            random_value = random.uniform(range_min, range_max)
+            if cmd == 'randint':
+                random_value = random.randint(int(range_min), int(range_max))
+            else:
+                random_value = random.uniform(range_min, range_max)
             return f"{random_value:.3f}"
         # Add more command handling as needed
         else:

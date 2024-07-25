@@ -44,7 +44,7 @@ posture_ref = f"""
 <OvO des="list">
     <d a="1" src="file" base="config/sd/preset/0_posture/nsfw/">
         <i a="0" func="init">after.py</i>
-        <i a="1">back.py</i>
+        <i a="1" func="back">back.py</i>
         <i a="1">chest.py</i>
         <i a="1">expose.py</i>
         <i a="1">front.py</i>
@@ -107,19 +107,13 @@ prompt = {
     "positive": prompt_positive,
     "negative": prompt_negative,
     "params_cycle": -1,
+    "params_pos_1": params_pos_1,
 }
 
 ret = {
     'server': server,
     'image_latent': image_latent,
-    'prompt': {
-        'positive': '',
-        'negative': '',
-        'params_cycle': -1,
-        'params_pos_1': {
-
-        }
-    },
+    'prompt': prompt,
     'sampler': {
         'name': 'Euler a',
         'steps': 26,

@@ -105,7 +105,7 @@ class SDPrompt:
 
         for i in range(1, 3):
             params = getattr(self, f"params_pos_{i}")
-            if params is not None:
+            if params is not None and len(params) > 0:
                 pos = TextUtil.replace(
                     src=pos,
                     params=params,
@@ -113,8 +113,10 @@ class SDPrompt:
                     prefix=self.params_prefix,
                     suffix=self.params_suffix,
                 )
+                pos = TextUtil.replace_cmd(pos)
+
             params = getattr(self, f"params_neg_{i}")
-            if params is not None:
+            if params is not None and len(params) > 0:
                 neg = TextUtil.replace(
                     src=neg,
                     params=params,
@@ -122,6 +124,7 @@ class SDPrompt:
                     prefix=self.params_prefix,
                     suffix=self.params_suffix,
                 )
+                neg = TextUtil.replace_cmd(neg)
 
         if self.params_cycle >= 0:
             self.params_cycle += 1

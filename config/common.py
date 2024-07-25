@@ -27,24 +27,63 @@ class PresetCommon:
         return value
 
     @staticmethod
-    def dict_sum(data: dict, cmd: str, throw: bool = True) -> str:
+    def dict_sum(data: dict, cmd: str, throw: bool = True) -> any:
         ret = ""
         cmd = cmd.strip()
         if not cmd:
             return ret
         elements = cmd.split('+')
+        convert = False
         for element in elements:
             element = element.strip()
             keys = element.split('.')
             value = PresetCommon.dict_get(data, "", throw, *keys)
             if value is None or not value:
                 continue
-            value = str(value).strip()
-            if not value:
+            if isinstance(value, dict):
+                if not convert:
+                    if ret:
+                        ret = {"": ret}
+                    else:
+                        ret = {}
+                    convert = True
+                if isinstance(ret, list):
+                    ret.append(value)
+                if isinstance(ret, dict):
+                    ret.update(value)
                 continue
-            if not value.endswith(','):
-                value += ','
-            ret += value
+
+            if isinstance(value, (list, tuple)):
+                if not convert:
+                    if ret:
+                        ret = [ret]
+                    else:
+                        ret = []
+                    convert = True
+
+                if isinstance(ret, list):
+                    ret.extend(value)
+                elif isinstance(ret, dict):
+                    ret.update({element: value})
+                continue
+
+            if isinstance(value, str):
+                value = str(value).strip()
+                if not value:
+                    continue
+
+                if not convert:
+                    if not value.endswith(','):
+                        value += ','
+                    ret += value
+                    continue
+
+                if isinstance(ret, list):
+                    ret.append(value)
+                elif isinstance(ret, dict):
+                    ret.update({element: value})
+
+
         return ret
 
     @staticmethod

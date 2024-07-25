@@ -35,6 +35,16 @@ pos_back = [
     "doggy style, kneeling",
 ]
 
+pos_expose = [
+    "squatting, no panties, spread knees, clothes lift, lifted by self, from below",
+    "squatting",
+    "skirt lift, lifted by self, bottomless, no panties, from below",
+    "spreading own ass, from behind, pov",
+    "spread pussy, spread legs, looking to the side, v hand, pussy juice",
+    "wariza, w_sitting, ass, ass_focus, feet",
+    "wariza, w_sttiing, pov, from_above",
+]
+
 pos_after = [
 
 ]
@@ -46,6 +56,8 @@ poses = {
     # back
     "back": pos_back,
     "doggy": pos_back,
+    # expose
+    "expose": pos_expose,
     # breast
     "breast": pos_breast,
     "chest": pos_breast,
