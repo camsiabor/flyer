@@ -1,5 +1,40 @@
 from config.common import PresetCommon
 
+pos_mouth = [
+    "licking penis, fellatio, hand on head",
+    "licking penis, fellatio, hand on head, pov, from above",
+    "licking penis, nipples, from side, kneeling, hand on head,",
+    "licking penis, deep throat",
+    "licking penis, handjob, orgy",
+    "licking penis, pov",
+    "licking penis, pov, from above",
+    "licking penis, bottomless, masturbation, squatting",
+    "licking penis, bottomless, spread pussy by own hand",
+    "licking penis, topless, grabbing own breast",
+]
+
+pos_breast = [
+    3,
+    "breast sex, titfucking, pov, breasts, nipple, penis",
+]
+
+pos_hand = [
+    "female masturbation, grabbing own breast, bathing, topless",
+    "female masturbation, spread legs, female masturation, spread pussy by self",
+    "fingering, pussy, pussy juice",
+    "fingering, pussy, pussy juice, ass, anal",
+]
+
+pos_expose = [
+    "squatting, no panties, spread knees, clothes lift, lifted by self, from below",
+    "squatting",
+    "skirt lift, lifted by self, bottomless, no panties, from below",
+    "spreading own ass, from behind, pov",
+    "spread pussy, spread legs, looking to the side, v hand, pussy juice",
+    "wariza, w_sitting, ass, ass_focus, feet",
+    "wariza, w_sttiing, pov, from_above",
+]
+
 pos_front = [
     "missionary position, penetration, pov, grabbing another's breast",
     "missionary position, penetration, pov, from above",
@@ -7,8 +42,29 @@ pos_front = [
     "standing missionary, penetration",
 ]
 
-pos_breast = [
-    "breast sex, titfucking, pov, breasts, nipple, penis",
+pos_standing = [
+    3,
+    "standing sex",
+    3,
+    "standing sex, split, leg up",
+]
+
+pos_top = [
+    "cowgirl position, penetration, bottomless, pussy juice",
+    "cowgirl position, penetration, grabbing own breast, bottomless, pussy juice",
+    "reverse cowgirl position, penetration, slutty, bottomless, pussy juice",
+    "reverse cowgirl position, penetration, grabbing ass, bottomless, pussy juice",
+    "foggy, exposed_pussy,vaginal, riding a dick, jizz oozing out of pussy, cum, orgasm,",
+    "girl on top, legs lock",
+]
+
+pos_lying = [
+    2,
+    "lying on back, pov, arms up,arms bound, rope, head tilt, knees up, cunninggulus, waist grab",
+    2,
+    "lying on back, from side, arms up,arms bound, rope, head tilt, knees up, cunninggulus, waist grab",
+    2,
+    "lying on side, penetration, vaginal",
 ]
 
 pos_back = [
@@ -35,46 +91,68 @@ pos_back = [
     "doggy style, kneeling",
 ]
 
-pos_expose = [
-    "squatting, no panties, spread knees, clothes lift, lifted by self, from below",
-    "squatting",
-    "skirt lift, lifted by self, bottomless, no panties, from below",
-    "spreading own ass, from behind, pov",
-    "spread pussy, spread legs, looking to the side, v hand, pussy juice",
-    "wariza, w_sitting, ass, ass_focus, feet",
-    "wariza, w_sttiing, pov, from_above",
-]
-
 pos_after = [
-
+    1,
+    "spread legs, peace sign, v hand, cum in pussy, cum on body, looking to the side",
+    1,
+    "spread legs, peace sign, v hand, spread pussy by own hand, "
+    "cum in pussy, cum on body, open mouth, tongue out",
+    1,
+    "from back, ass, pussy, cum in pussy, cum on body, grab ass by own hands",
+    1,
+    "squat, paw pose, cum in pussy, cum on body, open mouth, tongue out, pussy",
+    1,
+    "from behind, top-down_bottom-up, cum in pussy, cum on body, pussy, ass",
+    1,
+    "from above, pov, cum in mouth, open mouth, tongue out, v hand, peace sign",
+    1,
+    "ahegao, peace sign, v hands, v",
 ]
 
 poses = {
-    # front
-    "front": pos_front,
-    "missionary": pos_front,
-    # back
-    "back": pos_back,
-    "doggy": pos_back,
-    # expose
-    "expose": pos_expose,
+
+    # mouth
+    "mouth": pos_mouth,
+    "bj": pos_mouth,
+    "blowjob": pos_mouth,
+
     # breast
     "breast": pos_breast,
     "chest": pos_breast,
+
+    # hand
+    "hand": pos_hand,
+    "hj": pos_hand,
+
+    # expose
+    "expose": pos_expose,
+
+    # front
+    "front": pos_front,
+    "missionary": pos_front,
+
+    # standing
+    "standing": pos_standing,
+    "stand": pos_standing,
+
+    # top
+    "top": pos_top,
+    "cowgirl": pos_top,
+
+    # lying
+    "lying": pos_lying,
+
+    # back
+    "back": pos_back,
+    "doggy": pos_back,
+
 }
 
 
-def init(_: any, __: any):
-    data = [
-        "squatting, no panties, spread knees, clothes lift, lifted by self, from below",
-        "squatting",
-        "skirt lift, lifted by self, bottomless, no panties, from below",
-        "spreading own ass, from behind, pov",
-        "spread pussy, spread legs, looking to the side, v hand, pussy juice",
-        "wariza, w_sitting, ass, ass_focus, feet",
-        "wariza, w_sttiing, pov, from_above",
-    ]
+def init(_: any, args: any):
+    cmd = args
+    if isinstance(cmd, (list, tuple)):
+        cmd = cmd[0]
+    picks = PresetCommon.dict_pick(poses, cmd, True)
 
-    PresetCommon.dict_pick(poses, )
-
-    return PresetCommon.to_array(data)
+    return PresetCommon.to_array(poses)
