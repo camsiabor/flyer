@@ -88,21 +88,32 @@ class PresetCommon:
 
     @staticmethod
     def dict_pick(
-            data: dict, cmd: str,
-            throw: bool = True, seperator: str = '|'
+            data: dict,
+            cmd: str,
+            throw: bool = True,
+            seperator: str = '|',
+            merge: bool = True,
     ) -> list:
         if data is None:
             if throw:
                 raise ValueError("cfg dict is None")
             else:
                 return []
-        ret = []
+        array = []
         cmd = cmd.strip()
         frags = cmd.split(seperator)
         for frag in frags:
             keys = frag.split('.')
             one = PresetCommon.dict_get(data, None, throw, *keys)
             if one:
+                array.append(one)
+        if not merge:
+            return array
+        ret = []
+        for one in array:
+            if isinstance(one, (list, tuple)):
+                ret.extend(one)
+            else:
                 ret.append(one)
         return ret
 
