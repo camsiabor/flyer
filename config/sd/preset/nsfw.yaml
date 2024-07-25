@@ -9,7 +9,7 @@ image_latent:
   width: 1024
   height: 1024
   batch_size: 1
-  batch_count: 10
+  batch_count: 3
 
 prompt:
   positive: |
@@ -29,7 +29,7 @@ prompt:
     $$scene$$,
   negative: |
     score_6, score_5, score_4, score_3, score_2, score_1, pony, 
-    worst quality, low quality, lowres, shoes, 
+    worst quality, low quality, lowres, 
     bad hands, extra fingers, distorted hands, distorted fingers, missing fingers, 
     bad feet, distorted feet, distorted toes, missing toes, fewer digits, extra digits, 
     bad anatomy, 
@@ -42,26 +42,30 @@ prompt:
     character_lora: |
       <OvO des="list">
         <d src="file" base="./config/sd/preset/0_character/">
-          <i a="1" arg="firefly.lora+cloth">hoyoverse/starrail.py</i>          
+          <i a="0" arg="firefly.lora+cloth">hoyoverse/starrail.py</i>
+          <i a="0" arg="firefly.lora+cloth">hoyoverse/zzz.py</i>
         </d>
       </OvO>
     character: ""
     people: [
-      "1girl, orgy, multiple boys",
+
     ]
     posture_ref: |
       <OvO des="list">
-        <d a="1" src="file" base="config/sd/preset/0_posture/nsfw/">
-          <i a="0" func="init">after.py</i>
-          <i a="1">back.py</i>
-          <i a="1">chest.py</i>
-          <i a="1">expose.py</i>
-          <i a="1">front.py</i>
-          <i a="1">hand.py</i>
-          <i a="1">lying.py</i>
-          <i a="1">mouth.py</i>
-          <i a="1">stand.py</i>
-          <i a="1">top.py</i>
+        <d a="1" src="file" base="config/sd/preset/0_posture/nsfw/">          
+          <i a="1" args="mouth">r18.py</i>
+          <i a="1" args="breast">r18.py</i>
+          <i a="1" args="hand">r18.py</i>
+          <i a="1" args="pussy">r18.py</i>
+          <i a="1" args="pussy">r18.py</i>
+          <i a="1" args="ass">r18.py</i>
+          <i a="1" args="feet">r18.py</i>
+          <i a="1" args="expose">r18.py</i>
+          <i a="1" args="front">r18.py</i>
+          <i a="1" args="back">r18.py</i>
+          <i a="1" args="standing">r18.py</i>
+          <i a="1" args="lying">r18.py</i>
+          <i a="1" args="after">r18.py</i>
         </d>      
       </OvO>
     posture: [
@@ -94,13 +98,15 @@ prompt:
       "embarrassed, (looking to the side:1.05)",
       "open mouth",
       "open mouth, tongue out",
+      "tape gag",
       "black blindfold, open mouth",
     ]
     facial_expression_sub: [
       "blush, (saliva trail:0.75)"
     ]
     scene: [
-      "outdoors, night, (night sky:0.5), (fireflies:0.5), (light particles:0.1), aesthetic",
+      "alley, outdoors",
+      "bedroom, indoors",
     ]
 
 

@@ -247,6 +247,10 @@ poses = {
     "back": pos_back,
     "doggy": pos_back,
 
+    # after
+    "after": pos_after,
+    "sex_after": pos_after,
+
 }
 
 
