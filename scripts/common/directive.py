@@ -79,7 +79,7 @@ class DValue:
         self.text = self.element.text.strip()
         self.active = self.element.attrib.get('a', '1').lower()
         self.func_name = self.element.attrib.get('func', self.func_name)
-        self.func_args = self.element.attrib.get('arg', None)
+        self.func_args = self.element.attrib.get('args', None)
         return self
 
     def __str__(self):
@@ -132,7 +132,7 @@ class DData:
         self.base = element.attrib.get('base', '')
         self.active = element.attrib.get('a', '1').lower()
         self.func_name = element.attrib.get('func', self.func_name)
-        self.func_args = element.attrib.get('arg', None)
+        self.func_args = element.attrib.get('args', None)
         if not self.func_name:
             self.func_name = 'init'
         self.content.text = element.text.strip()

@@ -9,7 +9,7 @@ image_latent:
   width: 1024
   height: 1024
   batch_size: 1
-  batch_count: 3
+  batch_count: 6
 
 prompt:
   positive: |
@@ -42,8 +42,8 @@ prompt:
     character_lora: |
       <OvO des="list">
         <d src="file" base="./config/sd/preset/0_character/">
-          <i a="1" arg="zhuyuan.L+C">hoyoverse/zzz.py</i>
-          <i a="0" arg="firefly.L+C">hoyoverse/starrail.py</i>          
+          <i a="1" args="zhuyuan.L+C">hoyoverse/zzz.py</i>
+          <i a="0" args="firefly.L+C">hoyoverse/starrail.py</i>          
         </d>
       </OvO>
     character: ""
@@ -52,7 +52,7 @@ prompt:
     ]
     posture_ref: |
       <OvO des="list">
-        <d a="1" src="file" base="config/sd/preset/0_posture/nsfw/">          
+        <d a="1" src="file" base="config/sd/preset/0_posture/">          
           <i a="1" args="mouth">r18.py</i>
           <i a="1" args="breast">r18.py</i>
           <i a="1" args="hand">r18.py</i>

@@ -41,7 +41,7 @@ class TextUtil:
                         target = target[cycle_current % length]
                     else:
                         target = ""
-
+            target = str(target)
             token = f"{prefix}{placeholder}{suffix}"
             result = result.replace(token, target)
         return result

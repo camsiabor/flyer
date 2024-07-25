@@ -259,4 +259,5 @@ def init(_: any, args: any):
     if isinstance(cmd, (list, tuple)):
         cmd = cmd[0]
     picks = PresetCommon.dict_pick(poses, cmd, True)
-    return picks
+    picks_weight = PresetCommon.to_array(picks)
+    return picks_weight
