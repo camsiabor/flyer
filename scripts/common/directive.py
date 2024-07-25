@@ -36,13 +36,13 @@ class DNode:
 
     def init(self, element: ET.Element):
         self.element = element
-        self.src = element.attrib.get('src', '')
-        self.des = element.attrib.get('des', '')
-        self.action = element.attrib.get('action', '')
+        self.src = element.attrib.get('src', '').lower()
+        self.des = element.attrib.get('des', '').lower()
+        self.action = element.attrib.get('action', '').lower()
         self.func_name = element.attrib.get('func', self.func_name)
         self.func_args = element.attrib.get('args', None)
-        self.category = element.attrib.get('category', '')
-        self.converge = element.attrib.get('converge', '')
+        self.category = element.attrib.get('category', '').lower()
+        self.converge = element.attrib.get('converge', '').lower()
         return self
 
 
@@ -77,7 +77,7 @@ class DValue:
         if self.element is None:
             return self
         self.text = self.element.text.strip()
-        self.active = self.element.attrib.get('a', '1')
+        self.active = self.element.attrib.get('a', '1').lower()
         self.func_name = self.element.attrib.get('func', self.func_name)
         self.func_args = self.element.attrib.get('arg', None)
         return self
@@ -127,10 +127,10 @@ class DData:
     def init(self, element: ET.Element):
         if element is None:
             return self
-        self.src = element.attrib.get('src', '')
-        self.des = element.attrib.get('des', '')
+        self.src = element.attrib.get('src', '').lower()
+        self.des = element.attrib.get('des', '').lower()
         self.base = element.attrib.get('base', '')
-        self.active = element.attrib.get('a', '1')
+        self.active = element.attrib.get('a', '1').lower()
         self.func_name = element.attrib.get('func', self.func_name)
         self.func_args = element.attrib.get('arg', None)
         if not self.func_name:
@@ -139,6 +139,8 @@ class DData:
         for tag in ['i', 'item']:
             for data_element in element.findall(tag):
                 dv = DValue(element=data_element, parent=element, state=self.state)
+                if dv.active == '0' or dv.active == 'false':
+                    continue
                 self.items.append(dv)
 
         return self
@@ -265,6 +267,8 @@ class Directive:
                     element=data_element, state=self.state,
                     func_name=self.root.func_name, func_args=self.root.func_args,
                 )
+                if ddata.active == '0' or ddata.active == 'false':
+                    continue
                 self.data.append(ddata)
         return ''
 

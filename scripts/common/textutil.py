@@ -1,4 +1,6 @@
 import random
+import re
+import sys
 
 
 class TextUtil:
@@ -43,6 +45,41 @@ class TextUtil:
             token = f"{prefix}{placeholder}{suffix}"
             result = result.replace(token, target)
         return result
+
+    @staticmethod
+    # Example command processor function
+    def replace_cmd_processer(cmd, *args):
+        if cmd == 'rand':
+            range_min = 0
+            range_max = sys.maxsize
+            if not args or len(args) > 0:
+                range_str = args[0]
+                range_min, range_max = map(float, range_str.split('~'))
+            random_value = random.uniform(range_min, range_max)
+            return f"{random_value:.3f}"
+        # Add more command handling as needed
+        else:
+            raise ValueError("unrecognized command: " + cmd)
+
+    @staticmethod
+    def replace_cmd(
+            s: str,
+            # Define the regex pattern to find ${command|arg1|arg2|...|argN} format
+            pattern=r'\$\{(\w+)\|([^\}]+)\}',
+            command_processor=None
+    ) -> str:
+        # Function to replace each match
+        def replacer(match):
+            command = match.group(1)
+            args = match.group(2).split('|')
+            # Use the command_processor to generate the replacement string
+            if command_processor is not None:
+                return command_processor(command, *args)
+            return TextUtil.replace_cmd_processer(command, *args)
+
+        # Replace all matches in the string using the replacer function
+        replaced_string = re.sub(pattern, replacer, s)
+        return replaced_string
 
     @staticmethod
     def wrap_lines(text: str, line_length=72, sep_word=",") -> str:

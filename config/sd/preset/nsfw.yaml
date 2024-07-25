@@ -52,7 +52,7 @@ prompt:
     posture_ref: |
       <OvO des="list">
         <d a="1" src="file" base="config/sd/preset/0_posture/nsfw/">
-          <i a="0">after.py</i>
+          <i a="0" func="init">after.py</i>
           <i a="1">back.py</i>
           <i a="1">chest.py</i>
           <i a="1">expose.py</i>
@@ -135,6 +135,6 @@ extra:
   upscaling_resize: 1.25
 
 output_txt2img:
-  file_format: "D:/snapshot/character/hoyoverse/starrail/firefly/%Y%m%d/0/%H%M%S"
+  file_format: "D:/snapshot/character/hoyoverse/starrail/firefly/%Y%m%d/1/%H%M%S"
   file_extension: "png"
 
