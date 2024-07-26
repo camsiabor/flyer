@@ -35,10 +35,12 @@ prompt:
     bad anatomy, 
     text, signature, watermark, logo,
     (looking at viewer:1.5), (blue hair),
+    $$neg_extra$$,
   params_cycle: -1
+  # Params Positive 1 ==========================================================
   params_pos_1:
     common: ""
-    expressive_h: <lora:Expressive_H:${rand|0.5~1}>,expressiveh
+    expressive_h: <lora:Expressive_H:${rand|0.8~1.0}>,expressiveh
     character_lora: |
       <OvO des="list">
         <d src="file" base="./config/sd/preset/0_character/">
@@ -48,39 +50,34 @@ prompt:
       </OvO>
     character: ""
     people: [
-
+      # "1girl, multiple boys, orgy"
     ]
     posture_ref: |
       <OvO des="list">
         <d a="1" src="file" base="config/sd/preset/0_posture/">          
-          <i a="1" args="mouth">r18.py</i>
-          <i a="1" args="breast">r18.py</i>
-          <i a="1" args="hand">r18.py</i>
-          <i a="1" args="pussy">r18.py</i>
-          <i a="1" args="pussy">r18.py</i>
-          <i a="1" args="ass">r18.py</i>
+          <i a="0" args="mouth">r18.py</i>
+          <i a="0" args="breast">r18.py</i>
+          <i a="0" args="hand">r18.py</i>
+          <i a="0" args="pussy">r18.py</i>          
+          <i a="0" args="ass">r18.py</i>
           <i a="1" args="feet">r18.py</i>
-          <i a="1" args="expose">r18.py</i>
-          <i a="1" args="front">r18.py</i>
-          <i a="1" args="back">r18.py</i>
-          <i a="1" args="standing">r18.py</i>
-          <i a="1" args="lying">r18.py</i>
-          <i a="1" args="after">r18.py</i>
+          <i a="0" args="expose">r18.py</i>
+          <i a="0" args="front">r18.py</i>
+          <i a="0" args="back">r18.py</i>
+          <i a="0" args="top">r18.py</i>
+          <i a="0" args="standing">r18.py</i>
+          <i a="0" args="lying">r18.py</i>
+          <i a="0" args="after">r18.py</i>
         </d>      
       </OvO>
     posture: [
     ]
     body: [
-      "half nude",
-      "half nude, torn clothes",
-      "(nude:0.7)",
-      "(nude:0.9)",
-      "(nude:1.1)",
-      "lingerie, (nude:0.6)",
-      "lingerie, (nude:0.8)",
-      "bondage, (nude:0.7)",
-      "bondage, (nude:0.9)",
-      "bondage, (nude:1.1)",
+      # "(half nude:$$nudity$$), torn clothes",
+      # "(nude:$$nudity$$)",
+      "(lingerie), (nude:$$nudity$$)",
+      "(lingerie), (nude:$$nudity$$), (bondage)",
+      # "(bondage), (nude:$$nudity$$)",
     ]
     body_sub: [
     ]
@@ -98,17 +95,22 @@ prompt:
       "embarrassed, (looking to the side:1.05)",
       "open mouth",
       "open mouth, tongue out",
-      "tape gag",
-      "black blindfold, open mouth",
+      # "tape gag",
+      # "black blindfold, open mouth",
     ]
     facial_expression_sub: [
-      "blush, (saliva trail:0.75)"
+      "blush, (saliva trail:${rand|0.6~0.9})"
     ]
     scene: [
       "alley, outdoors",
       "bedroom, indoors",
       "office, indoors",
     ]
+  # Params Positive 2 ==========================================================
+  params_pos_2:
+    nudity: ${rand|0.1~0.2}
+  params_neg_1:
+    neg_extra: ""
 
 
 sampler:
@@ -142,6 +144,6 @@ extra:
   upscaling_resize: 1.25
 
 output_txt2img:
-  file_format: "D:/snapshot/character/hoyoverse/zenless_zone_zero/zhuyuan/%Y%m%d/0/%H%M%S"
+  file_format: "D:/snapshot/character/hoyoverse/zenless_zone_zero/zhuyuan/%Y%m%d/5_pencil_pony/%H%M%S"
   file_extension: "png"
 

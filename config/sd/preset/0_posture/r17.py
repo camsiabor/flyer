@@ -3,44 +3,18 @@ from config.common import PresetCommon
 # mouth =====================================================================================
 
 pos_mouth = [
-    "licking penis, fellatio, hand on head",
-    "licking penis, fellatio, hand on head, pov, from above",
-    "licking penis, nipples, from side, kneeling, hand on head,",
-    "licking penis, deep throat",
-    "licking penis, handjob, orgy",
-    "licking penis, pov",
-    "licking penis, pov, from above",
-    "licking penis, bottomless, masturbation, squatting",
-    "licking penis, bottomless, spread pussy by own hand",
-    "licking penis, topless, grabbing own breast",
-    "cunnilingus, pussy, pussy juice",
-    "rimjob, anilingus",
+
 ]
 
 # breast =====================================================================================
 
 pos_breast = [
-    1,
-    "grabbing own breast, breasts",
-    1,
-    "grabbing another's breast, breasts",
-    2,
-    "breast sex, titfucking, pov, breasts, nipple, penis",
-    2,
-    "titfucking, fellatio, breasts squeezed together, large breasts, erection, oral",
+    "grabbing own breast",
 ]
 
 pos_hand = [
-    "implied fingering, wet, see-through",
+    "implied fingering",
     "finger in another's mouth, open mouth",
-    "fingering, pussy, pussy juice",
-    "fingering, pussy, pussy juice, top-down bottom-up, ass, spread pussy, all fours, ass grab",
-    "fingering through clothes, wet, see-through",
-    "fingering through panties, wet, see-through, panties",
-    "anal fingering, pussy, pussy juice, anal,  ass, anal",
-    "double handjob, orgy",
-    "reach-around, handjob",
-    "nursing handjob, handjob",
 ]
 
 pos_pussy = [
@@ -50,12 +24,7 @@ pos_pussy = [
     "spread legs, from below, anus, pussy, pussy juice",
     1,
     "spread pussy, spread legs, looking to the side, v hand, pussy juice",
-    1,
-    "female masturbation, grabbing own breast, bathing, topless",
-    1,
-    "female masturbation, spread legs, female masturation, spread pussy by self",
-    1,
-    "skirt lift, lifted by self, bottomless, no panties, from below, pussy juice",
+    "skirt lift, lifted by self, panties",
     1,
     "squatting, spread legs, pussy, pussy juice",
     1,
@@ -81,14 +50,13 @@ pos_ass = [
     1,
     "top-down bottom-up, bottomless, from_side",
     1,
-    "top-down bottom-up, from behind, ass, bottomless, pussy, pussy juice, navel, ponytail",
+    "top-down bottom-up, from behind, ass, bottomless, pussy, pussy juice, navel",
     1,
-    "bent over desk, pov, skirt pulled down, panty pulled down, "
-    "looking back, hands on ass, pussy, pussy juice, pov",
+    "bent over desk, pov",
     1,
-    "spreading own ass, from behind, pov",
+    "looking back, hands on ass, pov",
     1,
-    "from below, looking back, ass grab, ass focus, grabbing own ass, hand on own ass",
+    "from below, looking back, ass grab, grabbing own ass, hand on own ass",
     1,
     "from below, spread anus, from behind, ass focus, anus peek, facing away, spread ass, grabbing own ass, ass grab",
     1,
@@ -103,6 +71,8 @@ pos_ass = [
 
 pos_feet = [
     1,
+    "cross leg, from side, feet, no shoes",
+    1,
     "from below, feet, foot focus, no shoes",
     2,
     "(holding phone:1.05), cellphone, holding, reflection, (female pov), "
@@ -113,7 +83,7 @@ pos_feet = [
     "(holding phone:1.05), cellphone, holding, reflection, (selfie), "
     "pussy, feet, toes, ass, anus, sitting, "
     "breasts, thighs, legs, soles ",
-    1,
+    2,
     "lying, on back, (feet), toes, no shoes, spread legs, ass"
 ]
 
@@ -247,6 +217,10 @@ poses = {
     "back": pos_back,
     "doggy": pos_back,
 
+    # after
+    "after": pos_after,
+    "sex_after": pos_after,
+
 }
 
 
@@ -255,4 +229,5 @@ def init(_: any, args: any):
     if isinstance(cmd, (list, tuple)):
         cmd = cmd[0]
     picks = PresetCommon.dict_pick(poses, cmd, True)
-    return picks
+    picks_weight = PresetCommon.to_array(picks)
+    return picks_weight

@@ -103,6 +103,8 @@ pos_ass = [
 
 pos_feet = [
     1,
+    "cross leg, from side, feet, no shoes",
+    1,
     "from below, feet, foot focus, no shoes",
     2,
     "(holding phone:1.05), cellphone, holding, reflection, (female pov), "
@@ -113,7 +115,7 @@ pos_feet = [
     "(holding phone:1.05), cellphone, holding, reflection, (selfie), "
     "pussy, feet, toes, ass, anus, sitting, "
     "breasts, thighs, legs, soles ",
-    1,
+    2,
     "lying, on back, (feet), toes, no shoes, spread legs, ass"
 ]
 
