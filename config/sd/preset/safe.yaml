@@ -9,7 +9,7 @@ image_latent:
   width: 1024
   height: 1024
   batch_size: 1
-  batch_count: 0
+  batch_count: 3
 
 prompt:
   positive: |
@@ -29,61 +29,53 @@ prompt:
     $$scene$$,
   negative: |
     score_6, score_5, score_4, score_3, score_2, score_1, pony, 
-    worst quality, low quality, lowres, shoes, 
+    worst quality, low quality, lowres, 
     bad hands, extra fingers, distorted hands, distorted fingers, missing fingers, 
     bad feet, distorted feet, distorted toes, missing toes, fewer digits, extra digits, 
     bad anatomy, 
     text, signature, watermark, logo,
-    (looking at viewer:1.5), (blue hair),
+    (looking at viewer:1.5),
   params_cycle: -1
   params_pos_1:
-    expressive_h: ""
-    # expressive_h: "<lora:Expressive_H:1>,expressiveh"
-    # character_lora: "<lora:shiori-white-pony-6-lokr-5-c-16-1-r2-000012:0.85>"
-    # character_lora: <lora:shiori-white-pony-6-lokr-5-c-16-1-r6-000010:1>
-    # character_lora: <lora:shiori-white-hood-pony-6-lokr-5-c-16-1-r10-000016:0.95>, KanKanShiori
-
-    character_lora: |
+    _expressive_h: "<lora:Expressive_H:1>,expressiveh"
+    character_lora: ""
+    character: |
       <OvO des="list">
         <d src="file" base="./config/sd/preset/0_character/">
-          <i a="1" arg="byb0.game">psplive.py</i>          
+          <i a="1" args="dousha.sunglass.L+Coat">psplive.py</i>
+          <i a="0" args="byb0.game">psplive.py</i>          
         </d>
       </OvO>
 
-    character: |
-      loli, solo,                            
-      hood_up, animal hood, 
-      (light brown hair:1), (streaked hair:1.15), 
-      blue eyes, round eyes, beautiful eyes, multicolored eyes, 
-      choker, midriff, 
-      white shirt, blue skirt, white and blue short jacket, 
-      white thighhighs, thigh strap, animal bag,
-    __character:
-      loli, solo,
-      hood_up, animal hood,
-      (light brown hair:1), (streaked hair:1.15),
-      blue eyes, round eyes, beautiful eyes, multicolored eyes,
-      choker, midriff,
-      white shirt,
-      white thighhighs,
     body: [
       "",
-      "looking to the side",
-      # "beret, bareshoulders, bow",
-      # "beret, (white coat:0.8), open clothes, bow",
-      # "hood up, (white coat:0.8), open clothes",
-      # "hood up, (white coat:0.8), open clothes",
     ]
     body_sub: [
       "",
-      # "round eyewear"
     ]
     common: ""
-    _posture_ref: [ ]
-    posture: [
-      # "wariza, w_sitting, from back, ass, anklet, no shoes, white lingerie, white lace panties"
-      "sitting, from below, white stockings, (foot focus), anklet, feet",
-    ]
+    posture_ref: |
+      <OvO des="list">
+        <d a="0" src="file" base="config/sd/preset/0_posture/">          
+          <i a="0" args="mouth">r17.py</i>
+          <i a="0" args="breast">r17.py</i>
+          <i a="0" args="hand">r17.py</i>
+          <i a="0" args="pussy">r17.py</i>          
+          <i a="0" args="ass">r17.py</i>
+          <i a="1" args="feet">r17.py</i>
+          <i a="0" args="expose">r17.py</i>
+          <i a="0" args="front">r17.py</i>
+          <i a="0" args="back">r17.py</i>
+          <i a="0" args="top">r17.py</i>
+          <i a="0" args="standing">r17.py</i>
+          <i a="0" args="lying">r17.py</i>
+          <i a="0" args="after">r17.py</i>
+        </d>      
+      </OvO>
+    posture: |
+      (holding cellphone:1.05), (reflection:1.05), (selfie:1.05), mirror, 
+      feet, toes, sitting, 
+      thighs, legs, soles,
     _perspective: [
       "from back",
       "from side",
@@ -97,23 +89,24 @@ prompt:
       "light blush",
     ]
     facial_expression_sub: [
-      "open mouth, upper teeth only, fang",
-      "(embarrassed:0.6)",
+      "open mouth",
       "pout",
+      "embarrassed",
     ]
     scene: [
-      "snow, light and shadow, (forest:0.1), outdoors"
+      "simple background",
+      "indoors",
     ]
 
 
 sampler:
   name: "Euler a"
-  steps: 26
+  steps: 20
   cfg_scale: 5
   seed: -1
 
 upscaler:
-  enable: true
+  enable: false
   scale: 1.25
   second_pass_steps: 10
   denoising_strength: 0.5
@@ -137,6 +130,7 @@ extra:
   upscaling_resize: 1.25
 
 output_txt2img:
-  file_format: "D:/snapshot/virtua_real/shiori/image/%Y%m%d/7_pos/%H%M%S"
+  file_format: D:/snapshot/psplive/dousha/image/%Y%m%d/5_test/%H%M%S
+  # file_format: D:/snapshot/virtua_real/shiori/image/%Y%m%d/7_pos/%H%M%S
   file_extension: "png"
 

@@ -9,7 +9,7 @@ image_latent:
   width: 1024
   height: 1024
   batch_size: 1
-  batch_count: 6
+  batch_count: 2
 
 prompt:
   positive: |
@@ -115,7 +115,7 @@ prompt:
 
 sampler:
   name: "Euler a"
-  steps: 26
+  steps: 20
   cfg_scale: 5
   seed: -1
 

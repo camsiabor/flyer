@@ -48,7 +48,7 @@ pos_ass = [
     1,
     "top-down bottom-up, face_focus, bottomless, front view",
     1,
-    "top-down bottom-up, bottomless, from_side",
+    "top-down bottom-up, from_side",
     1,
     "top-down bottom-up, from behind, ass, bottomless, pussy, pussy juice, navel",
     1,
@@ -71,19 +71,26 @@ pos_ass = [
 
 pos_feet = [
     1,
-    "cross leg, from side, feet, no shoes",
+    "from side, "
+    "cross leg, feet, no shoes",
+    1,
+    "from below, "
+    "cross leg, feet, no shoes",
     1,
     "from below, feet, foot focus, no shoes",
-    2,
-    "(holding phone:1.05), cellphone, holding, reflection, (female pov), "
-    "legs up, foot focus, feet, no shoes, "
-    "pussy, breasts, navel, nipples, "
-    "cellphone, toes, sitting",
-    2,
-    "(holding phone:1.05), cellphone, holding, reflection, (selfie), "
-    "pussy, feet, toes, ass, anus, sitting, "
-    "breasts, thighs, legs, soles ",
-    2,
+    1,
+    "sitting, "
+    "(holding cellphone:1.05), (reflection:1.05), (female pov:1.05), "
+    "legs up, foot focus, feet, toes, no shoes, ",
+    1,
+    "lying, "
+    "(holding cellphone:1.05), (reflection:1.05), (female pov:1.05), "
+    "legs up, foot focus, feet, toes, no shoes, ",
+    1,
+    "sitting, "
+    "(holding cellphone:1.05), (reflection:1.05), (selfie:1.05), "
+    "thighs, legs, feet, toes, ",
+    1,
     "lying, on back, (feet), toes, no shoes, spread legs, ass"
 ]
 
