@@ -1,4 +1,4 @@
-from config.common import PresetCommon
+from scripts.common.collection import Collection
 
 firefly = {
     'L': '<lora:firefly_V3_pony:1>, firefly_(honkai:_star_rail)',
@@ -18,5 +18,5 @@ def init(_: any, args: any):
     cmd = args
     if isinstance(cmd, (list, tuple)):
         cmd = cmd[0]
-    picks = PresetCommon.dict_pick(everyone, cmd, True)
+    picks = Collection.dict_pick(everyone, cmd, True)
     return picks

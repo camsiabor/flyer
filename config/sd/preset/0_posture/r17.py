@@ -1,5 +1,4 @@
-from config.common import PresetCommon
-
+from scripts.common.collection import Collection
 
 # mouth =====================================================================================
 
@@ -236,8 +235,7 @@ def init(_: any, args: any):
     cmd = args
     if isinstance(cmd, (list, tuple)):
         cmd = cmd[0]
-    picks = PresetCommon.dict_pick(poses, cmd, True)
-    picks_weight = PresetCommon.to_array(picks)
+    picks = Collection.dict_pick(poses, cmd, True)
+    picks_weight = Collection.to_array(picks)
 
-    TextUtil.replace_cmd()
     return picks_weight

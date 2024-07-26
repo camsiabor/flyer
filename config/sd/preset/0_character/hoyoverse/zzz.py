@@ -1,4 +1,4 @@
-from config.common import PresetCommon
+from scripts.common.collection import Collection
 
 zhuyuan = {
     'L': '<lora:Zhu_Yuan__ZZZ__Pony:0.7>,imtdzhuyuan',
@@ -34,5 +34,5 @@ def init(_: any, args: any):
     cmd = args
     if isinstance(cmd, (list, tuple)):
         cmd = cmd[0]
-    picks = PresetCommon.dict_pick(everyone, cmd, True)
+    picks = Collection.dict_pick(everyone, cmd, True)
     return picks
