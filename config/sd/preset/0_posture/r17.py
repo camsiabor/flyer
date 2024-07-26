@@ -89,7 +89,7 @@ pos_feet = [
     1,
     "sitting, "
     "(holding cellphone:1.05), (reflection:1.05), (selfie:1.05), "
-    "thighs, legs, feet, toes, ",
+    "thighs, legs, feet, toes, foot focus ",
     1,
     "lying, on back, (feet), toes, no shoes, spread legs, ass"
 ]

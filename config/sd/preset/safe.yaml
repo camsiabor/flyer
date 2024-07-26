@@ -73,9 +73,9 @@ prompt:
         </d>      
       </OvO>
     posture: |
-      (holding cellphone:1.05), (reflection:1.05), (selfie:1.05), mirror, 
-      feet, toes, sitting, 
-      thighs, legs, soles,
+      from back, 
+      (holding cellphone:1.05), holding, selfie, female pov, reflection,  
+      w_sitting, wariza, back, thighs, legs, barefoot,
     _perspective: [
       "from back",
       "from side",
@@ -90,8 +90,9 @@ prompt:
     ]
     facial_expression_sub: [
       "open mouth",
-      "pout",
-      "embarrassed",
+      # "pout",
+      # "pout",
+      # "embarrassed",
     ]
     scene: [
       "simple background",
