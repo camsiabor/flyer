@@ -9,7 +9,7 @@ image_latent:
   width: 1024
   height: 1024
   batch_size: 1
-  batch_count: 10
+  batch_count: 3
 
 prompt:
   positive: |
@@ -25,7 +25,8 @@ prompt:
     $$perspective$$,
     $$character$$,
     $$facial_expression$$,
-    $$facial_expression_sub$$,    
+    $$facial_expression_sub$$,
+    $$nudity_100$$,
     $$scene$$,
   negative: |
     score_6, score_5, score_4, score_3, score_2, score_1, pony, 
@@ -40,7 +41,7 @@ prompt:
   # Params Positive 1 ==========================================================
   params_pos_1:
     common: ""
-    expressive_h: <lora:Expressive_H:${rand|1.0~1.2}>,expressiveh
+    expressive_h: <lora:Expressive_H:${rand|1.0~1.1}>,expressiveh
     character_lora: |
       <OvO des="list">
         <d src="file" base="./config/sd/preset/0_character/">
@@ -107,7 +108,8 @@ prompt:
     ]
   # Params Positive 2 ==========================================================
   params_pos_2:
-    nudity: ${rand|1.0~1.75}
+    nudity: ${rand|1~1.2}
+    nudity_100: (completely nude:${rand|0.8~1.0})
   params_neg_1:
     neg_extra: ""
 
@@ -143,6 +145,6 @@ extra:
   upscaling_resize: 1.25
 
 output_txt2img:
-  file_format: "D:/snapshot/character/hoyoverse/zenless_zone_zero/zhuyuan/%Y%m%d/6_nai/%H%M%S"
+  file_format: "D:/snapshot/character/hoyoverse/zenless_zone_zero/zhuyuan/%Y%m%d/7_nai/%H%M%S"
   file_extension: "png"
 

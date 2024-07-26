@@ -2,9 +2,9 @@ import logging
 import os
 import xml.etree.ElementTree as ET
 
+from scripts.common.collection import Collection
 from scripts.common.fileutil import FileUtil
 from scripts.common.serial import TypeList
-from scripts.common.sim import Collection
 
 
 # DNode ===================================================================================== #
@@ -288,7 +288,7 @@ class Directive:
             for data, one in self:
                 if not one.convert:
                     continue
-                Collection.merge_dict(ret, one.value)
+                Collection.dict_merge(ret, one.value)
 
         if self.root.des in ['list', 'tuple', 'array']:
             ret = []
@@ -297,7 +297,7 @@ class Directive:
                 if not one.convert:
                     continue
                 if not is_sep and isinstance(one.value, (list, tuple)):
-                    Collection.merge_list(ret, one.value)
+                    Collection.list_merge(ret, one.value)
                 else:
                     ret.append(one.value)
 

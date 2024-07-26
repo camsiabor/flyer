@@ -1,5 +1,6 @@
 from config.common import PresetCommon
 
+
 # mouth =====================================================================================
 
 pos_mouth = [
@@ -237,4 +238,6 @@ def init(_: any, args: any):
         cmd = cmd[0]
     picks = PresetCommon.dict_pick(poses, cmd, True)
     picks_weight = PresetCommon.to_array(picks)
+
+    TextUtil.replace_cmd()
     return picks_weight
