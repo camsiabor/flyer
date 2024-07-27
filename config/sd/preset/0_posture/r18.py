@@ -138,9 +138,9 @@ pos_front = [
 
 pos_standing = [
     2,
-    "standing sex",
+    "standing sex, penetration",
     2,
-    "standing sex, split, leg up",
+    "standing sex, split, leg up, penetration",
     1,
     "standing double penetration, anal, pussy, penetration",
 ]
@@ -150,24 +150,35 @@ pos_top = [
     "cowgirl position, penetration, grabbing own breast, bottomless, pussy juice",
     "reverse cowgirl position, penetration, slutty, bottomless, pussy juice",
     "reverse cowgirl position, penetration, grabbing ass, bottomless, pussy juice",
-    "foggy, exposed_pussy,vaginal, riding a dick, jizz oozing out of pussy, cum, orgasm,",
-    "girl on top, legs lock",
+    "foggy, exposed pussy, vaginal, riding a dick, jizz oozing out of pussy, cum, orgasm, penetration",
+    "girl on top, legs lock, penetration",
 ]
 
 pos_lying = [
     2,
-    "lying on back, pov, arms up,arms bound, rope, head tilt, knees up, cunninggulus, waist grab",
+    "lying, on back, pov, arms up,arms bound, rope, head tilt, knees up, cunninggulus, waist grab",
     2,
-    "lying on back, from side, arms up,arms bound, rope, head tilt, knees up, cunninggulus, waist grab",
+    "lying, on back, from side, arms up,arms bound, rope, head tilt, knees up, cunninggulus, waist grab",
     2,
-    "lying on side, penetration, vaginal",
+    "lying, on side, penetration, vaginal, pussy, pussy juice",
+    1,
+    "lying, on side, douable penetration, pussy, puusy juice",
 ]
 
 pos_back = [
-    1,
+    2,
     "bent over desk, pov, skirt pulled down, panty pulled down, "
     "looking back, hands on ass, doggystyle sex, "
     "pussy juice, penetration, pov",
+    1,
+    "top-down_bottom-up, "
+    "pussy, pussy juice, ass, sex from behind, from back, back",
+    1,
+    "top-down bottom-up, face_focus, bottomless, all fours, sex from behind, penetration",
+    1,
+    "top-down bottom-up, face_focus, bottomless, front view, sex from behind, hand on head, penetration",
+    1,
+    "top-down bottom-up, from_side, penetration, hand on head",
     1,
     "lying on stomach, sex from behind, hand on head",
     1,
@@ -261,5 +272,5 @@ def init(_: any, args: any):
     if isinstance(cmd, (list, tuple)):
         cmd = cmd[0]
     picks = Collection.dict_pick(poses, cmd, True)
-    picks_weight = Collection.to_array(picks)
+    picks_weight = Collection.list_unpack(picks)
     return picks_weight

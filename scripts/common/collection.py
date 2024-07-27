@@ -1,6 +1,50 @@
-# Collection =============================================================================== #
+import math
 import random
 
+
+# CPack =============================================================================== #
+class CPack:
+
+    def __init__(
+            self,
+            content: any,
+            prefix: any = None,
+            suffix: any = None,
+            weight_min=1,
+            weight_max=1,
+    ):
+        self.content = content
+        self.prefix = prefix
+        self.suffix = suffix
+        self.weight_min = weight_min
+        self.weight_max = weight_max
+        pass
+
+    def unpack(self):
+        if self.weight_max <= 0:
+            return None
+
+        weight = 1
+        if self.weight_min == self.weight_max:
+            weight = self.weight_min
+        else:
+            if isinstance(self.weight_min, int) and isinstance(self.weight_max, int):
+                weight = random.randint(self.weight_min, self.weight_max)
+            else:
+                weight = math.floor(random.uniform(self.weight_min, self.weight_max))
+
+        if weight <= 0:
+            return None
+
+        if self.prefix is not None:
+            self.content = self.prefix + self.content
+
+        return self.content
+
+    pass
+
+
+# Collection =============================================================================== #
 
 class Collection:
 
@@ -23,7 +67,7 @@ class Collection:
         for key in keys:
             if isinstance(value, dict):
                 if '+' in key:
-                    value = PresetCommon.dict_sum(value, key, throw)
+                    value = Collection.dict_sum(value, key, throw)
                 else:
                     value = value.get(key)
             else:
@@ -131,10 +175,12 @@ class Collection:
         return ret
 
     @staticmethod
-    def to_array(data):
+    def list_unpack(data):
         ret = []
         repeat = 1
         for v in data:
+            if v is None:
+                continue
             if isinstance(v, int):
                 if v < 0:
                     v = random.randint(1, abs(v))
@@ -147,7 +193,6 @@ class Collection:
                     ret.append(v)
                 repeat = 1
         return ret
-
 
     @staticmethod
     def list_insort(container, unit, low=0, high=None, right=True, key=lambda item: item):
