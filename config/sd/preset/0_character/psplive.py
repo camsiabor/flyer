@@ -4,7 +4,8 @@ from scripts.common.collection import Collection
 
 dousha = {
     'sunglass': {
-        'L': '<lora:dousha-glass-pony-6-lokr-5-c16-1-b6-r2-000006:0.85>',
+        'L': '<lora:dousha-glass-pony-6-lokr-5-c16-1-b6-r2-000006:0.80>',
+        'T': 'Dousha',
         'Coat': """
             DoushaCoat,
             long hair,streaked hair,multicolored hair,side braid, panda ears, 
@@ -21,7 +22,16 @@ dousha = {
             scarf, ribbon,
             white dress, bare shoulder, 
             thigh strap,
-            """
+            """,
+        'Bikini': """
+            DoushaBare, 
+            headwear on head, (sunglasses:0.5), 
+            long hair,streaked hair,multicolored hair,
+            side braid, panda ears,              
+            blue eyes,       
+            single thigh strap, anklet,
+            black and white string bikini, no shoes,
+        """
     }
 }
 

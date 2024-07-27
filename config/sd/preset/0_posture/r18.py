@@ -137,6 +137,8 @@ pos_front = [
 ]
 
 pos_standing = [
+    1,
+    "leaning forward, cleavage, hand on own hip",
     2,
     "standing sex, penetration",
     2,
@@ -208,7 +210,11 @@ pos_after = [
     1,
     "after sex, pov, (leash), (viewer holding leash), "
     "squatting, pussy, breasts, cum, long hair, looking at viewer, "
-    "paw pose, spread legs, cum on body, pet play, cumdrip, cum on breasts, "
+    "paw pose, spread legs, cum on body, pet play, cumdrip, cum on breasts, ",
+    1,
+    "after sex, multiple condoms, used condom, condom belt, condom, "
+    "indecency, cum on body, cum on breasts, "
+    "legs up, spread legs, "
 ]
 
 poses = {

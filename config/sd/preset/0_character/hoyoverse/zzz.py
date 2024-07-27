@@ -1,7 +1,10 @@
 from scripts.common.collection import Collection
 
+# zhuyuan =====================================================================================
+
 zhuyuan = {
-    'L': '<lora:Zhu_Yuan__ZZZ__Pony:0.7>,imtdzhuyuan',
+    'L': '<lora:Zhu_Yuan__ZZZ__Pony:0.7>',
+    'T': 'imtdzhuyuan',
     'C': """
     black hair, red hair,two tone hair,multicolored hair,streaked hair,bangs,ponytail,red eyes,
     cropped jacket, gloves, collared shirt, pants, necktie, bodysuit,uniform,police,
@@ -12,7 +15,8 @@ zhuyuan = {
     (green necktie:0.5), (blue jacket:0.5), 
     """,
 
-    'L02': '<lora:zzz_zhuyuan_ponyXL:1>,zhuyuan',
+    'L02': '<lora:zzz_zhuyuan_ponyXL:1>',
+    'T02': 'zhuyuan',
     'C02': """
     ponytail,streaked hair,black and red hair,
     orange eyes,blue jacket, green necktie,

@@ -89,15 +89,15 @@ pos_feet = [
 ]
 
 pos_expose = [
-    "wariza, w_sitting, ass, ass_focus, feet",
+    "from above, paw pose",
     "wariza, w_sttiing, pov, from_above, paw pose",
-    "(squatting), (paw pose), topless, bottomless",
-    "(squatting), (paw pose), topless, bottomless, from above",
-    "(squatting), no panties, spread knees, clothes lift, lifted by self, from below",
+    "(squatting), (paw pose), ",
+    "(squatting), (paw pose), from above",
 ]
 
 pos_front = [
-    "leaning forward, hand on own hip, pov, close-up",
+    "leaning forward, cleavage, hand on own hip",
+    "top-down bottom-up, front view, face focus",
 ]
 
 pos_standing = [
@@ -120,41 +120,33 @@ pos_top = [
 
 pos_lying = [
     1,
-    "lying, on back, pov, arms up,arms bound, rope, head tilt, knees up",
+    "lying, on back, from above, front view, arms up",
     1,
-    "lying, on back, from side, arms up,arms bound, rope, head tilt, knees up, cunninggulus, waist grab",
+    "lying, on back, front view, arms up, knee up",
     1,
-    "lying, on side",
+    "lying, on back, front view, arms up, leg up",
+    1,
+    "lying, on back, from side",
+    1,
+    "lying, on side, thighs, legs",
+    1,
+    "lying, on stomach, thighs, legs",
     1,
     "lying, on stomach, pov, close-up",
-    1,
-    "lying, on stomach, pov, close-up"
 ]
 
 pos_back = [
     1,
-    "bent over desk, pov, skirt pulled down, panty pulled down, "
-    "looking back, hands on ass, doggystyle sex, "
-    " pov",
-
+    "from back, from below, hands on own ass",
     1,
-    "top-down bottom-up, from behind, ass, bottomless,  navel",
+    "from back, wariza, w_sitting, back, thighs, legs, feet",
     1,
-    "lying on stomach, sex from behind, hand on head",
-    1,
-    "sex_from_behind, against wall, hands on wall, from back, from above",
-    1,
-    "sex from behind, from below",
-    1,
-    "doggy style,  kneeling",
+    "from back, back, neck",
 ]
 
 pos_after = [
     1,
-    "after sex, spread legs, peace sign, v hand, cum in  cum on body, looking to the side",
-    1,
-    "after sex, spread legs, peace sign, v hand, spread pussy by own hand, "
-    "cum in  cum on body, open mouth, tongue out",
+    "spread legs, peace sign, v hand,",
     1,
     "after sex, from back, ass,  cum in  cum on body, grab ass by own hands",
     1,
