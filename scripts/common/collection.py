@@ -65,17 +65,55 @@ class Collection:
     def dict_get(data: dict, default=None, throw: bool = True, *keys):
         value = data
         for key in keys:
+
+            if isinstance(value, (list, tuple)):
+                if not key.isdigit():
+                    if throw:
+                        raise TypeError(f"list index must be integer: {key} |\n {value}")
+                    return default
+                key = int(key)
+                if key < 0:
+                    key = len(value) + key
+                if key < 0 or key >= len(value):
+                    if throw:
+                        raise IndexError(f"list index out of range: {key} |\n {value}")
+                    return default
+                value = value[key]
+                continue
+
             if isinstance(value, dict):
+                # has '+'
                 if '+' in key:
                     value = Collection.dict_sum(value, key, throw)
-                else:
+                    continue
+
+                # has ':'
+                if ':' in key:
+                    key, subkey = key.split(':')
                     value = value.get(key)
+
+                    if isinstance(value, (list, tuple)):
+                        value = value[int(subkey)]
+                        continue
+
+                    if hasattr(value, subkey):
+                        value = getattr(value, subkey)
+                        continue
+
+                    if throw:
+                        raise KeyError(f"keys not found: {subkey} |\n {value}")
+
+                    continue
+
+                # default
+                value = value.get(key)
+                continue
+
+            if throw:
+                value = None
             else:
-                if throw:
-                    value = None
-                else:
-                    value = default
-                break
+                value = default
+            break
 
         if value is None:
             if throw:

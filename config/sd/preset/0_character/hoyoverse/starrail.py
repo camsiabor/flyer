@@ -16,12 +16,23 @@ firefly['Coat'] = firefly['C']
 # kafka =====================================================================================
 
 kafka = {
-    'L': "<lora:kafka xl v1:0.95>",
-    'T': 'kafka hsr',
+    'L': [
+        "<lora:honkai-kafka-ponyxl-lora-nochekaiser:1>, kafka",
+        "<lora:kafka xl v1:0.95>, kafka hsr",
+
+    ],
+    'T': [
+        'kafka', 'kafka hsr',
+    ],
     'C': """    
     long hair,purple hair,purple eyes,eyewear on head,
     white shirt, jacket, black jacket, gloves, purple gloves,
-    high-waist shorts, shorts, pantyhose under shorts,
+    high-waist shorts, shorts, black pantyhose under shorts,
+    """,
+    "Min": """
+    long hair, purple hair, eyewear on head,
+    purple eyes, 
+    gloves, (purple gloves:0.5),  
     """
 }
 kafka['Coat'] = kafka['C']
