@@ -84,7 +84,7 @@ pos_ass = [
     "top-down bottom-up, from behind, ass, bottomless, pussy, pussy juice, navel, ponytail",
     1,
     "bent over desk, pov, skirt pulled down, panty pulled down, "
-    "looking back, hands on ass, pussy, pussy juice, pov",
+    "looking back, hands on ass, spread pussy, pussy, pussy juice, pov",
     1,
     "spreading own ass, from behind, pov",
     1,
@@ -125,6 +125,7 @@ pos_expose = [
     "(squatting), (paw pose), topless, bottomless",
     "(squatting), (paw pose), topless, bottomless, from above",
     "(squatting), no panties, spread knees, clothes lift, lifted by self, from below",
+    "handcuff",
 ]
 
 pos_front = [
@@ -168,7 +169,7 @@ pos_lying = [
 ]
 
 pos_back = [
-    2,
+    1,
     "bent over desk, pov, skirt pulled down, panty pulled down, "
     "looking back, hands on ass, doggystyle sex, "
     "pussy juice, penetration, pov",

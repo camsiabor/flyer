@@ -33,6 +33,9 @@ kafka = {
     long hair, purple hair, eyewear on head,
     purple eyes, 
     gloves, (purple gloves:0.5),  
+    """,
+    "Rand": """
+    ((white shirt, jacket, black jacket, high-waist shorts, shorts, black pantyhose under shorts):${rand|0.15~0.9}),
     """
 }
 kafka['Coat'] = kafka['C']

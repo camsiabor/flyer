@@ -9,7 +9,7 @@ image_latent:
   width: 1024
   height: 1024
   batch_size: 1
-  batch_count: 3
+  batch_count: 6
 
 prompt:
   positive: |
@@ -30,23 +30,21 @@ prompt:
     $$scene$$,
   negative: |
     score_6, score_5, score_4, score_3, score_2, score_1, pony, 
-    worst quality, low quality, lowres, 
-    bad hands, extra fingers, distorted hands, distorted fingers, missing fingers, 
-    bad feet, distorted feet, distorted toes, missing toes, fewer digits, extra digits, 
-    bad anatomy, 
+    (worst quality:2),(low quality:2),(normal quality:2), lowres,     
+    bad anatomy, extra digits, fewer digits, 
     text, signature, watermark, logo,
-    (looking at viewer:1.5), (blue hair),
+    (looking at viewer:1.2), 
     $$neg_extra$$,
   params_cycle: -1
   # Params Positive 1 ==========================================================
   params_pos_1:
-    common: ""
-    expressive_h: <lora:Expressive_H:${rand|0.00~0.01}>,expressiveh
+    common: "1girl"
+    expressive_h: <lora:Expressive_H:${rand|0.9~1}>,expressiveh
     character_lora: |
       <OvO des="list">
         <d src="file" base="./config/sd/preset/0_character/">
-          <i a="1" args="kafka.L:1+Min">hoyoverse/starrail.py</i>
-          <i a="0" args="zhuyuan.L+C01">hoyoverse/zzz.py</i>
+          <i a="0" args="kafka.L:1+Min+Rand">hoyoverse/starrail.py</i>
+          <i a="1" args="zhuyuan.L+C01">hoyoverse/zzz.py</i>
           <i a="0" args="firefly.L+C">hoyoverse/starrail.py</i>          
         </d>
       </OvO>
@@ -75,10 +73,10 @@ prompt:
     posture: [
     ]
     body: [
-      "(half nude:$$nudity$$), torn clothes",
-      "(nude:$$nudity$$)",
-      "(lingerie:${rand|1.0~1.25}), (nude:$$nudity$$) (bondage:${rand|0.75~1.25})",
-      "(bondage:${rand|1.0~1.75}), (nude:$$nudity$$)",
+      # "(half nude:$$nudity$$), torn clothes",
+      # "(nude:$$nudity$$)",
+      # "(lingerie:${rand|1.0~1.25}), (nude:$$nudity$$) (bondage:${rand|0.75~1.25})",
+      "(bondage:${rand|1.33~1.66}), (nude:$$nudity$$)",
     ]
     body_sub: [
     ]
@@ -92,31 +90,32 @@ prompt:
       "distant",
     ]
     facial_expression: [
-      "embarrassed",
-      "embarrassed, (looking to the side:${rand|1.05~1.25})",
+      "(embarrassed:0.8)",
+      "(embarrassed:0.8), (looking to the side:${rand|1.05~1.25})",
       "open mouth",
       "open mouth, tongue out",
-      # "tape gag",
-      # "black blindfold, open mouth",
+      "tape gag",
+      "mouth gag",
+      "black blindfold, open mouth",
     ]
     facial_expression_sub: [
       "blush, (saliva trail:${rand|0.6~0.9})"
     ]
     scene: [
-      "indoors, day",
-      "indoors, night",
-      "indoors, light and shadow",
-      "indoors, bathroom, day",
-      "indoors, bathroom, night",
-      "indoors, bedroom, day",
-      "indoors, bedroom, night",
+      # "indoors, day",
+      # "indoors, night",
+      # "indoors, light and shadow",
+      # "indoors, bathroom, day",
+      # "indoors, bathroom, night",
+      # "indoors, bedroom, day",
+      # "indoors, bedroom, night",
       # "bedroom, indoors",
       # "office, indoors",
     ]
   # Params Positive 2 ==========================================================
   params_pos_2:
-    nudity: ${rand|1~1.5}
-    nudity_100: (completely nude:${rand|0.75~1.25})
+    nudity: ${rand|0.9~1.25}
+    nudity_100: (completely nude:${rand|0.9~1.25})
   params_neg_1:
     neg_extra: ""
 
@@ -142,7 +141,7 @@ adetailers:
     model: "hand_yolov8n.pt"
 
 options:
-  colddown: 2
+  colddown: 3
   use_async: true
   metadata_key: "b_pox_b"
 
@@ -152,6 +151,7 @@ extra:
   upscaling_resize: 1.25
 
 output_txt2img:
-  file_format: "D:/snapshot/character/hoyoverse/zzz/kafka/%Y%m%d/0_nai/%H%M%S"
+  file_format: "D:/snapshot/character/hoyoverse/zzz/zhuyuan/%Y%m%d/0_nai_bondage/%H%M%S"
+  # file_format: "D:/snapshot/character/hoyoverse/starrail/kafka/%Y%m%d/0_nai/%H%M%S"
   file_extension: "png"
 
