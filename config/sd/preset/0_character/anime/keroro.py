@@ -24,21 +24,8 @@ zhuyuan = {
     white shirt,collared shirt,
     black gloves,black pants, belt,
     """
-}
-
-clorinde = {
-    'L': '<lora:clorinde_pony:0.9>,clorinde_(genshin_impact)',
-    'T': 'clorinde_(genshin_impact)',
-    'C': """
-    white gloves,tricorne,black pantyhose,
-    pencil skirt,black jacket,fold-over boots,
-    ascot,thigh strap,white shirt,underbust,blue cape
-    """,
 
 }
-
-
-
 
 everyone = {
     'zhuyuan': zhuyuan
