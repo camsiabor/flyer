@@ -9,7 +9,7 @@ image_latent:
   width: 1024
   height: 1024
   batch_size: 1
-  batch_count: 3
+  batch_count: 10
 
 prompt:
   positive: |
@@ -41,20 +41,16 @@ prompt:
     character_lora: |
       <OvO des="list">
         <d src="file" base="./config/sd/preset/0_character/">
-          <i a="1" args="dousha.sunglass.L">psplive.py</i>
-          <i a="0" args="byb0.game">psplive.py</i>          
+          <i a="1" args="shiori.white.L:Fuse+C:Hat">v/vr.py</i>
+          <i a="0" args="dousha.sunglass.L">v/psplive.py</i>
+          <i a="0" args="byb0.game">v/psplive.py</i>          
         </d>
       </OvO>
-    character: |
-      DoushaBare, 
-      headwear on head, (sunglasses:0.5), 
-      long hair,streaked hair,multicolored hair,
-      side braid, panda ears,              
-      blue eyes,       
-      single thigh strap, anklet,
-      black and white string bikini, no shoes,
+    character: ""
     body: [
       "",
+      "(hand on own face:${rand|0.6~0.9})",
+      "hand on own chest:${rand|0.6~0.9}",
     ]
     body_sub: [
       "",
@@ -67,14 +63,14 @@ prompt:
           <i a="0" args="breast">r17.py</i>
           <i a="0" args="hand">r17.py</i>
           <i a="0" args="pussy">r17.py</i>          
-          <i a="0" args="ass">r17.py</i>
-          <i a="0" args="feet">r17.py</i>
-          <i a="0" args="expose">r17.py</i>
+          <i a="1" args="ass">r17.py</i>
+          <i a="1" args="feet">r17.py</i>
+          <i a="1" args="expose">r17.py</i>
           <i a="0" args="front">r17.py</i>
           <i a="1" args="back">r17.py</i>
           <i a="0" args="top">r17.py</i>
-          <i a="0" args="standing">r17.py</i>
-          <i a="0" args="lying">r17.py</i>
+          <i a="1" args="standing">r17.py</i>
+          <i a="1" args="lying">r17.py</i>
           <i a="0" args="after">r17.py</i>
         </d>      
       </OvO>
@@ -93,10 +89,12 @@ prompt:
     ]
     facial_expression: [
       "light blush",
+      "light blush, round eyewear"
     ]
     facial_expression_sub: [
       "open mouth",
-      "embarrassed",
+      "(embarrassed:${rand|0.5~0.8})",
+      "pout",
       "light smile, open mouth",
       # "pout",
       # "pout",
@@ -105,13 +103,14 @@ prompt:
     scene: [
       # "simple background",
       # "indoors",
-      "beach, (seagull:0.6)",
+      # "beach, (seagull:0.6)",
+      "european architecture,indoors",
     ]
 
 sampler:
   name: "Euler a"
-  steps: 20
-  cfg_scale: 5
+  steps: 26
+  cfg_scale: 6
   seed: -1
 
 upscaler:
@@ -139,7 +138,7 @@ extra:
   upscaling_resize: 1.25
 
 output_txt2img:
-  file_format: D:/snapshot/psplive/dousha/image/%Y%m%d/0_bikini/%H%M%S
-  # file_format: D:/snapshot/virtua_real/shiori/image/%Y%m%d/7_pos/%H%M%S
+  # file_format: D:/snapshot/psplive/dousha/image/%Y%m%d/0_bikini/%H%M%S
+  file_format: D:/snapshot/virtua_real/shiori/image/%Y%m%d/0_pencil/%H%M%S
   file_extension: "png"
 

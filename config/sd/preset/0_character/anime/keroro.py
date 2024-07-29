@@ -5,14 +5,18 @@ from scripts.common.collection import Collection
 alisa_southerncross = {
     'L': [
         # animagine-3.1
-        '<lora:alisa southerncross e1:0.6>,alisa southerncross',
+        '<lora:alisa southerncross e1:0.55>, (alisa southerncross:0.985)',
+        # pony
+        '<lora:alisasr:0.75>, alisasr',
+
     ],
     'T': 'alisa southerncross',
     'C': """
-    orange hair,twintails,long hair,hair ornament, (blue hair bobbles:0.8),
-    black fake cat ears, 
+    orange hair, (low twintails:1.05), long hair,
+    hair ornament, (blue hair bobble:0.8),
+    black fake animal ears, cat ears,
     red eyes,
-    skirt,long sleeves,
+    skirt, long sleeves,
     black pantyhose,
     """,
 }

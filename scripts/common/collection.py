@@ -96,12 +96,16 @@ class Collection:
                         value = value[int(subkey)]
                         continue
 
+                    if isinstance(value, dict):
+                        value = value.get(subkey)
+                        continue
+
                     if hasattr(value, subkey):
                         value = getattr(value, subkey)
                         continue
 
                     if throw:
-                        raise KeyError(f"keys not found: {subkey} |\n {value}")
+                        raise KeyError(f"keys not found: {subkey} | {value}")
 
                     continue
 
