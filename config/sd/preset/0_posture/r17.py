@@ -136,12 +136,14 @@ pos_lying = [
 ]
 
 pos_back = [
-    1,
+    2,
     "from back, from below, hands on own ass",
-    1,
+    2,
     "from back, wariza, w_sitting, back, thighs, legs, feet",
     1,
-    "from back, back, neck",
+    "from back, back, neck, (looking back:0.8)",
+    1,
+    "bent over desk, pov, (looking back:0.8)"
 ]
 
 pos_after = [

@@ -5,14 +5,14 @@ from scripts.common.collection import Collection
 shiori = {
     'white': {
         'L': {
-            'Fuse': '<lora:shiori-white-pony-6-lokr-5-c-16-1-r11-000012:0.95>',
+            'Fuse': '<lora:shiori-white-pony-6-lokr-5-c-16-1-r11-000016:0.9>',
         },
         'C': {
             'Hat': """
-            white beret,bow,
+            white beret, bow,
             light brown hair,(streaked hair:1.15),medium hair,
-            hair ornament, two side up,
-            blue eyes, multicolored eyes,
+            hair ornament, two side up, (animal ears:1), (pink bow:0.55),  
+            blue eyes, multicolored eyes,            
             choker,
             bare shoulders,
             white shirt,blue skirt,
