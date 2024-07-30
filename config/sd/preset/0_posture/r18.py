@@ -166,6 +166,10 @@ pos_lying = [
     "lying, on side, penetration, vaginal, pussy, pussy juice",
     1,
     "lying, on side, douable penetration, pussy, puusy juice",
+    1,
+    "lying, on side, closed eyes, sleeping, (cum on body:${rand|0~1.0})",
+    1,
+    "lying, on side, closed eyes, sleeping, fetal position"
 ]
 
 pos_back = [

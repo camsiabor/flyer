@@ -9,7 +9,7 @@ image_latent:
   width: 1024
   height: 1024
   batch_size: 1
-  batch_count: 3
+  batch_count: 6
 
 prompt:
   positive: |
@@ -39,17 +39,18 @@ prompt:
   params_cycle: -1
   # Params Positive 1 ==========================================================
   params_pos_1:
-    common: "1girl"
+    common: ""
     _quality: |
       (masterpiece:1.2),(best quality:1.2),(very aesthetic:1.2),(absurdres:1.2),
       (detailed background),(extremely detailed),newest,
     quality_pony: |
       (score_9, score_8_up, score_7_up, source_anime, rating_all, rating_explicit),
-    expressive_h: <lora:Expressive_H:${rand|1.0~1.1}>,expressiveh
+    expressive_h: <lora:Expressive_H:${rand|0.9~1.0}>,expressiveh
     character_lora: |
       <OvO des="list">
         <d src="file" base="./config/sd/preset/0_character/">
           <i a="1" args="kaoruko.L:Pony+C:Stage">anime/shoujo_kageki.py</i>
+          <i a="1" args="kaoruko.L:Pony+C:School">anime/shoujo_kageki.py</i>
           <i a="0" args="alisa.L:0+C">anime/keroro.py</i>
           <i a="0" args="kafka.L:1+Min+Rand">hoyoverse/starrail.py</i>
           <i a="0" args="zhuyuan.L+C01">hoyoverse/zzz.py</i>
@@ -59,7 +60,8 @@ prompt:
     character: ""
     people: [
       "1girl",
-      "1girl, multiple boys, orgy",
+      # "1girl, orgy",
+      # "1girl, multiple boys, orgy",
     ]
     posture_ref: |
       <OvO des="list">
@@ -99,8 +101,9 @@ prompt:
       "distant",
     ]
     facial_expression: [
-      "(embarrassed:${rand|0.5~0.75})",
-      "(embarrassed:${rand|0.5~0.75}), (looking to the side:${rand|1.05~1.25})",
+      "(embarrassed:${rand|0.5~0.8})",
+      "(embarrassed:${rand|0.5~0.8}), (looking to the side:${rand|1.05~1.25})",
+      "(confused:${rand|0.5~0.8}), (open mouth:${rand|0.0~1.0})",
       "open mouth",
       "open mouth, tongue out",
       # "tape gag",
@@ -111,7 +114,10 @@ prompt:
       "blush, (saliva trail:${rand|0.25~0.5})"
     ]
     scene: [
+      "classroom",
+      "stage",
       "bedroom",
+      "indoors",
       # "bathroom",
       # "indoors",
       # "indoors, day",
@@ -135,7 +141,7 @@ prompt:
 sampler:
   name: "Euler a"
   steps: 20
-  cfg_scale: 5
+  cfg_scale: 4.75
   seed: -1
 
 upscaler:

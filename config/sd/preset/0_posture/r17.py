@@ -141,6 +141,10 @@ pos_lying = [
     "lying, on stomach, thighs, legs",
     1,
     "lying, on stomach, pov, close-up",
+    1,
+    "lying, on side, closed eyes, sleeping",
+    1,
+    "lying, on side, closed eyes, sleeping, fetal position"
 ]
 
 pos_back = [

@@ -5,15 +5,22 @@ from scripts.common.collection import Collection
 # 花柳香子
 kaoruko_hanayagi = {
     'L': {
-        'Pony': '<lora:Kaoruko_Hanayagi:0.9>, kaoruko',
+        'Pony': '<lora:Kaoruko_Hanayagi:0.8>, kaoruko',
     },
     'T': 'kaoruko',
     'C': {
         'Stage': """
         (blue hair:0.9), medium hair,
-        (light brown eyes:0.9),
-        stage outfit, pleated skirt, fur-trimmed jacket, 
+        (light brown eyes:0.9), (multicolored eyes:${rand|0.1~0.25}),
+        (stage outfit:${rand|0.5~1.0}), pleated skirt, (fur-trimmed jacket${rand|0.5~1.0}), 
         (yellow belt:0.8), 
+        """,
+        'School': """
+        (school uniform:${rand|0.75~1.0}),
+        (red bowtie:${rand|0.7~0.9}), 
+        (white shirt:${rand|0.8~1.0}), (grey skirt:${rand|0.8~1.0}), 
+        (gray jacket:${rand|0.0~1.0}), 
+        (pleated skirt:0.9),
         """
     }
 
