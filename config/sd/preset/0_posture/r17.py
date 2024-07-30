@@ -66,12 +66,12 @@ pos_ass = [
 pos_feet = [
     1,
     "from side, "
-    "cross leg, feet, no shoes",
+    "cross leg, feet, no shoes, ",
     1,
     "from below, "
-    "cross leg, feet, no shoes",
+    "cross leg, feet, no shoes, ",
     1,
-    "from below, feet, foot focus, no shoes",
+    "from below, feet, foot focus, no shoes, ",
     1,
     "sitting, "
     "(holding cellphone:1.05), (reflection:1.05), (female pov:1.05), "
@@ -83,9 +83,9 @@ pos_feet = [
     1,
     "sitting, "
     "(holding cellphone:1.05), (reflection:1.05), (selfie:1.05), "
-    "thighs, legs, feet, toes, foot focus ",
+    "thighs, legs, feet, toes, foot focus, no shoes",
     1,
-    "lying, on back, (feet), toes, no shoes, spread legs, ass"
+    "lying, on back, (feet), toes, no shoes, spread legs, panties"
 ]
 
 pos_expose = [
@@ -93,6 +93,14 @@ pos_expose = [
     "wariza, w_sttiing, pov, from_above, paw pose",
     "(squatting), (paw pose), ",
     "(squatting), (paw pose), from above",
+]
+
+pos_gun = [
+    "on one knee, holding a pistol",
+    "on one knee, holding a pistol in both hands",
+    "on one knee, shouldering a rifle, holding a rifle",
+    "on one knee, shouldering a rifle, holding a rifle, firing",
+    "on one knee, shouldering a rifle, holding a rifle, aiming at viewer",
 ]
 
 pos_front = [
@@ -194,6 +202,9 @@ poses = {
 
     # expose
     "expose": pos_expose,
+
+    # gun
+    "gun": pos_gun,
 
     # front
     "front": pos_front,

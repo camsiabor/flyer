@@ -34,7 +34,8 @@ prompt:
     bad feet, distorted feet, distorted toes, missing toes, fewer digits, extra digits, 
     bad anatomy, 
     text, signature, watermark, logo,
-    (looking at viewer:1.5), (shoes:1.5)
+    (looking at viewer:1.5), (shoes:1.5), 
+    pussy, nipples, anus, censored, (nsfw:0.5)
   params_cycle: -1
   params_pos_1:
     _expressive_h: "<lora:Expressive_H:1>,expressiveh"
@@ -49,11 +50,11 @@ prompt:
     character: ""
     body: [
       "",
-      "(hand on own face:${rand|0.7~1})",
-      "(hand on own chest:${rand|0.7~1})",
-      "(arm up:${rand|0.7~1)}",
-      "(arm over shoulder:${rand|0.7~1})",
-      "(arm over head:${rand|0.7~1})",
+      "(hand on own face:${rand|0.7~1.0})",
+      "(hand on own chest:${rand|0.7~1.0})",
+      "(arm up:${rand|0.7~1.0})",
+      "(arm over shoulder:${rand|0.7~1.0})",
+      "(arm over head:${rand|0.7~1.0})",
     ]
     body_sub: [
       "",
@@ -62,19 +63,19 @@ prompt:
     posture_ref: |
       <OvO des="list">
         <d a="1" src="file" base="config/sd/preset/0_posture/">          
-          <i a="0" args="mouth">r17.py</i>
-          <i a="0" args="breast">r17.py</i>
-          <i a="0" args="hand">r17.py</i>
-          <i a="0" args="pussy">r17.py</i>          
-          <i a="0" args="ass">r17.py</i>
-          <i a="0" args="feet">r17.py</i>
-          <i a="0" args="expose">r17.py</i>
-          <i a="0" args="front">r17.py</i>
+          <i a="1" args="mouth">r17.py</i>
+          <i a="1" args="breast">r17.py</i>
+          <i a="1" args="hand">r17.py</i>
+          <i a="1" args="pussy">r17.py</i>          
+          <i a="1" args="ass">r17.py</i>
+          <i a="1" args="feet">r17.py</i>
+          <i a="1" args="expose">r17.py</i>
+          <i a="1" args="front">r17.py</i>
           <i a="1" args="back">r17.py</i>
-          <i a="0" args="top">r17.py</i>
-          <i a="0" args="standing">r17.py</i>
-          <i a="0" args="lying">r17.py</i>
-          <i a="0" args="after">r17.py</i>
+          <i a="1" args="top">r17.py</i>
+          <i a="1" args="standing">r17.py</i>
+          <i a="1" args="lying">r17.py</i>
+          <i a="1" args="after">r17.py</i>
         </d>      
       </OvO>
     _posture: |
