@@ -45,11 +45,12 @@ prompt:
       (detailed background),(extremely detailed),newest,
     quality_pony: |
       (score_9, score_8_up, score_7_up, source_anime, rating_all, rating_explicit),
-    expressive_h: <lora:Expressive_H:${rand|1~1.2}>,expressiveh
+    expressive_h: <lora:Expressive_H:${rand|1.0~1.1}>,expressiveh
     character_lora: |
       <OvO des="list">
         <d src="file" base="./config/sd/preset/0_character/">
-          <i a="1" args="alisa.L:0+C">anime/keroro.py</i>
+          <i a="1" args="kaoruko.L:Pony+C:Stage">anime/shoujo_kageki.py</i>
+          <i a="0" args="alisa.L:0+C">anime/keroro.py</i>
           <i a="0" args="kafka.L:1+Min+Rand">hoyoverse/starrail.py</i>
           <i a="0" args="zhuyuan.L+C01">hoyoverse/zzz.py</i>
           <i a="0" args="firefly.L+C">hoyoverse/starrail.py</i>          
@@ -57,24 +58,25 @@ prompt:
       </OvO>
     character: ""
     people: [
-      # "1girl, multiple boys, orgy"
+      "1girl",
+      "1girl, multiple boys, orgy",
     ]
     posture_ref: |
       <OvO des="list">
         <d a="1" src="file" base="config/sd/preset/0_posture/">          
-          <i a="0" args="mouth">r18.py</i>
-          <i a="0" args="breast">r18.py</i>
-          <i a="0" args="hand">r18.py</i>
-          <i a="0" args="pussy">r18.py</i>          
-          <i a="0" args="ass">r18.py</i>
-          <i a="0" args="feet">r18.py</i>
-          <i a="0" args="expose">r18.py</i>
+          <i a="1" args="mouth">r18.py</i>
+          <i a="1" args="breast">r18.py</i>
+          <i a="1" args="hand">r18.py</i>
+          <i a="1" args="pussy">r18.py</i>          
+          <i a="1" args="ass">r18.py</i>
+          <i a="1" args="feet">r18.py</i>
+          <i a="1" args="expose">r18.py</i>
           <i a="1" args="front">r18.py</i>
           <i a="1" args="back">r18.py</i>
           <i a="1" args="top">r18.py</i>
           <i a="1" args="standing">r18.py</i>
           <i a="1" args="lying">r18.py</i>
-          <i a="0" args="after">r18.py</i>
+          <i a="1" args="after">r18.py</i>
         </d>      
       </OvO>
     posture: [
@@ -124,8 +126,8 @@ prompt:
     ]
   # Params Positive 2 ==========================================================
   params_pos_2:
-    nudity: ${rand|0.5~0.85}
-    _nudity_100: (completely nude:${rand|0.5~0.85})
+    nudity: ${rand|0.75~1.25}
+    _nudity_100: (completely nude:${rand|0.75~1.25})
   params_neg_1:
     neg_extra: ""
 
@@ -133,11 +135,11 @@ prompt:
 sampler:
   name: "Euler a"
   steps: 20
-  cfg_scale: 6
+  cfg_scale: 5
   seed: -1
 
 upscaler:
-  enable: false
+  enable: true
   scale: 1.25
   second_pass_steps: 10
   denoising_strength: 0.5
@@ -161,7 +163,8 @@ extra:
   upscaling_resize: 1.25
 
 output_txt2img:
-  file_format: "D:/snapshot/character/anime/keroro/alisa/%Y%m%d/1_ani/%H%M%S"
+  file_format: D:/snapshot/character/anime/shoujo_kageki/kaoruko/%Y%m%d/0_nai/%H%M%S
+  # file_format: "D:/snapshot/character/anime/keroro/alisa/%Y%m%d/1_ani/%H%M%S"
   # file_format: "D:/snapshot/character/hoyoverse/zzz/zhuyuan/%Y%m%d/0_nai_bondage/%H%M%S"
   # file_format: "D:/snapshot/character/hoyoverse/starrail/kafka/%Y%m%d/0_nai/%H%M%S"
   file_extension: "png"

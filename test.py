@@ -1,3 +1,4 @@
+import argparse
 import asyncio
 import logging
 import time
@@ -37,18 +38,25 @@ async def dev():
     pass
 
 
+def parse_args():
+    parser = argparse.ArgumentParser(description="Process some arguments.")
+    parser.add_argument('--preset', type=str, required=True, help='preset config path')
+    return parser.parse_args()
+
+
 # ==================================================================================================
 
 if __name__ == '__main__':
     time_start = time.perf_counter()
+    args = parse_args()
     LogUtil.load('./config/log.yaml')
 
     # preset = './config/sd/preset/zzz/feet.yaml'
     # preset = './config/sd/preset/v/vr/shiori/white.yaml'
     # preset = './config/sd/preset/hoyoverse/starrail/firefly.yaml'
-    preset = './config/sd/preset/safe.yaml'
+    # preset = './config/sd/preset/safe.yaml'
     # preset = './config/sd/preset/nsfw.yaml'
-    asyncio.run(test_wrap(preset))
+    asyncio.run(test_wrap(args.preset))
 
     # asyncio.run(dev())
 
