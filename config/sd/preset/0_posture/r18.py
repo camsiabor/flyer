@@ -7,12 +7,13 @@ pos_mouth = [
     "licking penis, fellatio, hand on head, pov, from above",
     "licking penis, nipples, from side, kneeling, hand on head,",
     "licking penis, deep throat",
-    "licking penis, handjob, orgy",
-    "licking penis, pov",
+    "licking penis, fellatio, handjob, orgy",
+    "licking penis, from side, kneeling, hand on head",
     "licking penis, pov, from above",
     "licking penis, bottomless, masturbation, squatting",
     "licking penis, bottomless, spread pussy by own hand",
     "licking penis, topless, grabbing own breast",
+    "licking penis, lying",
     "cunnilingus, pussy, pussy juice",
     "rimjob, anilingus",
 ]
@@ -24,9 +25,9 @@ pos_breast = [
     "grabbing own breast, breasts",
     1,
     "grabbing another's breast, breasts",
-    2,
+    1,
     "breast sex, titfucking, pov, breasts, nipple, penis",
-    2,
+    1,
     "titfucking, fellatio, breasts squeezed together, large breasts, erection, oral",
 ]
 
@@ -106,16 +107,16 @@ pos_feet = [
     "cross leg, from side, feet, no shoes",
     1,
     "from below, feet, foot focus, no shoes",
-    2,
+    1,
     "(holding phone:1.05), cellphone, holding, reflection, (female pov), "
     "legs up, foot focus, feet, no shoes, "
     "pussy, breasts, navel, nipples, "
     "cellphone, toes, sitting",
-    2,
+    1,
     "(holding phone:1.05), cellphone, holding, reflection, (selfie), "
     "pussy, feet, toes, ass, anus, sitting, "
     "breasts, thighs, legs, soles ",
-    2,
+    1,
     "lying, on back, (feet), toes, no shoes, spread legs, ass"
 ]
 

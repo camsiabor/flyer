@@ -9,7 +9,7 @@ image_latent:
   width: 1024
   height: 1024
   batch_size: 1
-  batch_count: 6
+  batch_count: 12
 
 prompt:
   positive: |
@@ -49,7 +49,7 @@ prompt:
     character_lora: |
       <OvO des="list">
         <d src="file" base="./config/sd/preset/0_character/">
-          <i a="1" args="kaoruko.L:Pony+C:Stage">anime/shoujo_kageki.py</i>
+          <i a="0" args="kaoruko.L:Pony+C:Stage">anime/shoujo_kageki.py</i>
           <i a="1" args="kaoruko.L:Pony+C:School">anime/shoujo_kageki.py</i>
           <i a="0" args="alisa.L:0+C">anime/keroro.py</i>
           <i a="0" args="kafka.L:1+Min+Rand">hoyoverse/starrail.py</i>
@@ -84,10 +84,10 @@ prompt:
     posture: [
     ]
     body: [
-      # "(half nude:$$nudity$$), (torn clothes:${rand|0.5~1})",
+      "(half nude:$$nudity$$), (torn clothes:${rand|0.5~1})",
       "(nude:$$nudity$$)",
-      # "(lingerie:${rand|0.5~0.75}), (nude:$$nudity$$) (bondage:${rand|0.5~1})",
-      "(bondage:${rand|0.5~1}), (nude:$$nudity$$)",
+      "(lingerie:${rand|0.5~0.75}), (nude:$$nudity$$) (bondage:${rand|0.5~1})",
+      "(bondage:${rand|0.75~1.25}), (nude:$$nudity$$)",
     ]
     body_sub: [
     ]
@@ -111,13 +111,14 @@ prompt:
       # "black blindfold, open mouth",
     ]
     facial_expression_sub: [
-      "blush, (saliva trail:${rand|0.25~0.5})"
+      "blush, (saliva trail:${rand|0.35~0.75})"
     ]
     scene: [
       "classroom",
-      "stage",
-      "bedroom",
-      "indoors",
+      "school",
+      # "stage",
+      # "bedroom",
+      # "indoors",
       # "bathroom",
       # "indoors",
       # "indoors, day",
@@ -132,8 +133,8 @@ prompt:
     ]
   # Params Positive 2 ==========================================================
   params_pos_2:
-    nudity: ${rand|0.75~1.25}
-    _nudity_100: (completely nude:${rand|0.75~1.25})
+    nudity: ${rand|0.375~0.875}
+    _nudity_100: (completely nude:${rand|0.375~0.875})
   params_neg_1:
     neg_extra: ""
 
@@ -159,7 +160,7 @@ adetailers:
     model: "hand_yolov8n.pt"
 
 options:
-  colddown: 2
+  colddown: 3
   use_async: true
   metadata_key: "b_pox_b"
 
@@ -169,7 +170,7 @@ extra:
   upscaling_resize: 1.25
 
 output_txt2img:
-  file_format: D:/snapshot/character/anime/shoujo_kageki/kaoruko/%Y%m%d/0_nai/%H%M%S
+  file_format: D:/snapshot/character/anime/shoujo_kageki/kaoruko/%Y%m%d/0_nai_class/%H%M%S
   # file_format: "D:/snapshot/character/anime/keroro/alisa/%Y%m%d/1_ani/%H%M%S"
   # file_format: "D:/snapshot/character/hoyoverse/zzz/zhuyuan/%Y%m%d/0_nai_bondage/%H%M%S"
   # file_format: "D:/snapshot/character/hoyoverse/starrail/kafka/%Y%m%d/0_nai/%H%M%S"
