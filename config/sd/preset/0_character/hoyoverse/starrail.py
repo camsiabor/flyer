@@ -24,27 +24,47 @@ kafka = {
     'T': [
         'kafka', 'kafka hsr',
     ],
-    'C': """    
-    long hair,purple hair,purple eyes,eyewear on head,
-    white shirt, jacket, black jacket, gloves, purple gloves,
-    high-waist shorts, shorts, black pantyhose under shorts,
-    """,
-    "Min": """
-    long hair, purple hair, eyewear on head,
-    purple eyes, 
-    gloves, (purple gloves:0.5),  
-    """,
-    "Rand": """
-    ((white shirt, jacket, black jacket, high-waist shorts, shorts, black pantyhose under shorts):${rand|0.15~0.9}),
-    """
+    'C': {
+        'Coat': """    
+        long hair,purple hair,purple eyes,eyewear on head,
+        white shirt, jacket, black jacket, gloves, purple gloves,
+        high-waist shorts, shorts, black pantyhose under shorts,
+        """,
+        "Min": """
+        long hair, purple hair, eyewear on head,
+        purple eyes, 
+        gloves, (purple gloves:0.5),  
+        """,
+        "Rand": """
+        ((white shirt, jacket, black jacket, high-waist shorts, shorts, black pantyhose under shorts):${rand|0.15~0.9}),
+        """
+    },
 }
-kafka['Coat'] = kafka['C']
+
+# ruan mei =====================================================================================
+
+ruan_mei = {
+    'L': {
+        'Pony': '<lora:Char-HonkaiSR-Ruanmei-Pony-V1:0.925>, ruan mei (honkai: star rail),'
+    },
+    'C': """
+    (brown hair:1), medium hair, hair ornament,
+    (teal eyes:0.9), 
+    necklace, bare shoulders, 
+    detached collar, capelet,
+    china dress, (green gloves:0.9),
+    thigh strap,
+    (plum flower:0.9),
+    """,
+
+}
 
 # everyone =====================================================================================
 
 everyone = {
     'kafka': kafka,
-    'firefly': firefly
+    'firefly': firefly,
+    'ruan_mei': ruan_mei,
 }
 
 

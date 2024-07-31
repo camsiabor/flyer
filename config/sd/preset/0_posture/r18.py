@@ -60,7 +60,7 @@ pos_pussy = [
     1,
     "squatting, spread legs, pussy, pussy juice",
     1,
-    "(vaginal object insertion), pussy, pussy juice",
+    "(vaginal object insertion), pussy, pussy juice, dildo",
     1,
     "(crotch rub:1.05), nipples, breasts, pussy, "
     "female masturbation, pussy juice, masturbation, cleft of venus",
@@ -70,7 +70,7 @@ pos_pussy = [
     1,
     "pussy, pussy juice, split, leg up, "
     "standing, standing split, standing on one leg, "
-    "(vaginal object insertion)",
+    "(vaginal object insertion), dildo",
 
 ]
 
@@ -95,11 +95,21 @@ pos_ass = [
     1,
     "(upside-down:1.05), bent over, ass, pussy, pussy juice, anus",
     1,
-    "(anal object insertion), pussy, pussy juice, anus",
+    "(anal object insertion), pussy, pussy juice, anus, dildo",
     1,
     "double penetration, anal, pussy, penetration",
     1,
     "imminent double penetration, anus, pussy, pussy juice",
+    1,
+    "enema,anal object insertion, sex toy, dildo",
+    1,
+    "from behind, sex toy, vaginal, dildo riding, squatting, feet",
+    1,
+    "butt plug, pussy, pussy juice",
+    1,
+    "anal tail, anal object insertion, anal, pussy, pussy juice ",
+    1,
+    "otk spanking, spanking, spanked, red butt, (pants pull:0.9), (panty pull:0.9), motion lines",
 ]
 
 pos_feet = [
@@ -130,7 +140,36 @@ pos_expose = [
     "(squatting), (paw pose), topless, bottomless",
     "(squatting), (paw pose), topless, bottomless, from above",
     "(squatting), no panties, spread knees, clothes lift, lifted by self, from below",
-    "handcuff",
+
+]
+
+pos_bdsm = [
+    1,
+    "(bdsm:${rand|0.1~1.0}), (handcuffs), (chains), rope, submissive female",
+    1,
+    "(bdsm:${rand|0.1~1.0}), (handcuffs), arms behind back, prone bone, arched back, submissive female",
+    1,
+    "(bdsm:${rand|0.1~1.0}), (leash), (viewer holding leash)"
+    "squatting, pussy, breasts, cum, long hair, submissive female,"
+    "paw pose, spread legs, cum on body, pet play, cumdrip, cum on breasts, ",
+    1,
+    "(bdsm:${rand|0.1~1.0}), (leash), (viewer holding leash)"
+    "lying, pet play, submissive female",
+    1,
+    "(bdsm:${rand|0.1~1.0}), "
+    "otk spanking, spanking, spanked, red butt, "
+    "(pants pull:0.9), (panty pull:0.9), motion lines",
+    1,
+    "(bdsm:${rand|0.1~1.0}), human chair, female on all fours, submissive female",
+    1,
+    "(bdsm:${rand|0.1~1.0}), whipping, submissive, whip marks, holding whip, submissive female",
+    1,
+    "(bdsm:${rand|0.1~1.0}), wooden horse, pussy, pussy juice, sweat",
+    1,
+    "(bdsm:${rand|0.1~1.0}), (bondage outfit:${rand|0.8~1.05}), restrained",
+    1,
+    "(bdsm:${rand|0.1~1.0}), cage, restrained",
+
 ]
 
 pos_front = [
@@ -199,6 +238,8 @@ pos_back = [
     "sex from behind, from below",
     1,
     "doggy style, penetration, kneeling",
+    1,
+    "prone bone, penetration"
 ]
 
 pos_after = [
@@ -256,6 +297,10 @@ poses = {
 
     # expose
     "expose": pos_expose,
+
+    # bsdm
+    "bdsm": pos_bdsm,
+
 
     # front
     "front": pos_front,

@@ -1,3 +1,4 @@
+import logging
 import random
 import re
 
@@ -49,7 +50,7 @@ class TextUtil:
 
     @staticmethod
     # Example command processor function
-    def replace_cmd_processer(cmd, *args):
+    def replace_cmd_processer(cmd: str, params: dict, *args):
         if cmd == 'rand' or cmd == 'randint':
             is_integer = cmd == 'randint'
             range_text = args[0]
@@ -59,6 +60,23 @@ class TextUtil:
                 range_text = '0~' + range_text
             random_value = TextUtil.to_num(range_text, is_integer)
             return f"{random_value:.3f}"
+
+        if cmd == 'n' or cmd == 'num' or cmd == 'int' or cmd == 'float':
+            target = None
+            for arg in args:
+                try:
+                    if not arg or arg.startswith('$'):
+                        continue
+                    target = TextUtil.to_num(arg)
+                    break
+                except Exception as ex:
+                    logging.warning(f"Error converting arg {arg} to number: {ex}")
+            if target is None:
+                return None
+            if cmd == 'int':
+                return f"{int(target)}"
+            return f"{target:.3f}"
+
         # Add more command handling as needed
         else:
             raise ValueError("unrecognized command: " + cmd)
@@ -66,6 +84,7 @@ class TextUtil:
     @staticmethod
     def replace_cmd(
             s: str,
+            params: dict = None,
             # Define the regex pattern to find ${command|arg1|arg2|...|argN} format
             pattern=r'\$\{(\w+)\|([^\}]+)\}',
             command_processor=None
@@ -74,10 +93,18 @@ class TextUtil:
         def replacer(match):
             command = match.group(1)
             args = match.group(2).split('|')
+            for i, arg in enumerate(args):
+                if arg.startswith('$$'):
+                    args[i] = TextUtil.replace(arg, params)
+
             # Use the command_processor to generate the replacement string
             if command_processor is not None:
-                return command_processor(command, *args)
-            return TextUtil.replace_cmd_processer(command, *args)
+                ret = command_processor(command, params, *args)
+            else:
+                ret = TextUtil.replace_cmd_processer(command, params, *args)
+            if ret is None:
+                return match.group(0)
+            return ret
 
         # Replace all matches in the string using the replacer function
         replaced_string = re.sub(pattern, replacer, s)

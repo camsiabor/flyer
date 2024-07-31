@@ -22,20 +22,14 @@ def sdwrap_aspect(logger_name="sd-perf"):
             start_time = time.perf_counter()
             colddown = wrap.box.options.colddown
             try:
-                if colddown > 0:
-                    await asyncio.sleep(colddown)
                 await wrap.work_count.increment()
                 result = await func(*args, **kwargs)  # Await the function execution
                 end_time = time.perf_counter()
                 elapsed_time = end_time - start_time
                 logger = logging.getLogger(logger_name)
-                if wrap.verbose:
-                    info = result.info
-                    prompt = info.get('prompt', '')
-                    prompt = TextUtil.wrap_lines_ex(prompt, 72)
-                    logger.info(f"prompt:\n{prompt}")
                 logger.info(f"{func.__name__} completed in {elapsed_time:.2f} seconds")
-
+                if colddown > 0:
+                    await asyncio.sleep(colddown)
             except Exception as e:
                 wrap.logger.error(f"error: {e}")
                 raise e
@@ -214,6 +208,11 @@ class SDWrap:
         if b is None:
             b = self.box
         params = b.to_txt2img_params()
+        if self.verbose:
+            prompt_pos = params.get("prompt", "")
+            prompt_pos = TextUtil.wrap_lines_ex(prompt_pos, 72)
+            self.logger.info(f"prompt:\n{prompt_pos}")
+
         result = await self.cli.txt2img(**params)
         return self.save(b, result)
 

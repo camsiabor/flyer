@@ -113,7 +113,7 @@ class SDPrompt:
                     prefix=self.params_prefix,
                     suffix=self.params_suffix,
                 )
-                pos = TextUtil.replace_cmd(pos)
+                pos = TextUtil.replace_cmd(pos, params)
 
             params = getattr(self, f"params_neg_{i}")
             if params is not None and len(params) > 0:
@@ -124,7 +124,7 @@ class SDPrompt:
                     prefix=self.params_prefix,
                     suffix=self.params_suffix,
                 )
-                neg = TextUtil.replace_cmd(neg)
+                neg = TextUtil.replace_cmd(neg, params)
 
         if self.params_cycle >= 0:
             self.params_cycle += 1
