@@ -131,7 +131,12 @@ class TextUtil:
         if current_line:
             lines.append(current_line)
 
-        return ",\n".join(lines)
+        ret = ",\n".join(lines)
+        ret = ret.replace(', ,', ',')
+        ret = ret.replace(',,', ',')
+        ret = ret.replace('\n\n', '\n')
+        ret = ret.replace('\n\n', '\n')
+        return ret
 
     @staticmethod
     def wrap_lines_ex(text: str, line_length=72, sep_word=",", sep_line="\n") -> str:

@@ -7,9 +7,9 @@ sorasaki_hina = {
     'C': {
         'App': """
         halo,black_horns,demon_girl,demon_horns,
-        white_hair,very_long_hair,ahoge,parted_bangs,
+        (white_hair:1.05), very_long_hair, ahoge, parted_bangs,
         purple_eyes,
-        demon_wings,
+        (demon_wings:${rand|0.7~0.9}),
         """,
         "Coat": """
         hairclip,
