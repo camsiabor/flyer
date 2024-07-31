@@ -108,16 +108,20 @@ pos_feet = [
     1,
     "from below, feet, foot focus, no shoes",
     1,
-    "(holding phone:1.05), cellphone, holding, reflection, (female pov), "
+    "(holding cellphone:1.05), cellphone, holding, reflection, (female pov), "
     "legs up, foot focus, feet, no shoes, "
     "pussy, breasts, navel, nipples, "
     "cellphone, toes, sitting",
     1,
-    "(holding phone:1.05), cellphone, holding, reflection, (selfie), "
+    "(holding cellphone:1.05), cellphone, holding, reflection, (selfie), "
     "pussy, feet, toes, ass, anus, sitting, "
     "breasts, thighs, legs, soles ",
     1,
-    "lying, on back, (feet), toes, no shoes, spread legs, ass"
+    "lying, on back, (feet), toes, no shoes, spread legs, ass",
+    1,
+    "footjob, feet, (toes:0.9), (cum on feet:${rand|0.0~1.0})",
+    1,
+    "reverse footjob, feet, (toes:0.9), thighs, (cum on feet:${rand|0.0~1.0})"
 ]
 
 pos_expose = [

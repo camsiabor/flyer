@@ -28,7 +28,9 @@ def test():
 async def test_wrap(cfg: str):
     box = SDBox(config=cfg)
     wrap = SDWrap(box=box).initiate()
-    for i in range(box.image_latent.batch_count):
+    total = box.image_latent.batch_count
+    for i in range(total):
+        print(f"[ {i + 1} / {total} ]-------------------------------------------------")
         await wrap.txt2img()
 
 

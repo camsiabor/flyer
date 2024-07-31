@@ -1,6 +1,7 @@
 import random
 import re
-import sys
+
+from typing import Union
 
 
 class TextUtil:
@@ -50,15 +51,13 @@ class TextUtil:
     # Example command processor function
     def replace_cmd_processer(cmd, *args):
         if cmd == 'rand' or cmd == 'randint':
-            range_min = 0
-            range_max = sys.maxsize
-            if not args or len(args) > 0:
-                range_str = args[0]
-                range_min, range_max = map(float, range_str.split('~'))
-            if cmd == 'randint':
-                random_value = random.randint(int(range_min), int(range_max))
-            else:
-                random_value = random.uniform(range_min, range_max)
+            is_integer = cmd == 'randint'
+            range_text = args[0]
+            if not range_text:
+                raise ValueError("range_text is empty")
+            if '~' not in range_text:
+                range_text = '0~' + range_text
+            random_value = TextUtil.to_num(range_text, is_integer)
             return f"{random_value:.3f}"
         # Add more command handling as needed
         else:
@@ -113,6 +112,34 @@ class TextUtil:
         for i, line in enumerate(lines):
             lines[i] = TextUtil.wrap_lines(line, line_length, sep_word)
         return sep_line.join(lines)
+
+    @staticmethod
+    def to_num(
+            text: str,
+            is_int: bool = False
+    ) -> Union[int, float]:
+
+        if isinstance(text, (int, float)):
+            return text
+
+        ret = text.strip()
+
+        if not ret:
+            raise ValueError("text is empty")
+
+        if '~' in text:
+            min_str, max_str = ret.split('~')
+            if is_int:
+                ret = random.randint(int(min_str), int(max_str))
+            else:
+                ret = random.uniform(float(min_str), float(max_str))
+
+        if is_int:
+            return int(ret)
+        return float(ret)
+
+
+# MarkdownUtil =============================================================================================
 
 
 class MarkdownUtil:
