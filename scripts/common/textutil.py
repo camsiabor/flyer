@@ -115,7 +115,6 @@ class TextUtil:
         words = text.split(sep_word)
         current_line = ""
         lines = []
-
         for word in words:
             word = word.strip()
             if current_line:
@@ -128,6 +127,7 @@ class TextUtil:
             else:
                 current_line = word
 
+        current_line = current_line.strip()
         if current_line:
             lines.append(current_line)
 

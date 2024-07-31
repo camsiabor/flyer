@@ -9,7 +9,7 @@ image_latent:
   width: 1024
   height: 1024
   batch_size: 1
-  batch_count: 3
+  batch_count: 12
 
 prompt:
   positive: |
@@ -60,7 +60,7 @@ prompt:
           <i a="0" args="firefly.L+C">hoyoverse/starrail.py</i>          
         </d>
       </OvO>
-    lw: "0.975"
+    lw: "0.985"
     character: ""
     people: [
       "1girl",
@@ -148,7 +148,7 @@ prompt:
 sampler:
   name: "Euler a"
   steps: 26
-  cfg_scale: 3.25
+  cfg_scale: 3.66
   seed: -1
 
 upscaler:

@@ -115,6 +115,11 @@ class SDPrompt:
                 )
                 pos = TextUtil.replace_cmd(pos, params)
 
+            pos = pos.strip()
+            pos = pos.replace(", ,", ",")
+            pos = pos.replace(",,", ",")
+            pos = pos.replace("\n\n", "\n")
+
             params = getattr(self, f"params_neg_{i}")
             if params is not None and len(params) > 0:
                 neg = TextUtil.replace(
@@ -125,6 +130,11 @@ class SDPrompt:
                     suffix=self.params_suffix,
                 )
                 neg = TextUtil.replace_cmd(neg, params)
+
+            neg = neg.strip()
+            neg = neg.replace(", ,", ",")
+            neg = neg.replace(",,", ",")
+            neg = neg.replace("\n\n", "\n")
 
         if self.params_cycle >= 0:
             self.params_cycle += 1
