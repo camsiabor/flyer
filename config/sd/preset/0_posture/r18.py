@@ -242,7 +242,7 @@ pos_back = [
     "prone bone, penetration"
 ]
 
-pos_after = [
+pos_sex_after = [
     1,
     "after sex, spread legs, peace sign, v hand, cum in pussy, cum on body, looking to the side",
     1,
@@ -255,10 +255,6 @@ pos_after = [
     1,
     "after sex, from behind, top-down_bottom-up, cum in pussy, cum on body, pussy, ass",
     1,
-    "after sex, from above, pov, cum in mouth, open mouth, tongue out, v hand, peace sign",
-    1,
-    "after sex, ahegao, peace sign, v hands, v",
-    1,
     "after sex, pov, (leash), (viewer holding leash), "
     "squatting, pussy, breasts, cum, long hair, looking at viewer, "
     "paw pose, spread legs, cum on body, pet play, cumdrip, cum on breasts, ",
@@ -267,6 +263,14 @@ pos_after = [
     "indecency, cum on body, cum on breasts, "
     "legs up, spread legs, "
 ]
+
+pos_mouth_after = [
+    1,
+    "from above, pov, cum in mouth, cum on face, open mouth, tongue out, v hand, peace sign",
+    1,
+    "ahegao, peace sign, v hands, v, cum in mouth, cum on face",
+]
+
 
 poses = {
 
@@ -322,8 +326,11 @@ poses = {
     "doggy": pos_back,
 
     # after
-    "after": pos_after,
-    "sex_after": pos_after,
+    "after": pos_sex_after,
+    "sex_after": pos_sex_after,
+
+    # mouth after
+    "mouth_after": pos_mouth_after,
 
 }
 

@@ -59,12 +59,34 @@ ruan_mei = {
 
 }
 
+# yun li =====================================================================================
+
+yun_li = {
+    'L': {
+        'Pony': '<lora:HSR_YL:${n|$$lw$$|1}>,HSR_YL',
+    },
+    'C': {
+        '0': """
+        short hair with long locks,
+        hair between eyes,hair ornament,
+        ponytail,low ponytail,double ponytail,
+        dark blue hair, crown,
+        yellow eyes, single earrings, 
+        bare shoulders,sleeveless,sleeveless cheongsam,
+        chinese dress,
+        thigh strap,anklet,jewelry
+        """
+    }
+
+}
+
 # everyone =====================================================================================
 
 everyone = {
     'kafka': kafka,
     'firefly': firefly,
     'ruan_mei': ruan_mei,
+    'yun_li': yun_li,
 }
 
 
