@@ -8,7 +8,7 @@ asuka = {
         souryuu asuka langley, rebuild of evangelion,
         blonde hair, long hair,
         blue eyes, (multicolored eyes:${rand|0.0~0.5}),
-        plugsuit, (red plugsuit:${rand|0.0~0.5}), (white plugsuit:${rand|0.0~0.25}),        
+        plugsuit, (red plugsuit:${rand|0.16~0.66}), (white plugsuit:${rand|0.0~0.25}),        
         """
     }
 }

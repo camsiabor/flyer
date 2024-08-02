@@ -1,6 +1,8 @@
 import logging
+import math
 import random
 import re
+import time
 
 from typing import Union
 
@@ -30,6 +32,8 @@ class TextUtil:
             return src
         result = src
         cycle_current = cycle
+        time_seed = math.floor(time.time())
+        rand_seed = random.randint(0, 142857 + time_seed)
         for placeholder, target in params.items():
             if placeholder.startswith("_"):
                 placeholder = placeholder[1:]
@@ -37,7 +41,8 @@ class TextUtil:
             else:
                 if isinstance(target, (list, tuple)):
                     if cycle < 0:
-                        cycle_current = random.randint(0, 142857)
+                        cycle_current = random.randint(0, rand_seed)
+
                     length = len(target)
                     if length > 0:
                         target = target[cycle_current % length]
