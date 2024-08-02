@@ -119,10 +119,12 @@ pos_feet = [
     1,
     "cross leg, from side, feet, no shoes",
     1,
-    "from below, feet, foot focus, no shoes",
+    "from below, feet, (foot focus:${rand|0.65~1.0}), no shoes",
+    1,
+    "from back, back, wariza, w_sitting, feet, toes, (foot focus:${rand|0.65~1.0})",
     1,
     "(holding cellphone:1.05), cellphone, holding, reflection, (female pov), "
-    "legs up, foot focus, feet, no shoes, "
+    "legs up, (foot focus:${rand|0.65~1.0}), feet, no shoes, "
     "pussy, breasts, navel, nipples, "
     "cellphone, toes, sitting",
     1,
@@ -252,7 +254,7 @@ pos_doggy = [
     1,
     "prone bone, penetration",
     1,
-    "bathroom, showering, mixed bathing, "
+    "pressed against glass, bathroom, showering, mixed bathing, "
     "(breast press), breasts, nipples, stomach, "
     "sex from behind, standing sex, wet, pussy, vaginal, pussy juice, thighs, "
 ]

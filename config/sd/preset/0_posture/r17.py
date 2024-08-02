@@ -71,11 +71,11 @@ pos_feet = [
     "from below, "
     "cross leg, feet, no shoes, ",
     1,
-    "from below, feet, foot focus, no shoes, ",
+    "from below, feet, (foot focus:${rand|0.65~1.05}), no shoes, ",
     1,
     "sitting, "
     "(holding cellphone:1.05), (reflection:1.05), (female pov:1.05), "
-    "legs up, foot focus, feet, toes, no shoes, ",
+    "legs up, (foot focus:${rand|0.65~1.05}), feet, toes, no shoes, ",
     1,
     "lying, "
     "(holding cellphone:1.05), (reflection:1.05), (female pov:1.05), "
@@ -83,9 +83,11 @@ pos_feet = [
     1,
     "sitting, "
     "(holding cellphone:1.05), (reflection:1.05), (selfie:1.05), "
-    "thighs, legs, feet, toes, foot focus, no shoes",
+    "thighs, legs, feet, toes, (foot focus:${rand|0.65~1.05}), no shoes",
     1,
-    "lying, on back, (feet), toes, no shoes, spread legs, panties"
+    "lying, on back, (feet), toes, no shoes, spread legs, panties",
+    1,
+    "from back, back, wariza, w_sitting, feet, toes, (foot focus:${rand|0.65~1.05})",
 ]
 
 pos_expose = [

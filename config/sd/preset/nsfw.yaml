@@ -9,7 +9,7 @@ image_latent:
   width: 1024
   height: 1024
   batch_size: 1
-  batch_count: 6
+  batch_count: 12
 
 _model:
   _base: |
@@ -57,7 +57,8 @@ prompt:
     character_lora: |
       <OvO des="list">
         <d src="file" base="./config/sd/preset/0_character/">
-          <i a="1" args="yun_li.L:Pony+C:0">hoyoverse/starrail.py</i>
+          <i a="1" args="asuka.C:Plugsuit">anime/eva.py</i>
+          <i a="0" args="yun_li.L:Pony+C:0">hoyoverse/starrail.py</i>
           <i a="0" args="hina.L:Pony+C:App+C:Coat">game/blue_archive.py</i>
           <i a="0" args="ruan_mei.L:Pony+C">hoyoverse/starrail.py</i>
           <i a="0" args="ellen_joe.L:Pony+C">hoyoverse/zzz.py</i>
@@ -79,22 +80,22 @@ prompt:
     posture_ref: |
       <OvO des="list">
         <d a="1" src="file" base="config/sd/preset/0_posture/">          
-          <i a="0" args="mouth">r18.py</i>
-          <i a="0" args="mouth_after">r18.py</i>
-          <i a="0" args="breast">r18.py</i>
-          <i a="0" args="hand">r18.py</i>
-          <i a="0" args="pussy">r18.py</i>          
-          <i a="0" args="ass">r18.py</i>
+          <i a="1" args="mouth">r18.py</i>
+          <i a="1" args="mouth_after">r18.py</i>
+          <i a="1" args="breast">r18.py</i>
+          <i a="1" args="hand">r18.py</i>
+          <i a="1" args="pussy">r18.py</i>          
+          <i a="1" args="ass">r18.py</i>
           <i a="1" args="feet">r18.py</i>
-          <i a="0" args="expose">r18.py</i>
-          <i a="0" args="bdsm">r18.py</i>
-          <i a="0" args="front">r18.py</i>
-          <i a="0" args="back">r18.py</i>
-          <i a="0" args="doggy">r18.py</i>
-          <i a="0" args="top">r18.py</i>
-          <i a="0" args="standing">r18.py</i>
-          <i a="0" args="lying">r18.py</i>
-          <i a="0" args="sex_after">r18.py</i>          
+          <i a="1" args="expose">r18.py</i>
+          <i a="1" args="bdsm">r18.py</i>
+          <i a="1" args="front">r18.py</i>
+          <i a="1" args="back">r18.py</i>
+          <i a="1" args="doggy">r18.py</i>
+          <i a="1" args="top">r18.py</i>
+          <i a="1" args="standing">r18.py</i>
+          <i a="1" args="lying">r18.py</i>
+          <i a="1" args="sex_after">r18.py</i>          
         </d>      
       </OvO>
     posture: [
@@ -151,8 +152,8 @@ prompt:
     ]
   # Params Positive 2 ==========================================================
   params_pos_2:
-    nudity: ${rand|0.1~0.7}
-    _nudity_100: (completely nude:${rand|0.1~0.7})
+    nudity: ${rand|0.0~0.5}
+    _nudity_100: (completely nude:${rand|0.0~0.5})
   params_neg_1:
     neg_extra: "shoes"
 
@@ -160,7 +161,7 @@ prompt:
 sampler:
   name: "Euler a"
   steps: 26
-  cfg_scale: 4.25
+  cfg_scale: 4.5
   seed: -1
 
 upscaler:
@@ -173,12 +174,12 @@ upscaler:
 adetailers:
   - enable: true
     model: "face_yolov8n.pt"
-    denoising_strength: 0.325
+    denoising_strength: 0.35
   - enable: false
     model: "hand_yolov8n.pt"
 
 options:
-  colddown: 3
+  colddown: 5
   use_async: true
   metadata_key: "b_pox_b"
 
@@ -188,8 +189,9 @@ extra:
   upscaling_resize: 1.25
 
 output_txt2img:
+  file_format: D:/snapshot/character/anime/eva/asuka/%Y%m%d/0_nai/%H%M%S
   # file_format: D:/snapshot/character/game/blue_archive/hina/%Y%m%d/0_nai_oral/%H%M%S
-  file_format: "D:/snapshot/character/hoyoverse/starrail/yun_li/%Y%m%d/0_nai_feet/%H%M%S"
+  # file_format: "D:/snapshot/character/hoyoverse/starrail/yun_li/%Y%m%d/0_nai_feet/%H%M%S"
   # file_format: "D:/snapshot/character/hoyoverse/zzz/ellen_joe/%Y%m%d/0_nai_foot/%H%M%S"
   # file_format: D:/snapshot/character/anime/shoujo_kageki/kaoruko/%Y%m%d/0_nai_class/%H%M%S
   # file_format: "D:/snapshot/character/anime/keroro/alisa/%Y%m%d/1_ani/%H%M%S"
