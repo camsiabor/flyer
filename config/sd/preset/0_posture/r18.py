@@ -9,13 +9,13 @@ pos_mouth = [
     "licking penis, deep throat",
     "licking penis, fellatio, handjob, orgy",
     "licking penis, from side, kneeling, hand on head",
-    "licking penis, pov, from above",
-    "licking penis, bottomless, masturbation, squatting",
-    "licking penis, bottomless, spread pussy by own hand",
+    "licking penis, pov, from above, (all fours:${rand|0.0~0.9})}",
+    "licking penis, bottomless, masturbation, squatting, from below",
+    "licking penis, bottomless, spread pussy by own hand, from below",
     "licking penis, topless, grabbing own breast",
     "licking penis, lying",
     "cunnilingus, pussy, pussy juice",
-    "rimjob, anilingus",
+    # "rimjob, anilingus",
 ]
 
 # breast =====================================================================================
@@ -110,6 +110,9 @@ pos_ass = [
     "anal tail, anal object insertion, anal, pussy, pussy juice ",
     1,
     "otk spanking, spanking, spanked, red butt, (pants pull:0.9), (panty pull:0.9), motion lines",
+    1,
+    "lying, on back, underwear, (panties), (panty pull),"
+    "pussy, pussy juice, legs up, thighs"
 ]
 
 pos_feet = [
@@ -135,11 +138,19 @@ pos_feet = [
 ]
 
 pos_expose = [
+    1,
     "wariza, w_sitting, ass, ass_focus, feet",
+    1,
     "wariza, w_sttiing, pov, from_above, paw pose",
+    1,
     "(squatting), (paw pose), topless, bottomless",
+    1,
     "(squatting), (paw pose), topless, bottomless, from above",
+    1,
     "(squatting), no panties, spread knees, clothes lift, lifted by self, from below",
+    1,
+    "covering, breasts, navel, covering breasts, "
+    "stomach, standing, groin, thigh gap, thighs "
 
 ]
 
@@ -216,7 +227,7 @@ pos_lying = [
     "lying, on side, closed eyes, sleeping, fetal position"
 ]
 
-pos_back = [
+pos_doggy = [
     1,
     "bent over desk, pov, skirt pulled down, panty pulled down, "
     "looking back, hands on ass, doggystyle sex, "
@@ -239,7 +250,18 @@ pos_back = [
     1,
     "doggy style, penetration, kneeling",
     1,
-    "prone bone, penetration"
+    "prone bone, penetration",
+    1,
+    "bathroom, showering, mixed bathing, "
+    "(breast press), breasts, nipples, stomach, "
+    "sex from behind, standing sex, wet, pussy, vaginal, pussy juice, thighs, "
+]
+
+pos_back = [
+    1,
+    "from back, wariza, w_sitting, back, thighs, legs, feet",
+    1,
+    "(showering), wet, from behind, back, thighs, ass, breasts"
 ]
 
 pos_sex_after = [

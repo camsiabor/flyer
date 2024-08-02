@@ -11,6 +11,14 @@ image_latent:
   batch_size: 1
   batch_count: 6
 
+_model:
+  _base: |
+    <OvO des="list">
+      <d a="0" src="file" base="./config/sd/preset/">
+        <i a="1" args="nai3">model.py</i>                    
+      </d>
+    </OvO>  
+
 prompt:
   positive: |
     $$quality$$,
@@ -61,7 +69,7 @@ prompt:
           <i a="0" args="firefly.L+C">hoyoverse/starrail.py</i>          
         </d>
       </OvO>
-    lw: "0.975"
+    lw: "0.98"
     character: ""
     people: [
       "1girl",
@@ -71,21 +79,22 @@ prompt:
     posture_ref: |
       <OvO des="list">
         <d a="1" src="file" base="config/sd/preset/0_posture/">          
-          <i a="1" args="mouth">r18.py</i>
-          <i a="1" args="mouth_after">r18.py</i>
-          <i a="1" args="breast">r18.py</i>
-          <i a="1" args="hand">r18.py</i>
-          <i a="1" args="pussy">r18.py</i>          
-          <i a="1" args="ass">r18.py</i>
+          <i a="0" args="mouth">r18.py</i>
+          <i a="0" args="mouth_after">r18.py</i>
+          <i a="0" args="breast">r18.py</i>
+          <i a="0" args="hand">r18.py</i>
+          <i a="0" args="pussy">r18.py</i>          
+          <i a="0" args="ass">r18.py</i>
           <i a="1" args="feet">r18.py</i>
-          <i a="1" args="expose">r18.py</i>
-          <i a="1" args="bdsm">r18.py</i>
-          <i a="1" args="front">r18.py</i>
-          <i a="1" args="back">r18.py</i>
-          <i a="1" args="top">r18.py</i>
-          <i a="1" args="standing">r18.py</i>
-          <i a="1" args="lying">r18.py</i>
-          <i a="1" args="sex_after">r18.py</i>          
+          <i a="0" args="expose">r18.py</i>
+          <i a="0" args="bdsm">r18.py</i>
+          <i a="0" args="front">r18.py</i>
+          <i a="0" args="back">r18.py</i>
+          <i a="0" args="doggy">r18.py</i>
+          <i a="0" args="top">r18.py</i>
+          <i a="0" args="standing">r18.py</i>
+          <i a="0" args="lying">r18.py</i>
+          <i a="0" args="sex_after">r18.py</i>          
         </d>      
       </OvO>
     posture: [
@@ -113,6 +122,7 @@ prompt:
       "(confused:${rand|0.5~0.8}), (open mouth:${rand|0.0~1.0})",
       "open mouth",
       "open mouth, tongue out",
+      "(female orgasm:${rand|0.65~1.0}), (rolling eyes:${rand|0.0~0.5})",
       # "tape gag",
       # "mouth gag",
       # "black blindfold, open mouth",
@@ -150,11 +160,11 @@ prompt:
 sampler:
   name: "Euler a"
   steps: 26
-  cfg_scale: 4.5
+  cfg_scale: 4.25
   seed: -1
 
 upscaler:
-  enable: true
+  enable: false
   scale: 1.25
   second_pass_steps: 10
   denoising_strength: 0.5
@@ -179,7 +189,7 @@ extra:
 
 output_txt2img:
   # file_format: D:/snapshot/character/game/blue_archive/hina/%Y%m%d/0_nai_oral/%H%M%S
-  file_format: "D:/snapshot/character/hoyoverse/starrail/yun_li/%Y%m%d/0_nai/%H%M%S"
+  file_format: "D:/snapshot/character/hoyoverse/starrail/yun_li/%Y%m%d/0_nai_feet/%H%M%S"
   # file_format: "D:/snapshot/character/hoyoverse/zzz/ellen_joe/%Y%m%d/0_nai_foot/%H%M%S"
   # file_format: D:/snapshot/character/anime/shoujo_kageki/kaoruko/%Y%m%d/0_nai_class/%H%M%S
   # file_format: "D:/snapshot/character/anime/keroro/alisa/%Y%m%d/1_ani/%H%M%S"
