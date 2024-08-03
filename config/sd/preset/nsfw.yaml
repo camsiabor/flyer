@@ -38,7 +38,7 @@ prompt:
     $$nudity_100$$,
     $$scene$$,
   negative: |
-    score_6, score_5, score_4, score_3, score_2, score_1, pony, 
+    score_6, score_5, score_4, score_3, score_2, score_1, 
     (worst quality:2),(low quality:2),(normal quality:2), lowres,     
     bad anatomy, extra digits, fewer digits, 
     text, signature, watermark, logo,
@@ -47,13 +47,13 @@ prompt:
   params_cycle: -1
   # Params Positive 1 ==========================================================
   params_pos_1:
-    common: ""
+    common: "(full body:${rand|0.0~0.2})"
     _quality: |
       (masterpiece:1.2),(best quality:1.2),(very aesthetic:1.2),(absurdres:1.2),
       (detailed background),(extremely detailed),newest,
     quality_pony: |
       (score_9, score_8_up, score_7_up, source_anime, rating_all, rating_explicit),
-    expressive_h: <lora:Expressive_H:${rand|0.95~1.0}>,expressiveh
+    expressive_h: <lora:Expressive_H:${rand|0.95~1.05}>,expressiveh
     character_lora: |
       <OvO des="list">
         <d src="file" base="./config/sd/preset/0_character/">
@@ -71,10 +71,10 @@ prompt:
           <i a="0" args="firefly.L+C">hoyoverse/starrail.py</i>          
         </d>
       </OvO>
-    lw: "0.935"
+    lw: "0.925"
     character: ""
     people: [
-      "1girl",
+      "1girl, solo",
       # "1girl, orgy",
       # "1girl, multiple boys, orgy",
     ]
@@ -104,8 +104,9 @@ prompt:
     body: [
       "(half nude:$$nudity$$), (torn clothes:${rand|0.5~1})",
       "(nude:$$nudity$$)",
-      "(lingerie:${rand|0.5~0.75}), (nude:$$nudity$$) (bondage:${rand|0.5~1})",
-      "(bondage:${rand|0.75~1.25}), (nude:$$nudity$$)",
+      "(lingerie:${rand|0.5~0.75}), (nude:$$nudity$$)",
+      # "(lingerie:${rand|0.5~0.75}), (nude:$$nudity$$) (bondage:${rand|0.5~1})",
+      # "(bondage:${rand|0.75~1.25}), (nude:$$nudity$$)",
     ]
     body_sub: [
     ]
@@ -124,7 +125,7 @@ prompt:
       "(confused:${rand|0.5~0.8}), (open mouth:${rand|0.0~1.0})",
       "open mouth",
       "open mouth, tongue out",
-      "(female orgasm:${rand|0.65~1.0}), (rolling eyes:${rand|0.0~0.5})",
+      # "(female orgasm:${rand|0~1.0}), (rolling eyes:${rand|0.0~0.5})",
       # "tape gag",
       # "mouth gag",
       # "black blindfold, open mouth",
@@ -134,10 +135,10 @@ prompt:
     ]
     scene: [
       # "simple background"
-      "classroom",
-      "school",
-      "bedroom",
-      "indoors",
+      # "classroom",
+      # "school",
+      # "bedroom",
+      # "indoors",
       # "stage",
       # "bathroom",
       # "indoors",
@@ -153,7 +154,7 @@ prompt:
     ]
   # Params Positive 2 ==========================================================
   params_pos_2:
-    nudity: ${rand|0.0~0.7}
+    nudity: ${rand|0.33~1.0}
     _nudity_100: (completely nude:${rand|0.0~0.7})
   params_neg_1:
     neg_extra: "shoes"
@@ -180,7 +181,7 @@ adetailers:
     model: "hand_yolov8n.pt"
 
 options:
-  colddown: 5
+  colddown: 6
   use_async: true
   metadata_key: "b_pox_b"
 

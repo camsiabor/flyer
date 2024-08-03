@@ -5,10 +5,10 @@ from scripts.common.collection import Collection
 pos_mouth = [
     "licking penis, fellatio, hand on head",
     "licking penis, fellatio, hand on head, pov, from above",
-    "licking penis, nipples, from side, kneeling, hand on head,",
+    "licking penis, nipples, from side, kneeling, hand on head, thigh, feet",
     "licking penis, deep throat",
     "licking penis, fellatio, handjob, orgy",
-    "licking penis, from side, kneeling, hand on head",
+    "licking penis, from side, kneeling, hand on head, feet",
     "licking penis, pov, from above, (all fours:${rand|0.0~0.9})}",
     "licking penis, bottomless, masturbation, squatting, from below",
     "licking penis, bottomless, spread pussy by own hand, from below",
