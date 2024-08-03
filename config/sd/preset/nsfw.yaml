@@ -53,12 +53,13 @@ prompt:
       (detailed background),(extremely detailed),newest,
     quality_pony: |
       (score_9, score_8_up, score_7_up, source_anime, rating_all, rating_explicit),
-    expressive_h: <lora:Expressive_H:${rand|0.9~1.0}>,expressiveh
+    expressive_h: <lora:Expressive_H:${rand|0.95~1.0}>,expressiveh
     character_lora: |
       <OvO des="list">
         <d src="file" base="./config/sd/preset/0_character/">
+          <i a="1" args="kaguya.L:Pony01+C:School">anime/kaguya_sama.py</i>
           <i a="0" args="asuka.C:Plugsuit">anime/eva.py</i>
-          <i a="1" args="yun_li.L:Pony+C:0">hoyoverse/starrail.py</i>
+          <i a="0" args="yun_li.L:Pony+C:0">hoyoverse/starrail.py</i>
           <i a="0" args="hina.L:Pony+C:App+C:Coat">game/blue_archive.py</i>
           <i a="0" args="ruan_mei.L:Pony+C">hoyoverse/starrail.py</i>
           <i a="0" args="ellen_joe.L:Pony+C">hoyoverse/zzz.py</i>
@@ -70,7 +71,7 @@ prompt:
           <i a="0" args="firefly.L+C">hoyoverse/starrail.py</i>          
         </d>
       </OvO>
-    lw: "0.98"
+    lw: "0.935"
     character: ""
     people: [
       "1girl",
@@ -81,9 +82,9 @@ prompt:
       <OvO des="list">
         <d a="1" src="file" base="config/sd/preset/0_posture/">          
           <i a="1" args="mouth">r18.py</i>
-          <i a="0" args="mouth_after">r18.py</i>
-          <i a="0" args="breast">r18.py</i>
-          <i a="0" args="hand">r18.py</i>
+          <i a="1" args="mouth_after">r18.py</i>
+          <i a="1" args="breast">r18.py</i>
+          <i a="1" args="hand">r18.py</i>
           <i a="1" args="pussy">r18.py</i>          
           <i a="1" args="ass">r18.py</i>
           <i a="1" args="feet">r18.py</i>
@@ -95,15 +96,15 @@ prompt:
           <i a="1" args="top">r18.py</i>
           <i a="1" args="standing">r18.py</i>
           <i a="1" args="lying">r18.py</i>
-          <i a="0" args="sex_after">r18.py</i>          
+          <i a="1" args="sex_after">r18.py</i>          
         </d>      
       </OvO>
     posture: [
     ]
     body: [
-      # "(half nude:$$nudity$$), (torn clothes:${rand|0.5~1})",
-      # "(nude:$$nudity$$)",
-      # "(lingerie:${rand|0.5~0.75}), (nude:$$nudity$$) (bondage:${rand|0.5~1})",
+      "(half nude:$$nudity$$), (torn clothes:${rand|0.5~1})",
+      "(nude:$$nudity$$)",
+      "(lingerie:${rand|0.5~0.75}), (nude:$$nudity$$) (bondage:${rand|0.5~1})",
       "(bondage:${rand|0.75~1.25}), (nude:$$nudity$$)",
     ]
     body_sub: [
@@ -133,11 +134,11 @@ prompt:
     ]
     scene: [
       # "simple background"
-      # "classroom",
-      # "school",
+      "classroom",
+      "school",
+      "bedroom",
+      "indoors",
       # "stage",
-      # "bedroom",
-      # "indoors",
       # "bathroom",
       # "indoors",
       # "indoors, day",
@@ -152,8 +153,8 @@ prompt:
     ]
   # Params Positive 2 ==========================================================
   params_pos_2:
-    nudity: ${rand|0.25~0.75}
-    _nudity_100: (completely nude:${rand|0.0~0.5})
+    nudity: ${rand|0.0~0.7}
+    _nudity_100: (completely nude:${rand|0.0~0.7})
   params_neg_1:
     neg_extra: "shoes"
 
@@ -161,7 +162,7 @@ prompt:
 sampler:
   name: "Euler a"
   steps: 26
-  cfg_scale: 4.35
+  cfg_scale: 4
   seed: -1
 
 upscaler:
@@ -179,7 +180,7 @@ adetailers:
     model: "hand_yolov8n.pt"
 
 options:
-  colddown: 6
+  colddown: 5
   use_async: true
   metadata_key: "b_pox_b"
 
@@ -189,8 +190,9 @@ extra:
   upscaling_resize: 1.25
 
 output_txt2img:
-  file_format: "D:/snapshot/character/hoyoverse/starrail/yun_li/%Y%m%d/0_nai_bond/%H%M%S"
-  # file_format: D:/snapshot/character/anime/eva/asuka/%Y%m%d/0_nai/%H%M%S
+  file_format: D:/snapshot/character/anime/kaguya-sama/kaguya/%Y%m%d/0_nai/%H%M%S
+  # file_format: "D:/snapshot/character/hoyoverse/starrail/yun_li/%Y%m%d/0_nai_bond/%H%M%S"
+  # file_format: D:/snapshot/character/anime/eva/asuka/%Y%m%d/0_nai_new/%H%M%S
   # file_format: D:/snapshot/character/game/blue_archive/hina/%Y%m%d/0_nai_oral/%H%M%S
   # file_format: "D:/snapshot/character/hoyoverse/zzz/ellen_joe/%Y%m%d/0_nai_foot/%H%M%S"
   # file_format: D:/snapshot/character/anime/shoujo_kageki/kaoruko/%Y%m%d/0_nai_class/%H%M%S
