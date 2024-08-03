@@ -45,17 +45,19 @@ kafka = {
 
 ruan_mei = {
     'L': {
-        'Pony': '<lora:Char-HonkaiSR-Ruanmei-Pony-V1:0.925>, ruan mei (honkai: star rail),'
+        'Pony': '<lora:Char-HonkaiSR-Ruanmei-Pony-V1:${n|$$lw$$|0.9}>, ruan mei (honkai: star rail),'
     },
-    'C': """
-    (brown hair:1), medium hair, hair ornament,
-    (teal eyes:0.9), 
-    necklace, bare shoulders, 
-    detached collar, capelet,
-    china dress, (green gloves:0.9),
-    thigh strap,
-    (plum flower:0.9),
-    """,
+    'C': {
+        '0': """
+            (brown hair:1.1), medium hair, hair ornament,
+            (teal eyes:0.9), 
+            necklace, bare shoulders, 
+            detached collar, capelet,
+            china dress, (green gloves:0.9),
+            thigh strap,
+            (plum flower:0.9),
+            """,
+    }
 
 }
 
