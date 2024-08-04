@@ -35,12 +35,46 @@ shinomiya_kaguya = {
         """
 
     }
+}
 
+hayasaka_ai = {
+    'L': {
+        'Pony': "<lora:ai-hayasaka-s3-ponyxl-lora-nochekaiser:${n|$$lw$$|0.9}>,ai hayasaka",
+    },
+    'C': {
+        'App': """
+        blonde hair, hair between eyes, bangs, sidelocks,side ponytail,
+        hair ornament, hair scrunchie, blue scrunchie,
+        (blue eyes:0.95), 
+        """,
+        'School': """
+        school uniform, (shuuchiin academy school uniform:${rand|0.1~0.5}),
+        shirt, sweater, cardigan, long sleeves, 
+        clothes around waist, sweater around waist, cardigan around waist,
+        """,
+        'School02': """
+        school uniform, (shuuchiin academy school uniform:${rand|0.1~0.5}),
+        (white shirt0.95), (black sweater:0.95), cardigan, long sleeves, 
+        (brown cardigan:0.95), cardigan around waist,
+        """,
+        'Maid': """
+        shirt, long sleeves, dress, 
+        white shirt, collared shirt, 
+        apron, maid, maid headdress, 
+        ascot, waist apron,
+        """,
+        'Shoe': """
+        shoes, socks, black socks
+        """
+    },
 }
 
 everyone = {
     'kaguya': shinomiya_kaguya,
     'shinomiya_kaguya': shinomiya_kaguya,
+
+    'hayasaka': hayasaka_ai,
+    'hayasaka_ai': hayasaka_ai,
 }
 
 

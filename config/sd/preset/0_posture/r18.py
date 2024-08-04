@@ -182,7 +182,6 @@ pos_bdsm = [
     "(bdsm:${rand|0.1~1.0}), (bondage outfit:${rand|0.8~1.05}), restrained",
     1,
     "(bdsm:${rand|0.1~1.0}), cage, restrained",
-
 ]
 
 pos_front = [

@@ -49,7 +49,7 @@ ruan_mei = {
     },
     'C': {
         '0': """
-            (brown hair:1.1), medium hair, hair ornament,
+            (brown hair:1.15), medium hair, hair ornament,
             (teal eyes:0.9), 
             necklace, bare shoulders, 
             detached collar, capelet,
