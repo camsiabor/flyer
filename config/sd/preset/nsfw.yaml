@@ -47,7 +47,7 @@ prompt:
   params_cycle: -1
   # Params Positive 1 ==========================================================
   params_pos_1:
-    common: "(full body:${rand|0.25~0.75})"
+    common: "(full body:${rand|0.25~0.85})"
     _quality: |
       (masterpiece:1.2),(best quality:1.2),(very aesthetic:1.2),(absurdres:1.2),
       (detailed background),(extremely detailed),newest,
@@ -55,21 +55,30 @@ prompt:
       (score_9, score_8_up, score_7_up, source_anime, rating_all, rating_explicit),
     expressive_h: <lora:Expressive_H:${rand|0.95~1.05}>,expressiveh
     character_lora: |
-      <OvO des="list">
-        <d src="file" base="./config/sd/preset/0_character/">
-          <i a="1" args="hayasaka.L:Pony+C:App+C:School02">anime/kaguya_sama.py</i>
-          <i a="0" args="kaguya.L:Pony02+C:School02">anime/kaguya_sama.py</i>
-          <i a="0" args="asuka.C:Plugsuit">anime/eva.py</i>
-          <i a="0" args="yun_li.L:Pony+C:0">hoyoverse/starrail.py</i>
-          <i a="0" args="hina.L:Pony+C:App+C:Coat">game/blue_archive.py</i>
-          <i a="0" args="ruan_mei.L:Pony+C:0">hoyoverse/starrail.py</i>
-          <i a="0" args="ellen_joe.L:Pony+C">hoyoverse/zzz.py</i>
-          <i a="0" args="kaoruko.L:Pony+C:Stage">anime/shoujo_kageki.py</i>
-          <i a="0" args="kaoruko.L:Pony+C:School">anime/shoujo_kageki.py</i>
-          <i a="0" args="alisa.L:0+C">anime/keroro.py</i>
-          <i a="0" args="kafka.L:1+Min+Rand">hoyoverse/starrail.py</i>
-          <i a="0" args="zhuyuan.L:Pony+C:1">hoyoverse/zzz.py</i>
-          <i a="0" args="firefly.L+C">hoyoverse/starrail.py</i>          
+      <OvO src="file" des="list" base="./config/sd/preset/0_character/">
+        <d base="anime">
+          <i a="1" args="rei.C:App+C:Plugsuit">eva.py</i>
+          <i a="0" args="asuka.C:App+C:Plugsuit">eva.py</i>
+        </d>
+        <d base="anime">
+          <i a="0" args="hayasaka.L:Pony+C:App+C:Maid">kaguya_sama.py</i>
+          <i a="0" args="kaguya.L:Pony02+C:School02">kaguya_sama.py</i>
+        </d>
+        <d base="anime">
+          <i a="0" args="alisa.L:0+C">keroro.py</i>
+        </d>
+        <d base="game">
+          <i a="0" args="hina.L:Pony+C:App+C:Coat">blue_archive.py</i>
+          <i a="0" args="kaoruko.L:Pony+C:Stage">shoujo_kageki.py</i>
+          <i a="0" args="kaoruko.L:Pony+C:School">shoujo_kageki.py</i>
+        </d>
+        <d base="hoyoverse">                    
+          <i a="0" args="yun_li.L:Pony+C:0">starrail.py</i>          
+          <i a="0" args="ruan_mei.L:Pony+C:0">starrail.py</i>
+          <i a="0" args="kafka.L:1+Min+Rand">starrail.py</i>
+          <i a="0" args="firefly.L+C">starrail.py</i>
+          <i a="0" args="ellen_joe.L:Pony+C">zzz.py</i>
+          <i a="0" args="zhuyuan.L:Pony+C:1">zzz.py</i>                                      
         </d>
       </OvO>
     lw: "0.9"
@@ -122,12 +131,16 @@ prompt:
       "distant",
     ]
     facial_expression: [
-      "(embarrassed:${rand|0.5~0.8})",
-      "(embarrassed:${rand|0.5~0.8}), (looking to the side:${rand|1.05~1.25})",
-      "(confused:${rand|0.5~0.8}), (open mouth:${rand|0.0~1.0})",
+      "(embarrassed:${rand|0.5~0.85})",
+      "(embarrassed:${rand|0.5~0.85}), (looking to the side:${rand|1.05~1.35})",
+      "(confused:${rand|0.6~0.9}), (open mouth:${rand|0.0~1.0})",
       "open mouth",
       "open mouth, tongue out",
-      # "(female orgasm:${rand|0~1.0}), (rolling eyes:${rand|0.0~0.5})",
+
+      "(ahegao:${rand|0.25~0.75}), (female orgasm:${rand|0.25~0.75})",
+      # "(female orgasm:${rand|0~0.7}), (rolling eyes:${rand|0.0~0.5})",
+      # "(drunk:${rand|0.25~0.75}), open mouth",
+      # "(rape face:${rand|0.5~1.0})",
       # "tape gag",
       # "mouth gag",
       # "black blindfold, open mouth",
@@ -156,7 +169,7 @@ prompt:
     ]
   # Params Positive 2 ==========================================================
   params_pos_2:
-    nudity: ${rand|0.3~0.9}
+    nudity: ${rand|0.5~1.25}
     _nudity_100: (completely nude:${rand|0.0~0.7})
   params_neg_1:
     neg_extra: "shoes"
@@ -183,7 +196,7 @@ adetailers:
     model: "hand_yolov8n.pt"
 
 options:
-  colddown: 3
+  colddown: 10
   use_async: true
   metadata_key: "b_pox_b"
 
@@ -193,7 +206,8 @@ extra:
   upscaling_resize: 1.25
 
 output_txt2img:
-  file_format: D:/snapshot/character/anime/kaguya-sama/hayasaka/%Y%m%d/0_nai/%H%M%S
+  file_format: D:/snapshot/character/anime/eva/rei/%Y%m%d/0_nai/%H%M%S
+  # file_format: D:/snapshot/character/anime/kaguya-sama/hayasaka/%Y%m%d/0_nai_maid/%H%M%S
   # file_format: "D:/snapshot/character/hoyoverse/starrail/ruan_mei/%Y%m%d/0_nai_tentacle/%H%M%S"
   # file_format: D:/snapshot/character/anime/kaguya-sama/kaguya/%Y%m%d/0_nai/%H%M%S
   # file_format: "D:/snapshot/character/hoyoverse/starrail/yun_li/%Y%m%d/0_nai_bond/%H%M%S"

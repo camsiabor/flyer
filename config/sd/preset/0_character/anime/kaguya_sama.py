@@ -54,7 +54,8 @@ hayasaka_ai = {
         """,
         'School02': """
         school uniform, (shuuchiin academy school uniform:${rand|0.1~0.5}),
-        (white shirt0.95), (black sweater:0.95), cardigan, long sleeves, 
+        shirt, (white shirt:0.95), long shirt, long sleeves, 
+        sweater, (black sweater:0.95),  
         (brown cardigan:0.95), cardigan around waist,
         """,
         'Maid': """

@@ -18,6 +18,7 @@ class DNode:
             func_args: any = None,
             src: str = "",
             des: str = "",
+            base: str = "",
             converge: str = "",
             action: str = "",
             category: str = "",
@@ -28,6 +29,7 @@ class DNode:
         self.func_args = func_args
         self.src = src
         self.des = des
+        self.base = base
         self.action = action
         self.category = category
         self.converge = converge
@@ -38,6 +40,7 @@ class DNode:
         self.element = element
         self.src = element.attrib.get('src', '').lower()
         self.des = element.attrib.get('des', '').lower()
+        self.base = element.attrib.get('base', '')
         self.action = element.attrib.get('action', '').lower()
         self.func_name = element.attrib.get('func', self.func_name)
         self.func_args = element.attrib.get('args', None)
@@ -54,12 +57,12 @@ class DValue:
             self,
             element: ET.Element = None,
             state: any = None,
-            parent: ET.Element = None,
             func_name: str = 'init',
             func_arg: any = None,
             text: str = "",
             value: any = None,
             active: str = '1',
+            parent: 'DData' = None,
     ):
         self.element = element
         self.state = state
@@ -70,6 +73,7 @@ class DValue:
         self.value = value
         self.convert = False
         self.active = active
+        self.parent = parent
         self.init()
         pass
 
@@ -100,6 +104,7 @@ class DData:
             des: str = "",
             base: str = "",
             active: str = '1',
+            parent: 'DNode' = None,
     ):
         self.element = element
         self.state = state
@@ -109,8 +114,9 @@ class DData:
         self.des = des
         self.base = base
         self.active = active
-        self.content = DValue(active=active, parent=element, state=state)
+        self.content = DValue(active=active, parent=self, state=state)
         self.items = TypeList(DValue)
+        self.parent = parent
         self.init(element)
         pass
 
@@ -127,8 +133,8 @@ class DData:
     def init(self, element: ET.Element):
         if element is None:
             return self
-        self.src = element.attrib.get('src', '').lower()
-        self.des = element.attrib.get('des', '').lower()
+        self.src = element.attrib.get('src', self.parent.src).lower()
+        self.des = element.attrib.get('des', self.parent.des).lower()
         self.base = element.attrib.get('base', '')
         self.active = element.attrib.get('a', '1').lower()
         self.func_name = element.attrib.get('func', self.func_name)
@@ -136,9 +142,13 @@ class DData:
         if not self.func_name:
             self.func_name = 'init'
         self.content.text = element.text.strip()
+        if self.parent is not None:
+            if self.src == 'file' and self.parent.base:
+                self.base = os.path.join(self.parent.base + "/", self.base)
+
         for tag in ['i', 'item']:
             for data_element in element.findall(tag):
-                dv = DValue(element=data_element, parent=element, state=self.state)
+                dv = DValue(element=data_element, parent=self, state=self.state)
                 if dv.active == '0' or dv.active == 'false':
                     continue
                 self.items.append(dv)
@@ -265,6 +275,7 @@ class Directive:
             for data_element in root.findall(tag):
                 ddata = DData(
                     element=data_element, state=self.state,
+                    parent=self.root,
                     func_name=self.root.func_name, func_args=self.root.func_args,
                 )
                 if ddata.active == '0' or ddata.active == 'false':
