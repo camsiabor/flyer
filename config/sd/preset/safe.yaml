@@ -15,6 +15,7 @@ prompt:
   positive: |
     1girl, solo, 
     (score_9, score_8_up, score_7_up, source_anime, rating_all),
+    $$nai_lora$$,
     $$expressive_h$$,
     $$common$$,
     $$posture_ref$$,
@@ -38,7 +39,8 @@ prompt:
     pussy, nipples, anus, censored, (nsfw:0.5)
   params_cycle: -1
   params_pos_1:
-    _expressive_h: "<lora:Expressive_H:1>,expressiveh"
+    nai_lora: <lora:naipf:0.8>
+    _expressive_h: <lora:Expressive_H:1>,expressiveh
     character_lora: |
       <OvO src="file" des="list" base="./config/sd/preset/0_character/">
         <d base="anime">
@@ -70,14 +72,14 @@ prompt:
           <i a="0" args="breast">r17.py</i>
           <i a="0" args="hand">r17.py</i>
           <i a="0" args="pussy">r17.py</i>          
-          <i a="1" args="ass">r17.py</i>
-          <i a="1" args="feet">r17.py</i>
-          <i a="1" args="expose">r17.py</i>
-          <i a="1" args="front">r17.py</i>
+          <i a="0" args="ass">r17.py</i>
+          <i a="0" args="feet">r17.py</i>
+          <i a="0" args="expose">r17.py</i>
+          <i a="0" args="front">r17.py</i>
           <i a="1" args="back">r17.py</i>
           <i a="0" args="top">r17.py</i>
-          <i a="1" args="standing">r17.py</i>
-          <i a="1" args="lying">r17.py</i>
+          <i a="0" args="standing">r17.py</i>
+          <i a="0" args="lying">r17.py</i>
           <i a="0" args="after">r17.py</i>
           <i a="0" args="gun">r17.py</i>
         </d>      
@@ -97,19 +99,22 @@ prompt:
     ]
     facial_expression: [
       "light blush",
-      "light blush, round eyewear"
+      # "light blush, round eyewear"
     ]
     facial_expression_sub: [
-      "open mouth",
+      "",
+      # "open mouth",
       "(embarrassed:${rand|0.5~0.8})",
-      "pout",
-      "light smile, open mouth",
+      "(embarrassed:${rand|0.5~0.85}), (looking to the side:${rand|1.05~1.35})",
+      # "(confused:${rand|0.6~0.9}), (open mouth:${rand|0.0~1.0})",
+      # "pout",
+      # "light smile, open mouth",
       # "pout",
       # "pout",
       # "embarrassed",
     ]
     scene: [
-      "simple background",
+      # "simple background",
       # "indoors",
       # "beach, (seagull:0.6)",
       # "european architecture,indoors",
@@ -136,7 +141,7 @@ adetailers:
     model: "hand_yolov8n.pt"
 
 options:
-  colddown: 3
+  colddown: 6
   use_async: true
   metadata_key: "b_pox_b"
 

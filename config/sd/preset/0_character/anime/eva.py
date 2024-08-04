@@ -23,12 +23,12 @@ rei = {
         (red eyes:0.9), (multicolored eyes:${rand|0.0~0.35}),
         """,
         'Plugsuit': """        
-        (headgear:0.95),
-        bodysuit, plugsuit, (blue plugsuit:${rand|0.1~0.5}), (white plugsuit:${rand|0.25~0.75}),        
+        (headgear:0.85),
+        bodysuit, plugsuit, (white plugsuit:${rand|0.6~0.9}),        
         """,
         'PlugSuitBlack': """
-        (headgear:0.95),
-        bodysuit, plugsuit, (black plugsuit:${rand|0.33~0.75}),        
+        (headgear:0.85),
+        bodysuit, plugsuit, (black plugsuit:${rand|0.6~0.9}),        
         """,
         'School': """
         school uniform, (tokyo-3 middle school uniform:${rand|0.25~0.5}),
