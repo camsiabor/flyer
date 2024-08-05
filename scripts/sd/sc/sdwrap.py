@@ -1,5 +1,4 @@
 import asyncio
-import datetime
 import functools
 import json
 import logging
@@ -93,9 +92,6 @@ class SDWrap:
         self.cli.util_wait_for_ready()
         ready_end = time.perf_counter()
         self.logger.info(f"current model: {self.box.model.base} | ready in {ready_end - ready_start:.2f} seconds")
-
-        if self.box.output_txt2img.dir_path:
-            self.box.output_txt2img.dir_path = datetime.datetime.now().strftime("./output/%Y%m%d")
 
         if self.progress_thread is None and self.progress_poll_interval > 0:
             self.progress_thread = asyncio.create_task(self.progress_loop())

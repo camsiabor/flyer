@@ -152,8 +152,10 @@ pos_expose = [
     "(squatting), no panties, spread knees, clothes lift, lifted by self, from below",
     1,
     "covering, breasts, navel, covering breasts, "
-    "stomach, standing, groin, thigh gap, thighs "
-
+    "stomach, standing, groin, thigh gap, thighs ",
+    1,
+    "(squatting), armpits, arms up, arms behind head, "
+    "breasts, thighs, spread legs, feet ",
 ]
 
 pos_bdsm = [

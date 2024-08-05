@@ -95,6 +95,9 @@ pos_expose = [
     "wariza, w_sttiing, pov, from_above, paw pose",
     "(squatting), (paw pose), ",
     "(squatting), (paw pose), from above",
+    1,
+    "(squatting), armpits, arms up, arms behind head, "
+    "thighs, spread legs, feet ",
 ]
 
 pos_gun = [

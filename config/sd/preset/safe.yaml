@@ -151,7 +151,8 @@ extra:
   upscaling_resize: 1.25
 
 output_txt2img:
-  file_format: D:/snapshot/character/anime/eva/rei/%Y%m%d/0_nai/%H%M%S
+  dir_path: D:/snapshot/character/
+  file_format: anime/eva/rei/%Y%m%d/0_nai/%H%M%S
   # file_format: D:/snapshot/psplive/dousha/image/%Y%m%d/0_bikini/%H%M%S
   # file_format: D:/snapshot/virtua_real/shiori/image/%Y%m%d/0_pencil/%H%M%S
   file_extension: "png"

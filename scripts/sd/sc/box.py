@@ -195,11 +195,11 @@ class SDFile:
         self.file_path = file_path
         self.file_format = file_format
         self.file_extension = file_extension
+        pass
 
     def infer(self, index=-1):
         if self.dir_format:
             self.dir_path = datetime.now().strftime(self.dir_format)
-            os.makedirs(self.dir_path, exist_ok=True)
 
         if index <= 0:
             index_str = ""
@@ -208,10 +208,20 @@ class SDFile:
 
         if self.file_format:
             filename = datetime.now().strftime(self.file_format)
-            self.file_path = f"{filename}{index_str}.{self.file_extension}"
-            os.makedirs(os.path.dirname(self.file_path), exist_ok=True)
         else:
-            self.file_path = f"{self.dir_path}/{datetime.now().strftime('%Y%m%d%H%M%S')}{index_str}.{self.file_extension}"
+            filename = f"{datetime.now().strftime('%Y%m%d%H%M%S')}"
+
+        if index_str:
+            filename = filename + index_str
+
+        if self.dir_path:
+            self.file_path = os.path.join(self.dir_path, filename)
+        else:
+            self.file_path = filename
+
+        self.file_path = self.file_path + f".{self.file_extension}"
+
+        os.makedirs(os.path.dirname(self.file_path), exist_ok=True)
 
         return self
 

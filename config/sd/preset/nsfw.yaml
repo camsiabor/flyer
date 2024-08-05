@@ -9,7 +9,7 @@ image_latent:
   width: 1024
   height: 1024
   batch_size: 1
-  batch_count: 12
+  batch_count: 20
 
 _model:
   _base: |
@@ -62,7 +62,7 @@ prompt:
         </d>
         <d base="anime">
           <i a="0" args="hayasaka.L:Pony+C:App+C:Maid">kaguya_sama.py</i>
-          <i a="1" args="kaguya.L:Pony02+C:School02">kaguya_sama.py</i>
+          <i a="0" args="kaguya.L:Pony01+C:School02">kaguya_sama.py</i>
         </d>
         <d base="anime">
           <i a="0" args="alisa.L:0+C">keroro.py</i>
@@ -72,7 +72,10 @@ prompt:
           <i a="0" args="kaoruko.L:Pony+C:Stage">shoujo_kageki.py</i>
           <i a="0" args="kaoruko.L:Pony+C:School">shoujo_kageki.py</i>
         </d>
-        <d base="hoyoverse">                    
+        <d base="hoyoverse">
+          <i a="0" args="fei_xiao.L:Pony02+C:App+C:Bare">starrail.py</i>
+          <i a="1" args="fei_xiao.L:Pony01+C:App+C:Coat">starrail.py</i>
+      
           <i a="0" args="yun_li.L:Pony+C:0">starrail.py</i>          
           <i a="0" args="ruan_mei.L:Pony+C:0">starrail.py</i>
           <i a="0" args="kafka.L:1+Min+Rand">starrail.py</i>
@@ -81,7 +84,7 @@ prompt:
           <i a="0" args="zhuyuan.L:Pony+C:1">zzz.py</i>                                      
         </d>
       </OvO>
-    lw: "0.8"
+    lw: "0.7"
     character: ""
     people: [
       "1girl, solo",
@@ -93,20 +96,20 @@ prompt:
         <d a="1" src="file" base="config/sd/preset/0_posture/">          
           <i a="1" args="mouth">r18.py</i>
           <i a="0" args="mouth_after">r18.py</i>
-          <i a="1" args="breast">r18.py</i>
+          <i a="0" args="breast">r18.py</i>
           <i a="0" args="hand">r18.py</i>
           <i a="0" args="pussy">r18.py</i>          
-          <i a="1" args="ass">r18.py</i>
-          <i a="1" args="feet">r18.py</i>
+          <i a="0" args="ass">r18.py</i>
+          <i a="0" args="feet">r18.py</i>
           <i a="0" args="expose">r18.py</i>
           <i a="0" args="bdsm">r18.py</i>
-          <i a="0" args="front">r18.py</i>
-          <i a="1" args="back">r18.py</i>
+          <i a="1" args="front">r18.py</i>
+          <i a="0" args="back">r18.py</i>
           <i a="0" args="doggy">r18.py</i>
           <i a="0" args="top">r18.py</i>
           <i a="0" args="standing">r18.py</i>
           <i a="0" args="lying">r18.py</i>
-          <i a="0" args="sex_after">r18.py</i>          
+          <i a="1" args="sex_after">r18.py</i>          
         </d>      
       </OvO>
     posture: [
@@ -116,7 +119,7 @@ prompt:
       "(nude:$$nudity$$)",
       # "(lingerie:${rand|0.5~0.75}), (nude:$$nudity$$)",
       # "(lingerie:${rand|0.5~0.75}), (nude:$$nudity$$) (bondage:${rand|0.5~1})",
-      "(bondage:${rand|0.75~1.25}), (nude:$$nudity$$)",
+      # "(bondage:${rand|0.75~1.25}), (nude:$$nudity$$)",
       # "(nude:$$nudity$$), (tentacle sex:${rand|0.75~1.25}), (tentacles:${rand|1.0~1.33}), (sweat:${rand|0.0~1.0}"
     ]
     body_sub: [
@@ -148,7 +151,7 @@ prompt:
       "blush, (saliva trail:${rand|0.35~0.75})"
     ]
     scene: [
-      "bathing",
+      # "bathing",
       # "simple background"
       # "classroom",
       # "school",
@@ -169,7 +172,7 @@ prompt:
     ]
   # Params Positive 2 ==========================================================
   params_pos_2:
-    nudity: ${rand|0.5~1.0}
+    nudity: ${rand|0.45~0.9}
     _nudity_100: (completely nude:${rand|0.0~0.7})
   params_neg_1:
     neg_extra: "shoes"
@@ -189,14 +192,14 @@ upscaler:
   name: "ESRGAN_4x_Anime6B"
 
 adetailers:
-  - enable: true
+  - enable: false
     model: "face_yolov8n.pt"
     denoising_strength: 0.33
   - enable: false
     model: "hand_yolov8n.pt"
 
 options:
-  colddown: 6
+  colddown: 1.5
   use_async: true
   metadata_key: "b_pox_b"
 
@@ -206,17 +209,19 @@ extra:
   upscaling_resize: 1.25
 
 output_txt2img:
-  # file_format: D:/snapshot/character/anime/eva/rei/%Y%m%d/0_nai/%H%M%S
-  file_format: D:/snapshot/character/anime/kaguya-sama/kaguya/%Y%m%d/0_nai_bath/%H%M%S
-  # file_format: D:/snapshot/character/anime/kaguya-sama/hayasaka/%Y%m%d/0_nai_maid/%H%M%S
-  # file_format: D:/snapshot/character/hoyoverse/starrail/ruan_mei/%Y%m%d/0_nai_tentacle/%H%M%S
-  # file_format: D:/snapshot/character/hoyoverse/starrail/yun_li/%Y%m%d/0_nai_bond/%H%M%S
-  # file_format: D:/snapshot/character/anime/eva/asuka/%Y%m%d/0_nai_new/%H%M%S
-  # file_format: D:/snapshot/character/anime/shoujo_kageki/kaoruko/%Y%m%d/0_nai_class/%H%M%S
-  # file_format: D:/snapshot/character/anime/keroro/alisa/%Y%m%d/1_ani/%H%M%S
-  # file_format: D:/snapshot/character/game/blue_archive/hina/%Y%m%d/0_nai_oral/%H%M%S
-  # file_format: D:/snapshot/character/hoyoverse/zzz/ellen_joe/%Y%m%d/0_nai_foot/%H%M%S
-  # file_format: D:/snapshot/character/hoyoverse/zzz/zhuyuan/%Y%m%d/0_nai_bondage/%H%M%S
-  # file_format: D:/snapshot/character/hoyoverse/starrail/kafka/%Y%m%d/0_nai/%H%M%S
+  dir_path: D:/snapshot/character/
+  # file_format: anime/eva/rei/%Y%m%d/0_nai/%H%M%S
+  # file_format: anime/kaguya-sama/kaguya/%Y%m%d/0_nai_bath/%H%M%S
+  # file_format: anime/kaguya-sama/hayasaka/%Y%m%d/0_nai_maid/%H%M%S
+  # file_format: hoyoverse/starrail/ruan_mei/%Y%m%d/0_nai_tentacle/%H%M%S
+  # file_format: hoyoverse/starrail/yun_li/%Y%m%d/0_nai_bond/%H%M%S
+  # file_format: anime/eva/asuka/%Y%m%d/0_nai_new/%H%M%S
+  # file_format: anime/shoujo_kageki/kaoruko/%Y%m%d/0_nai_class/%H%M%S
+  # file_format: anime/keroro/alisa/%Y%m%d/1_ani/%H%M%S
+  # file_format: game/blue_archive/hina/%Y%m%d/0_nai_oral/%H%M%S
+  # file_format: hoyoverse/zzz/ellen_joe/%Y%m%d/0_nai_foot/%H%M%S
+  # file_format: hoyoverse/zzz/zhuyuan/%Y%m%d/0_nai_bondage/%H%M%S
+  # file_format: hoyoverse/starrail/kafka/%Y%m%d/0_nai/%H%M%S
+  file_format: hoyoverse/starrail/fei_xiao/%Y%m%d/0_nai/%H%M%S
   file_extension: "png"
 
