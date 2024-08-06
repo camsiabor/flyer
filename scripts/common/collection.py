@@ -279,14 +279,17 @@ class Collection:
 
         if isinstance(data, (list, tuple)):
             size = len(data)
+            clone = []
             for i in range(size):
-                data[i] = Collection.clamp(data[i], prefix, suffix, skip_empty)
+                v = Collection.clamp(data[i], prefix, suffix, skip_empty)
+                clone.append(v)
             return data
 
         if isinstance(data, dict):
+            clone = {}
             for k, v in data.items():
-                data[k] = Collection.clamp(v, prefix, suffix, skip_empty)
-            return data
+                clone[k] = Collection.clamp(v, prefix, suffix, skip_empty)
+            return clone
 
         return Collection.clamp(str(data), prefix, suffix, skip_empty)
 

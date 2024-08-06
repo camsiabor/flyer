@@ -93,7 +93,7 @@ class TextUtil:
                     target = TextUtil.to_num(arg)
                     break
                 except Exception as ex:
-                    logging.warning(f"Error converting arg {arg} to number: {ex}")
+                    logging.warning(f"Error converting arg {arg} to number: {ex}\n")
             if target is None:
                 return None
             if cmd == 'int':

@@ -95,10 +95,11 @@ prompt:
 
     posture_ref: |
       <OvO des="list" shell="1">
-        <d a="1" src="file" base="config/sd/preset/0_posture/">          
+        <d a="1" src="file" base="config/sd/preset/0_posture/">
+          <i a="1" args="fellatio">r20.py</i>
           <i a="0" args="mouth">r18.py</i>
           <i a="0" args="mouth_after">r18.py</i>
-          <i a="1" args="breast">r18.py</i>
+          <i a="0" args="breast">r18.py</i>
           <i a="0" args="hand">r18.py</i>
           <i a="0" args="pussy">r18.py</i>          
           <i a="0" args="ass">r18.py</i>

@@ -32,7 +32,7 @@ act_fellatio = {
         ],
         "main": "(fellatio:$[rand|0.0~0.5])",
     },
-    'content': QPos.Mouth.Fellatio,
+    'content': QPos.Mouth.fellatio,
 }
 
 # breast =====================================================================================
@@ -369,5 +369,5 @@ def init(_: any, args: any):
     content = act.get('content', '')
     suffix_ex = Collection.roll(suffix, [])
     content_ex = Collection.roll(content, [])
-    ret = suffix_ex + content_ex
+    ret = ",".join(suffix_ex) + "," + content_ex
     return ret

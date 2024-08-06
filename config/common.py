@@ -77,19 +77,16 @@ class QSee:
 
 class QPos:
     class Mouth:
-        class Fellatio:
-            all = [
-                "implied fellatio"
-                "fellatio",
-                "vacuum fellatio, blowjob face",
-                "licking penis",
-                "forced fellatio, irrumatio",
-                "deep throat",
-                "licking testicles",
-                "after fellatio",
-            ]
-            pass
-
+        fellatio = [
+            "implied fellatio"
+            "fellatio",
+            "vacuum fellatio, blowjob face",
+            "licking penis",
+            "forced fellatio, irrumatio",
+            "deep throat",
+            "licking testicles",
+            "after fellatio",
+        ]
         pass
 
     class Breast:
