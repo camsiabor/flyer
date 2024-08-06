@@ -289,3 +289,60 @@ class Collection:
             return data
 
         return Collection.clamp(str(data), prefix, suffix, skip_empty)
+
+    @staticmethod
+    def join(data: any, sep: str) -> str:
+        if data is None:
+            return ""
+        if isinstance(data, str):
+            return data
+        if isinstance(data, (list, tuple)):
+            ret = sep.join(data).replace(",,", ",")
+            return ret
+        return str(data)
+
+    @staticmethod
+    def roll(data: any, container: list = None) -> any:
+        if data is None:
+            return None
+        if isinstance(data, str):
+            return data
+        if isinstance(data, dict):
+            return Collection.roll_dict(data, container)
+        if isinstance(data, (list, tuple)):
+            return Collection.roll_list(data, container)
+        return str(data)
+
+    @staticmethod
+    def roll_dict(data: dict, container: list = None) -> list:
+        if data is None:
+            return container
+        if container is None:
+            container = []
+        for k, v in data.items():
+            convert = Collection.roll(v, container)
+            if convert is None:
+                continue
+            convert = convert.strip()
+            if not convert:
+                continue
+            if container is not None:
+                container.append(convert)
+        return container
+
+    @staticmethod
+    def roll_list(data: list, container: list = None) -> any:
+        if data is None:
+            return None
+        size = len(data)
+        if size <= 0:
+            return None
+        if size == 1:
+            ret = data[0]
+        else:
+            rand = random.randint(0, size - 1)
+            ret = data[rand]
+        ret = Collection.roll(ret, container)
+        if container is not None and isinstance(container, list):
+            container.append(ret)
+        return ret

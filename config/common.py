@@ -12,12 +12,46 @@ class QCon:
             upper: float = 1.0,
             *args
     ) -> List[str]:
-        prefix = '$[rand|'
-        suffix = f'{lower}~{upper}]'
+        prefix = ""
+        suffix = ""
+        if lower >= 0 and upper >= 0:
+            prefix = "("
+            if lower == upper:
+                suffix = f":{lower})"
+            else:
+                suffix = f':$[rand|{lower}~{upper}])'
         ret = Collection.clamp(args, prefix, suffix, True)
         return ret
 
     pass
+
+    @staticmethod
+    def by(
+            data: list,
+            is_lift: bool = False,
+            is_pull: bool = False,
+            is_spread: bool = False,
+            is_aside: bool = False,
+            by_self: bool = False,
+            by_another: bool = False,
+    ) -> List[str]:
+        prefix = ""
+        suffix = ""
+        if is_aside:
+            prefix += " aside "
+        if is_lift:
+            suffix += " lift, lifted "
+        if is_pull:
+            suffix += " pull, pulled "
+        if is_spread:
+            prefix += "spread "
+            suffix += ", spread"
+        if by_self:
+            suffix += " by self "
+        if by_another:
+            suffix += " by another "
+        ret = Collection.clamp(data, prefix, suffix)
+        return ret
 
 
 # QAngle ===================================================================================== #
@@ -25,6 +59,9 @@ class QCon:
 class QSee:
     back = [
         "from behind", "from back"
+    ]
+    back_ass = [
+        "from behind, ass", "from back, ass",
     ]
     extra = [
         "pov", "dutch angle", "foreshortening", "fisheye"
@@ -51,12 +88,16 @@ class QPos:
                 "licking testicles",
                 "after fellatio",
             ]
+            pass
+
+        pass
 
     class Breast:
         titfuck = [
             "paizuri, titfucking, nipples, penis",
             "paizuri, titfucking, nipples, penis, breasts squeezed together, fellatio, licking penis"
         ]
+        pass
 
     class Arm:
         up = [
@@ -68,6 +109,7 @@ class QPos:
         behind = [
             "arms behind back", "arms behind head",
         ]
+        pass
 
     class Hand:
         head_1st = ["hand on head", "hands on head", ]
@@ -84,9 +126,38 @@ class QPos:
             "handjob", "double handjob", "reach-around", "nursing handjob", "two-handed handjob"
         ]
 
+        spread_pussy = ["spread pussy", ]
+        spread_anus = ["spread anus", "spread ass"]
+        spread_all = [*spread_anus, *spread_pussy, *spread_pussy]
+
+        pass
+
+    class Finger:
         masturbation = [
             "masturbation", "female masturbation"
         ]
+        to_mouth_1st = [
+            "finger to own mouth",
+            "finger in own mouth"
+        ]
+        to_mouth_2nd = [
+            "finger to another's mouth",
+            "finger in another's mouth"
+        ]
+        to_pussy = [
+            "implied fingering",
+            "fingering",
+            "fingering through clothes",
+        ]
+        to_anal = [
+            "anal fingering"
+        ]
+        to_pussy_anal = [*to_pussy, *to_anal]
+        pass
+
+    class Pelvic:
+        rub = ["crotch rub"]
+        pass
 
     class Leg:
         top_down = [
@@ -97,6 +168,15 @@ class QPos:
         ]
         squalting = [
             "squatting", "squatting, spread legs"
+        ]
+        up = [
+            "leg up", "legs up", "leg lift", "legs lift"
+        ]
+        split = [
+            "standing, standing split, standing on one leg"
+        ]
+        lock = [
+            "leg lock"
         ]
         # Leg
         pass
@@ -109,5 +189,18 @@ class QPos:
             "lying, on side",
         ]
         # QPos
+        pass
 
+    pass
+
+
+# QCloth ===================================================================================== #
+
+class QCloth:
+    outer = [
+        "clothes", "shirt", "skirt", "dress", "bra",
+    ]
+    lingerie = [
+        "lingerie", "bra", "panties", "thong"
+    ]
     pass

@@ -4,27 +4,34 @@ from scripts.common.collection import Collection
 seeL = 0.6
 seeU = 1.0
 
+tryL = 0.3
+tryU = 0.6
+
+suf = {
+    '+*'
+}
+
 # =====================================================================================
 
 act_fellatio = {
     'group': 'act',
     'rating': 18,
     'tag': ['act', 'fellatio', 'blowjob', 'bj'],
-    'suffix': [
-        [
+    'suffix': {
+        "see": [
             "",
             QCon.weight(seeL, seeU, QSee.common, QSee.extra, QSee.back),
         ],
-        ["", "", QPos.Hand.head_2nd, QPos.Hand.hair_2nd],
-        ["", QPos.Leg.kneeling, QPos.Leg.squalting, QPos.Lying],
-        [
+        "leg": ["", QPos.Leg.kneeling, QPos.Leg.squalting, QPos.Lying],
+        "hand_2nd": ["", "", QPos.Hand.head_2nd, QPos.Hand.hair_2nd],
+        "hand_1st": [
             "",
             QPos.Hand.breast_all,
-            QPos.Hand.masturbation,
-            QCon.weight(0.3, 0.6, QPos.Arm.behind)
+            QPos.Finger.masturbation,
+            QCon.weight(tryL, tryU, QPos.Arm.behind)
         ],
-        "(fellatio:$[rand|0.0~0.5])",
-    ],
+        "main": "(fellatio:$[rand|0.0~0.5])",
+    },
     'content': QPos.Mouth.Fellatio,
 }
 
@@ -47,21 +54,51 @@ act_breast = {
     ]
 }
 
-# breast =====================================================================================
+# =====================================================================================
 
+act_fingering = {
+    'group': 'act',
+    'rating': 18,
+    'tag': ['act', 'fingering', 'finger', ],
+    'suffix': [
+        [
+            "",
+            QCon.weight(seeL, seeU, QSee.common, QSee.extra, QSee.back_ass),
+        ],
+        ["", QPos.Leg.squalting, QPos.Lying],
+    ],
+    'content': [
+        QPos.Finger.to_pussy_anal,
+        [QPos.Finger.masturbation, QPos.Finger.to_mouth_2nd],
+    ]
+}
 
-pos_hand = [
-    "implied fingering, wet, see-through",
-    "finger in another's mouth, open mouth",
-    "fingering, pussy, pussy juice",
-    "fingering, pussy, pussy juice, top-down bottom-up, ass, spread pussy, all fours, ass grab",
-    "fingering through clothes, wet, see-through",
-    "fingering through panties, wet, see-through, panties",
-    "anal fingering, pussy, pussy juice, anal,  ass, anal",
-    "double handjob, orgy",
-    "reach-around, handjob",
-    "nursing handjob, handjob",
-]
+# =====================================================================================
+
+act_pussy = {
+    'group': 'act',
+    'rating': 18,
+    'tag': ['act', 'pussy'],
+    'suffix': [
+        [
+            "",
+            QCon.weight(seeL, seeU, QSee.common, QSee.extra, QSee.back_ass),
+        ],
+        [
+            "",
+            QPos.Lying,
+            [
+                QPos.Leg.top_down, QPos.Leg.kneeling,
+                QPos.Leg.squalting, QPos.Leg.split
+            ],
+        ],
+    ],
+    'content': [
+        QPos.Hand.spread_all,
+        QCon.by(data=["skirt", "dress"], is_lift=True, by_self=True),
+        QCon.by(data=["panties", "thong"], is_pull=True),
+    ]
+}
 
 pos_pussy = [
     1,
@@ -314,67 +351,6 @@ pos_mouth_after = [
     1,
     "ahegao, peace sign, v hands, v, cum in mouth, cum on face",
 ]
-
-poses = {
-
-    # mouth
-    "mouth": pos_mouth,
-    "bj": pos_mouth,
-    "blowjob": pos_mouth,
-
-    # breast
-    "breast": pos_breast,
-    "chest": pos_breast,
-
-    # hand
-    "hand": pos_hand,
-    "hj": pos_hand,
-
-    # pussy
-    "pussy": pos_pussy,
-
-    # ass
-    "ass": pos_ass,
-
-    # feet
-    "feet": pos_feet,
-    "foot": pos_feet,
-    "footjob": pos_feet,
-    "fj": pos_feet,
-
-    # expose
-    "expose": pos_expose,
-
-    # bsdm
-    "bdsm": pos_bdsm,
-
-    # front
-    "front": pos_front,
-    "missionary": pos_front,
-
-    # standing
-    "standing": pos_standing,
-    "stand": pos_standing,
-
-    # top
-    "top": pos_top,
-    "cowgirl": pos_top,
-
-    # lying
-    "lying": pos_lying,
-
-    # back
-    "back": pos_back,
-    "doggy": pos_back,
-
-    # after
-    "after": pos_sex_after,
-    "sex_after": pos_sex_after,
-
-    # mouth after
-    "mouth_after": pos_mouth_after,
-
-}
 
 
 def init(_: any, args: any):
