@@ -78,7 +78,7 @@ class QSee:
 class QPos:
     class Mouth:
         fellatio = [
-            "implied fellatio"
+            "implied fellatio",
             "fellatio",
             "vacuum fellatio, blowjob face",
             "licking penis",
