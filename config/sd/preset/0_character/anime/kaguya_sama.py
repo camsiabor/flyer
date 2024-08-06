@@ -6,9 +6,9 @@ from scripts.common.collection import Collection
 # (collarbone:$[rand|0.0~0.01])
 shinomiya_kaguya = {
     'L': {
-        'Pony00': '<lora:loveiswarXL2:$[n|$$lw$$|0.85}>, shinomiya_kaguya',
-        'Pony01': '<lora:Shinomiya_Pony:$[n|$$lw$$|0.9}>, Shinomiya_Kaguya',
-        'Pony02': '<lora:kaguya-shinomiya-s3-ponyxl-lora-nochekaiser:$[n|$$lw$$|0.85}>, kaguya_shinomiya',
+        'Pony00': '<lora:loveiswarXL2:$[n|$$lw$$|0.85]>, shinomiya_kaguya',
+        'Pony01': '<lora:Shinomiya_Pony:$[n|$$lw$$|0.9]>, Shinomiya_Kaguya',
+        'Pony02': '<lora:kaguya-shinomiya-s3-ponyxl-lora-nochekaiser:$[n|$$lw$$|0.85]>, kaguya_shinomiya',
     },
     'C': {
         'School00': """
@@ -39,7 +39,7 @@ shinomiya_kaguya = {
 
 hayasaka_ai = {
     'L': {
-        'Pony': "<lora:ai-hayasaka-s3-ponyxl-lora-nochekaiser:$[n|$$lw$$|0.9}>,ai hayasaka",
+        'Pony': "<lora:ai-hayasaka-s3-ponyxl-lora-nochekaiser:$[n|$$lw$$|0.9]>,ai hayasaka",
     },
     'C': {
         'App': """
@@ -72,7 +72,7 @@ hayasaka_ai = {
 
 chika_fujiwara = {
     'L': {
-        'Pony': "<lora:chika-fujiwara-s3-ponyxl-lora-nochekaiser:$[n|$$lw$$|0.9}>, chika fujiwara"
+        'Pony': "<lora:chika-fujiwara-s3-ponyxl-lora-nochekaiser:$[n|$$lw$$|0.9]>, chika fujiwara"
     },
     'C': {
         'App': """

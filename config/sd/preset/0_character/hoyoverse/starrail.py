@@ -44,7 +44,7 @@ kafka = {
 
 ruan_mei = {
     'L': {
-        'Pony': '<lora:Char-HonkaiSR-Ruanmei-Pony-V1:$[n|$$lw$$|0.9}>, ruan mei (honkai: star rail),'
+        'Pony': '<lora:Char-HonkaiSR-Ruanmei-Pony-V1:$[n|$$lw$$|0.9]>, ruan mei (honkai: star rail),'
     },
     'C': {
         '0': """
@@ -64,7 +64,7 @@ ruan_mei = {
 
 yun_li = {
     'L': {
-        'Pony': '<lora:HSR_YL:$[n|$$lw$$|1}>,HSR_YL',
+        'Pony': '<lora:HSR_YL:$[n|$$lw$$|1]>,HSR_YL',
     },
     'C': {
         '0': """
@@ -85,8 +85,8 @@ yun_li = {
 
 fei_xiao = {
     'L': {
-        'Pony01': '<lora:feixiao-pony:$[n|$$lw$$|0.95}>,FEI XIAO',
-        'Pony02': '<lora:SH_HSR_Feixiao_Civ:$[n|$$lw$$|0.7}>,SH_HSR_Feixiao,',
+        'Pony01': '<lora:feixiao-pony:$[n|$$lw$$|0.95]>,FEI XIAO',
+        'Pony02': '<lora:SH_HSR_Feixiao_Civ:$[n|$$lw$$|0.7]>,SH_HSR_Feixiao,',
     },
     'C': {
         'App': """

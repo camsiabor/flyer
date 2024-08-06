@@ -2,7 +2,7 @@ from scripts.common.collection import Collection
 
 sorasaki_hina = {
     'L': {
-        'Pony': '<lora:Sorasaki_Hina_Pony:$[n|$$lw$$|0.95}>,Hina_(Blue_Archive)',
+        'Pony': '<lora:Sorasaki_Hina_Pony:$[n|$$lw$$|0.95]>,Hina_(Blue_Archive)',
     },
     'C': {
         'App': """
