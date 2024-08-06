@@ -1,62 +1,54 @@
-from config.common import QShare, QAngle, QPos
+from config.common import QCon, QSee, QPos
 from scripts.common.collection import Collection
 
-angle_L = 0.6
-angle_U = 1.0
+seeL = 0.6
+seeU = 1.0
 
-# mouth =====================================================================================
+# =====================================================================================
 
 act_fellatio = {
     'group': 'act',
     'rating': 18,
     'tag': ['act', 'fellatio', 'blowjob', 'bj'],
     'suffix': [
-        QShare.weight(
-            angle_L, angle_U,
-            "", QAngle.common, QAngle.extra, QAngle.back,
-        ),
-        ["", QPos.Hand.on_head],
-        ["", QPos.Leg.kneeling, QPos.Leg.squalting],
-        ["", "handjob", "grabbing own breast", "masturbation"],
+        [
+            "",
+            QCon.weight(seeL, seeU, QSee.common, QSee.extra, QSee.back),
+        ],
+        ["", "", QPos.Hand.head_2nd, QPos.Hand.hair_2nd],
+        ["", QPos.Leg.kneeling, QPos.Leg.squalting, QPos.Lying],
+        [
+            "",
+            QPos.Hand.breast_all,
+            QPos.Hand.masturbation,
+            QCon.weight(0.3, 0.6, QPos.Arm.behind)
+        ],
         "(fellatio:$[rand|0.0~0.5])",
     ],
-    'content': [
-        "after fellatio",
-        "vacuum_fellatio",
-        "licking penis",
-        "irrumatio",
-        "deep throat",
-    ],
+    'content': QPos.Mouth.Fellatio,
 }
-
-pos_mouth = [
-    "licking penis, fellatio, hand on head",
-    "licking penis, fellatio, hand on head, pov, from above",
-    "licking penis, nipples, from side, kneeling, hand on head, thigh, feet",
-    "licking penis, deep throat",
-    "licking penis, fellatio, handjob, orgy",
-    "licking penis, from side, kneeling, hand on head, feet",
-    "licking penis, pov, from above, (all fours:$[rand|0.0~0.9])]",
-    "licking penis, bottomless, masturbation, squatting, from below",
-    "licking penis, bottomless, spread pussy by own hand, from below",
-    "licking penis, topless, grabbing own breast",
-    "licking penis, lying",
-    "cunnilingus, pussy, pussy juice",
-    # "rimjob, anilingus",
-]
 
 # breast =====================================================================================
 
-pos_breast = [
-    1,
-    "grabbing own breast, breasts",
-    1,
-    "grabbing another's breast, breasts",
-    1,
-    "breast sex, titfucking, pov, breasts, nipple, penis",
-    1,
-    "titfucking, fellatio, breasts squeezed together, large breasts, erection, oral",
-]
+act_breast = {
+    'group': 'act',
+    'rating': 18,
+    'tag': ['act', 'breast', 'breasts', 'titfuck', 'paizuri'],
+    'suffix': [
+        [
+            "",
+            QCon.weight(seeL, seeU, QSee.common, QSee.extra, ),
+        ],
+        ["", QPos.Leg.kneeling, QPos.Leg.squalting, QPos.Lying],
+    ],
+    'content': [
+        QPos.Hand.breast_all,
+        QPos.Breast.titfuck,
+    ]
+}
+
+# breast =====================================================================================
+
 
 pos_hand = [
     "implied fingering, wet, see-through",
