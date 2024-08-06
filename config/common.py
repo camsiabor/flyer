@@ -113,7 +113,9 @@ class QPos:
         head_2nd = ["hand on another's head", "hands on another's head", ]
         head_all = [*head_1st, *head_2nd]
 
-        breast_1st = ["grabbing own breast", "hand on own chest"]
+        chest_1st = ["hand on own chest"]
+
+        breast_1st = ["grabbing own breast"]
         breast_2nd = ["grabbing another's breast"]
         breast_all = [*breast_1st, *breast_2nd]
 
@@ -123,9 +125,13 @@ class QPos:
             "handjob", "double handjob", "reach-around", "nursing handjob", "two-handed handjob"
         ]
 
-        spread_pussy = ["spread pussy", ]
+        spread_pussy = ["spread pussy", "spread pussy"]
         spread_anus = ["spread anus", "spread ass"]
-        spread_all = [*spread_anus, *spread_pussy, *spread_pussy]
+        spread_all = [*spread_pussy, *spread_anus]
+
+        grab_ass_1st = ["grabbing_own_ass", "hand_on_own_ass"]
+        grab_ass_2nd = ["grabbing_another's_ass", "hand on another's ass"]
+        grab_ass_all = [*grab_ass_1st, *grab_ass_2nd, "crotch_grab"]
 
         pass
 
@@ -154,17 +160,40 @@ class QPos:
 
     class Pelvic:
         rub = ["crotch rub"]
+
+        top_down = [
+            "top-down bottom-up"
+        ]
+
+        top_down_all = [
+            "top-down bottom-up, face_focus",
+            "top-down bottom-up, face_focus, front view",
+            "top-down bottom-up, from_side",
+            "top-down bottom-up, from behind, ass",
+        ]
+
+        bent_over_desk = [
+            "bent over desk",
+            "bent over desk, (looking back:$[rand|0.5~1.0])"
+        ]
+
+        spank = [
+            "spanked, spanking",
+            "spanked, spank_mark",
+            "spanked, otk spanking, spanking, red butt"
+        ]
+
         pass
 
     class Leg:
-        top_down = [
-            "top-down bottom-up"
+        wariza = [
+            "wariza, w_sitting, feet"
         ]
         kneeling = [
             "kneeling", "kneeling, all fours", "on one knee"
         ]
         squalting = [
-            "squatting", "squatting, spread legs"
+            "squatting", "squatting, open legs"
         ]
         up = [
             "leg up", "legs up", "leg lift", "legs lift"
@@ -175,6 +204,23 @@ class QPos:
         lock = [
             "leg lock"
         ]
+        sitting = [
+            "sitting",
+            "sitting, spread legs, m legs",
+            "convenient leg",
+            # 側身坐
+            "yokozuwari",
+            "sitting on lap",
+            "sitting_backwards",
+            "sitting, knees_together_feet_apart",
+            "hugging own legs",
+        ]
+
+        standing = [
+            "standing",
+            "pigeon-toed",
+        ]
+
         # Leg
         pass
 

@@ -143,7 +143,7 @@ pos_expose = [
     1,
     "wariza, w_sitting, ass, ass_focus, feet",
     1,
-    "wariza, w_sttiing, pov, from_above, paw pose",
+    "wariza, w_sitting, pov, from_above, paw pose",
     1,
     "(squatting), (paw pose), topless, bottomless",
     1,

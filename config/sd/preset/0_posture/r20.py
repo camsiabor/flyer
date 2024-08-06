@@ -1,15 +1,13 @@
 from config.common import QCon, QSee, QPos
 from scripts.common.collection import Collection
 
+# =====================================================================================
+
 seeL = 0.6
 seeU = 1.0
 
 tryL = 0.3
 tryU = 0.6
-
-suf = {
-    '+*'
-}
 
 # =====================================================================================
 
@@ -41,13 +39,16 @@ act_breast = {
     'group': 'act',
     'rating': 18,
     'tag': ['act', 'breast', 'breasts', 'titfuck', 'paizuri'],
-    'suffix': [
-        [
+    'suffix': {
+        'see': [
             "",
-            QCon.weight(seeL, seeU, QSee.common, QSee.extra, ),
+            QCon.weight(seeL, seeU, QSee.common, QSee.extra),
         ],
-        ["", QPos.Leg.kneeling, QPos.Leg.squalting, QPos.Lying],
-    ],
+        "pose": [
+            "",
+            QPos.Leg.kneeling, QPos.Leg.squalting, QPos.Lying
+        ],
+    },
     'content': [
         QPos.Hand.breast_all,
         QPos.Breast.titfuck,
@@ -60,13 +61,15 @@ act_fingering = {
     'group': 'act',
     'rating': 18,
     'tag': ['act', 'fingering', 'finger', ],
-    'suffix': [
-        [
+    'suffix': {
+        'see': [
             "",
             QCon.weight(seeL, seeU, QSee.common, QSee.extra, QSee.back_ass),
         ],
-        ["", QPos.Leg.squalting, QPos.Lying],
-    ],
+        'pose': [
+            "", QPos.Leg.squalting, QPos.Lying
+        ]
+    },
     'content': [
         QPos.Finger.to_pussy_anal,
         [QPos.Finger.masturbation, QPos.Finger.to_mouth_2nd],
@@ -78,7 +81,7 @@ act_fingering = {
 act_pussy = {
     'group': 'act',
     'rating': 18,
-    'tag': ['act', 'pussy'],
+    'tag': ['act', 'pussy', 'pelvic'],
     'suffix': [
         [
             "",
@@ -86,11 +89,9 @@ act_pussy = {
         ],
         [
             "",
-            QPos.Lying,
-            [
-                QPos.Leg.top_down, QPos.Leg.kneeling,
-                QPos.Leg.squalting, QPos.Leg.split
-            ],
+            QPos.Lying.all,
+            [QPos.Leg.split, QPos.Leg.standing, ],
+            [QPos.Pelvic.top_down, QPos.Leg.kneeling, QPos.Leg.squalting, ],
         ],
     ],
     'content': [
@@ -100,45 +101,46 @@ act_pussy = {
     ]
 }
 
-pos_pussy = [
-    1,
-    "lying, arm up, spread legs, pussy, pussy juice, armpits",
-    1,
-    "spread legs, from below, anus, pussy, pussy juice",
-    1,
-    "spread pussy, spread legs, looking to the side, v hand, pussy juice",
-    1,
-    "female masturbation, grabbing own breast, bathing, topless",
-    1,
-    "female masturbation, spread legs, female masturation, spread pussy by self",
-    1,
-    "skirt lift, lifted by self, bottomless, no panties, from below, pussy juice",
-    1,
-    "squatting, spread legs, pussy, pussy juice",
-    1,
-    "(vaginal object insertion), pussy, pussy juice, dildo",
-    1,
-    "(crotch rub:1.05), nipples, breasts, pussy, "
-    "female masturbation, pussy juice, masturbation, cleft of venus",
-    1,
-    "pussy, pussy juice, split, leg up, "
-    "standing, standing split, standing on one leg, ",
-    1,
-    "pussy, pussy juice, split, leg up, "
-    "standing, standing split, standing on one leg, "
-    "(vaginal object insertion), dildo",
+# =====================================================================================
 
-]
+act_ass = {
+    'group': 'act',
+    'rating': 18,
+    'tag': ['act', 'ass', 'anus', 'pelvic'],
+    'suffix': {
+        'see': [
+            "",
+            QCon.weight(seeL, seeU, QSee.common, QSee.extra, QSee.back, QSee.back_ass),
+        ],
+        'pose': [
+            "",
+            QPos.Pelvic.top_down_all,
+            QPos.Pelvic.bent_over_desk,
+            [QPos.Leg.kneeling, QPos.Leg.wariza],
+        ],
+        'hand': [
+            "",
+            QPos.Hand.spread_all,
+            QPos.Hand.grab_ass_all,
+            QPos.Pelvic.spank,
+        ],
+        "cloth": [
+            "",
+            QCon.by(data=["panties", "thong"], is_pull=True),
+        ],
+    },
+    'content': [
+        'ass'
+    ]
+}
+
+act_toy = {
+    'content': [
+
+    ]
+}
 
 pos_ass = [
-    1,
-    "top-down bottom-up, face_focus, bottomless, all fours",
-    1,
-    "top-down bottom-up, face_focus, bottomless, front view",
-    1,
-    "top-down bottom-up, bottomless, from_side",
-    1,
-    "top-down bottom-up, from behind, ass, bottomless, pussy, pussy juice, navel, ponytail",
     1,
     "bent over desk, pov, skirt pulled down, panty pulled down, "
     "looking back, hands on ass, spread pussy, pussy, pussy juice, pov",
@@ -353,6 +355,7 @@ pos_mouth_after = [
 ]
 
 acts = {
+    'mouth': act_fellatio,
     'fellatio': act_fellatio,
     'breast': act_breast,
     'finger': act_fingering,
