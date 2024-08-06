@@ -2,14 +2,14 @@ from scripts.common.collection import Collection
 
 sorasaki_hina = {
     'L': {
-        'Pony': '<lora:Sorasaki_Hina_Pony:${n|$$lw$$|0.95}>,Hina_(Blue_Archive)',
+        'Pony': '<lora:Sorasaki_Hina_Pony:$[n|$$lw$$|0.95}>,Hina_(Blue_Archive)',
     },
     'C': {
         'App': """
         halo, (black_horns:1.05),demon_girl,demon_horns,
         (white_hair:1.125), very_long_hair, ahoge, parted_bangs,
         purple_eyes,
-        (demon_wings:${rand|0.0~0.75}),
+        (demon_wings:$[rand|0.0~0.75]),
         """,
         "Coat": """
         hairclip,

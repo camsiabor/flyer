@@ -7,6 +7,7 @@ from datetime import datetime
 import webuiapi
 
 from scripts.common.cfg import ConfigUtil
+from scripts.common.directive import Directorate
 from scripts.common.reflect import Reflector
 from scripts.common.serial import TypeList
 from scripts.common.textutil import TextUtil
@@ -108,6 +109,7 @@ class SDPrompt:
 
         for i in range(1, 3):
             params = getattr(self, f"params_pos_{i}")
+            params = Directorate.embed(params)
             if params is not None and len(params) > 0:
                 pos = TextUtil.replace(
                     src=pos,
@@ -125,6 +127,7 @@ class SDPrompt:
 
             params = getattr(self, f"params_neg_{i}")
             if params is not None and len(params) > 0:
+                params = Directorate.embed(params)
                 neg = TextUtil.replace(
                     src=neg,
                     params=params,

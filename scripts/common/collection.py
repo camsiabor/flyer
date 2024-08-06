@@ -343,6 +343,4 @@ class Collection:
             rand = random.randint(0, size - 1)
             ret = data[rand]
         ret = Collection.roll(ret, container)
-        if container is not None and isinstance(container, list):
-            container.append(ret)
         return ret

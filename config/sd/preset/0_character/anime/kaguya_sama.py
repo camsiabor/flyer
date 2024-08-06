@@ -3,12 +3,12 @@ from scripts.common.collection import Collection
 # Kaguya-sama: Love is War かぐや様は告らせたい～天才たちの恋愛頭脳戦
 
 # 四宮輝夜
-# (collarbone:${rand|0.0~0.01})
+# (collarbone:$[rand|0.0~0.01])
 shinomiya_kaguya = {
     'L': {
-        'Pony00': '<lora:loveiswarXL2:${n|$$lw$$|0.85}>, shinomiya_kaguya',
-        'Pony01': '<lora:Shinomiya_Pony:${n|$$lw$$|0.9}>, Shinomiya_Kaguya',
-        'Pony02': '<lora:kaguya-shinomiya-s3-ponyxl-lora-nochekaiser:${n|$$lw$$|0.85}>, kaguya_shinomiya',
+        'Pony00': '<lora:loveiswarXL2:$[n|$$lw$$|0.85}>, shinomiya_kaguya',
+        'Pony01': '<lora:Shinomiya_Pony:$[n|$$lw$$|0.9}>, Shinomiya_Kaguya',
+        'Pony02': '<lora:kaguya-shinomiya-s3-ponyxl-lora-nochekaiser:$[n|$$lw$$|0.85}>, kaguya_shinomiya',
     },
     'C': {
         'School00': """
@@ -21,7 +21,7 @@ shinomiya_kaguya = {
         'School01': """
             black_hair,sidelocks,folded_ponytail,parted_bangs,long_hair,
             (red_eyes:0.95),
-            ribbon, (red ribbon:${rand|0.25~0.5}),
+            ribbon, (red ribbon:$[rand|0.25~0.5]),
             black_dress,collared_dress,long_sleeves,black_sleeves,school_uniform,
             """,
         'School02': """
@@ -31,7 +31,7 @@ shinomiya_kaguya = {
             long sleeves, dress,         
             (black dress:0.925), (white sailor collar:0.925), 
             ribbon, (red ribbon:0.975), (neck ribbon:0.95),
-            school uniform, (shuuchiin academy school uniform:${rand|0.1~0.5}),
+            school uniform, (shuuchiin academy school uniform:$[rand|0.1~0.5]),
             """
 
     }
@@ -39,7 +39,7 @@ shinomiya_kaguya = {
 
 hayasaka_ai = {
     'L': {
-        'Pony': "<lora:ai-hayasaka-s3-ponyxl-lora-nochekaiser:${n|$$lw$$|0.9}>,ai hayasaka",
+        'Pony': "<lora:ai-hayasaka-s3-ponyxl-lora-nochekaiser:$[n|$$lw$$|0.9}>,ai hayasaka",
     },
     'C': {
         'App': """
@@ -48,12 +48,12 @@ hayasaka_ai = {
             (blue eyes:0.95), 
             """,
         'School': """
-            school uniform, (shuuchiin academy school uniform:${rand|0.1~0.5}),
+            school uniform, (shuuchiin academy school uniform:$[rand|0.1~0.5]),
             shirt, sweater, cardigan, long sleeves, 
             clothes around waist, sweater around waist, cardigan around waist,
             """,
         'School02': """
-            school uniform, (shuuchiin academy school uniform:${rand|0.1~0.5}),
+            school uniform, (shuuchiin academy school uniform:$[rand|0.1~0.5]),
             shirt, (white shirt:0.95), long shirt, long sleeves, 
             sweater, (black sweater:0.95),  
             (brown cardigan:0.95), cardigan around waist,
@@ -72,7 +72,7 @@ hayasaka_ai = {
 
 chika_fujiwara = {
     'L': {
-        'Pony': "<lora:chika-fujiwara-s3-ponyxl-lora-nochekaiser:${n|$$lw$$|0.9}>, chika fujiwara"
+        'Pony': "<lora:chika-fujiwara-s3-ponyxl-lora-nochekaiser:$[n|$$lw$$|0.9}>, chika fujiwara"
     },
     'C': {
         'App': """
@@ -83,7 +83,7 @@ chika_fujiwara = {
             (large breasts:0.9),
             """,
         'School': """             
-            school uniform, (shuuchiin academy school uniform:${rand|0.1~0.5}),
+            school uniform, (shuuchiin academy school uniform:$[rand|0.1~0.5]),
             dress, (black dress:0.95), long sleeves, 
             sailor collar, (white sailor collar:0.95), 
             ribbon, (red ribbon:0.95), neck ribbon, 

@@ -352,11 +352,22 @@ pos_mouth_after = [
     "ahegao, peace sign, v hands, v, cum in mouth, cum on face",
 ]
 
+acts = {
+    'fellatio': act_fellatio,
+    'breast': act_breast,
+    'finger': act_fingering,
+    'pussy': act_pussy,
+}
+
 
 def init(_: any, args: any):
     cmd = args
     if isinstance(cmd, (list, tuple)):
         cmd = cmd[0]
-    picks = Collection.dict_pick(poses, cmd, True)
-    picks_weight = Collection.list_unpack(picks)
-    return picks_weight
+    act = acts[cmd]
+    suffix = act.get('suffix', '')
+    content = act.get('content', '')
+    suffix_ex = Collection.roll(suffix, [])
+    content_ex = Collection.roll(content, [])
+    ret = suffix_ex + content_ex
+    return ret

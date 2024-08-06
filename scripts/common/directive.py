@@ -19,9 +19,10 @@ class DNode:
             src: str = "",
             des: str = "",
             base: str = "",
-            converge: str = "",
             action: str = "",
+            converge: str = "",
             category: str = "",
+            shell: int = 0,
     ):
         self.element = element
         self.state = state
@@ -33,6 +34,7 @@ class DNode:
         self.action = action
         self.category = category
         self.converge = converge
+        self.shell = shell
         self.init(element)
         pass
 
@@ -46,6 +48,7 @@ class DNode:
         self.func_args = element.attrib.get('args', None)
         self.category = element.attrib.get('category', '').lower()
         self.converge = element.attrib.get('converge', '').lower()
+        self.shell = int(element.attrib.get('shell', '0'))
         return self
 
 
@@ -150,6 +153,7 @@ class DData:
             for data_element in element.findall(tag):
                 dv = DValue(element=data_element, parent=self, state=self.state)
                 if dv.active == '0' or dv.active == 'false':
+                    self.element.remove(data_element)
                     continue
                 self.items.append(dv)
 
@@ -279,11 +283,23 @@ class Directive:
                     func_name=self.root.func_name, func_args=self.root.func_args,
                 )
                 if ddata.active == '0' or ddata.active == 'false':
+                    self.root.element.remove(data_element)
                     continue
                 self.data.append(ddata)
         return ''
 
     def infer(self, counting: bool = False) -> any:
+
+        if self.root.shell > 0:
+            self.root.shell -= 1
+            self.root.element.set('shell', str(self.root.shell))
+            ret = ET.tostring(
+                element=self.root.element,
+                encoding='utf-8',
+                method='xml'
+            ).decode('utf-8')
+            return ret
+
         count = 0
         for data in self.data:
             count += data.infer(self.root.src)
@@ -380,23 +396,25 @@ class Directorate:
                 return data
 
         if isinstance(data, dict):
-            for key, value in data.items():
-                data[key] = Directorate.embed(
+            clone = {**data}
+            for key, value in clone.items():
+                clone[key] = Directorate.embed(
                     data=value,
                     prefix=prefix, suffix=suffix,
                     func_name=func_name, func_args=func_args,
                     state=state,
                 )
-            return data
+            return clone
 
         if isinstance(data, (list, tuple)):
-            for i, item in enumerate(data):
-                data[i] = Directorate.embed(
+            clone = [*data]
+            for i, item in enumerate(clone):
+                clone[i] = Directorate.embed(
                     data=item,
                     prefix=prefix, suffix=suffix,
                     func_name=func_name, func_args=func_args,
                     state=state,
                 )
-            return data
+            return clone
 
         return data

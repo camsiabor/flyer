@@ -94,7 +94,7 @@ prompt:
     character: ""
 
     posture_ref: |
-      <OvO des="list">
+      <OvO des="list" shell="1">
         <d a="1" src="file" base="config/sd/preset/0_posture/">          
           <i a="0" args="mouth">r18.py</i>
           <i a="0" args="mouth_after">r18.py</i>
@@ -188,14 +188,14 @@ sampler:
   seed: -1
 
 upscaler:
-  enable: true
+  enable: false
   scale: 1.25
   second_pass_steps: 10
   denoising_strength: 0.5
   name: "ESRGAN_4x_Anime6B"
 
 adetailers:
-  - enable: true
+  - enable: false
     model: "face_yolov8n.pt"
     denoising_strength: 0.33
   - enable: false

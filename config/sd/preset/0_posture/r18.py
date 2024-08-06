@@ -9,7 +9,7 @@ pos_mouth = [
     "licking penis, deep throat",
     "licking penis, fellatio, handjob, orgy",
     "licking penis, from side, kneeling, hand on head, feet",
-    "licking penis, pov, from above, (all fours:${rand|0.0~0.9})}",
+    "licking penis, pov, from above, (all fours:$[rand|0.0~0.9])}",
     "licking penis, bottomless, masturbation, squatting, from below",
     "licking penis, bottomless, spread pussy by own hand, from below",
     "licking penis, topless, grabbing own breast",
@@ -119,12 +119,12 @@ pos_feet = [
     1,
     "cross leg, from side, feet, no shoes",
     1,
-    "from below, feet, (foot focus:${rand|0.65~1.0}), no shoes",
+    "from below, feet, (foot focus:$[rand|0.65~1.0]), no shoes",
     1,
-    "from back, back, wariza, w_sitting, feet, toes, (foot focus:${rand|0.65~1.0})",
+    "from back, back, wariza, w_sitting, feet, toes, (foot focus:$[rand|0.65~1.0])",
     1,
     "(holding cellphone:1.05), cellphone, holding, reflection, (female pov), "
-    "legs up, (foot focus:${rand|0.65~1.0}), feet, no shoes, "
+    "legs up, (foot focus:$[rand|0.65~1.0]), feet, no shoes, "
     "pussy, breasts, navel, nipples, "
     "cellphone, toes, sitting",
     1,
@@ -134,9 +134,9 @@ pos_feet = [
     1,
     "lying, on back, (feet), toes, no shoes, spread legs, ass",
     1,
-    "footjob, feet, (toes:0.9), (cum on feet:${rand|0.0~1.0})",
+    "footjob, feet, (toes:0.9), (cum on feet:$[rand|0.0~1.0])",
     1,
-    "reverse footjob, feet, (toes:0.9), thighs, (cum on feet:${rand|0.0~1.0})"
+    "reverse footjob, feet, (toes:0.9), thighs, (cum on feet:$[rand|0.0~1.0])"
 ]
 
 pos_expose = [
@@ -160,30 +160,30 @@ pos_expose = [
 
 pos_bdsm = [
     1,
-    "(bdsm:${rand|0.1~1.0}), (handcuffs), (chains), rope, submissive female",
+    "(bdsm:$[rand|0.1~1.0]), (handcuffs), (chains), rope, submissive female",
     1,
-    "(bdsm:${rand|0.1~1.0}), (handcuffs), arms behind back, prone bone, arched back, submissive female",
+    "(bdsm:$[rand|0.1~1.0]), (handcuffs), arms behind back, prone bone, arched back, submissive female",
     1,
-    "(bdsm:${rand|0.1~1.0}), (leash), (viewer holding leash)"
+    "(bdsm:$[rand|0.1~1.0]), (leash), (viewer holding leash)"
     "squatting, pussy, breasts, cum, long hair, submissive female,"
     "paw pose, spread legs, cum on body, pet play, cumdrip, cum on breasts, ",
     1,
-    "(bdsm:${rand|0.1~1.0}), (leash), (viewer holding leash), "
+    "(bdsm:$[rand|0.1~1.0]), (leash), (viewer holding leash), "
     "lying, pet play, submissive female",
     1,
-    "(bdsm:${rand|0.1~1.0}), "
+    "(bdsm:$[rand|0.1~1.0]), "
     "otk spanking, spanking, spanked, red butt, "
     "(pants pull:0.9), (panty pull:0.9), motion lines",
     1,
-    "(bdsm:${rand|0.1~1.0}), human chair, female on all fours, submissive female",
+    "(bdsm:$[rand|0.1~1.0]), human chair, female on all fours, submissive female",
     1,
-    "(bdsm:${rand|0.1~1.0}), whipping, submissive, whip marks, holding whip, submissive female",
+    "(bdsm:$[rand|0.1~1.0]), whipping, submissive, whip marks, holding whip, submissive female",
     1,
-    "(bdsm:${rand|0.1~1.0}), wooden horse, pussy, pussy juice, sweat",
+    "(bdsm:$[rand|0.1~1.0]), wooden horse, pussy, pussy juice, sweat",
     1,
-    "(bdsm:${rand|0.1~1.0}), (bondage outfit:${rand|0.8~1.05}), restrained",
+    "(bdsm:$[rand|0.1~1.0]), (bondage outfit:$[rand|0.8~1.05]), restrained",
     1,
-    "(bdsm:${rand|0.1~1.0}), cage, restrained",
+    "(bdsm:$[rand|0.1~1.0]), cage, restrained",
 ]
 
 pos_front = [
@@ -225,7 +225,7 @@ pos_lying = [
     1,
     "lying, on side, douable penetration, pussy, puusy juice",
     1,
-    "lying, on side, closed eyes, sleeping, (cum on body:${rand|0~1.0})",
+    "lying, on side, closed eyes, sleeping, (cum on body:$[rand|0~1.0])",
     1,
     "lying, on side, closed eyes, sleeping, fetal position"
 ]

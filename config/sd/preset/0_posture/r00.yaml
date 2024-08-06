@@ -44,7 +44,7 @@ breast:
     ]
   ]
   content: [
-    "breasts, (nipples:${rand|0.0~1.0})",
+    "breasts, (nipples:$[rand|0.0~1.0])",
   ]
 
 # ==============================================================================
@@ -81,8 +81,8 @@ handjob:
     [ "", "from above", "from above, pov", "from below", "from side" ]
     [
       "",
-      "double handjob, (orgy:${rand|0.5~1.0})",
-      "reach-around, (orgy:${rand|0.5~1.0})",
+      "double handjob, (orgy:$[rand|0.5~1.0])",
+      "reach-around, (orgy:$[rand|0.5~1.0])",
       "nursing handjob"
     ]
   ]
@@ -106,13 +106,13 @@ footjob:
     ],
     [
       "",
-      "(simulated footjob:${rand|0.5~1.0})",
-      "(two-footed footjob:${rand|0.5~1.0})",
+      "(simulated footjob:$[rand|0.5~1.0])",
+      "(two-footed footjob:$[rand|0.5~1.0])",
     ]
   ]
   content: [
-    "footjob, feet, (toes:0.9), (cum on feet:${rand|0.0~1.0})",
-    "reverse footjob, feet, (toes:0.9), thighs, (cum on feet:${rand|0.0~1.0})"
+    "footjob, feet, (toes:0.9), (cum on feet:$[rand|0.0~1.0])",
+    "reverse footjob, feet, (toes:0.9), thighs, (cum on feet:$[rand|0.0~1.0])"
   ]
 
 # ==============================================================================
@@ -126,10 +126,10 @@ pussy:
   suffix: [
     [
       "",
-      "(pov:${rand|0.7~1.0}",
-      "(from above:${rand|0.7~1.0})",
-      "(from below:${rand|0.7~1.0})",
-      "(from side:${rand|0.7~1.0})",
+      "(pov:$[rand|0.7~1.0}",
+      "(from above:$[rand|0.7~1.0])",
+      "(from below:$[rand|0.7~1.0])",
+      "(from side:$[rand|0.7~1.0])",
     ],
     [
       "",

@@ -3,8 +3,10 @@ import math
 import random
 import re
 import time
-
 from typing import Union
+
+from scripts.common.collection import Collection
+from scripts.common.fileutil import FileUtil
 
 
 class TextUtil:
@@ -42,7 +44,6 @@ class TextUtil:
                 if isinstance(target, (list, tuple)):
                     if cycle < 0:
                         cycle_current = random.randint(0, rand_seed)
-
                     length = len(target)
                     if length > 0:
                         target = target[cycle_current % length]
@@ -65,6 +66,23 @@ class TextUtil:
                 range_text = '0~' + range_text
             random_value = TextUtil.to_num(range_text, is_integer)
             return f"{random_value:.3f}"
+
+        if cmd == 'file':
+            size_args = len(args)
+            file_path = args[0]
+            func_name = args[1] if size_args > 1 else ''
+            func_args = args[2:] if size_args > 2 else []
+            if not func_name:
+                func_name = 'init'
+            func_rets = FileUtil.load(
+                file_path=file_path,
+                func_name=func_name,
+                func_args=func_args,
+                state=params,
+            )
+            roll_rets = Collection.roll(func_rets, [])
+            ret = TextUtil.replace(roll_rets, params)
+            return ret
 
         if cmd == 'n' or cmd == 'num' or cmd == 'int' or cmd == 'float':
             target = None
@@ -91,7 +109,7 @@ class TextUtil:
             s: str,
             params: dict = None,
             # Define the regex pattern to find ${command|arg1|arg2|...|argN} format
-            pattern=r'\$\[(\w+)\|([^\}]+)\]',
+            pattern=r'\$\[(\w+)\|([^\]]+)\]',
             command_processor=None
     ) -> str:
         # Function to replace each match
