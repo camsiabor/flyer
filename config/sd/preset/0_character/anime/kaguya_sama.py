@@ -72,14 +72,15 @@ hayasaka_ai = {
 
 chika_fujiwara = {
     'L': {
-
+        'Pony': "<lora:chika-fujiwara-s3-ponyxl-lora-nochekaiser:${n|$$lw$$|0.9}>, chika fujiwara"
     },
     'C': {
         'App': """
             long hair, (pink hair:0.95), 
             bangs, blunt bangs, 
             bow, hair bow, (black bow:0.95),
-            (blue eyes:0.95)
+            (blue eyes:0.95),
+            (large breasts:0.9),
             """,
         'School': """             
             school uniform, (shuuchiin academy school uniform:${rand|0.1~0.5}),
@@ -96,6 +97,9 @@ everyone = {
 
     'hayasaka': hayasaka_ai,
     'hayasaka_ai': hayasaka_ai,
+
+    'chika': chika_fujiwara,
+    'chika_fujiwara': chika_fujiwara,
 }
 
 

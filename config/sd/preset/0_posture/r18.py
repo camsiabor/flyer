@@ -168,7 +168,7 @@ pos_bdsm = [
     "squatting, pussy, breasts, cum, long hair, submissive female,"
     "paw pose, spread legs, cum on body, pet play, cumdrip, cum on breasts, ",
     1,
-    "(bdsm:${rand|0.1~1.0}), (leash), (viewer holding leash)"
+    "(bdsm:${rand|0.1~1.0}), (leash), (viewer holding leash), "
     "lying, pet play, submissive female",
     1,
     "(bdsm:${rand|0.1~1.0}), "

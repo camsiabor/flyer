@@ -31,6 +31,7 @@ class SDServer:
         self.progress_poll_delay = progress_poll_delay
         self.progress_poll_interval = progress_poll_interval
         self.verbose = verbose
+        pass
 
 
 # =======================================================
@@ -45,6 +46,7 @@ class SDModel:
         self.base = base
         self.vae = vae
         self.refiner = refiner
+        pass
 
 
 # =======================================================
@@ -65,6 +67,7 @@ class SDSampler:
         self.seed = seed
         self.subseed = subseed
         self.scheduler = scheduler
+        pass
 
 
 # =======================================================
@@ -163,6 +166,7 @@ class SDUpscaler:
         self.resize_y = resize_y
         self.second_pass_steps = second_pass_steps
         self.denoising_strength = denoising_strength
+        pass
 
 
 # =======================================================
@@ -178,6 +182,7 @@ class SDImage:
         self.height = height
         self.batch_size = batch_size
         self.batch_count = batch_count
+        pass
 
 
 # SDFile =======================================================
@@ -274,6 +279,7 @@ class SDADetailer:
         self.prompt = SDPrompt()
         self.confidence = confidence
         self.denoising_strength = denoising_strength
+        pass
 
     def to_api_obj(self):
         ad = webuiapi.ADetailer(
