@@ -12,27 +12,27 @@ shinomiya_kaguya = {
     },
     'C': {
         'School00': """
-        black hair,hair ribbon,
-        neck ribbon,
-        (red eyes:0.95),
-        (white sailor collar:0.95), (red ribbon:0.95),
-        (black dress:0.975), long sheeves,
-        """,
+            black hair,hair ribbon,
+            neck ribbon,
+            (red eyes:0.95),
+            (white sailor collar:0.95), (red ribbon:0.95),
+            (black dress:0.975), long sheeves,
+            """,
         'School01': """
-        black_hair,sidelocks,folded_ponytail,parted_bangs,long_hair,
-        (red_eyes:0.95),
-        ribbon, (red ribbon:${rand|0.25~0.5}),
-        black_dress,collared_dress,long_sleeves,black_sleeves,school_uniform,
-        """,
+            black_hair,sidelocks,folded_ponytail,parted_bangs,long_hair,
+            (red_eyes:0.95),
+            ribbon, (red ribbon:${rand|0.25~0.5}),
+            black_dress,collared_dress,long_sleeves,black_sleeves,school_uniform,
+            """,
         'School02': """
-        short hair,black hair,bangs,parted bangs,
-        hair ribbon,sidelocks,folded ponytail,
-        (red eyes:0.95),
-        long sleeves, dress,         
-        (black dress:0.925), (white sailor collar:0.925), 
-        ribbon, (red ribbon:0.975), (neck ribbon:0.95),
-        school uniform, (shuuchiin academy school uniform:${rand|0.1~0.5}),
-        """
+            short hair,black hair,bangs,parted bangs,
+            hair ribbon,sidelocks,folded ponytail,
+            (red eyes:0.95),
+            long sleeves, dress,         
+            (black dress:0.925), (white sailor collar:0.925), 
+            ribbon, (red ribbon:0.975), (neck ribbon:0.95),
+            school uniform, (shuuchiin academy school uniform:${rand|0.1~0.5}),
+            """
 
     }
 }
@@ -43,31 +43,51 @@ hayasaka_ai = {
     },
     'C': {
         'App': """
-        blonde hair, hair between eyes, bangs, sidelocks,side ponytail,
-        hair ornament, hair scrunchie, blue scrunchie,
-        (blue eyes:0.95), 
-        """,
+            blonde hair, hair between eyes, bangs, sidelocks,side ponytail,
+            hair ornament, hair scrunchie, blue scrunchie,
+            (blue eyes:0.95), 
+            """,
         'School': """
-        school uniform, (shuuchiin academy school uniform:${rand|0.1~0.5}),
-        shirt, sweater, cardigan, long sleeves, 
-        clothes around waist, sweater around waist, cardigan around waist,
-        """,
+            school uniform, (shuuchiin academy school uniform:${rand|0.1~0.5}),
+            shirt, sweater, cardigan, long sleeves, 
+            clothes around waist, sweater around waist, cardigan around waist,
+            """,
         'School02': """
-        school uniform, (shuuchiin academy school uniform:${rand|0.1~0.5}),
-        shirt, (white shirt:0.95), long shirt, long sleeves, 
-        sweater, (black sweater:0.95),  
-        (brown cardigan:0.95), cardigan around waist,
-        """,
+            school uniform, (shuuchiin academy school uniform:${rand|0.1~0.5}),
+            shirt, (white shirt:0.95), long shirt, long sleeves, 
+            sweater, (black sweater:0.95),  
+            (brown cardigan:0.95), cardigan around waist,
+            """,
         'Maid': """
-        shirt, long sleeves, dress, 
-        white shirt, collared shirt, 
-        apron, maid, maid headdress, 
-        ascot, waist apron,
-        """,
+            shirt, long sleeves, dress, 
+            white shirt, collared shirt, 
+            apron, maid, maid headdress, 
+            ascot, waist apron,
+            """,
         'Shoe': """
-        shoes, socks, black socks
-        """
+            shoes, socks, black socks
+            """
     },
+}
+
+chika_fujiwara = {
+    'L': {
+
+    },
+    'C': {
+        'App': """
+            long hair, (pink hair:0.95), 
+            bangs, blunt bangs, 
+            bow, hair bow, (black bow:0.95),
+            (blue eyes:0.95)
+            """,
+        'School': """             
+            school uniform, (shuuchiin academy school uniform:${rand|0.1~0.5}),
+            dress, (black dress:0.95), long sleeves, 
+            sailor collar, (white sailor collar:0.95), 
+            ribbon, (red ribbon:0.95), neck ribbon, 
+            """
+    }
 }
 
 everyone = {

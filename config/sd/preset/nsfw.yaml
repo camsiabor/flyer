@@ -9,7 +9,7 @@ image_latent:
   width: 1024
   height: 1024
   batch_size: 1
-  batch_count: 20
+  batch_count: 12
 
 _model:
   _base: |
@@ -73,9 +73,9 @@ prompt:
           <i a="0" args="kaoruko.L:Pony+C:School">shoujo_kageki.py</i>
         </d>
         <d base="hoyoverse">
+          <i a="1" args="fei_xiao.L:Pony02+C:App">starrail.py</i>
           <i a="0" args="fei_xiao.L:Pony02+C:App+C:Bare">starrail.py</i>
-          <i a="1" args="fei_xiao.L:Pony01+C:App+C:Coat">starrail.py</i>
-      
+          <i a="0" args="fei_xiao.L:Pony02+C:App+C:Coat">starrail.py</i>      
           <i a="0" args="yun_li.L:Pony+C:0">starrail.py</i>          
           <i a="0" args="ruan_mei.L:Pony+C:0">starrail.py</i>
           <i a="0" args="kafka.L:1+Min+Rand">starrail.py</i>
@@ -84,7 +84,7 @@ prompt:
           <i a="0" args="zhuyuan.L:Pony+C:1">zzz.py</i>                                      
         </d>
       </OvO>
-    lw: "0.7"
+    lw: "0.685"
     character: ""
     people: [
       "1girl, solo",
@@ -94,7 +94,7 @@ prompt:
     posture_ref: |
       <OvO des="list">
         <d a="1" src="file" base="config/sd/preset/0_posture/">          
-          <i a="1" args="mouth">r18.py</i>
+          <i a="0" args="mouth">r18.py</i>
           <i a="0" args="mouth_after">r18.py</i>
           <i a="0" args="breast">r18.py</i>
           <i a="0" args="hand">r18.py</i>
@@ -103,13 +103,13 @@ prompt:
           <i a="0" args="feet">r18.py</i>
           <i a="0" args="expose">r18.py</i>
           <i a="0" args="bdsm">r18.py</i>
-          <i a="1" args="front">r18.py</i>
+          <i a="0" args="front">r18.py</i>
           <i a="0" args="back">r18.py</i>
           <i a="0" args="doggy">r18.py</i>
           <i a="0" args="top">r18.py</i>
           <i a="0" args="standing">r18.py</i>
-          <i a="0" args="lying">r18.py</i>
-          <i a="1" args="sex_after">r18.py</i>          
+          <i a="1" args="lying">r18.py</i>
+          <i a="0" args="sex_after">r18.py</i>          
         </d>      
       </OvO>
     posture: [
@@ -172,8 +172,8 @@ prompt:
     ]
   # Params Positive 2 ==========================================================
   params_pos_2:
-    nudity: ${rand|0.45~0.9}
-    _nudity_100: (completely nude:${rand|0.0~0.7})
+    nudity: ${rand|0.85~1.05}
+    nudity_100: (completely nude:${rand|0.85~1.05})
   params_neg_1:
     neg_extra: "shoes"
 
@@ -199,7 +199,7 @@ adetailers:
     model: "hand_yolov8n.pt"
 
 options:
-  colddown: 1.5
+  colddown: 2
   use_async: true
   metadata_key: "b_pox_b"
 

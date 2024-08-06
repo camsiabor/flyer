@@ -294,23 +294,42 @@ class Directive:
 
     def converge(self):
         ret = None
-        if self.root.des in ['dict', 'object', '']:
-            ret = {}
-            for data, one in self:
-                if not one.convert:
-                    continue
-                Collection.dict_merge(ret, one.value)
 
-        if self.root.des in ['list', 'tuple', 'array']:
+        is_text = self.root.des in ['str', 'string', 'text', '']
+        is_dict = self.root.des in ['dict', 'object']
+        is_list = self.root.des in ['list', 'tuple', 'array']
+        is_sep = 'seperate' in self.root.converge
+
+        if is_text:
+            ret = ""
+        elif is_dict:
+            ret = {}
+        elif is_list:
             ret = []
-            is_sep = 'seperate' in self.root.converge
-            for data, one in self:
-                if not one.convert:
-                    continue
+
+        for data, one in self:
+            if not one.convert:
+                continue
+
+            if is_text:
+                if isinstance(one.value, str):
+                    ret += one.value
+                elif isinstance(one.value, (list, tuple)):
+                    ret += ''.join(one.value)
+                else:
+                    ret += str(one.value)
+                continue
+
+            if is_dict:
+                Collection.dict_merge(ret, one.value)
+                continue
+
+            if is_list:
                 if not is_sep and isinstance(one.value, (list, tuple)):
                     Collection.list_merge(ret, one.value)
                 else:
                     ret.append(one.value)
+                continue
 
         return ret
 

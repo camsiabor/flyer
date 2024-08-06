@@ -92,27 +92,30 @@ fei_xiao = {
         'App': """
             (white hair:0.95), very long hair, 
             gradient hair, (teal hair tips:0.95), high ponytail, 
-            forehead mark, 
+            (silver forehead mark:0.8), 
             (aquamarine eyes:0.95), (red eyeliner:0.95), 
-            animal ears, earring, 
+            animal ears, earring, jewelry, 
             """,
         '01':
             """FEI XIAO REGULAR WEAR""",
         'Coat': """
             white coat, open clothes, long sleeves,
-            teal dress, chinese clothes,             
-            belt, gloves, 
-            thigh strap, 
+            teal dress with a touch of black, chinese clothes,             
+            belt, 
+            single black thigh strap, 
             """,
         'Bare': """
-            bare shoulders, long sleeves, 
-            tattoo, (back tattoo:0.1), 
-            teal dress, chinese clothes,             
-            belt, gloves, 
-            thigh strap, 
+            bare shoulders, single armlet, 
+            sleeveless,            
+            teal dress with a touch of black, chinese clothes,             
+            belt, 
+            single black thigh strap,
+            (tattoo:0.9), (back tattoo:${rand|0.05~0.15}),  
             """,
         "Shoe":
-            "black footwear,knee boots"
+            "black footwear,knee boots",
+        'Tattoo':
+            "(tattoo:0.9), (back tattoo:${rand|0.05~0.15}), ",
     }
 }
 
