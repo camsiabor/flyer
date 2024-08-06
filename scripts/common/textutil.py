@@ -91,7 +91,7 @@ class TextUtil:
             s: str,
             params: dict = None,
             # Define the regex pattern to find ${command|arg1|arg2|...|argN} format
-            pattern=r'\$\{(\w+)\|([^\}]+)\}',
+            pattern=r'\$\[(\w+)\|([^\}]+)\]',
             command_processor=None
     ) -> str:
         # Function to replace each match

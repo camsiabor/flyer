@@ -9,7 +9,7 @@ image_latent:
   width: 1024
   height: 1024
   batch_size: 1
-  batch_count: 12
+  batch_count: 3
 
 _model:
   _base: |
@@ -47,13 +47,18 @@ prompt:
   params_cycle: -1
   # Params Positive 1 ==========================================================
   params_pos_1:
-    common: "(full body:${rand|0.2~0.6})"
+    common: "(full body:$[rand|0.2~0.6])"
+    people: [
+      "1girl, solo",
+      # "1girl, orgy",
+      # "1girl, multiple boys, orgy",
+    ]
     _quality: |
       (masterpiece:1.2),(best quality:1.2),(very aesthetic:1.2),(absurdres:1.2),
       (detailed background),(extremely detailed),newest,
     quality_pony: |
       (score_9, score_8_up, score_7_up, source_anime, rating_all, rating_explicit),
-    expressive_h: <lora:Expressive_H:${rand|0.95~1.05}>,expressiveh
+    expressive_h: <lora:Expressive_H:$[rand|0.95~1.05]>,expressiveh
     character_lora: |
       <OvO src="file" des="list" base="./config/sd/preset/0_character/">
         <d base="anime">
@@ -61,7 +66,7 @@ prompt:
           <i a="0" args="asuka.C:App+C:Plugsuit">eva.py</i>
         </d>
         <d base="anime">
-          <i a="1" args="chika.L:Pony+C:App+C:School">kaguya_sama.py</i>
+          <i a="0" args="chika.L:Pony+C:App+C:School">kaguya_sama.py</i>
           <i a="0" args="kaguya.L:Pony01+C:School02">kaguya_sama.py</i>
           <i a="0" args="hayasaka.L:Pony+C:App+C:Maid">kaguya_sama.py</i>          
         </d>
@@ -74,7 +79,7 @@ prompt:
           <i a="0" args="kaoruko.L:Pony+C:School">shoujo_kageki.py</i>
         </d>
         <d base="hoyoverse">
-          <i a="0" args="fei_xiao.L:Pony02+C:App">starrail.py</i>
+          <i a="1" args="fei_xiao.L:Pony02+C:App">starrail.py</i>
           <i a="0" args="fei_xiao.L:Pony02+C:App+C:Bare">starrail.py</i>
           <i a="0" args="fei_xiao.L:Pony02+C:App+C:Coat">starrail.py</i>      
           <i a="0" args="yun_li.L:Pony+C:0">starrail.py</i>          
@@ -85,43 +90,39 @@ prompt:
           <i a="0" args="zhuyuan.L:Pony+C:1">zzz.py</i>                                      
         </d>
       </OvO>
-    lw: "0.825"
+    lw: ""
     character: ""
-    people: [
-      "1girl, solo",
-      # "1girl, orgy",
-      # "1girl, multiple boys, orgy",
-    ]
+
     posture_ref: |
       <OvO des="list">
         <d a="1" src="file" base="config/sd/preset/0_posture/">          
-          <i a="1" args="mouth">r18.py</i>
-          <i a="1" args="mouth_after">r18.py</i>
+          <i a="0" args="mouth">r18.py</i>
+          <i a="0" args="mouth_after">r18.py</i>
           <i a="1" args="breast">r18.py</i>
-          <i a="1" args="hand">r18.py</i>
-          <i a="1" args="pussy">r18.py</i>          
-          <i a="1" args="ass">r18.py</i>
-          <i a="1" args="feet">r18.py</i>
-          <i a="1" args="expose">r18.py</i>
-          <i a="1" args="bdsm">r18.py</i>
-          <i a="1" args="front">r18.py</i>
-          <i a="1" args="back">r18.py</i>
-          <i a="1" args="doggy">r18.py</i>
-          <i a="1" args="top">r18.py</i>
-          <i a="1" args="standing">r18.py</i>
-          <i a="1" args="lying">r18.py</i>
-          <i a="1" args="sex_after">r18.py</i>          
+          <i a="0" args="hand">r18.py</i>
+          <i a="0" args="pussy">r18.py</i>          
+          <i a="0" args="ass">r18.py</i>
+          <i a="0" args="feet">r18.py</i>
+          <i a="0" args="expose">r18.py</i>
+          <i a="0" args="bdsm">r18.py</i>
+          <i a="0" args="front">r18.py</i>
+          <i a="0" args="back">r18.py</i>
+          <i a="0" args="doggy">r18.py</i>
+          <i a="0" args="top">r18.py</i>
+          <i a="0" args="standing">r18.py</i>
+          <i a="0" args="lying">r18.py</i>
+          <i a="0" args="sex_after">r18.py</i>          
         </d>      
       </OvO>
     posture: [
     ]
     body: [
-      "(half nude:$$nudity$$), (torn clothes:${rand|0.5~1})",
+      "(half nude:$$nudity$$), (torn clothes:$[rand|0.5~1])",
       "(nude:$$nudity$$)",
-      # "(lingerie:${rand|0.5~0.75}), (nude:$$nudity$$)",
-      # "(lingerie:${rand|0.5~0.75}), (nude:$$nudity$$) (bondage:${rand|0.5~1})",
-      "(bondage:${rand|0.75~1.25}), (nude:$$nudity$$)",
-      # "(nude:$$nudity$$), (tentacle sex:${rand|0.75~1.25}), (tentacles:${rand|1.0~1.33}), (sweat:${rand|0.0~1.0}"
+      # "(lingerie:$[rand|0.5~0.75]), (nude:$$nudity$$)",
+      # "(lingerie:$[rand|0.5~0.75]), (nude:$$nudity$$) (bondage:$[rand|0.5~1])",
+      "(bondage:$[rand|0.75~1.25]), (nude:$$nudity$$)",
+      # "(nude:$$nudity$$), (tentacle sex:$[rand|0.75~1.25]), (tentacles:$[rand|1.0~1.33]), (sweat:$[rand|0.0~1.0]"
     ]
     body_sub: [
     ]
@@ -135,23 +136,24 @@ prompt:
       "distant",
     ]
     facial_expression: [
-      "(embarrassed:${rand|0.5~0.85})",
-      "(embarrassed:${rand|0.5~0.85}), (looking to the side:${rand|1.05~1.35})",
-      "(confused:${rand|0.6~0.9}), (open mouth:${rand|0.0~1.0})",
+      "(embarrassed:$[rand|0.5~0.85])",
+      "(embarrassed:$[rand|0.5~0.85]), (looking to the side:$[rand|1.05~1.35])",
+      "(confused:$[rand|0.6~0.9]), (open mouth:$[rand|0.0~1.0])",
       "open mouth",
       "open mouth, tongue out",
-      # "(ahegao:${rand|0.25~0.75}), (female orgasm:${rand|0.25~0.75})",
-      # "(female orgasm:${rand|0~0.7}), (rolling eyes:${rand|0.0~0.5})",
-      # "(drunk:${rand|0.25~0.75}), open mouth",
-      # "(rape face:${rand|0.5~1.0})",
+      # "(ahegao:$[rand|0.25~0.75]), (female orgasm:$[rand|0.25~0.75])",
+      # "(female orgasm:$[rand|0~0.7]), (rolling eyes:$[rand|0.0~0.5])",
+      # "(drunk:$[rand|0.25~0.75]), open mouth",
+      # "(rape face:$[rand|0.5~1.0])",
       # "tape gag",
       # "mouth gag",
       # "black blindfold, open mouth",
     ]
     facial_expression_sub: [
-      "(blush:0.975), (saliva trail:${rand|0.35~0.75})"
+      "(blush:$[rand|0.8~1.0]), (saliva trail:$[rand|0.35~0.75])"
     ]
     scene: [
+      "(choker:0.5), (leash:0.5)",
       # "bathing",
       # "simple background"
       # "classroom",
@@ -173,8 +175,8 @@ prompt:
     ]
   # Params Positive 2 ==========================================================
   params_pos_2:
-    nudity: ${rand|0.6~1.2}
-    _nudity_100: (completely nude:${rand|0.85~1.05})
+    nudity: $[rand|0.6~0.9]
+    nudity_100: (completely nude:$[rand|0.6~0.9])
   params_neg_1:
     neg_extra: "shoes"
 
@@ -186,7 +188,7 @@ sampler:
   seed: -1
 
 upscaler:
-  enable: false
+  enable: true
   scale: 1.25
   second_pass_steps: 10
   denoising_strength: 0.5
@@ -200,7 +202,7 @@ adetailers:
     model: "hand_yolov8n.pt"
 
 options:
-  colddown: 3
+  colddown: 5
   use_async: true
   metadata_key: "b_pox_b"
 
@@ -211,19 +213,19 @@ extra:
 
 output_txt2img:
   dir_path: D:/snapshot/character/
+  # file_format: game/blue_archive/hina/%Y%m%d/0_nai_oral/%H%M%S
   # file_format: anime/eva/rei/%Y%m%d/0_nai/%H%M%S
-  file_format: anime/kaguya-sama/chika/%Y%m%d/0_nai/%H%M%S
+  # file_format: anime/eva/asuka/%Y%m%d/0_nai_new/%H%M%S
+  # file_format: anime/kaguya-sama/chika/%Y%m%d/0_nai/%H%M%S
   # file_format: anime/kaguya-sama/kaguya/%Y%m%d/0_nai_bath/%H%M%S
   # file_format: anime/kaguya-sama/hayasaka/%Y%m%d/0_nai_maid/%H%M%S
-  # file_format: hoyoverse/starrail/ruan_mei/%Y%m%d/0_nai_tentacle/%H%M%S
-  # file_format: hoyoverse/starrail/yun_li/%Y%m%d/0_nai_bond/%H%M%S
-  # file_format: anime/eva/asuka/%Y%m%d/0_nai_new/%H%M%S
-  # file_format: anime/shoujo_kageki/kaoruko/%Y%m%d/0_nai_class/%H%M%S
   # file_format: anime/keroro/alisa/%Y%m%d/1_ani/%H%M%S
-  # file_format: game/blue_archive/hina/%Y%m%d/0_nai_oral/%H%M%S
+  # file_format: anime/shoujo_kageki/kaoruko/%Y%m%d/0_nai_class/%H%M%S
   # file_format: hoyoverse/zzz/ellen_joe/%Y%m%d/0_nai_foot/%H%M%S
   # file_format: hoyoverse/zzz/zhuyuan/%Y%m%d/0_nai_bondage/%H%M%S
+  # file_format: hoyoverse/starrail/ruan_mei/%Y%m%d/0_nai_tentacle/%H%M%S
+  # file_format: hoyoverse/starrail/yun_li/%Y%m%d/0_nai_bond/%H%M%S
   # file_format: hoyoverse/starrail/kafka/%Y%m%d/0_nai/%H%M%S
-  # file_format: hoyoverse/starrail/fei_xiao/%Y%m%d/0_nai/%H%M%S
+  file_format: hoyoverse/starrail/fei_xiao/%Y%m%d/2_nai_mouth/%H%M%S
   file_extension: "png"
 

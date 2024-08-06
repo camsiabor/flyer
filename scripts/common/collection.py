@@ -265,3 +265,27 @@ class Collection:
             for v in li:
                 ret.append(v)
         return ret
+
+    @staticmethod
+    def clamp(data: any, prefix: str = "", suffix: str = "", skip_empty: bool = True):
+
+        if data is None:
+            return None
+
+        if isinstance(data, str):
+            if skip_empty and not data:
+                return ""
+            return prefix + data + suffix
+
+        if isinstance(data, (list, tuple)):
+            size = len(data)
+            for i in range(size):
+                data[i] = Collection.clamp(data[i], prefix, suffix, skip_empty)
+            return data
+
+        if isinstance(data, dict):
+            for k, v in data.items():
+                data[k] = Collection.clamp(v, prefix, suffix, skip_empty)
+            return data
+
+        return Collection.clamp(str(data), prefix, suffix, skip_empty)

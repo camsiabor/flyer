@@ -9,7 +9,7 @@ image_latent:
   width: 1024
   height: 1024
   batch_size: 1
-  batch_count: 3
+  batch_count: 10
 
 prompt:
   positive: |
@@ -29,14 +29,13 @@ prompt:
     $$facial_expression_sub$$,    
     $$scene$$,
   negative: |
-    score_6, score_5, score_4, score_3, score_2, score_1, pony, 
-    worst quality, low quality, lowres, 
-    bad hands, extra fingers, distorted hands, distorted fingers, missing fingers, 
-    bad feet, distorted feet, distorted toes, missing toes, fewer digits, extra digits, 
-    bad anatomy, 
+    score_6, score_5, score_4, score_3, score_2, score_1, 
+    (worst quality:1),(low quality:1),(normal quality:1), lowres,     
+    bad anatomy, extra digits, fewer digits, 
     text, signature, watermark, logo,
-    (looking at viewer:1.5), (shoes:1.5), 
-    pussy, nipples, anus, censored, (nsfw:0.5)
+    (looking at viewer:1.2),
+    pussy, nipples, anus, censored, (nsfw:1),
+    $$neg_extra$$,
   params_cycle: -1
   params_pos_1:
     nai_lora: <lora:naipf:0.8>
@@ -44,10 +43,10 @@ prompt:
     character_lora: |
       <OvO src="file" des="list" base="./config/sd/preset/0_character/">
         <d base="anime">
-          <i a="1" args="rei.C:App+C:Plugsuit">eva.py</i>
+          <i a="0" args="rei.C:App+C:Plugsuit">eva.py</i>
         </d>        
         <d base="v">
-          <i a="0" args="shiori.white.L:Fuse+C:Hat">vr.py</i>
+          <i a="1" args="shiori.white.L:Fuse+C:Hat">vr.py</i>
           <i a="0" args="dousha.sunglass.L">psplive.py</i>
           <i a="0" args="byb0.game">psplive.py</i>          
         </d>
@@ -55,11 +54,12 @@ prompt:
     character: ""
     body: [
       "",
-      "(hand on own face:${rand|0.7~1.0})",
-      "(hand on own chest:${rand|0.7~1.0})",
-      "(arm up:${rand|0.7~1.0})",
-      "(arm over shoulder:${rand|0.7~1.0})",
-      "(arm over head:${rand|0.7~1.0})",
+      "(own hands together), clenched hands, hands up",
+      "(hand on own face:$[rand|0.7~1.0])",
+      "(hand on own chest:$[rand|0.7~1.0])",
+      "(arm up:$[rand|0.7~1.0])",
+      "(arm over shoulder:$[rand|0.7~1.0])",
+      "(arm over head:$[rand|0.7~1.0])",
     ]
     body_sub: [
       "",
@@ -72,7 +72,7 @@ prompt:
           <i a="0" args="breast">r17.py</i>
           <i a="0" args="hand">r17.py</i>
           <i a="0" args="pussy">r17.py</i>          
-          <i a="0" args="ass">r17.py</i>
+          <i a="1" args="ass">r17.py</i>
           <i a="0" args="feet">r17.py</i>
           <i a="0" args="expose">r17.py</i>
           <i a="0" args="front">r17.py</i>
@@ -98,15 +98,15 @@ prompt:
       "distant",
     ]
     facial_expression: [
-      "light blush",
+      "(blush:$[rand|0.6~1.0])",
       # "light blush, round eyewear"
     ]
     facial_expression_sub: [
       "",
-      # "open mouth",
-      "(embarrassed:${rand|0.5~0.8})",
-      "(embarrassed:${rand|0.5~0.85}), (looking to the side:${rand|1.05~1.35})",
-      # "(confused:${rand|0.6~0.9}), (open mouth:${rand|0.0~1.0})",
+      "open mouth",
+      "(embarrassed:$[rand|0.5~0.7])",
+      "(embarrassed:$[rand|0.5~0.75]), (looking to the side:$[rand|1.05~1.35])",
+      # "(confused:$[rand|0.6~0.9]), (open mouth:$[rand|0.0~1.0])",
       # "pout",
       # "light smile, open mouth",
       # "pout",
@@ -127,7 +127,7 @@ sampler:
   seed: -1
 
 upscaler:
-  enable: true
+  enable: false
   scale: 1.25
   second_pass_steps: 10
   denoising_strength: 0.5
@@ -151,9 +151,9 @@ extra:
   upscaling_resize: 1.25
 
 output_txt2img:
-  dir_path: D:/snapshot/character/
-  file_format: anime/eva/rei/%Y%m%d/0_nai/%H%M%S
+  # dir_path: D:/snapshot/character/
+  # file_format: anime/eva/rei/%Y%m%d/0_nai/%H%M%S
   # file_format: D:/snapshot/psplive/dousha/image/%Y%m%d/0_bikini/%H%M%S
-  # file_format: D:/snapshot/virtua_real/shiori/image/%Y%m%d/0_pencil/%H%M%S
+  file_format: D:/snapshot/virtua_real/shiori/image/%Y%m%d/1_dog_back/%H%M%S
   file_extension: "png"
 

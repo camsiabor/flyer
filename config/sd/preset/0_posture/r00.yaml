@@ -1,0 +1,192 @@
+unclass:
+  content: [
+    "finger in another's mouth, open mouth",
+  ]
+
+
+
+
+# ==============================================================================
+
+# ==============================================================================
+
+cunnilingus:
+  rating: 18
+  tag: [
+    "mouth", "cunnilingus", "pussy"
+  ]
+  suffix: [ ]
+  content: [
+    "cunnilingus"
+  ]
+
+# ==============================================================================
+
+breast:
+  rating: 18,
+  tag: [
+    "breast", "breasts", "bobbs", "nipple", "nipples"
+  ]
+  suffix: [
+    [ "", "from above, pov", "from below", "from side" ]
+    [
+      "covering, covering breasts",
+      "grabbing own breast",
+      "grabbing another's breast",
+      "breast sex, titfucking",
+      "breast sex, titfucking, breasts squeezed together, fellatio, licking penis",
+      # 走光
+      "nipple slip",
+      # 乳夾
+      "nipple clamps",
+      # 乳捏
+      "nipple tweak",
+    ]
+  ]
+  content: [
+    "breasts, (nipples:${rand|0.0~1.0})",
+  ]
+
+# ==============================================================================
+
+
+finger:
+  rating: 18,
+  tag: [ "finger", "fingers" ]
+  suffix: [
+    [
+      "", "from side", "from above"
+    ],
+    [
+      "",
+      "lying",
+      "from back, top-down bottom-up, ass",
+      "from back, all-fours, ass"
+    ],
+    [ "pussy, pussy juice" ]
+  ]
+  content: [
+    "implied fingering",
+    "fingering",
+    "fingering through panties, wet, panties",
+    "anal fingering",
+  ]
+
+# ==============================================================================
+
+handjob:
+  rating: 18,
+  tag: [ "hand", "hands", "handjob" ]
+  suffix: [
+    [ "", "from above", "from above, pov", "from below", "from side" ]
+    [
+      "",
+      "double handjob, (orgy:${rand|0.5~1.0})",
+      "reach-around, (orgy:${rand|0.5~1.0})",
+      "nursing handjob"
+    ]
+  ]
+  content: [
+    "handjob"
+  ]
+
+# ==============================================================================
+
+footjob:
+  rating: 18,
+  tag: [ "footjob", "feetjob", "foot", "feet" ]
+  suffix: [
+    [
+      "",
+      "pov",
+      "from above",
+      "from below",
+      "from below, pov"
+      "from side"
+    ],
+    [
+      "",
+      "(simulated footjob:${rand|0.5~1.0})",
+      "(two-footed footjob:${rand|0.5~1.0})",
+    ]
+  ]
+  content: [
+    "footjob, feet, (toes:0.9), (cum on feet:${rand|0.0~1.0})",
+    "reverse footjob, feet, (toes:0.9), thighs, (cum on feet:${rand|0.0~1.0})"
+  ]
+
+# ==============================================================================
+
+
+
+
+pussy:
+  rating: 18
+  tag: [ "pussy" ]
+  suffix: [
+    [
+      "",
+      "(pov:${rand|0.7~1.0}",
+      "(from above:${rand|0.7~1.0})",
+      "(from below:${rand|0.7~1.0})",
+      "(from side:${rand|0.7~1.0})",
+    ],
+    [
+      "",
+      "lying",
+      "spread legs",
+      "legs up",
+      "squatting, spread legs",
+      "from back, all-fours",
+      "from back, top-down_bottom-up"
+    ],
+    [
+      "",
+      "spread pussy",
+      "spread pussy, v hand",
+      "skirt lift, lifted by self, bottomless",
+      "(vaginal object insertion), dildo",
+    ]
+
+  ]
+  content: [
+    "pussy, pussy juice"
+
+    "skirt lift, lifted by self, bottomless, no panties, from below, pussy juice",
+    
+    "squatting, spread legs, pussy, pussy juice",
+    
+
+    
+    "(crotch rub:1.05), nipples, breasts, pussy, "
+
+    
+    "pussy, pussy juice, split, leg up, "
+    "standing, standing split, standing on one leg, ",
+    
+    "pussy, pussy juice, split, leg up, "
+    "standing, standing split, standing on one leg, "
+    "(vaginal object insertion), dildo",
+  
+  ]
+
+
+toy:
+  rating: 18
+  tag: [ "pussy", "anus", "toy", "dildo" ]
+  suffix: [
+
+  ]
+  content: [
+    "dildo, vaginal object insertion, pussy, pussy juice",
+  ]
+
+masturbation:
+  rating: 18
+  tag: [ "pussy", "masturbation", "female_masturbation" ]
+  content: [
+    "female masturbation, grabbing own breast, bathing, topless",
+
+    "female masturbation, spread legs, female masturation, spread pussy by self",
+    "female masturbation, pussy juice, masturbation, cleft of venus",
+  ]
