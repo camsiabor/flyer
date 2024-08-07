@@ -214,22 +214,31 @@ class QPos:
 
     class Leg:
         wariza = [
-            "wariza, w_sitting, feet"
+            "wariza, w_sitting",
+            "wariza, w_sitting, feet",
         ]
         kneeling = [
-            "kneeling", "kneeling, all fours", "on one knee"
+            "kneeling",
+            "kneeling, feet",
+            "kneeling, all fours",
+            "kneeling, all fours, feet",
+            "on one knee",
+            "on one knee, feet",
         ]
         squalting = [
-            "squatting", "squatting, open legs"
+            "squatting, open legs",
+            "squatting, open legs, thighs, feet",
         ]
         up = [
-            "leg up", "legs up", "leg lift", "legs lift"
+            "leg up", "legs up",
+            "leg lift", "legs lift",
         ]
         split = [
             "standing, standing split, standing on one leg"
         ]
         lock = [
-            "leg lock"
+            "leg lock",
+            "leg lock, feet",
         ]
         sitting = [
             "sitting",
