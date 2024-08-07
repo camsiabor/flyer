@@ -122,8 +122,14 @@ class QPos:
 
         chest_1st = ["hand on own chest"]
 
-        grab_breast_1st = ["grabbing own breast"]
-        grab_breast_2nd = ["grabbing another's breast"]
+        grab_breast_1st = [
+            "grabbing own breast",
+            "grabbing own breast",
+        ]
+        grab_breast_2nd = [
+            "grabbing another's breast",
+            "guided breast grab",
+        ]
         grab_breast_all = [*grab_breast_1st, *grab_breast_2nd]
 
         grab_hair_2nd = ["grabbing_another's_hair", "pulling_another's_hair"]

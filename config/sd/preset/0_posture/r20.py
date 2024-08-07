@@ -95,13 +95,25 @@ act_breast = {
             QPos.Leg.kneeling,
             QPos.Leg.squalting,
             [
-                "carrying, carried breast rest",
+                "imminent breast grab",
+                "carrying, carried breast rest, breast rest",
+                "breast press",
+                "breast press, against glass",
                 "breasts squeezed together",
                 "face between breasts",
                 "licking nipple",
-                ["breast press", "breast press, against glass"],
+                "breast sucking",
+                "nipple tweak",
+                "tweaking own nipple",
+                "breast pump",
+                "breast poke",
+                "breast lift",
+                "breast massage",
             ]
         ],
+        "breast": [
+            "breast", "breasts"
+        ]
     },
     'content': {
         'grab': QPos.Hand.grab_breast_all,
