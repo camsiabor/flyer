@@ -352,7 +352,7 @@ pos_pet = {
         ]
     },
     'content': [
-        '(pet play:$[rand|0.5~1.0])'
+        '(pet play:$[rand|0.5~1.0]), (submissive:$[rand|0.0~0.5])'
     ]
 
 }
