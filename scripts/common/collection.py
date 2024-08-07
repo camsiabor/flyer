@@ -219,6 +219,52 @@ class Collection:
         return ret
 
     @staticmethod
+    def list_cross(a: list, b: list) -> list:
+        ret = []
+        for i in a:
+            for j in b:
+                is_i_str = isinstance(i, str)
+                is_j_str = isinstance(j, str)
+                is_i_list = isinstance(i, (list, tuple))
+                is_j_list = isinstance(j, (list, tuple))
+
+                if is_i_str and i and not i.startswith(','):
+                    i += ','
+
+                if is_i_str and is_j_str:
+                    ret.append(f"{i} {j}")
+                    continue
+
+                if is_i_str and is_j_list:
+                    for jj in j:
+                        ret.append(f"{i} {jj}")
+                    continue
+
+                if is_i_list and is_j_str:
+                    for ii in i:
+                        if ii and not ii.startswith(','):
+                            ii += ','
+                        ret.append(f"{ii} {j}")
+                    continue
+
+                if is_i_list and is_j_list:
+                    ij = Collection.list_cross(i, j)
+                    ret.append(ij)
+                    continue
+
+        return ret
+
+    @staticmethod
+    def list_crosses(*lists) -> list:
+        size = len(lists)
+        if size <= 0:
+            return []
+        ret = lists[0]
+        for i in range(1, size):
+            ret = Collection.list_cross(ret, lists[i])
+        return ret
+
+    @staticmethod
     def list_unpack(data):
         ret = []
         repeat = 1

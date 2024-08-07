@@ -91,7 +91,16 @@ act_breast = {
         ],
         "pose": [
             "",
-            QPos.Leg.kneeling, QPos.Leg.squalting, QPos.Lying
+            QPos.Lying.all,
+            QPos.Leg.kneeling,
+            QPos.Leg.squalting,
+            [
+                "carrying, carried breast rest",
+                "breasts squeezed together",
+                "face between breasts",
+                "licking nipple",
+                ["breast press", "breast press, against glass"],
+            ]
         ],
     },
     'content': {
@@ -253,8 +262,11 @@ act_butt = {
             QPos.Lying.all,
             QPos.Pelvic.top_down_all,
             [QPos.Leg.squalting, QPos.Leg.wariza],
-            [QPos.Pelvic.bent_over_desk, QPos.Leg.kneeling, ],
-            [QPos.Pelvic.cat_stretch, QPos.Pelvic.upside_down],
+            [QPos.Pelvic.bent_over_desk, QPos.Leg.kneeling, QPos.Pelvic.cat_stretch],
+            [
+                QPos.Pelvic.upside_down,
+                "carrying, carrying over shoulder, girl on top"
+            ],
         ],
         'hand': [
             "",
@@ -321,10 +333,12 @@ act_feet = {
     }
 }
 
-pos_pet = {
+# =====================================================================================
+
+act_pet = {
     'group': 'act',
     'rating': 17,
-    'tag': ['act', 'animal'],
+    'tag': ['act', 'animal', 'pet_play', 'pet'],
     'suffix': {
         'see': [
             "",
@@ -345,36 +359,59 @@ pos_pet = {
             QPos.Leg.wariza,
             QPos.Leg.squalting,
         ],
-        'neck': QPos.Tool.choker,
-        'leash': QPos.Tool.leash,
-        'mark': [
-
+        'tool': [
+            "",
+            QPos.Tool.choker_leash,
+        ],
+        'ass': [
+            "",
+            "anal tail",
+            "fake tail",
+        ],
+        'play': [
+            '(pet play:$[rand|0.5~1.0]), (submissive female:$[rand|0.0~0.5])'
         ]
     },
-    'content': [
-        '(pet play:$[rand|0.5~1.0]), (submissive:$[rand|0.0~0.5])'
-    ]
-
+    'content': {
+        '0': [],
+        'fellatio': QPos.Mouth.fellatio,
+        'spank': QPos.Pelvic.butt_spank,
+        'whip': QPos.Tool.whip,
+        'bondage': ["bondage"],
+    }
 }
 
-pos_expose = [
-    1,
-    "wariza, w_sitting, ass, ass_focus, feet",
-    1,
-    "wariza, w_sttiing, pov, from_above, paw pose",
-    1,
-    "(squatting), (paw pose), topless, bottomless",
-    1,
-    "(squatting), (paw pose), topless, bottomless, from above",
-    1,
-    "(squatting), no panties, spread knees, clothes lift, lifted by self, from below",
-    1,
-    "covering, breasts, navel, covering breasts, "
-    "stomach, standing, groin, thigh gap, thighs ",
-    1,
-    "(squatting), armpits, arms up, arms behind head, "
-    "breasts, thighs, spread legs, feet ",
-]
+# =====================================================================================
+
+act_standing_sex = {
+    'group': 'act',
+    'rating': 17,
+    'tag': ['act', 'standing_sex'],
+    'suffix': {
+        'stand': ['standing sex, penetration'],
+        'pose': [
+            'split, leg up',
+            'split, leg up, standing on one leg',
+            ['', 'double penetration', 'orgy'],
+            QPos.Sex.carrying_sex,
+            [
+                'against wall, sex from behind',
+                'arm grab, arm held back, sex from behind, doggystyle'
+            ],
+
+        ],
+        'hand': [
+            '',
+            QPos.Hand.grab_breast_all,
+            QPos.Arm.up,
+        ]
+    },
+    'content': {
+        '0': []
+    }
+}
+
+# =====================================================================================
 
 pos_bdsm = [
     1,
@@ -402,17 +439,6 @@ pos_bdsm = [
     "(bdsm:$[rand|0.1~1.0]), (bondage outfit:$[rand|0.8~1.05]), restrained",
     1,
     "(bdsm:$[rand|0.1~1.0]), cage, restrained",
-]
-
-pos_standing = [
-    1,
-    "leaning forward, cleavage, hand on own hip",
-    2,
-    "standing sex, penetration",
-    2,
-    "standing sex, split, leg up, penetration",
-    1,
-    "standing double penetration, anal, pussy, penetration",
 ]
 
 pos_lying = [
@@ -490,13 +516,18 @@ pos_sex_after = [
 ]
 
 acts = {
+
     'fellatio': act_fellatio,
     'breast': act_breast,
     'fingering': act_fingering,
     'pelvic': act_pelvic,
     'butt': act_butt,
+    'feet': act_feet,
+
     'cowgirl': act_cowgirl,
     'missionary': act_missionary,
+
+    'pet': act_pet,
 }
 
 

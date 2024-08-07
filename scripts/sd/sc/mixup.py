@@ -209,13 +209,15 @@ class QPos:
             "sex toy pull",
             ["vibrator", "egg vibrator"],
             ["clitoris leash", "nipple leash"],
+            ["crotch rope", "wooden horse"],
         ]
 
         toy_anal = [
             "dildo",
             ["vibrator", "egg vibrator"],
             ["anal bead", "anal bead pull"],
-            "anal tail", "anal hook",
+            ["anal tail", "fake tail"],
+            "anal hook",
             "butt plug",
         ]
 
@@ -238,12 +240,9 @@ class QPos:
         butt_spank = [
             "spanked, spanking",
             "spanked, spank_mark",
-            "spanked, otk spanking, spanking, red butt"
+            "spanked, otk spanking, spanking, red butt",
         ]
 
-        anus_toy = [
-            'butt plug', 'anal tail', 'anal object insertion, '
-        ]
 
         pass
 
@@ -321,6 +320,16 @@ class QPos:
             # 素股 / 臀推
             "grinding",
         ]
+
+        # suspended congress
+        carrying_sex = [
+            'lifting person, hands under legs, ass grab',
+            'lifting person, hands under legs, ass grab, arms around neck, leg lock',
+            'reverse suspended congress, sex from behind, spread legs, pussy',
+            'wheelbarrow, sex from behind, arm support, legs lift, walking on hands',
+        ]
+
+
         pass
 
     class Tool:
@@ -335,6 +344,17 @@ class QPos:
             "leash in mouth",
             "viewer holding leash",
             "leash pull",
+        ]
+
+        choker_leash = Collection.list_cross(
+            ["", *choker],
+            ["", *leash]
+        )
+
+        whip = [
+            "whipping, whip mark",
+            "chain whip, whipping, whip mark",
+            "vine whip, whipping, whip mark"
         ]
         pass
 
