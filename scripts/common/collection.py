@@ -1,6 +1,8 @@
 import math
 import random
 
+from typing import List, Union
+
 
 # CPack =============================================================================== #
 class CPack:
@@ -305,36 +307,101 @@ class Collection:
         return str(data)
 
     @staticmethod
-    def roll(data: any, container: list = None) -> any:
+    def roll_pick_parse(picks: any) -> Union[List[str], None]:
+        if picks is None:
+            return None
+
+        if isinstance(picks, (list, tuple)):
+            return picks
+
+        if not isinstance(picks, str):
+            raise ValueError(f"picks type error: {picks}")
+
+        picks_list = None
+        element_list = picks.split("+")
+        if len(element_list) > 0:
+            picks_list = []
+            for element in element_list:
+                element = element.strip()
+                if not element:
+                    continue
+                pathes = element.split(".")
+                picks_list.append(pathes)
+        return picks_list
+
+    @staticmethod
+    def roll(
+            data: any,
+            container: list,
+            picks: Union[None, str, List[str]] = None,
+            depth: int = 0
+    ) -> any:
         if data is None:
             return None
         if isinstance(data, str):
             return data
+
+        if depth == 0:
+            picks = Collection.roll_pick_parse(picks)
+
         if isinstance(data, dict):
-            return Collection.roll_dict(data, container)
+            return Collection.roll_dict(data, container, picks)
         if isinstance(data, (list, tuple)):
-            return Collection.roll_list(data, container)
+            return Collection.roll_list(data, container, picks)
         return str(data)
 
     @staticmethod
-    def roll_dict(data: dict, container: list = None) -> list:
+    def roll_dict(
+            data: dict,
+            container: list,
+            picks: Union[None, str, List[str]] = None,
+            depth: int = 0,
+    ) -> list:
         if data is None:
             return container
         if container is None:
             container = []
-        for k, v in data.items():
-            convert = Collection.roll(v, container)
+
+        if picks is None or len(picks) <= 0:
+            for k, v in data.items():
+                convert = Collection.roll(v, container, picks, depth + 1)
+                if convert is None:
+                    continue
+                convert = convert.strip()
+                if convert:
+                    container.append(convert)
+            return container
+
+        if isinstance(picks, str):
+            sub = data[picks]
+            convert = Collection.roll(sub, container, None, depth + 1)
             if convert is None:
-                continue
+                return container
             convert = convert.strip()
-            if not convert:
-                continue
-            if container is not None:
+            if convert:
                 container.append(convert)
+            return container
+
+        for pick in picks:
+            if isinstance(pick, str):
+                Collection.roll(data, container, pick, depth + 1)
+                continue
+            if isinstance(pick, (list, tuple)):
+                key = pick[0]
+                sub = data[key]
+                Collection.roll(sub, container, pick[1:], depth + 1)
+                continue
+            raise ValueError(f"picks type error: {pick}")
+
         return container
 
     @staticmethod
-    def roll_list(data: list, container: list = None) -> any:
+    def roll_list(
+            data: list,
+            container: list,
+            picks: Union[None, str, List[str]] = None,
+            depth: int = 0,
+    ) -> any:
         if data is None:
             return None
         size = len(data)
@@ -345,5 +412,5 @@ class Collection:
         else:
             rand = random.randint(0, size - 1)
             ret = data[rand]
-        ret = Collection.roll(ret, container)
+        ret = Collection.roll(ret, container, picks, depth + 1)
         return ret

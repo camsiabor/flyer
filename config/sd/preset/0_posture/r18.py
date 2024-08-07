@@ -85,11 +85,11 @@ pos_ass = [
     "top-down bottom-up, from behind, ass, bottomless, pussy, pussy juice, navel, ponytail",
     1,
     "bent over desk, pov, skirt pulled down, panty pulled down, "
-    "looking back, hands on ass, spread pussy, pussy, pussy juice, pov",
+    "(looking back:$[rand|0.0~0.5]), hands on ass, spread pussy, pussy, pussy juice, pov",
     1,
     "spreading own ass, from behind, pov",
     1,
-    "from below, looking back, ass grab, ass focus, grabbing own ass, hand on own ass",
+    "from below, (looking back:$[rand|0.0~0.5]), ass grab, ass focus, grabbing own ass, hand on own ass",
     1,
     "from below, spread anus, from behind, ass focus, anus peek, facing away, spread ass, grabbing own ass, ass grab",
     1,
@@ -233,7 +233,7 @@ pos_lying = [
 pos_doggy = [
     1,
     "bent over desk, pov, skirt pulled down, panty pulled down, "
-    "(looking back:$[rand|0.0~0.2]), hands on ass, doggystyle sex, "
+    "(looking back:$[rand|0.0~0.5]), hands on ass, doggystyle sex, "
     "pussy juice, penetration, pov",
     1,
     "top-down_bottom-up, "

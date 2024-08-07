@@ -170,8 +170,22 @@ class QPos:
             "pussy juice", "pussy juice trail"
         ]
 
-        pussy_toy = [
-            'dildo'
+        toy_dildo = [
+            "dildo_under_clothes",
+            "dildo_under_panties",
+            "dildo_machine"
+        ]
+
+        toy_vibrator = [
+            "egg_vibrator",
+            "remote_control_vibrator",
+            "vibrator_on_nipples",
+            "vibrator_under_clothes",
+            "vibrator_under_panties",
+        ]
+
+        toy = [
+            toy_dildo, toy_vibrator
         ]
 
         top_down_all = [

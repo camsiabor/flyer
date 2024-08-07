@@ -30,7 +30,9 @@ act_fellatio = {
         ],
         "main": "(fellatio:$[rand|0.0~0.5])",
     },
-    'content': QPos.Mouth.fellatio,
+    'content': {
+        'fellatio': QPos.Mouth.fellatio,
+    }
 }
 
 # breast =====================================================================================
@@ -49,10 +51,10 @@ act_breast = {
             QPos.Leg.kneeling, QPos.Leg.squalting, QPos.Lying
         ],
     },
-    'content': [
-        QPos.Hand.grab_breast_all,
-        QPos.Breast.titfuck,
-    ]
+    'content': {
+        'grab': QPos.Hand.grab_breast_all,
+        'titfuck': QPos.Breast.titfuck,
+    }
 }
 
 # =====================================================================================
@@ -78,7 +80,7 @@ act_fingering = {
 
 # =====================================================================================
 
-act_pussy = {
+act_pelvic = {
     'group': 'act',
     'rating': 18,
     'tag': ['act', 'pussy', 'pelvic'],
@@ -106,25 +108,21 @@ act_pussy = {
             QCon.by(data=["panties", "thong"], is_pull=True),
         ]
     },
-    'content': [
-        "pussy, pussy juice"
-    ]
-}
-
-act_pussy_toy = {
-    'group': 'act',
-    'rating': 18,
-    'tag': ['act', 'pussy', 'pelvic', 'toy', 'pussy_toy'],
-    'suffix': {
-        **act_pussy['suffix'],
-        'toy': [
-
+    'content': {
+        'pussy': [
+            "pussy, pussy juice"
+        ],
+        'toy_pussy': [
+            "dildo",
+            "vibrator"
+        ],
+        'toy_anal': [
+            "dildo",
+            "vibrator"
         ]
-    },
-    'content': [
-        "pussy object insertion, pussy, pussy juice"
-    ]
+    }
 }
+
 
 # =====================================================================================
 
