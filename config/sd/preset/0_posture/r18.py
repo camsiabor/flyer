@@ -233,7 +233,7 @@ pos_lying = [
 pos_doggy = [
     1,
     "bent over desk, pov, skirt pulled down, panty pulled down, "
-    "looking back, hands on ass, doggystyle sex, "
+    "(looking back:$[rand|0.0~0.2]), hands on ass, doggystyle sex, "
     "pussy juice, penetration, pov",
     1,
     "top-down_bottom-up, "
@@ -348,7 +348,9 @@ poses = {
 
     # back
     "back": pos_back,
-    "doggy": pos_back,
+
+    # doggy
+    "doggy": pos_doggy,
 
     # after
     "after": pos_sex_after,

@@ -1,5 +1,5 @@
 from scripts.common.collection import Collection
-from scripts.sd.sc.common import QCon, QSee, QPos
+from scripts.sd.sc.mixup import QCon, QSee, QPos
 
 # =====================================================================================
 
@@ -21,10 +21,10 @@ act_fellatio = {
             QCon.weight(seeL, seeU, QSee.common, QSee.extra, QSee.back),
         ],
         "leg": ["", QPos.Leg.kneeling, QPos.Leg.squalting, QPos.Lying],
-        "hand_2nd": ["", "", QPos.Hand.head_2nd, QPos.Hand.hair_2nd],
+        "hand_2nd": ["", "", QPos.Hand.on_head_2nd, QPos.Hand.grab_hair_2nd],
         "hand_1st": [
             "",
-            QPos.Hand.breast_all,
+            QPos.Hand.grab_breast_all,
             QPos.Finger.masturbation,
             QCon.weight(tryL, tryU, QPos.Arm.behind)
         ],
@@ -50,7 +50,7 @@ act_breast = {
         ],
     },
     'content': [
-        QPos.Hand.breast_all,
+        QPos.Hand.grab_breast_all,
         QPos.Breast.titfuck,
     ]
 }
@@ -90,17 +90,39 @@ act_pussy = {
         'pose': [
             "",
             QPos.Lying.all,
-            [QPos.Leg.split, QPos.Leg.standing, ],
-            [QPos.Pelvic.top_down, QPos.Leg.kneeling, QPos.Leg.squalting, ],
+            [QPos.Leg.split, QPos.Leg.standing, QPos.Leg.sitting],
+            [QPos.Pelvic.top_down, QPos.Leg.kneeling, QPos.Leg.squalting],
         ],
-        'extra': [
-            QPos.Hand.spread_all,
+        'hand': [
+            "",
+            QPos.Finger.masturbation,
+            QPos.Hand.grab_breast_all,
+            QCon.by(["pussy"], is_spread=True),
+            QCon.by(["pussy"], is_spread=True, by_another=True),
+        ],
+        'cloth': [
+            "",
             QCon.by(data=["skirt", "dress"], is_lift=True, by_self=True),
             QCon.by(data=["panties", "thong"], is_pull=True),
         ]
     },
     'content': [
         "pussy, pussy juice"
+    ]
+}
+
+act_pussy_toy = {
+    'group': 'act',
+    'rating': 18,
+    'tag': ['act', 'pussy', 'pelvic', 'toy', 'pussy_toy'],
+    'suffix': {
+        **act_pussy['suffix'],
+        'toy': [
+
+        ]
+    },
+    'content': [
+        "pussy object insertion, pussy, pussy juice"
     ]
 }
 
@@ -117,23 +139,24 @@ act_ass = {
         ],
         'pose': [
             "",
+            QPos.Lying.all,
             QPos.Pelvic.top_down_all,
-            QPos.Pelvic.bent_over_desk,
-            [QPos.Leg.kneeling, QPos.Leg.wariza],
+            [QPos.Leg.squalting, QPos.Leg.wariza],
+            [QPos.Pelvic.bent_over_desk, QPos.Leg.kneeling],
         ],
         'hand': [
             "",
-            QPos.Hand.spread_all,
+            QPos.Hand.spread_anus,
             QPos.Hand.grab_ass_all,
-            QPos.Pelvic.spank,
+            QPos.Pelvic.butt_spank,
         ],
-        "cloth": [
+        'cloth': [
             "",
             QCon.by(data=["panties", "thong"], is_pull=True),
-        ],
+        ]
     },
     'content': [
-        'ass'
+        'ass, (ass focus$[rand|0.1~0.2])'
     ]
 }
 

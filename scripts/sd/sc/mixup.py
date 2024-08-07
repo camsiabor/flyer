@@ -109,17 +109,17 @@ class QPos:
         pass
 
     class Hand:
-        head_1st = ["hand on head", "hands on head", ]
-        head_2nd = ["hand on another's head", "hands on another's head", ]
-        head_all = [*head_1st, *head_2nd]
+        on_head_1st = ["hand on head", "hands on head", ]
+        on_head_2nd = ["hand on another's head", "hands on another's head", ]
+        on_head_all = [*on_head_1st, *on_head_2nd]
 
         chest_1st = ["hand on own chest"]
 
-        breast_1st = ["grabbing own breast"]
-        breast_2nd = ["grabbing another's breast"]
-        breast_all = [*breast_1st, *breast_2nd]
+        grab_breast_1st = ["grabbing own breast"]
+        grab_breast_2nd = ["grabbing another's breast"]
+        grab_breast_all = [*grab_breast_1st, *grab_breast_2nd]
 
-        hair_2nd = ["grabbing_another's_hair", "pulling_another's_hair"]
+        grab_hair_2nd = ["grabbing_another's_hair", "pulling_another's_hair"]
 
         handjob = [
             "handjob", "double handjob", "reach-around", "nursing handjob", "two-handed handjob"
@@ -159,10 +159,19 @@ class QPos:
         pass
 
     class Pelvic:
-        rub = ["crotch rub"]
 
         top_down = [
             "top-down bottom-up"
+        ]
+
+        rub = ["crotch rub"]
+
+        pussy_juice = [
+            "pussy juice", "pussy juice trail"
+        ]
+
+        pussy_toy = [
+            'dildo'
         ]
 
         top_down_all = [
@@ -177,10 +186,14 @@ class QPos:
             "bent over desk, (looking back:$[rand|0.5~1.0])"
         ]
 
-        spank = [
+        butt_spank = [
             "spanked, spanking",
             "spanked, spank_mark",
             "spanked, otk spanking, spanking, red butt"
+        ]
+
+        anus_toy = [
+            'butt plug', 'anal tail', 'anal object insertion, '
         ]
 
         pass
