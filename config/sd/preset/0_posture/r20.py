@@ -303,45 +303,59 @@ act_feet = {
             "hugging own legs",
             QPos.Leg.up,
         ],
-        'foot': '(feet:$[rand|0.8~1.0]), (toes:$[rand|0.8~1.0]), no shoes',
+        'foot': [
+            '(feet:$[rand|0.8~1.0]), (toes:$[rand|0.8~1.0]), no shoes',
+            '(feet:$[rand|0.8~1.0]), (toes:$[rand|0.8~1.0]), no shoes, (foot focus:$[rand|0.0~0.2])',
+        ]
     },
     'content': {
-        '0': [
-
-        ],
+        '0': '',
         'footjob': [
             'footjob',
             'reverse footjob'
         ],
+        'phone': holding_cellphone,
         'after': [
             'cum, cum on feet'
         ]
     }
 }
 
-pos_feet = [
-    1,
-    "cross leg, from side, feet, no shoes",
-    1,
-    "from below, feet, (foot focus:$[rand|0.65~1.0]), no shoes",
-    1,
-    "from back, back, wariza, w_sitting, feet, toes, (foot focus:$[rand|0.65~1.0])",
-    1,
-    "(holding cellphone:1.05), cellphone, holding, reflection, (female pov), "
-    "legs up, (foot focus:$[rand|0.65~1.0]), feet, no shoes, "
-    "pussy, breasts, navel, nipples, "
-    "cellphone, toes, sitting",
-    1,
-    "(holding cellphone:1.05), cellphone, holding, reflection, (selfie), "
-    "pussy, feet, toes, ass, anus, sitting, "
-    "breasts, thighs, legs, soles ",
-    1,
-    "lying, on back, (feet), toes, no shoes, spread legs, ass",
-    1,
-    "footjob, feet, (toes:0.9), (cum on feet:$[rand|0.0~1.0])",
-    1,
-    "reverse footjob, feet, (toes:0.9), thighs, (cum on feet:$[rand|0.0~1.0])"
-]
+pos_pet = {
+    'group': 'act',
+    'rating': 17,
+    'tag': ['act', 'animal'],
+    'suffix': {
+        'see': [
+            "",
+            QCon.weight(seeL, seeU, QSee.common, QSee.extra, QSee.back),
+        ],
+        'hand': [
+            "",
+            "animal pose",
+            "paw pose",
+            "claw pose",
+            "licking hand",
+        ],
+        'pose': [
+            "",
+            QPos.Lying,
+            QPos.Pelvic.cat_stretch,
+            QPos.Leg.kneeling,
+            QPos.Leg.wariza,
+            QPos.Leg.squalting,
+        ],
+        'neck': QPos.Tool.choker,
+        'leash': QPos.Tool.leash,
+        'mark': [
+
+        ]
+    },
+    'content': [
+        '(pet play:$[rand|0.5~1.0])'
+    ]
+
+}
 
 pos_expose = [
     1,

@@ -166,7 +166,6 @@ class QPos:
         pass
 
     class Pelvic:
-
         top_down = [
             "top-down bottom-up",
         ]
@@ -206,9 +205,10 @@ class QPos:
 
         toy_pussy = [
             "dildo",
-            ["vibrator", "egg vibrator"],
             "sex machine",
             "sex toy pull",
+            ["vibrator", "egg vibrator"],
+            ["clitoris leash", "nipple leash"],
         ]
 
         toy_anal = [
@@ -300,10 +300,9 @@ class QPos:
         all = [
             "lying",
             "lying, on back",
-            "lying, on stomach",
+            ["lying, on stomach", "lying, the pose"],
             "lying, on side",
         ]
-        # QPos
         pass
 
     class Sex:
@@ -324,8 +323,22 @@ class QPos:
         ]
         pass
 
-    class Cum:
+    class Tool:
+        choker = [
+            "choker",
+            "choker, neck bell",
+        ]
 
+        leash = [
+            "leash",
+            "chain leash",
+            "leash in mouth",
+            "viewer holding leash",
+            "leash pull",
+        ]
+        pass
+
+    class Cum:
         mouth = [
             "cum on face",
             "cum on face, cum on hair",
