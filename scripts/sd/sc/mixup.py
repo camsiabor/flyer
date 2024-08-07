@@ -270,6 +270,31 @@ class QPos:
         # QPos
         pass
 
+    class After:
+        mouth = [
+            "cum on face",
+            "cum on face, cum on hair",
+            "cum on face, swallowing",
+            "cum in mouth",
+            "cum in mouth, cum on face"
+            "cum on tongue",
+        ]
+
+        pussy = [
+            "cum in pussy",
+            "cum in pussy, cum overflow",
+        ]
+
+        ass = [
+            "cum in ass",
+            "cum in ass, cum overflow"
+        ]
+
+        breast = [
+            "cum on breasts",
+            "cum on breasts, cum on body"
+        ]
+
     pass
 
 

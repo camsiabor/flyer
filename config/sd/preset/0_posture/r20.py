@@ -11,6 +11,9 @@ tryU = 0.6
 
 # =====================================================================================
 
+
+# =====================================================================================
+
 act_fellatio = {
     'group': 'act',
     'rating': 18,
@@ -31,7 +34,19 @@ act_fellatio = {
         "main": "(fellatio:$[rand|0.0~0.5])",
     },
     'content': {
-        'fellatio': QPos.Mouth.fellatio,
+        '0': QPos.Mouth.fellatio,
+        'after': {
+            'hand': [
+                "",
+                "v hand, peace sign",
+            ],
+            'eye': [
+                "",
+                "ahegao",
+                "(looking to the side:1.1)"
+            ],
+            'cum': QPos.After.mouth,
+        }
     }
 }
 
@@ -54,6 +69,7 @@ act_breast = {
     'content': {
         'grab': QPos.Hand.grab_breast_all,
         'titfuck': QPos.Breast.titfuck,
+        'after': QPos.After.breast,
     }
 }
 
@@ -125,6 +141,44 @@ act_pelvic = {
 
 # =====================================================================================
 
+act_missionary = {
+    'group': 'act',
+    'rating': 18,
+    'tag': ['act', 'missionary', 'front'],
+    'suffix': {
+        'see': [
+            "",
+            QCon.weight(seeL, seeU, QSee.common, QSee.extra),
+        ],
+        'hand': [
+            "",
+            QPos.Hand.grab_breast_all,
+            QPos.Arm.up,
+        ],
+        'kiss': [
+            "",
+            "french kiss",
+            "hand on another's knee",
+            [
+                QCon.by(["pussy"], is_spread=True),
+                QCon.by(["pussy"], is_spread=True, by_another=True),
+            ]
+        ],
+        'pussy': [
+            "penetration, pussy",
+            "penetration, pussy, pussy juice",
+            "penetration, pussy, jizz oozing out of pussy",
+        ],
+    },
+    'content': {
+        'missionary': [
+            "missionary",
+            "standing missionary",
+        ]
+    }
+
+}
+
 
 act_cowgirl = {
     'group': 'act',
@@ -151,12 +205,12 @@ act_cowgirl = {
         ],
     },
     'content': {
-        'cowgirl': QCon.weight(1.0, 1.2, [
+        'cowgirl': [
             "cowgirl position",
             "reverse cowgirl position",
             "foggy, riding a dick",
-            "girl on top, legs lock, penetration",
-        ])
+            "girl on top, legs lock",
+        ]
     }
 
 }
@@ -421,6 +475,7 @@ acts = {
     'fingering': act_fingering,
     'pelvic': act_pelvic,
     'cowgirl': act_cowgirl,
+    'missionary': act_missionary,
 }
 
 

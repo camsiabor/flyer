@@ -332,11 +332,17 @@ class Collection:
 
     @staticmethod
     def roll_container_append(container: list, convert: any):
-        if convert is not None:
+        if convert is None:
+            return container
+        if isinstance(convert, (list, tuple)):
+            container.extend(convert)
+            return container
+        if isinstance(convert, str):
             convert = convert.strip()
             if convert:
                 container.append(convert)
-        return container
+            return container
+        raise ValueError(f"convert type error: {convert}")
 
     @staticmethod
     def roll(
