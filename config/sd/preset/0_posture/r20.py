@@ -20,7 +20,7 @@ act_fellatio = {
             "",
             QCon.weight(seeL, seeU, QSee.common, QSee.extra, QSee.back),
         ],
-        "leg": ["", QPos.Leg.kneeling, QPos.Leg.squalting, QPos.Lying],
+        "leg": ["", QPos.Leg.kneeling, QPos.Leg.squalting, QPos.Lying.all],
         "hand_2nd": ["", "", QPos.Hand.on_head_2nd, QPos.Hand.grab_hair_2nd],
         "hand_1st": [
             "",
@@ -122,7 +122,6 @@ act_pelvic = {
         ]
     }
 }
-
 
 # =====================================================================================
 
@@ -379,11 +378,12 @@ pos_mouth_after = [
 ]
 
 acts = {
-    'mouth': act_fellatio,
+
     'fellatio': act_fellatio,
+
     'breast': act_breast,
-    'finger': act_fingering,
-    'pussy': act_pussy,
+    'fingering': act_fingering,
+    'pelvic': act_pelvic,
 }
 
 
@@ -391,10 +391,38 @@ def init(_: any, args: any):
     cmd = args
     if isinstance(cmd, (list, tuple)):
         cmd = cmd[0]
-    act = acts[cmd]
-    suffix = act.get('suffix', '')
+
+    elements = cmd.split('|')
+    name_act = elements[0]
+    pick_prefix = elements[1] if len(elements) >= 2 else None
+    pick_content = elements[2] if len(elements) >= 3 else None
+    pick_suffix = elements[3] if len(elements) >= 4 else None
+
+    act = acts[name_act]
+
+    prefix = act.get('prefix', '')
     content = act.get('content', '')
-    suffix_ex = Collection.roll(suffix, [])
-    content_ex = Collection.roll(content, [])
-    ret = ",".join(suffix_ex) + "," + content_ex
-    return ret
+    suffix = act.get('suffix', '')
+
+    if not pick_content:
+        pick_content = next(iter(content))
+
+    prefix_sum = ""
+    suffix_sum = ""
+    if prefix:
+        prefix_ex = Collection.roll(prefix, [], pick_prefix)
+        prefix_sum = ",".join(prefix_ex) + ","
+    if suffix:
+        suffix_ex = Collection.roll(suffix, [], pick_suffix)
+        suffix_sum = "," + ",".join(suffix_ex)
+
+    content_ex = Collection.roll(content, [], pick_content)
+
+    if isinstance(content_ex, str):
+        return f"{prefix_sum}{content_ex}{suffix_sum}"
+
+    if isinstance(content_ex, list):
+        content_sum = Collection.clamp(content_ex, prefix_sum, suffix_sum)
+        return content_sum
+
+    raise ValueError(f"Unknown content type: {content_ex}")

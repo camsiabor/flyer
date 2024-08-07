@@ -285,7 +285,7 @@ class Collection:
             for i in range(size):
                 v = Collection.clamp(data[i], prefix, suffix, skip_empty)
                 clone.append(v)
-            return data
+            return clone
 
         if isinstance(data, dict):
             clone = {}
@@ -330,6 +330,14 @@ class Collection:
         return picks_list
 
     @staticmethod
+    def roll_container_append(container: list, convert: any):
+        if convert is not None:
+            convert = convert.strip()
+            if convert:
+                container.append(convert)
+        return container
+
+    @staticmethod
     def roll(
             data: any,
             container: list,
@@ -365,21 +373,13 @@ class Collection:
         if picks is None or len(picks) <= 0:
             for k, v in data.items():
                 convert = Collection.roll(v, container, picks, depth + 1)
-                if convert is None:
-                    continue
-                convert = convert.strip()
-                if convert:
-                    container.append(convert)
+                Collection.roll_container_append(container, convert)
             return container
 
         if isinstance(picks, str):
             sub = data[picks]
             convert = Collection.roll(sub, container, None, depth + 1)
-            if convert is None:
-                return container
-            convert = convert.strip()
-            if convert:
-                container.append(convert)
+            Collection.roll_container_append(container, convert)
             return container
 
         for pick in picks:
@@ -389,7 +389,8 @@ class Collection:
             if isinstance(pick, (list, tuple)):
                 key = pick[0]
                 sub = data[key]
-                Collection.roll(sub, container, pick[1:], depth + 1)
+                convert = Collection.roll(sub, container, pick[1:], depth + 1)
+                Collection.roll_container_append(container, convert)
                 continue
             raise ValueError(f"picks type error: {pick}")
 
