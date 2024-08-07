@@ -9,7 +9,7 @@ image_latent:
   width: 1024
   height: 1024
   batch_size: 1
-  batch_count: 3
+  batch_count: 6
 
 _model:
   _base: |
@@ -47,7 +47,7 @@ prompt:
   params_cycle: -1
   # Params Positive 1 ==========================================================
   params_pos_1:
-    common: "(full body:$[rand|0.2~0.6])"
+    common: "(full body:$[rand|0.25~0.75])"
     people: [
       "1girl, solo",
       # "1girl, orgy",
@@ -79,7 +79,8 @@ prompt:
           <i a="0" args="kaoruko.L:Pony+C:School">shoujo_kageki.py</i>
         </d>
         <d base="hoyoverse">
-          <i a="1" args="fei_xiao.L:Pony02+C:App">starrail.py</i>
+          <i a="1" args="emilie.L:Pony+C:App">genshin.py</i>
+          <i a="0" args="fei_xiao.L:Pony02+C:App">starrail.py</i>
           <i a="0" args="fei_xiao.L:Pony02+C:App+C:Bare">starrail.py</i>
           <i a="0" args="fei_xiao.L:Pony02+C:App+C:Coat">starrail.py</i>      
           <i a="0" args="yun_li.L:Pony+C:0">starrail.py</i>          
@@ -90,14 +91,16 @@ prompt:
           <i a="0" args="zhuyuan.L:Pony+C:1">zzz.py</i>                                      
         </d>
       </OvO>
-    lw: ""
+    lw: "0.725"
     character: ""
 
     posture_ref: |
       <OvO des="list" shell="1">
         <d a="1" src="file" base="config/sd/preset/0_posture/">
-          <i a="1" args="fellatio">r20.py</i>          
+          <i a="0" args="fellatio">r20.py</i>          
           <i a="0" args="breast">r20.py</i>
+          <i a="0" args="fingering">r20.py</i>
+          <i a="1" args="cowgirl">r20.py</i>      
         </d>
         <d a="0" src="file" base="config/sd/preset/0_posture/">                
           <i a="0" args="mouth">r18.py</i>
@@ -125,7 +128,7 @@ prompt:
       "(nude:$$nudity$$)",
       # "(lingerie:$[rand|0.5~0.75]), (nude:$$nudity$$)",
       # "(lingerie:$[rand|0.5~0.75]), (nude:$$nudity$$) (bondage:$[rand|0.5~1])",
-      "(bondage:$[rand|0.75~1.25]), (nude:$$nudity$$)",
+      # "(bondage:$[rand|0.75~1.25]), (nude:$$nudity$$)",
       # "(nude:$$nudity$$), (tentacle sex:$[rand|0.75~1.25]), (tentacles:$[rand|1.0~1.33]), (sweat:$[rand|0.0~1.0]"
     ]
     body_sub: [
@@ -157,7 +160,7 @@ prompt:
       "(blush:$[rand|0.8~1.0]), (saliva trail:$[rand|0.35~0.75])"
     ]
     scene: [
-      "(choker:0.5), (leash:0.5)",
+      # "(choker:0.5), (leash:0.5)",
       # "bathing",
       # "simple background"
       # "classroom",
@@ -179,8 +182,8 @@ prompt:
     ]
   # Params Positive 2 ==========================================================
   params_pos_2:
-    nudity: $[rand|0.6~0.9]
-    nudity_100: (completely nude:$[rand|0.6~0.9])
+    nudity: $[rand|0.3~0.9]
+    nudity_100: (completely nude:$[rand|0.2~0.6])
   params_neg_1:
     neg_extra: "shoes"
 
@@ -188,11 +191,11 @@ prompt:
 sampler:
   name: "Euler a"
   steps: 20
-  cfg_scale: 4
+  cfg_scale: 3.5
   seed: -1
 
 upscaler:
-  enable: true
+  enable: false
   scale: 1.25
   second_pass_steps: 10
   denoising_strength: 0.5
@@ -206,7 +209,7 @@ adetailers:
     model: "hand_yolov8n.pt"
 
 options:
-  colddown: 5
+  colddown: 3
   use_async: true
   metadata_key: "b_pox_b"
 
@@ -230,6 +233,7 @@ output_txt2img:
   # file_format: hoyoverse/starrail/ruan_mei/%Y%m%d/0_nai_tentacle/%H%M%S
   # file_format: hoyoverse/starrail/yun_li/%Y%m%d/0_nai_bond/%H%M%S
   # file_format: hoyoverse/starrail/kafka/%Y%m%d/0_nai/%H%M%S
-  file_format: hoyoverse/starrail/fei_xiao/%Y%m%d/3_nai_test/%H%M%S
+  # file_format: hoyoverse/starrail/fei_xiao/%Y%m%d/3_nai_test/%H%M%S
+  file_format: hoyoverse/genshin/emilie/%Y%m%d/0_nai/%H%M%S
   file_extension: "png"
 

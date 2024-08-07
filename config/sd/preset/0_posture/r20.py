@@ -72,10 +72,10 @@ act_fingering = {
             "", QPos.Leg.squalting, QPos.Lying
         ]
     },
-    'content': [
-        QPos.Finger.to_pussy_anal,
-        [QPos.Finger.masturbation, QPos.Finger.to_mouth_2nd],
-    ]
+    'content': {
+        '1': QPos.Finger.to_pussy_anal,
+        '2': [QPos.Finger.masturbation, QPos.Finger.to_mouth_2nd],
+    }
 }
 
 # =====================================================================================
@@ -121,6 +121,44 @@ act_pelvic = {
             "vibrator"
         ]
     }
+}
+
+# =====================================================================================
+
+
+act_cowgirl = {
+    'group': 'act',
+    'rating': 18,
+    'tag': ['act', 'cowgirl', 'reverse_cowgirl', 'top'],
+    'suffix': {
+        'see': [
+            "",
+            QCon.weight(seeL, seeU, QSee.common, QSee.extra, QSee.back_ass),
+        ],
+        'hand': [
+            "",
+            QPos.Hand.grab_breast_all,
+            QPos.Hand.grab_ass_2nd,
+            [
+                QCon.by(["pussy"], is_spread=True),
+                QCon.by(["pussy"], is_spread=True, by_another=True),
+            ]
+        ],
+        'pussy': [
+            "penetration, pussy",
+            "penetration, pussy, pussy juice",
+            "penetration, pussy, jizz oozing out of pussy",
+        ],
+    },
+    'content': {
+        'cowgirl': QCon.weight(1.0, 1.2, [
+            "cowgirl position",
+            "reverse cowgirl position",
+            "foggy, riding a dick",
+            "girl on top, legs lock, penetration",
+        ])
+    }
+
 }
 
 # =====================================================================================
@@ -378,12 +416,11 @@ pos_mouth_after = [
 ]
 
 acts = {
-
     'fellatio': act_fellatio,
-
     'breast': act_breast,
     'fingering': act_fingering,
     'pelvic': act_pelvic,
+    'cowgirl': act_cowgirl,
 }
 
 

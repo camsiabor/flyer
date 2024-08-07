@@ -310,7 +310,8 @@ class Collection:
     def roll_pick_parse(picks: any) -> Union[List[str], None]:
         if picks is None:
             return None
-
+        if picks == '*':
+            return None
         if isinstance(picks, (list, tuple)):
             return picks
 
