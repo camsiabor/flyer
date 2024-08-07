@@ -1,5 +1,5 @@
-from config.common import QCon, QSee, QPos
 from scripts.common.collection import Collection
+from scripts.sd.sc.common import QCon, QSee, QPos
 
 # =====================================================================================
 
@@ -82,22 +82,25 @@ act_pussy = {
     'group': 'act',
     'rating': 18,
     'tag': ['act', 'pussy', 'pelvic'],
-    'suffix': [
-        [
+    'suffix': {
+        'see': [
             "",
             QCon.weight(seeL, seeU, QSee.common, QSee.extra, QSee.back_ass),
         ],
-        [
+        'pose': [
             "",
             QPos.Lying.all,
             [QPos.Leg.split, QPos.Leg.standing, ],
             [QPos.Pelvic.top_down, QPos.Leg.kneeling, QPos.Leg.squalting, ],
         ],
-    ],
+        'extra': [
+            QPos.Hand.spread_all,
+            QCon.by(data=["skirt", "dress"], is_lift=True, by_self=True),
+            QCon.by(data=["panties", "thong"], is_pull=True),
+        ]
+    },
     'content': [
-        QPos.Hand.spread_all,
-        QCon.by(data=["skirt", "dress"], is_lift=True, by_self=True),
-        QCon.by(data=["panties", "thong"], is_pull=True),
+        "pussy, pussy juice"
     ]
 }
 
