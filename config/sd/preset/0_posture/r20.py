@@ -1,4 +1,3 @@
-from scripts.common.collection import Collection
 from scripts.sd.sc.mixup import QCon, QSee, QPos
 
 # =====================================================================================
@@ -425,6 +424,12 @@ act_standing_sex = {
 
 # =====================================================================================
 
+
+
+
+
+# =====================================================================================
+
 pos_bdsm = [
     1,
     "(bdsm:$[rand|0.1~1.0]), (handcuffs), (chains), rope, submissive female",
@@ -527,58 +532,31 @@ pos_sex_after = [
     "legs up, spread legs, "
 ]
 
-acts = {
-
+act = {
+    'bj': act_fellatio,
     'fellatio': act_fellatio,
     'breast': act_breast,
+    'finger': act_fingering,
     'fingering': act_fingering,
     'pelvic': act_pelvic,
+    'ass': act_butt,
     'butt': act_butt,
     'feet': act_feet,
-
     'cowgirl': act_cowgirl,
     'missionary': act_missionary,
-
     'pet': act_pet,
+}
+
+ex = {
+
+}
+
+everything = {
+    'act': act,
+    'ex': ex,
 }
 
 
 def init(_: any, args: any):
-    cmd = args
-    if isinstance(cmd, (list, tuple)):
-        cmd = cmd[0]
-
-    elements = cmd.split('|')
-    name_act = elements[0]
-    pick_prefix = elements[1] if len(elements) >= 2 else None
-    pick_content = elements[2] if len(elements) >= 3 else None
-    pick_suffix = elements[3] if len(elements) >= 4 else None
-
-    act = acts[name_act]
-
-    prefix = act.get('prefix', '')
-    content = act.get('content', '')
-    suffix = act.get('suffix', '')
-
-    if not pick_content:
-        pick_content = next(iter(content))
-
-    prefix_sum = ""
-    suffix_sum = ""
-    if prefix:
-        prefix_ex = Collection.roll(prefix, [], pick_prefix)
-        prefix_sum = ",".join(prefix_ex) + ","
-    if suffix:
-        suffix_ex = Collection.roll(suffix, [], pick_suffix)
-        suffix_sum = "," + ",".join(suffix_ex)
-
-    content_ex = Collection.roll(content, [], pick_content)
-
-    if isinstance(content_ex, str):
-        return f"{prefix_sum}{content_ex}{suffix_sum}"
-
-    if isinstance(content_ex, list):
-        content_sum = Collection.clamp(content_ex, prefix_sum, suffix_sum)
-        return content_sum
-
-    raise ValueError(f"Unknown content type: {content_ex}")
+    ret = QCon.select(everything, args)
+    return ret

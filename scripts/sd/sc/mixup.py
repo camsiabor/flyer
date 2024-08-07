@@ -53,6 +53,74 @@ class QCon:
         ret = Collection.clamp(data, prefix, suffix)
         return ret
 
+    @staticmethod
+    def select_one(
+            select: dict,
+            path_select: str,
+            pick_prefix: str,
+            pick_content: str,
+            pick_suffix: str,
+    ):
+        prefix = select.get('prefix', None)
+        content = select.get('content', {})
+        suffix = select.get('suffix', None)
+
+        if not pick_content:
+            pick_content = next(iter(content))
+
+        prefix_sum = ""
+        suffix_sum = ""
+        if prefix:
+            prefix_ex = Collection.roll(prefix, [], pick_prefix)
+            prefix_sum = ",".join(prefix_ex) + ","
+        if suffix:
+            suffix_ex = Collection.roll(suffix, [], pick_suffix)
+            suffix_sum = "," + ",".join(suffix_ex)
+
+        content_ex = Collection.roll(content, [], pick_content)
+
+        if isinstance(content_ex, str):
+            return f"{prefix_sum}{content_ex}{suffix_sum}"
+
+        if isinstance(content_ex, list):
+            content_sum = Collection.clamp(content_ex, prefix_sum, suffix_sum)
+            return content_sum
+
+        raise ValueError(f"Unknown content type: {content_ex}")
+
+    @staticmethod
+    def select(data: any, selector: any) -> any:
+        if isinstance(selector, (list, tuple)):
+            selector = selector[0]
+        elements = selector.split('|')
+        path_select = elements[0].strip()
+        pick_prefix = elements[1] if len(elements) >= 2 else None
+        pick_content = elements[2] if len(elements) >= 3 else None
+        pick_suffix = elements[3] if len(elements) >= 4 else None
+        select = Collection.dict_pick(data, path_select)
+        ret = []
+        for one in select:
+            one = QCon.select_one(one, path_select, pick_prefix, pick_content, pick_suffix)
+            if one is None or not one:
+                continue
+            if isinstance(one, str):
+                ret.append(one)
+                continue
+            if isinstance(one, (list, tuple)):
+                if len(one) == 1:
+                    ret.append(one[0])
+                else:
+                    ret.extend(one)
+                continue
+            raise ValueError(f"Unknown type: {one}")
+
+        if len(ret) == 1:
+            ret = ret[0]
+
+        return ret
+
+    pass
+
 
 # QAngle ===================================================================================== #
 
@@ -68,6 +136,9 @@ class QSee:
     ]
     common = [
         "from above", "from side", "from below"
+    ]
+    internal_cumshot = [
+        "internal cumshot, cross-section, x-ray, uterus"
     ]
     pass
 
@@ -249,7 +320,6 @@ class QPos:
             "spanked, otk spanking, spanking, red butt",
         ]
 
-
         pass
 
     class Leg:
@@ -334,7 +404,6 @@ class QPos:
             'reverse suspended congress, sex from behind, spread legs, pussy',
             'wheelbarrow, sex from behind, arm support, legs lift, walking on hands',
         ]
-
 
         pass
 
