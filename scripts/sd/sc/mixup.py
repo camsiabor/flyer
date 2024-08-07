@@ -86,6 +86,7 @@ class QPos:
             "deep throat",
             "licking testicles",
             "after fellatio",
+            "oral_invitation",
         ]
         pass
 
@@ -109,6 +110,12 @@ class QPos:
         pass
 
     class Hand:
+        v_sign = [
+            "peace sign, v, v hand",
+            "peace sign, v, v hands",
+
+        ]
+
         on_head_1st = ["hand on head", "hands on head", ]
         on_head_2nd = ["hand on another's head", "hands on another's head", ]
         on_head_all = [*on_head_1st, *on_head_2nd]
@@ -161,10 +168,23 @@ class QPos:
     class Pelvic:
 
         top_down = [
-            "top-down bottom-up"
+            "top-down bottom-up",
         ]
 
-        rub = ["crotch rub"]
+        cat_stretch = [
+            "cat stretch, stretch",
+            "top-down bottom-up, cat stretch, stretch",
+        ]
+
+        cunnilingus = ["cunnilingus"]
+
+        anilingus = ["anilingus, rimjob"]
+
+        rub = [
+            # 素股 / 臀推
+            "grinding",
+            "crotch rub",
+        ]
 
         pussy_juice = [
             "pussy juice", "pussy juice trail"
@@ -184,8 +204,19 @@ class QPos:
             "vibrator_under_panties",
         ]
 
-        toy = [
-            toy_dildo, toy_vibrator
+        toy_pussy = [
+            "dildo",
+            ["vibrator", "egg vibrator"],
+            "sex machine",
+            "sex toy pull",
+        ]
+
+        toy_anal = [
+            "dildo",
+            ["vibrator", "egg vibrator"],
+            ["anal bead", "anal bead pull"],
+            "anal tail", "anal hook",
+            "butt plug",
         ]
 
         top_down_all = [
@@ -198,6 +229,10 @@ class QPos:
         bent_over_desk = [
             "bent over desk",
             "bent over desk, (looking back:$[rand|0.5~1.0])"
+        ]
+
+        upside_down = [
+            "(upside-down:$[rand|1.0~1.1]), bent over",
         ]
 
         butt_spank = [
@@ -249,7 +284,8 @@ class QPos:
             "sitting on lap",
             "sitting_backwards",
             "sitting, knees_together_feet_apart",
-            "hugging own legs",
+            # 斜倚
+            "reclining",
         ]
 
         standing = [
@@ -270,7 +306,26 @@ class QPos:
         # QPos
         pass
 
-    class After:
+    class Sex:
+        missionary = [
+            "missionary",
+            "standing missionary",
+        ]
+
+        cowgirl = [
+            "cowgirl position",
+            "squatting cowgirl position",
+            "reverse cowgirl position",
+            "reverse squatting cowgirl position",
+            "foggy, riding a dick",
+            "girl on top, legs lock",
+            # 素股 / 臀推
+            "grinding",
+        ]
+        pass
+
+    class Cum:
+
         mouth = [
             "cum on face",
             "cum on face, cum on hair",

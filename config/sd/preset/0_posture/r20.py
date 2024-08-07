@@ -11,6 +11,33 @@ tryU = 0.6
 
 # =====================================================================================
 
+pussy_cum = {
+    'cum': QPos.Cum.pussy,
+    'hand': [
+        "",
+        QPos.Hand.spread_pussy,
+    ],
+    'sign': [
+        "",
+        QPos.Hand.v_sign,
+    ],
+    'face': [
+        "",
+        "(ahegao:$[rand|0.6~1.0])",
+        "(looking to the side:$[rand|1.0~1.3])",
+    ]
+}
+
+pussy_penetrate = [
+    "penetration, pussy",
+    "penetration, pussy, pussy juice",
+    "penetration, pussy, jizz oozing out of pussy",
+]
+
+holding_cellphone = [
+    "(holding cellphone:$[rand|1.0~1.2]), cellphone, holding",
+    "(holding cellphone:$[rand|1.0~1.2]), cellphone, holding, reflection, (female pov)",
+]
 
 # =====================================================================================
 
@@ -35,6 +62,7 @@ act_fellatio = {
     },
     'content': {
         '0': QPos.Mouth.fellatio,
+        'phone': holding_cellphone,
         'after': {
             'hand': [
                 "",
@@ -45,7 +73,7 @@ act_fellatio = {
                 "ahegao",
                 "(looking to the side:1.1)"
             ],
-            'cum': QPos.After.mouth,
+            'cum': QPos.Cum.mouth,
         }
     }
 }
@@ -69,7 +97,7 @@ act_breast = {
     'content': {
         'grab': QPos.Hand.grab_breast_all,
         'titfuck': QPos.Breast.titfuck,
-        'after': QPos.After.breast,
+        'after': QPos.Cum.breast,
     }
 }
 
@@ -89,8 +117,9 @@ act_fingering = {
         ]
     },
     'content': {
-        '1': QPos.Finger.to_pussy_anal,
-        '2': [QPos.Finger.masturbation, QPos.Finger.to_mouth_2nd],
+        '0': QPos.Finger.to_pussy_anal,
+        'mas': QPos.Finger.masturbation,
+        'mouth': [QPos.Finger.to_mouth_2nd, "licking hand"],
     }
 }
 
@@ -108,8 +137,11 @@ act_pelvic = {
         'pose': [
             "",
             QPos.Lying.all,
-            [QPos.Leg.split, QPos.Leg.standing, QPos.Leg.sitting],
-            [QPos.Pelvic.top_down, QPos.Leg.kneeling, QPos.Leg.squalting],
+            [QPos.Leg.split, QPos.Leg.standing, ],
+            [QPos.Leg.sitting, QPos.Leg.squalting],
+            [QPos.Pelvic.top_down, QPos.Pelvic.bent_over_desk],
+            [QPos.Leg.kneeling],
+            [QPos.Pelvic.upside_down, QPos.Pelvic.cat_stretch],
         ],
         'hand': [
             "",
@@ -125,17 +157,19 @@ act_pelvic = {
         ]
     },
     'content': {
-        'pussy': [
+        '0': [
             "pussy, pussy juice"
         ],
-        'toy_pussy': [
-            "dildo",
-            "vibrator"
-        ],
-        'toy_anal': [
-            "dildo",
-            "vibrator"
-        ]
+        'toy_pussy': {
+            'insert': 'vaginal object insertion',
+            'toy': QPos.Pelvic.toy_pussy,
+        },
+        'toy_anal': {
+            'insert': 'anal object insertion, anus',
+            'toy': QPos.Pelvic.toy_anal,
+        },
+        'lick_ass': QPos.Pelvic.anilingus,
+        'lick_pussy': QPos.Pelvic.cunnilingus,
     }
 }
 
@@ -164,21 +198,16 @@ act_missionary = {
                 QCon.by(["pussy"], is_spread=True, by_another=True),
             ]
         ],
-        'pussy': [
-            "penetration, pussy",
-            "penetration, pussy, pussy juice",
-            "penetration, pussy, jizz oozing out of pussy",
-        ],
+        'pussy': pussy_penetrate,
     },
     'content': {
-        'missionary': [
-            "missionary",
-            "standing missionary",
-        ]
+        '0': QPos.Sex.missionary,
+        'after': pussy_cum,
     }
 
 }
 
+# =====================================================================================
 
 act_cowgirl = {
     'group': 'act',
@@ -198,29 +227,22 @@ act_cowgirl = {
                 QCon.by(["pussy"], is_spread=True, by_another=True),
             ]
         ],
-        'pussy': [
-            "penetration, pussy",
-            "penetration, pussy, pussy juice",
-            "penetration, pussy, jizz oozing out of pussy",
-        ],
+        'pussy': pussy_penetrate,
     },
     'content': {
-        'cowgirl': [
-            "cowgirl position",
-            "reverse cowgirl position",
-            "foggy, riding a dick",
-            "girl on top, legs lock",
-        ]
+        '0': QPos.Sex.cowgirl,
+        'phone': holding_cellphone,
+        'after': pussy_cum,
     }
 
 }
 
 # =====================================================================================
 
-act_ass = {
+act_butt = {
     'group': 'act',
     'rating': 18,
-    'tag': ['act', 'ass', 'anus', 'pelvic'],
+    'tag': ['act', 'butt', 'ass', 'anus', 'pelvic'],
     'suffix': {
         'see': [
             "",
@@ -231,7 +253,8 @@ act_ass = {
             QPos.Lying.all,
             QPos.Pelvic.top_down_all,
             [QPos.Leg.squalting, QPos.Leg.wariza],
-            [QPos.Pelvic.bent_over_desk, QPos.Leg.kneeling],
+            [QPos.Pelvic.bent_over_desk, QPos.Leg.kneeling, ],
+            [QPos.Pelvic.cat_stretch, QPos.Pelvic.upside_down],
         ],
         'hand': [
             "",
@@ -244,49 +267,57 @@ act_ass = {
             QCon.by(data=["panties", "thong"], is_pull=True),
         ]
     },
-    'content': [
-        'ass, (ass focus$[rand|0.1~0.2])'
-    ]
+    'content': {
+        '0': 'ass, (ass focus$[rand|0.1~0.2])',
+        'fuck': [
+            "anal penetration",
+            "imminent anal",
+            "double penetration",
+            "imminent double penetration",
+        ],
+        'toy': QPos.Pelvic.toy_anal,
+        'phone': holding_cellphone,
+    }
 }
 
-act_toy = {
-    'content': [
+# =====================================================================================
 
-    ]
+act_feet = {
+    'group': 'act',
+    'rating': 17,
+    'tag': ['act', 'foot', 'feet'],
+    'suffix': {
+        'see': [
+            "",
+            QCon.weight(seeL, seeU, QSee.common, QSee.extra, QSee.back),
+        ],
+        'pose': [
+            "",
+            QPos.Lying.all,
+            [QPos.Leg.wariza, QPos.Leg.sitting],
+        ],
+        'leg': [
+            "",
+            "crossed legs",
+            "crossed ankles",
+            "hugging own legs",
+            QPos.Leg.up,
+        ],
+        'foot': '(feet:$[rand|0.8~1.0]), (toes:$[rand|0.8~1.0]), no shoes',
+    },
+    'content': {
+        '0': [
+
+        ],
+        'footjob': [
+            'footjob',
+            'reverse footjob'
+        ],
+        'after': [
+            'cum, cum on feet'
+        ]
+    }
 }
-
-pos_ass = [
-    1,
-    "bent over desk, pov, skirt pulled down, panty pulled down, "
-    "looking back, hands on ass, spread pussy, pussy, pussy juice, pov",
-    1,
-    "spreading own ass, from behind, pov",
-    1,
-    "from below, looking back, ass grab, ass focus, grabbing own ass, hand on own ass",
-    1,
-    "from below, spread anus, from behind, ass focus, anus peek, facing away, spread ass, grabbing own ass, ass grab",
-    1,
-    "(upside-down:1.05), bent over, ass, pussy, pussy juice, anus",
-    1,
-    "(anal object insertion), pussy, pussy juice, anus, dildo",
-    1,
-    "double penetration, anal, pussy, penetration",
-    1,
-    "imminent double penetration, anus, pussy, pussy juice",
-    1,
-    "enema,anal object insertion, sex toy, dildo",
-    1,
-    "from behind, sex toy, vaginal, dildo riding, squatting, feet",
-    1,
-    "butt plug, pussy, pussy juice",
-    1,
-    "anal tail, anal object insertion, anal, pussy, pussy juice ",
-    1,
-    "otk spanking, spanking, spanked, red butt, (pants pull:0.9), (panty pull:0.9), motion lines",
-    1,
-    "lying, on back, underwear, (panties), (panty pull),"
-    "pussy, pussy juice, legs up, thighs"
-]
 
 pos_feet = [
     1,
@@ -359,15 +390,6 @@ pos_bdsm = [
     "(bdsm:$[rand|0.1~1.0]), cage, restrained",
 ]
 
-pos_front = [
-    "missionary, penetration, pov, grabbing another's breast",
-    "missionary, penetration, pov, from above",
-    "missionary, penetration, french kiss, faceless male",
-    "missionary, (female pov), penetration",
-    "standing missionary, penetration",
-    "lying, arm up, spread legs, armpits, missionary, ejaculation, orgasm",
-]
-
 pos_standing = [
     1,
     "leaning forward, cleavage, hand on own hip",
@@ -377,15 +399,6 @@ pos_standing = [
     "standing sex, split, leg up, penetration",
     1,
     "standing double penetration, anal, pussy, penetration",
-]
-
-pos_top = [
-    "cowgirl position, penetration, bottomless, pussy juice",
-    "cowgirl position, penetration, grabbing own breast, bottomless, pussy juice",
-    "reverse cowgirl position, penetration, slutty, bottomless, pussy juice",
-    "reverse cowgirl position, penetration, grabbing ass, bottomless, pussy juice",
-    "foggy, exposed pussy, vaginal, riding a dick, jizz oozing out of pussy, cum, orgasm, penetration",
-    "girl on top, legs lock, penetration",
 ]
 
 pos_lying = [
@@ -462,18 +475,12 @@ pos_sex_after = [
     "legs up, spread legs, "
 ]
 
-pos_mouth_after = [
-    1,
-    "from above, pov, cum in mouth, cum on face, open mouth, tongue out, v hand, peace sign",
-    1,
-    "ahegao, peace sign, v hands, v, cum in mouth, cum on face",
-]
-
 acts = {
     'fellatio': act_fellatio,
     'breast': act_breast,
     'fingering': act_fingering,
     'pelvic': act_pelvic,
+    'butt': act_butt,
     'cowgirl': act_cowgirl,
     'missionary': act_missionary,
 }
