@@ -174,9 +174,18 @@ class QPos:
 
     class Breast:
         titfuck = [
-            "paizuri, titfucking, nipples, penis",
-            "paizuri, titfucking, nipples, penis, breasts squeezed together, fellatio, licking penis"
-            "slapping breasts",
+            "paizuri",
+            "reverse paizuri",
+            "paizuri on lap",
+            "straddling paizuri",
+            "cooperative paizuri"
+            "simulated paizuri",
+            [
+                "paizuri invitation",
+                "implied paizuri",
+                "imminent paizuri",
+                "after paizuri",
+            ]
         ]
         pass
 
@@ -368,6 +377,11 @@ class QPos:
             "on one knee",
             "on one knee, feet",
         ]
+
+        dogeza = [
+            "dogeza",
+        ]
+
         squalting = [
             "squatting, open legs",
             "squatting, open legs, thighs, feet",
@@ -507,6 +521,10 @@ class QPos:
         breast = [
             "cum on breasts",
             "cum on breasts, cum on body"
+        ]
+
+        face = [
+            "cum on face"
         ]
 
     pass

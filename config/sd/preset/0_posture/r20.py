@@ -40,7 +40,12 @@ act_fellatio = {
     },
     'content': {
         '0': QPos.Mouth.fellatio,
-        'cum': QPos.Cum.mouth,
+        'cum': {
+            'c': 'cum',
+            'mouth': ["cum in mouth"],
+            'face': ["", "cum on face"],
+            'breast': ["", "cum on breasts"],
+        }
     }
 }
 
@@ -75,6 +80,7 @@ act_breast = {
                 "breast poke",
                 "breast lift",
                 "breast massage",
+                "slapping breasts",
             ]
         ],
         "breast": [
@@ -82,9 +88,39 @@ act_breast = {
         ]
     },
     'content': {
+        'titfuck': {
+            'p': 'paizuri, titfucking, nipples, penis',
+            'mouth': [
+                "",
+                "fellatio, licking penis"
+            ],
+            'hand': [
+                "",
+                "handsfree paizuri",
+                "breasts squeezed together",
+            ],
+            'pose': [
+                "",
+                "reverse paizuri",
+                "paizuri on lap",
+                "straddling paizuri",
+                "cooperative paizuri"
+                "simulated paizuri",
+                [
+                    "paizuri invitation",
+                    "implied paizuri",
+                    "imminent paizuri",
+                    "after paizuri",
+                ]
+            ]
+        },
         'grab': QPos.Hand.grab_breast_all,
-        'titfuck': QPos.Breast.titfuck,
-        'after': QPos.Cum.breast,
+        'cum': {
+            'c': 'cum',
+            'breast': ["cum on breasts"],
+            'mouth': ["", "cum in mouth"],
+            'face': ["", "cum on face"],
+        }
     }
 }
 
@@ -430,6 +466,42 @@ act_strentch = {
     }
 }
 
+act_dogeza = {
+    'rating': 17,
+    'tag': ['dogeza'],
+    'suffix': {
+        'see': [
+            "front view",
+            QCon.weight(seeL, seeU, QSee.common, QSee.extra, QSee.back_ass),
+        ],
+        'body': [
+            '',
+            'naked dogeza',
+        ],
+        'hand': [
+            '',
+            'hand on ground',
+        ],
+        'head': [
+            '',
+            'face_down',
+            'top-down_bottom-up',
+            'top-down bottom-up, single leg stepped on head'
+        ],
+        'cloth': [
+            '',
+            'folded clothes, clothes removed',
+        ],
+        'motion': [
+            '',
+            'trembling',
+        ]
+    },
+    'content': {
+        '0': '(dogeza:$[rand|1.0~1.2]), kneeling, all fours',
+    }
+}
+
 # =====================================================================================
 
 pos_bdsm = [
@@ -647,6 +719,7 @@ act = {
     'standing_sex': act_standing_sex,
 
     'pet': act_pet,
+    'dogeza': act_dogeza,
     'stretch': act_strentch,
 
     'after': act_after,
