@@ -96,6 +96,26 @@ class DValue:
     def __str__(self):
         return self.text
 
+    # DValue END
+    pass
+
+
+# DPick ===================================================================================== #
+
+class DPick:
+
+    def __init__(self, text: str):
+        self.text = text
+        self.init(self.text)
+        pass
+
+    def init(self, text: str):
+        self.text = text.strip()
+        return self
+
+    pass
+
+
 
 # DData ===================================================================================== #
 
