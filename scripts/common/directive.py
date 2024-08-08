@@ -1,5 +1,6 @@
 import logging
 import os
+import random
 import xml.etree.ElementTree as ET
 
 from scripts.common.collection import Collection
@@ -19,6 +20,7 @@ class DNode:
             src: str = "",
             des: str = "",
             base: str = "",
+            pick: str = "",
             action: str = "",
             converge: str = "",
             category: str = "",
@@ -31,6 +33,7 @@ class DNode:
         self.src = src
         self.des = des
         self.base = base
+        self.pick = pick
         self.action = action
         self.category = category
         self.converge = converge
@@ -43,6 +46,7 @@ class DNode:
         self.src = element.attrib.get('src', '').lower()
         self.des = element.attrib.get('des', '').lower()
         self.base = element.attrib.get('base', '')
+        self.pick = element.attrib.get('pick', '').lower()
         self.action = element.attrib.get('action', '').lower()
         self.func_name = element.attrib.get('func', self.func_name)
         self.func_args = element.attrib.get('args', None)
@@ -106,6 +110,7 @@ class DData:
             src: str = "",
             des: str = "",
             base: str = "",
+            pick: str = "",
             active: str = '1',
             parent: 'DNode' = None,
     ):
@@ -116,6 +121,7 @@ class DData:
         self.src = src
         self.des = des
         self.base = base
+        self.pick = pick
         self.active = active
         self.content = DValue(active=active, parent=self, state=state)
         self.items = TypeList(DValue)
@@ -133,11 +139,18 @@ class DData:
             ret += (str(item) + ",")
         return ret
 
+    def __getitem__(self, index):
+        size = len(self.items)
+        if index == size:
+            return self.content
+        return self.items[index]
+
     def init(self, element: ET.Element):
         if element is None:
             return self
         self.src = element.attrib.get('src', self.parent.src).lower()
         self.des = element.attrib.get('des', self.parent.des).lower()
+        self.pick = element.attrib.get('pick', self.parent.pick).lower()
         self.base = element.attrib.get('base', '')
         self.active = element.attrib.get('a', '1').lower()
         self.func_name = element.attrib.get('func', self.func_name)
@@ -159,10 +172,45 @@ class DData:
 
         return self
 
-    def infer(self, src_def: str):
+    def infer_one(
+            self,
+            one: DValue,
+            src: str,
+    ) -> any:
+        # print(f"[{count}] {one}")
+
+        is_text = src in ['text']
+        is_eval = src in ['eval']
+        is_file = src in ['file']
+
+        if one.active == '0' or one.active == 'false':
+            return None
+
+        if is_text:
+            one.value = one.text
+            one.convert = True
+            return one.text
+
+        text_strip = one.text.strip()
+
+        if not text_strip:
+            return None
+
+        if is_eval:
+            one.value = eval(text_strip)
+            one.convert = True
+            return one.value
+
+        if is_file:
+            self.infer_file(one, text_strip)
+            return one.value
+
+        raise ValueError(f"unsupported infer src: {src}")
+
+    def infer(self, src_def: str) -> list:
 
         if self.active == '0' or self.active == 'false':
-            return 0
+            return []
 
         src = self.src
         if not src:
@@ -171,40 +219,29 @@ class DData:
         if not src:
             raise ValueError('src is empty')
 
-        count = 0
+        ret = []
 
-        is_text = src in ['text']
-        is_eval = src in ['eval']
-        is_file = src in ['file']
+        if self.pick == 'rand':
+            size = len(self.items)
+            if size == 0:
+                return ret
+            if size == 1:
+                one = self.items[0]
+            else:
+                index = random.randint(0, size)
+                # not a bug, index == one -> fetch content, see DData.__getitem__()
+                one = self.items[index]
+
+            self.infer_one(one, src)
+            ret.append(one.value)
+            return ret
 
         for one in self:
-            # print(f"[{count}] {one}")
-
-            if one.active == '0' or one.active == 'false':
-                continue
-
-            if is_text:
-                one.value = one.text
-                one.convert = True
-                count += 1
-                continue
-
-            text_strip = one.text.strip()
-
-            if not text_strip:
-                continue
-
-            if is_eval:
-                one.value = eval(text_strip)
-                one.convert = True
-
-            if is_file:
-                self.infer_file(one, text_strip)
-
+            self.infer_one(one, src)
             if one.convert:
-                count += 1
+                ret.append(one.value)
 
-        return count
+        return ret
 
     def infer_file(self, one: DValue, text_strip: str):
         file_name = text_strip
@@ -260,6 +297,9 @@ class Directive:
                 yield data, one
         pass
 
+    def __getitem__(self, index):
+        return self.data[index]
+
     def parse(self, text) -> str:
         if not text:
             msg = 'empty text'
@@ -288,7 +328,7 @@ class Directive:
                 self.data.append(ddata)
         return ''
 
-    def infer(self, counting: bool = False) -> any:
+    def infer(self, converging: bool = True):
 
         if self.root.shell > 0:
             self.root.shell -= 1
@@ -300,13 +340,24 @@ class Directive:
             ).decode('utf-8')
             return ret
 
-        count = 0
-        for data in self.data:
-            count += data.infer(self.root.src)
-        con = self.converge()
-        if counting:
-            return con, count
-        return con
+        if self.root.pick == 'rand':
+            size = len(self.data)
+            if size == 0:
+                return None
+            if size == 1:
+                one = self.data[0]
+            else:
+                index = random.randint(0, size - 1)
+                one = self.data[index]
+            one.infer(self.root.src)
+        else:
+            for data in self.data:
+                data.infer(self.root.src)
+
+        if converging:
+            return self.converge()
+
+        return None
 
     def converge(self):
         ret = None

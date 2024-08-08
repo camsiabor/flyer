@@ -381,7 +381,6 @@ class Collection:
         if convert is None:
             return container
         if isinstance(convert, (list, tuple)):
-            container.extend(convert)
             return container
         if isinstance(convert, str):
             convert = convert.strip()

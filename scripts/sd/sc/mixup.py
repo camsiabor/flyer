@@ -60,7 +60,7 @@ class QCon:
             pick_prefix: str,
             pick_content: str,
             pick_suffix: str,
-    ):
+    ) -> str:
         prefix = select.get('prefix', None)
         content = select.get('content', {})
         suffix = select.get('suffix', None)
@@ -72,12 +72,16 @@ class QCon:
         suffix_sum = ""
         if prefix:
             prefix_ex = Collection.roll(prefix, [], pick_prefix)
-            prefix_sum = ",".join(prefix_ex) + ","
+            prefix_sum = ",".join(prefix_ex) + ", "
         if suffix:
             suffix_ex = Collection.roll(suffix, [], pick_suffix)
-            suffix_sum = "," + ",".join(suffix_ex)
+            suffix_sum = ", " + ",".join(suffix_ex)
 
-        content_ex = Collection.roll(content, [], pick_content)
+        container = []
+        content_ex = Collection.roll(content, container, pick_content)
+
+        if isinstance(content_ex, list):
+            content_ex = ", ".join(content_ex)
 
         if isinstance(content_ex, str):
             return f"{prefix_sum}{content_ex}{suffix_sum}"

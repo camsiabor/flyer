@@ -31,5 +31,11 @@ class TypeList:
     def __getitem__(self, index):
         return self.items[index]
 
+    def __setitem__(self, key, value):
+        self.items[key] = value
+
+    def __delitem__(self, key):
+        del self.items[key]
+
     def __iter__(self):
         yield from self.items

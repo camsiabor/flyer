@@ -292,7 +292,11 @@ act_butt = {
     },
     'content': {
         '0': 'ass, (ass focus$[rand|0.1~0.2])',
-        'fuck': [
+        'vaginal': [
+            'vaginal, penetration',
+            'imminent penetration',
+        ],
+        'anal': [
             "anal penetration",
             "imminent anal",
             "double penetration",
