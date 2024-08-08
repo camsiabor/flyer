@@ -436,15 +436,22 @@ class Collection:
     ) -> any:
         if data is None:
             return None
+
         if isinstance(data, str):
             return data
 
+        is_list = isinstance(data, (list, tuple))
+
         if depth > 0:
-            if isinstance(data, dict):
-                return Collection.roll_dict(data, container, picks)
-            if isinstance(data, (list, tuple)):
+            if is_list:
                 return Collection.roll_list(data, container, picks)
+            elif isinstance(data, dict):
+                return Collection.roll_dict(data, container, picks)
             return str(data)
+
+        if is_list:
+            depth = -1
+            return Collection.roll_list(data, container, picks, depth)
 
         pick_dict = Collection.roll_pick_parse(data, picks)
         for k, pick_path in pick_dict.items():

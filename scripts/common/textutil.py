@@ -1,8 +1,6 @@
 import logging
-import math
 import random
 import re
-import time
 from typing import Union
 
 from scripts.common.collection import Collection
@@ -33,14 +31,19 @@ class TextUtil:
         if params is None or len(params) == 0:
             return src
         result = src
-        cycle_current = cycle
-        time_seed = math.floor(time.time())
-        rand_seed = random.randint(0, 142857 + time_seed)
         for placeholder, target in params.items():
             if placeholder.startswith("_"):
                 placeholder = placeholder[1:]
                 target = ""
             else:
+                rolled = Collection.roll(target, [])
+                if rolled is None:
+                    target = ""
+                elif isinstance(rolled, (list, tuple)):
+                    target = ", ".join(rolled)
+                else:
+                    target = rolled
+                """
                 if isinstance(target, (list, tuple)):
                     if cycle < 0:
                         cycle_current = random.randint(0, rand_seed)
@@ -49,7 +52,8 @@ class TextUtil:
                         target = target[cycle_current % length]
                     else:
                         target = ""
-            target = str(target)
+                """
+            target = str(target).strip()
             token = f"{prefix}{placeholder}{suffix}"
             result = result.replace(token, target)
         return result
