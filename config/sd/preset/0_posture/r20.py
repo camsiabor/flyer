@@ -413,7 +413,6 @@ act_standing_sex = {
                 'against wall, sex from behind',
                 'arm grab, arm held back, sex from behind, doggystyle'
             ],
-
         ],
         'hand': [
             '',
@@ -548,6 +547,7 @@ act = {
     'feet': act_feet,
     'cowgirl': act_cowgirl,
     'missionary': act_missionary,
+    'standing_sex': act_standing_sex,
     'pet': act_pet,
 }
 
