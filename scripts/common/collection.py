@@ -1,54 +1,25 @@
-import math
 import random
 
 from typing import List, Union
 
 
-# CPack =============================================================================== #
-class CPack:
-
-    def __init__(
-            self,
-            content: any,
-            prefix: any = None,
-            suffix: any = None,
-            weight_min=1,
-            weight_max=1,
-    ):
-        self.content = content
-        self.prefix = prefix
-        self.suffix = suffix
-        self.weight_min = weight_min
-        self.weight_max = weight_max
-        pass
-
-    def unpack(self):
-        if self.weight_max <= 0:
-            return None
-
-        weight = 1
-        if self.weight_min == self.weight_max:
-            weight = self.weight_min
-        else:
-            if isinstance(self.weight_min, int) and isinstance(self.weight_max, int):
-                weight = random.randint(self.weight_min, self.weight_max)
-            else:
-                weight = math.floor(random.uniform(self.weight_min, self.weight_max))
-
-        if weight <= 0:
-            return None
-
-        if self.prefix is not None:
-            self.content = self.prefix + self.content
-
-        return self.content
-
-    pass
-
-
 # Collection =============================================================================== #
 
 class Collection:
+
+    @staticmethod
+    def firstv(data: any, throw_if_none: bool = False):
+        ret = data
+        if data is not None:
+            if isinstance(data, (list, tuple)):
+                if len(data) <= 0:
+                    return None
+                ret = data[0]
+            elif isinstance(data, dict):
+                ret = next(iter(data))
+        if ret is None and throw_if_none:
+            raise ValueError("data is None")
+        return ret
 
     @staticmethod
     def dict_merge(ret: dict, *dicts):
@@ -353,28 +324,35 @@ class Collection:
         return str(data)
 
     @staticmethod
-    def roll_pick_parse(picks: any) -> Union[List[str], None]:
-        if picks is None:
-            return None
-        if picks == '*':
-            return None
-        if isinstance(picks, (list, tuple)):
+    def roll_pick_parse(data: any, picks: any) -> dict:
+
+        if isinstance(picks, dict):
             return picks
+
+        if picks is None or picks == "" or picks == "+":
+            picks = "+".join(data.keys())
+        elif picks == '*':
+            picks = "*".join(data.keys())
 
         if not isinstance(picks, str):
             raise ValueError(f"picks type error: {picks}")
 
-        picks_list = None
-        element_list = picks.split("+")
-        if len(element_list) > 0:
-            picks_list = []
-            for element in element_list:
+        pick_dict = {}
+        list_and = picks.strip().split("*")
+        for one_and in list_and:
+            list_plus = one_and.strip().split("+")
+            if len(list_plus) <= 0:
+                continue
+            pick_path = []
+            for element in list_plus:
                 element = element.strip()
                 if not element:
                     continue
                 pathes = element.split(".")
-                picks_list.append(pathes)
-        return picks_list
+                pick_path.append(pathes)
+            pick_dict[one_and] = pick_path
+
+        return pick_dict
 
     @staticmethod
     def roll_container_append(container: list, convert: any):
@@ -401,14 +379,24 @@ class Collection:
         if isinstance(data, str):
             return data
 
-        if depth == 0:
-            picks = Collection.roll_pick_parse(picks)
+        if depth > 0:
+            if isinstance(data, dict):
+                return Collection.roll_dict(data, container, picks)
+            if isinstance(data, (list, tuple)):
+                return Collection.roll_list(data, container, picks)
+            return str(data)
 
-        if isinstance(data, dict):
-            return Collection.roll_dict(data, container, picks)
-        if isinstance(data, (list, tuple)):
-            return Collection.roll_list(data, container, picks)
-        return str(data)
+        pick_dict = Collection.roll_pick_parse(data, picks)
+        for k, pick_path in pick_dict.items():
+            container_sub = []
+            convert = Collection.roll(data, container_sub, pick_path, depth + 1)
+            Collection.roll_container_append(container_sub, convert)
+            if len(container_sub) <= 0:
+                continue
+            serial = (", ".join(container_sub).strip().replace(',,', ','))
+            container.append(serial)
+
+        return container
 
     @staticmethod
     def roll_dict(

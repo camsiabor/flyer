@@ -329,7 +329,12 @@ class Directive:
             msg = 'prefix & suffix unmatched:\n' + text
             self.logger.error(msg)
             return msg
-        root = ET.fromstring(text)
+        try:
+            root = ET.fromstring(text)
+        except Exception as ex:
+            self.logger.error(f"error: {ex} | text:\n {text}")
+            raise ex
+
         self.root = DNode(
             element=root,
             state=self.state,
