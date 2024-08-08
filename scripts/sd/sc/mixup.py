@@ -124,13 +124,13 @@ class QCon:
 
 class QSee:
     common = [
-        "from above", "from side", "from below"
+        "from above", "from side", "from below", "front view",
     ]
     back = [
         "from behind", "from back"
     ]
     back_ass = [
-        "from behind, ass", "from back, ass",
+        "ass, from behind", "ass, from back",
     ]
     extra = [
         "pov", "dutch angle", "foreshortening", "fisheye", "wall cross-section",
@@ -169,6 +169,11 @@ class QPos:
             ["penis over eyes", "penis over one eye"],
             ["deepthroat", "deepthroat, (rolling eyes:$[rand|0.0~1.0])"],
             ["licking testicles", "testicle sucking", "testicle sucking,licking testicles"],
+        ]
+
+        feet = [
+            "licking feet",
+            "toe sucking",
         ]
         pass
 
@@ -419,10 +424,6 @@ class QPos:
         pass
 
     class Feet:
-        lick = [
-            "licking feet",
-            "toe sucking",
-        ]
         pass
 
     class Lying:

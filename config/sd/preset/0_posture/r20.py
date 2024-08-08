@@ -26,7 +26,7 @@ act_fellatio = {
     'suffix': {
         "see": [
             "",
-            QCon.weight(seeL, seeU, QSee.common, QSee.extra, QSee.back),
+            *QCon.weight(seeL, seeU, QSee.common, QSee.extra, QSee.back),
         ],
         "leg": ["", QPos.Leg.kneeling, QPos.Leg.squalting, QPos.Lying.all],
         "hand_2nd": ["", "", QPos.Hand.on_head_2nd, QPos.Hand.grab_hair_2nd],
@@ -58,7 +58,7 @@ act_breast = {
     'suffix': {
         'see': [
             "",
-            QCon.weight(seeL, seeU, QSee.common, QSee.extra),
+            *QCon.weight(seeL, seeU, QSee.common, QSee.extra),
         ],
         "pose": [
             "",
@@ -133,7 +133,7 @@ act_fingering = {
     'suffix': {
         'see': [
             "",
-            QCon.weight(seeL, seeU, QSee.common, QSee.extra, QSee.back_ass),
+            *QCon.weight(seeL, seeU, QSee.common, QSee.extra, QSee.back_ass),
         ],
         'pose': [
             "", QPos.Leg.squalting, QPos.Lying
@@ -155,7 +155,7 @@ act_pelvic = {
     'suffix': {
         'see': [
             "",
-            QCon.weight(seeL, seeU, QSee.common, QSee.extra, QSee.back_ass),
+            *QCon.weight(seeL, seeU, QSee.common, QSee.extra, QSee.back_ass),
         ],
         'pose': [
             "",
@@ -206,7 +206,7 @@ act_missionary = {
     'suffix': {
         'see': [
             "",
-            QCon.weight(seeL, seeU, QSee.common, QSee.extra),
+            *QCon.weight(seeL, seeU, QSee.common, QSee.extra),
         ],
         'hand': [
             "",
@@ -247,7 +247,7 @@ act_cowgirl = {
     'suffix': {
         'see': [
             "",
-            QCon.weight(seeL, seeU, QSee.common, QSee.extra, QSee.back_ass),
+            *QCon.weight(seeL, seeU, QSee.common, QSee.extra, QSee.back_ass),
         ],
         'hand': [
             "",
@@ -276,7 +276,7 @@ act_butt = {
     'suffix': {
         'see': [
             "",
-            QCon.weight(seeL, seeU, QSee.common, QSee.extra, QSee.back, QSee.back_ass),
+            *QCon.weight(seeL, seeU, QSee.common, QSee.extra, QSee.back, QSee.back_ass),
         ],
         'pose': [
             "",
@@ -325,7 +325,7 @@ act_feet = {
     'suffix': {
         'see': [
             "",
-            QCon.weight(seeL, seeU, QSee.common, QSee.extra, QSee.back),
+            *QCon.weight(seeL, seeU, QSee.common, QSee.extra, QSee.back),
         ],
         'pose': [
             "",
@@ -367,7 +367,7 @@ act_pet = {
     'suffix': {
         'see': [
             "",
-            QCon.weight(seeL, seeU, QSee.common, QSee.extra, QSee.back),
+            *QCon.weight(seeL, seeU, QSee.common, QSee.extra, QSee.back),
         ],
         'hand': [
             "",
@@ -470,9 +470,9 @@ act_dogeza = {
     'rating': 17,
     'tag': ['dogeza'],
     'suffix': {
+        'd': '(dogeza:$[rand|1.0~1.1])',
         'see': [
-            "front view",
-            QCon.weight(seeL, seeU, QSee.common, QSee.extra, QSee.back_ass),
+            *QCon.weight(0.8, 1.0, QSee.common, QSee.extra, QSee.back_ass, QSee.back),
         ],
         'body': [
             '',
@@ -482,23 +482,28 @@ act_dogeza = {
             '',
             'hand on ground',
         ],
-        'head': [
+        'pose': [
+            # '',
+            '(face_down:$[rand|1.0~1.2])',
+            # 'top-down_bottom-up',
+        ],
+        'inter': [
             '',
-            'face_down',
-            'top-down_bottom-up',
-            'top-down bottom-up, single leg stepped on head'
+            '(stepped_on_head:$[rand|1.0~1.5])',
+            'sex from behind, penetration',
+            [QPos.Mouth.fellatio, QPos.Mouth.feet],
+            [QPos.Finger.to_pussy_anal, QPos.Hand.spread_all],
+            [QPos.Hand.on_head_2nd, QPos.Hand.grab_hair_2nd],
         ],
         'cloth': [
             '',
             'folded clothes, clothes removed',
         ],
-        'motion': [
-            '',
-            'trembling',
-        ]
     },
     'content': {
-        '0': '(dogeza:$[rand|1.0~1.2]), kneeling, all fours',
+        'lora_01': '<lora:dogeza:$[n|$$lora_dogeza$$|0.85]>',
+        'lora_02': '<lora:Dogeza__Pony_XL:$[n|$$lora_dogeza$$|0.95]>',
+        'd': ",",
     }
 }
 
