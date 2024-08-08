@@ -250,7 +250,7 @@ class DData:
             else:
                 index = random.randint(0, size)
                 # not a bug, index == one -> fetch content, see DData.__getitem__()
-                one = self.items[index]
+                one = self[index]
 
             self.infer_one(one, src)
             ret.append(one.value)
