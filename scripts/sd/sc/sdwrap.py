@@ -223,4 +223,4 @@ class SDWrap:
             "images": images
         })
         result = await self.cli.extra_batch_images(**params)
-        return self.save(b, result, b.extra.save_metadata)
+        return self.save(b, result)

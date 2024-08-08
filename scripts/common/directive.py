@@ -20,6 +20,7 @@ class DNode:
             des: str = "",
             base: str = "",
             pick: str = "",
+            check: str = "",
             action: str = "",
             converge: str = "",
             category: str = "",
@@ -33,6 +34,7 @@ class DNode:
         self.des = des
         self.base = base
         self.pick = pick
+        self.check = check
         self.action = action
         self.category = category
         self.converge = converge
@@ -46,6 +48,7 @@ class DNode:
         self.des = element.attrib.get('des', '').lower()
         self.base = element.attrib.get('base', '')
         self.pick = element.attrib.get('pick', '').lower()
+        self.check = element.attrib.get('check', '').lower()
         self.action = element.attrib.get('action', '').lower()
         self.func_name = element.attrib.get('func', self.func_name)
         self.func_args = element.attrib.get('args', None)
@@ -67,6 +70,7 @@ class DValue:
             func_arg: any = None,
             text: str = "",
             value: any = None,
+            check: str = "",
             active: str = '1',
             parent: 'DData' = None,
     ):
@@ -76,6 +80,7 @@ class DValue:
         self.func_name = func_name
         self.func_args = func_arg
         self.text = text
+        self.check = check
         self.value = value
         self.convert = False
         self.active = active
@@ -87,6 +92,7 @@ class DValue:
         if self.element is None:
             return self
         self.text = self.element.text.strip()
+        self.check = self.element.attrib.get('check', self.parent.check)
         self.active = self.element.attrib.get('a', '1').lower()
         self.func_name = self.element.attrib.get('func', self.func_name)
         self.func_args = self.element.attrib.get('args', None)
@@ -130,6 +136,7 @@ class DData:
             des: str = "",
             base: str = "",
             pick: str = "",
+            check: str = "",
             active: str = '1',
             parent: 'DNode' = None,
     ):
@@ -141,6 +148,7 @@ class DData:
         self.des = des
         self.base = base
         self.pick = pick
+        self.check = check
         self.active = active
         self.content = DValue(active=active, parent=self, state=state)
         self.items = TypeList(DValue)
@@ -169,8 +177,9 @@ class DData:
             return self
         self.src = element.attrib.get('src', self.parent.src).lower()
         self.des = element.attrib.get('des', self.parent.des).lower()
-        self.pick = element.attrib.get('pick', self.parent.pick).lower()
         self.base = element.attrib.get('base', '')
+        self.pick = element.attrib.get('pick', self.parent.pick).lower()
+        self.check = element.attrib.get('check', self.parent.check).lower()
         self.active = element.attrib.get('a', '1').lower()
         self.func_name = element.attrib.get('func', self.func_name)
         self.func_args = element.attrib.get('args', None)
@@ -240,17 +249,20 @@ class DData:
 
         ret = []
 
-        if self.pick == 'rand':
+        if 'rand' in self.pick:
             one = Collection.randv(self.items)
             if one is not None:
                 self.infer_one(one, src)
                 ret.append(one.value)
-            return ret
+        else:
+            for one in self:
+                self.infer_one(one, src)
+                if one.convert:
+                    ret.append(one.value)
 
-        for one in self:
-            self.infer_one(one, src)
-            if one.convert:
-                ret.append(one.value)
+        if 'blank' in self.check:
+            if Collection.is_blank(ret):
+                raise ValueError('blank check failed')
 
         return ret
 

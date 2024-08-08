@@ -336,7 +336,9 @@ act_feet = {
         ]
     },
     'content': {
-        '0': '',
+        '0': [
+            ","
+        ],
         'footjob': [
             'footjob',
             'reverse footjob'
@@ -388,7 +390,9 @@ act_pet = {
         ]
     },
     'content': {
-        '0': [],
+        '0': [
+            ","
+        ],
         'fellatio': QPos.Mouth.fellatio,
         'spank': QPos.Pelvic.butt_spank,
         'whip': QPos.Tool.whip,
@@ -421,7 +425,9 @@ act_standing_sex = {
         ]
     },
     'content': {
-        '0': []
+        '0': [
+            ",",
+        ]
     }
 }
 
