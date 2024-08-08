@@ -472,7 +472,8 @@ act_dogeza = {
     'suffix': {
         'd': '(dogeza:$[rand|1.0~1.1])',
         'see': [
-            *QCon.weight(0.8, 1.0, QSee.common, QSee.extra, QSee.back_ass, QSee.back),
+            'ass only, ass focus, soles, from behind',
+            *QCon.weight(seeL, seeU, QSee.common, QSee.extra, QSee.back_ass, QSee.back),
         ],
         'body': [
             '',
@@ -483,25 +484,25 @@ act_dogeza = {
             'hand on ground',
         ],
         'pose': [
-            # '',
+            '',
             '(face_down:$[rand|1.0~1.2])',
             # 'top-down_bottom-up',
         ],
         'inter': [
-            '',
-            '(stepped_on_head:$[rand|1.0~1.5])',
-            'sex from behind, penetration',
-            [QPos.Mouth.fellatio, QPos.Mouth.feet],
+            # '',
+            '(stepped on head:$[rand|1.0~1.25])',
+            'penetration',
+            # [QPos.Mouth.fellatio, QPos.Mouth.feet],
             [QPos.Finger.to_pussy_anal, QPos.Hand.spread_all],
             [QPos.Hand.on_head_2nd, QPos.Hand.grab_hair_2nd],
         ],
         'cloth': [
-            '',
+            # '',
             'folded clothes, clothes removed',
         ],
     },
     'content': {
-        'lora_01': '<lora:dogeza:$[n|$$lora_dogeza$$|0.85]>',
+        'lora_01': '<lora:dogeza:$[n|$$lora_dogeza$$|0.90]>',
         'lora_02': '<lora:Dogeza__Pony_XL:$[n|$$lora_dogeza$$|0.95]>',
         'd': ",",
     }

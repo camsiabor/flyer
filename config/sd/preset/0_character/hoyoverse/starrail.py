@@ -94,7 +94,8 @@ fei_xiao = {
             gradient hair, (teal hair tips:0.95), high ponytail, 
             (silver forehead mark:0.8), 
             (aquamarine eyes:0.95), (red eyeliner:0.95), 
-            animal ears, earring, jewelry, 
+            (animal ears:1.1), animal ear fluff, fox ears,
+            earring, jewelry,             
             """,
         '01':
             """FEI XIAO REGULAR WEAR""",

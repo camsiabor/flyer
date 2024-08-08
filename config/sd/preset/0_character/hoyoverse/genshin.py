@@ -19,11 +19,11 @@ emilie = {
     },
     'C': {
         'App': """
-        short hair, (blonde hair:0.95), multicolored hair, hat, 
-        (purple eyes:0.95), 
-        glasses, (semi-rimless eyewear:0.1),
-        (elbow gloves:0.6), (black gloves:0.6), 
-        dress,
+            short hair, (blonde hair:0.95), multicolored hair, hat, 
+            (purple eyes:0.95), 
+            glasses, (semi-rimless eyewear:0.1),
+            (elbow gloves:0.6), (black gloves:0.6), 
+            dress,
         """
     }
 }
