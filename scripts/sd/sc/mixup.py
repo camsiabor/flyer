@@ -123,6 +123,9 @@ class QCon:
 # QAngle ===================================================================================== #
 
 class QSee:
+    common = [
+        "from above", "from side", "from below"
+    ]
     back = [
         "from behind", "from back"
     ]
@@ -130,13 +133,17 @@ class QSee:
         "from behind, ass", "from back, ass",
     ]
     extra = [
-        "pov", "dutch angle", "foreshortening", "fisheye"
+        "pov", "dutch angle", "foreshortening", "fisheye", "wall cross-section",
     ]
-    common = [
-        "from above", "from side", "from below"
+    cross_section_outer = [
+        "wall cross-section"
     ]
-    internal_cumshot = [
-        "internal cumshot, cross-section, x-ray, uterus"
+    cross_section_inner = [
+        "cross-section",
+        "x-ray",
+        "uterus",
+        "internal cumshot",
+        "multiple views",
     ]
     pass
 
@@ -147,15 +154,21 @@ class QSee:
 class QPos:
     class Mouth:
         fellatio = [
+            ["fellatio", "irrumatio"],
             "implied fellatio",
-            "fellatio",
             "vacuum fellatio, blowjob face",
             "licking penis",
             "forced fellatio, irrumatio",
-            "deep throat",
-            "licking testicles",
+            "cheek bulge, irrumatio",
             "after fellatio",
             "oral_invitation",
+            "kissing_penis",
+            "stealth fellatio",
+            "penis awe, penis shadow",
+            ["penis_on_face", "penis_on_face,slapping with penis"],
+            ["penis over eyes", "penis over one eye"],
+            ["deepthroat", "deepthroat, (rolling eyes:$[rand|0.0~1.0])"],
+            ["licking testicles", "testicle sucking", "testicle sucking,licking testicles"],
         ]
         pass
 
@@ -163,6 +176,7 @@ class QPos:
         titfuck = [
             "paizuri, titfucking, nipples, penis",
             "paizuri, titfucking, nipples, penis, breasts squeezed together, fellatio, licking penis"
+            "slapping breasts",
         ]
         pass
 
@@ -211,23 +225,39 @@ class QPos:
         spread_anus = ["spread anus", "spread ass"]
         spread_all = [*spread_pussy, *spread_anus]
 
-        grab_ass_1st = ["grabbing_own_ass", "hand_on_own_ass"]
-        grab_ass_2nd = ["grabbing_another's_ass", "hand on another's ass"]
+        grab_ass_1st = ["grabbing_own_ass", "hand_on_own_ass", "hand_on_own_hip"]
+        grab_ass_2nd = ["grabbing_another's_ass", "hand_on_another's_ass", "hand_on_another's_hips"]
         grab_ass_all = [*grab_ass_1st, *grab_ass_2nd, "crotch_grab"]
+
+        kabedon = [
+            "kabedon",
+            "kabedon on viewer",
+            "foot kabedon",
+        ]
+
+        slap = [
+            "slapping",
+            "slap mark",
+            "slap mark on face",
+        ]
 
         pass
 
     class Finger:
         masturbation = [
-            "masturbation", "female masturbation"
+            "masturbation", "female masturbation", "stealth masturbation",
         ]
         to_mouth_1st = [
             "finger to own mouth",
-            "finger in own mouth"
+            "finger in own mouth",
+            "hand to own mouth",
         ]
         to_mouth_2nd = [
+
             "finger to another's mouth",
-            "finger in another's mouth"
+            "finger in another's mouth",
+            "finger in another's mouth, finger sucking",
+            "finger in another's mouth, licking finger",
         ]
         to_pussy = [
             "implied fingering",
@@ -318,6 +348,11 @@ class QPos:
             "spanked, otk spanking, spanking, red butt",
         ]
 
+        pee = [
+            "peeing, pee",
+            "peeing, pee, drinking pee",
+        ]
+
         pass
 
     class Leg:
@@ -369,12 +404,29 @@ class QPos:
         # Leg
         pass
 
+    class Feet:
+        lick = [
+            "licking feet",
+            "toe sucking",
+        ]
+        pass
+
     class Lying:
         all = [
             "lying",
             "lying, on back",
             ["lying, on stomach", "lying, the pose"],
             "lying, on side",
+        ]
+        pass
+
+    class Leaning:
+        all = [
+            "leaning",
+            "leaning_back",
+            "leaning_on_object",
+            "leaning_forward",
+            "leaning_to_the_side",
         ]
         pass
 
@@ -439,6 +491,7 @@ class QPos:
             "cum in mouth",
             "cum in mouth, cum on face"
             "cum on tongue",
+            "cum in mouth, cum, (closed mouth:$[rand|1.1~1.3])",
         ]
 
         pussy = [

@@ -10,32 +10,11 @@ tryU = 0.6
 
 # =====================================================================================
 
-pussy_cum = {
-    'cum': QPos.Cum.pussy,
-    'hand': [
-        "",
-        QPos.Hand.spread_pussy,
-    ],
-    'sign': [
-        "",
-        QPos.Hand.v_sign,
-    ],
-    'face': [
-        "",
-        "(ahegao:$[rand|0.6~1.0])",
-        "(looking to the side:$[rand|1.0~1.3])",
-    ]
-}
 
 pussy_penetrate = [
     "penetration, pussy",
     "penetration, pussy, pussy juice",
     "penetration, pussy, jizz oozing out of pussy",
-]
-
-holding_cellphone = [
-    "(holding cellphone:$[rand|1.0~1.2]), cellphone, holding",
-    "(holding cellphone:$[rand|1.0~1.2]), cellphone, holding, reflection, (female pov)",
 ]
 
 # =====================================================================================
@@ -61,19 +40,7 @@ act_fellatio = {
     },
     'content': {
         '0': QPos.Mouth.fellatio,
-        'phone': holding_cellphone,
-        'after': {
-            'hand': [
-                "",
-                "v hand, peace sign",
-            ],
-            'eye': [
-                "",
-                "ahegao",
-                "(looking to the side:1.1)"
-            ],
-            'cum': QPos.Cum.mouth,
-        }
+        'cum': QPos.Cum.mouth,
     }
 }
 
@@ -188,6 +155,7 @@ act_pelvic = {
             'insert': 'anal object insertion, anus',
             'toy': QPos.Pelvic.toy_anal,
         },
+        'cum': QPos.Cum.pussy,
         'lick_ass': QPos.Pelvic.anilingus,
         'lick_pussy': QPos.Pelvic.cunnilingus,
     }
@@ -208,8 +176,15 @@ act_missionary = {
             "",
             QPos.Hand.grab_breast_all,
             QPos.Arm.up,
+            [
+                "facepalm",
+                "sheet grab",
+                "clothes grab",
+                "holding another's wrist",
+                "slapping",
+            ],
         ],
-        'kiss': [
+        'interact': [
             "",
             "french kiss",
             "hand on another's knee",
@@ -222,7 +197,7 @@ act_missionary = {
     },
     'content': {
         '0': QPos.Sex.missionary,
-        'after': pussy_cum,
+        'cum': QPos.Cum.pussy,
     }
 
 }
@@ -251,8 +226,7 @@ act_cowgirl = {
     },
     'content': {
         '0': QPos.Sex.cowgirl,
-        'phone': holding_cellphone,
-        'after': pussy_cum,
+        'cum': QPos.Cum.pussy,
     }
 
 }
@@ -303,7 +277,6 @@ act_butt = {
             "imminent double penetration",
         ],
         'toy': QPos.Pelvic.toy_anal,
-        'phone': holding_cellphone,
     }
 }
 
@@ -343,8 +316,7 @@ act_feet = {
             'footjob',
             'reverse footjob'
         ],
-        'phone': holding_cellphone,
-        'after': [
+        'cum': [
             'cum, cum on feet'
         ]
     }
@@ -394,6 +366,16 @@ act_pet = {
             ","
         ],
         'fellatio': QPos.Mouth.fellatio,
+        'vaginal': [
+            "vaginal, penetration"
+        ],
+        'anal': [
+            "anal, penetration",
+            "anal, double penetration"
+        ],
+        'pee': [
+            "peeing, pee"
+        ],
         'spank': QPos.Pelvic.butt_spank,
         'whip': QPos.Tool.whip,
         'bondage': ["bondage"],
@@ -415,13 +397,14 @@ act_standing_sex = {
             QPos.Sex.carrying_sex,
             [
                 'against wall, sex from behind',
-                'arm grab, arm held back, sex from behind, doggystyle'
+                'arm grab, arm held back, sex from behind, doggystyle',
             ],
         ],
         'hand': [
             '',
             QPos.Hand.grab_breast_all,
             QPos.Arm.up,
+            QPos.Hand.kabedon,
         ]
     },
     'content': {
@@ -433,9 +416,19 @@ act_standing_sex = {
 
 # =====================================================================================
 
-
-
-
+act_strentch = {
+    'suffix': {
+        "stretch": "stretching"
+    },
+    'content': {
+        'stretch': [
+            "",
+            "cross-body stretch",
+            "cat stretch",
+            "arched back",
+        ]
+    }
+}
 
 # =====================================================================================
 
@@ -541,6 +534,104 @@ pos_sex_after = [
     "legs up, spread legs, "
 ]
 
+act_after = {
+    'rating': 18,
+    'tag': ['after', 'after_sex'],
+    'suffix': {
+        'after': [
+            'after_sex',
+            'after_rape',
+            'clothed after sex',
+            'implied after sex',
+        ],
+        'hand': [
+            "",
+            QPos.Hand.spread_all,
+        ],
+        'sign': [
+            "",
+            QPos.Hand.v_sign,
+        ],
+        'face': [
+            "",
+            "(ahegao:$[rand|0.0~0.9])",
+            "(looking to the side:$[rand|1.0~1.3])",
+        ]
+    },
+    'content': {
+        'pussy': {
+            'w': 'after_vaginal',
+            'cum': QPos.Cum.pussy
+        },
+        'anal': {
+            'w': 'after_anal',
+            'cum': QPos.Cum.ass,
+        },
+        'mouth': {
+            'w': ["", "after_fellatio"],
+            'cum': QPos.Cum.mouth,
+        },
+        'breast': {
+            'w': 'after paizuri',
+            'cum': QPos.Cum.breast,
+        }
+    }
+}
+
+pussy_cum = {
+    'cum': QPos.Cum.pussy,
+    'hand': [
+        "",
+        QPos.Hand.spread_pussy,
+    ],
+    'sign': [
+        "",
+        QPos.Hand.v_sign,
+    ],
+    'face': [
+        "",
+        "(ahegao:$[rand|0.6~1.0])",
+        "(looking to the side:$[rand|1.0~1.3])",
+    ]
+}
+
+# ==========================================
+
+ex_cross_section = {
+    'content': {
+        '0': QSee.cross_section_inner,
+        'inner': QSee.cross_section_inner,
+        'cum': [
+            "internal cumshot, cum overflow",
+        ],
+        'outer': [
+            "",
+            QSee.cross_section_outer
+        ],
+    }
+}
+
+ex_photo = {
+    'suffix': {
+
+    },
+    'content': {
+        'phone': {
+            'hold': "(holding cellphone:$[rand|1.0~1.2]), cellphone, holding",
+            'angle': [
+                "",
+                "selfie",
+                "reflection, mirror, (female pov)",
+            ]
+        },
+        'finger': [
+            "finger frame"
+        ]
+    }
+}
+
+# act =================================================
+
 act = {
     'bj': act_fellatio,
     'fellatio': act_fellatio,
@@ -554,12 +645,22 @@ act = {
     'cowgirl': act_cowgirl,
     'missionary': act_missionary,
     'standing_sex': act_standing_sex,
+
     'pet': act_pet,
+    'stretch': act_strentch,
+
+    'after': act_after,
+
 }
+
+# ex =================================================
 
 ex = {
-
+    'cross_section': ex_cross_section,
+    'photo': ex_photo,
 }
+
+# everything =================================================
 
 everything = {
     'act': act,
