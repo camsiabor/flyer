@@ -47,16 +47,17 @@ black_clover = {
         },
         'C': {
             'App': """
-                (grey hair:0.95), (purple eyes:0.95), twintails, hair ribbon
+                (grey hair:0.95), twintails, 
+                hair ribbon, (purple ribbon:0.9),
+                (purple eyes:0.95)                
             """,
             'Cloth': """
-                (white and purple dress:0.95), 
-                long sleeves, belt
+                (white and purple dress:0.95), long sleeves, belt
             """,
-            'Capelet': """
-                (black capelet:0.95), 
-                (green strap:0.95), (white and purple dress:0.95), 
-                long sleeves, belt
+            'Capelet': """                                 
+                (black capelet:0.95), (green strap:0.95), 
+                (white and purple dress:0.95), long sleeves, 
+                belt
             """,
             'Armor': """
                 crown, head wings, wings, halo, strapless, 

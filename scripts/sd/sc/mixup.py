@@ -75,7 +75,7 @@ class QCon:
             suffix_sum = ", " + ",".join(suffix_ex)
 
         if not pick_content:
-            pick_content = [next(iter(content))]
+            pick_content = next(iter(content))
 
         container = []
         content_ex = Collection.roll(content, container, pick_content)

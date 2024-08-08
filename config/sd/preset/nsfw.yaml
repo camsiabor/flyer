@@ -9,7 +9,7 @@ image_latent:
   width: 1024
   height: 1024
   batch_size: 1
-  batch_count: 3
+  batch_count: 6
 
 _model:
   _base: |
@@ -96,9 +96,9 @@ prompt:
     posture_ref: |
       <OvO des="list" shell="1" pick="rand">
         <d a="1" src="file" base="config/sd/preset/0_posture/">      
-          <i a="0" args="act.fellatio">r20.py</i>      
+          <i a="1" args="act.fellatio|+|">r20.py</i>      
           <i a="0" args="act.fellatio|+|after">r20.py</i>      
-          <i a="1" args="act.breast|+|*">r20.py</i>
+          <i a="0" args="act.breast|+|*">r20.py</i>
           <i a="0" args="act.breast|+|grab">r20.py</i>
           <i a="0" args="act.breast|+|titfuck">r20.py</i>
           <i a="0" args="act.fingering">r20.py</i>
@@ -170,29 +170,11 @@ prompt:
       "(blush:$[rand|0.8~1.0]), (saliva trail:$[rand|0.35~0.75])"
     ]
     scene: [
-      # "(choker:0.5), (leash:0.5)",
-      # "bathing",
-      # "simple background"
-      # "classroom",
-      # "school",
-      # "bedroom",
-      # "indoors",
-      # "stage",
-      # "bathroom",
-      # "indoors",
-      # "indoors, day",
-      # "indoors, night",
-      # "indoors, light and shadow",
-      # "indoors, bathroom, day",
-      # "indoors, bathroom, night",
-      # "indoors, bedroom, day",
-      # "indoors, bedroom, night",
-      # "bedroom, indoors",
-      # "office, indoors",
+
     ]
   # Params Positive 2 ==========================================================
   params_pos_2:
-    nudity: $[rand|0.3~0.9]
+    nudity: $[rand|0.6~0.9]
     nudity_100: (completely nude:$[rand|0.2~0.6])
   params_neg_1:
     neg_extra: "shoes"
@@ -231,7 +213,7 @@ extra:
 output_txt2img:
   dir_path: D:/snapshot/character/
   # file_format: game/blue_archive/hina/%Y%m%d/0_nai_oral/%H%M%S
-  file_format: anime/black_clover/noelle_silva/%Y%m%d/0_nai/%H%M%S
+  file_format: anime/z/black_clover/noelle_silva/%Y%m%d/0_nai/%H%M%S
   # file_format: anime/eva/rei/%Y%m%d/0_nai/%H%M%S
   # file_format: anime/eva/asuka/%Y%m%d/0_nai_new/%H%M%S
   # file_format: anime/kaguya-sama/chika/%Y%m%d/0_nai/%H%M%S
