@@ -110,6 +110,7 @@ class SDPrompt:
         for i in range(1, 3):
             params = getattr(self, f"params_pos_{i}")
             params = Directorate.embed(params)
+
             if params is not None and len(params) > 0:
                 pos = TextUtil.replace(
                     src=pos,

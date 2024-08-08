@@ -296,7 +296,6 @@ pos_mouth_after = [
     "ahegao, peace sign, v hands, v, cum in mouth, cum on face",
 ]
 
-
 poses = {
 
     # mouth
@@ -330,7 +329,6 @@ poses = {
     # bsdm
     "bdsm": pos_bdsm,
 
-
     # front
     "front": pos_front,
     "missionary": pos_front,
@@ -360,6 +358,27 @@ poses = {
     "mouth_after": pos_mouth_after,
 
 }
+
+"""
+<d a="0" src="file" base="config/sd/preset/0_posture/">                
+          <i a="0" args="mouth">r18.py</i>
+          <i a="0" args="mouth_after">r18.py</i>
+          <i a="0" args="breast">r18.py</i>
+          <i a="0" args="hand">r18.py</i>
+          <i a="0" args="pussy">r18.py</i>          
+          <i a="0" args="ass">r18.py</i>
+          <i a="0" args="feet">r18.py</i>
+          <i a="0" args="expose">r18.py</i>
+          <i a="0" args="bdsm">r18.py</i>
+          <i a="0" args="front">r18.py</i>
+          <i a="0" args="back">r18.py</i>
+          <i a="0" args="doggy">r18.py</i>
+          <i a="0" args="top">r18.py</i>
+          <i a="0" args="standing">r18.py</i>
+          <i a="0" args="lying">r18.py</i>
+          <i a="0" args="sex_after">r18.py</i>          
+        </d>
+"""
 
 
 def init(_: any, args: any):

@@ -1,6 +1,5 @@
 import logging
 import os
-import random
 import xml.etree.ElementTree as ET
 
 from scripts.common.collection import Collection
@@ -242,18 +241,10 @@ class DData:
         ret = []
 
         if self.pick == 'rand':
-            size = len(self.items)
-            if size == 0:
-                return ret
-            if size == 1:
-                one = self.items[0]
-            else:
-                index = random.randint(0, size)
-                # not a bug, index == one -> fetch content, see DData.__getitem__()
-                one = self[index]
-
-            self.infer_one(one, src)
-            ret.append(one.value)
+            one = Collection.randv(self.items)
+            if one is not None:
+                self.infer_one(one, src)
+                ret.append(one.value)
             return ret
 
         for one in self:
@@ -366,15 +357,9 @@ class Directive:
             return ret
 
         if self.root.pick == 'rand':
-            size = len(self.data)
-            if size == 0:
-                return None
-            if size == 1:
-                one = self.data[0]
-            else:
-                index = random.randint(0, size - 1)
-                one = self.data[index]
-            one.infer(self.root.src)
+            one = Collection.randv(self.data)
+            if one is not None:
+                one.infer(self.root.src)
         else:
             for data in self.data:
                 data.infer(self.root.src)

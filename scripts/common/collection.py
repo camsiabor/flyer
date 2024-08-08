@@ -1,4 +1,5 @@
 import random
+from collections.abc import Iterable
 
 from typing import List, Union
 
@@ -8,18 +9,75 @@ from typing import List, Union
 class Collection:
 
     @staticmethod
-    def firstv(data: any, throw_if_none: bool = False):
+    def nextv(data: any, step: int = 1, throw_if_none: bool = False):
         ret = data
         if data is not None:
             if isinstance(data, (list, tuple)):
                 if len(data) <= 0:
                     return None
-                ret = data[0]
+                ret = data[step - 1]
             elif isinstance(data, dict):
-                ret = next(iter(data))
+                for i in range(step):
+                    ret = next(iter(data))
         if ret is None and throw_if_none:
             raise ValueError("data is None")
         return ret
+
+    @staticmethod
+    def randv(data: any, throw_if_none: bool = False):
+
+        ret = data
+
+        if isinstance(data, dict):
+            size = len(data)
+            if size <= 0:
+                ret = None
+            elif size == 1:
+                ret = next(iter(data.values()))
+            else:
+                data = list(data.values())
+
+        if isinstance(data, (list, tuple, Iterable)):
+            size = len(data)
+            if size <= 0:
+                ret = None
+            elif size == 1:
+                ret = data[0]
+            else:
+                ret = random.choice(data)
+
+        if ret is None and throw_if_none:
+            raise ValueError("data is None")
+
+        return ret
+
+    @staticmethod
+    def is_blank(data: any) -> bool:
+
+        if data is None:
+            return True
+
+        if isinstance(data, str):
+            data = data.strip()
+            return not data
+
+        if isinstance(data, (list, tuple)):
+            if len(data) <= 0:
+                return True
+            for v in data:
+                if not Collection.is_blank(v):
+                    return False
+            return True
+
+        if isinstance(data, dict):
+            if len(data) <= 0:
+                return True
+            for k, v in data.items():
+                if not Collection.is_blank(v):
+                    return False
+            return True
+
+        return False
 
     @staticmethod
     def dict_merge(ret: dict, *dicts):
@@ -333,6 +391,8 @@ class Collection:
             picks = "+".join(data.keys())
         elif picks == '*':
             picks = "*".join(data.keys())
+        elif picks == '0':
+            picks = Collection.nextv(data, True)
 
         if not isinstance(picks, str):
             raise ValueError(f"picks type error: {picks}")
