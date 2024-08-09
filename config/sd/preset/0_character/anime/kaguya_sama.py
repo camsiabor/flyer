@@ -6,9 +6,9 @@ from scripts.common.collection import Collection
 # (collarbone:$[rand|0.0~0.01])
 shinomiya_kaguya = {
     'L': {
-        'Pony00': '<lora:loveiswarXL2:$[n|$$lw$$|0.85]>, shinomiya_kaguya',
-        'Pony01': '<lora:Shinomiya_Pony:$[n|$$lw$$|0.9]>, Shinomiya_Kaguya',
-        'Pony02': '<lora:kaguya-shinomiya-s3-ponyxl-lora-nochekaiser:$[n|$$lw$$|0.85]>, kaguya_shinomiya',
+        'Pony00': '<lora:kaguya-shinomiya-s3-ponyxl-lora-nochekaiser:$[n|$$lw$$|0.85]>, kaguya_shinomiya',
+        'Pony01': '<lora:loveiswarXL2:$[n|$$lw$$|0.85]>, shinomiya_kaguya',
+        'Pony02': '<lora:Shinomiya_Pony:$[n|$$lw$$|0.9]>, Shinomiya_Kaguya',
     },
     'C': {
         'School00': """
@@ -25,12 +25,12 @@ shinomiya_kaguya = {
             black_dress,collared_dress,long_sleeves,black_sleeves,school_uniform,
             """,
         'School02': """
-            short hair,black hair,bangs,parted bangs,
-            hair ribbon,sidelocks,folded ponytail,
-            (red eyes:0.95),
+            short hair, (black_hair:0.9), bangs,parted bangs,
+            hair ribbon, (red_hair_ribbon:0.55), sidelocks,folded ponytail,
+            (red_eyes:0.95),
             long sleeves, dress,         
-            (black dress:0.925), (white sailor collar:0.925), 
-            ribbon, (red ribbon:0.975), (neck ribbon:0.95),
+            (black_dress:0.925), (white_sailor_collar:0.925), 
+            ribbon, (neck_ribbon:0.95), (red_neck_ribbon:0.95),
             school uniform, (shuuchiin academy school uniform:$[rand|0.1~0.5]),
             """
 

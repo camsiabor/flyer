@@ -302,6 +302,7 @@ act_butt = {
     },
     'content': {
         '0': 'ass, (ass focus$[rand|0.1~0.2])',
+
         'vaginal': [
             'vaginal, penetration',
             'imminent penetration',
@@ -312,7 +313,12 @@ act_butt = {
             "double penetration",
             "imminent double penetration",
         ],
+        'cum_pussy': QPos.Cum.pussy,
+        'cum_anal': QPos.Cum.ass,
         'toy': QPos.Pelvic.toy_anal,
+        'tail': [
+            'anal tail'
+        ]
     }
 }
 
@@ -489,10 +495,10 @@ act_dogeza = {
             # 'top-down_bottom-up',
         ],
         'inter': [
-            # '',
+            '',
             '(stepped on head:$[rand|1.0~1.25])',
             'penetration',
-            # [QPos.Mouth.fellatio, QPos.Mouth.feet],
+            [QPos.Mouth.fellatio, QPos.Mouth.feet],
             [QPos.Finger.to_pussy_anal, QPos.Hand.spread_all],
             [QPos.Hand.on_head_2nd, QPos.Hand.grab_hair_2nd],
         ],
@@ -502,8 +508,9 @@ act_dogeza = {
         ],
     },
     'content': {
-        'lora_01': '<lora:dogeza:$[n|$$lora_dogeza$$|0.90]>',
-        'lora_02': '<lora:Dogeza__Pony_XL:$[n|$$lora_dogeza$$|0.95]>',
+        'lora_01': '<lora:dogeza:$[n|$$lw_dogeza$$|0.85]>',
+        'lora_02': '<lora:Dogeza__Pony_XL:$[n|$$lw_dogeza$$|0.85]>',
+        'lora_03': '<lora:SteppedOnHead-anxl31:$[n|$$lw_dogeza$$|0.80]>, single leg stepped on head',
         'd': ",",
     }
 }
@@ -708,6 +715,33 @@ ex_photo = {
     }
 }
 
+ex_manga = {
+    'suffix:': {
+    },
+    'content': {
+        'fcomic': {
+            '1to1000': {
+                'lora': '<lora:FComic_1to1000_Pony_V1:$[n|$$lw_comic$$|0.95]>',
+                'trigger': """
+                    fcomic_1to1000_pony,(comic:1.25),
+                    (Multi view, Frame, Text, speech bubble, frame, heart, trembling, 
+                    focus line, vibrating line, comic expression, Sound effect)                    
+                """
+            }
+        },
+        'm': [
+            "multi view",
+            "frame",
+            "text",
+            "speech bubble",
+            "comic",
+            "manga",
+            "monochrome",
+        ]
+        # 'comic_manga': '<lora:Comic_Manga:1>'
+    }
+}
+
 # act =================================================
 
 act = {
@@ -737,6 +771,7 @@ act = {
 ex = {
     'cross_section': ex_cross_section,
     'photo': ex_photo,
+    'manga': ex_manga,
 }
 
 # everything =================================================

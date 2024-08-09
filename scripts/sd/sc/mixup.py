@@ -424,6 +424,11 @@ class QPos:
         pass
 
     class Feet:
+        all = [
+            "feet massage",
+            "feet worship",
+            "scorpion pose, top-down bottom-up",
+        ]
         pass
 
     class Lying:

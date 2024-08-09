@@ -86,7 +86,7 @@ yun_li = {
 fei_xiao = {
     'L': {
         'Pony01': '<lora:feixiao-pony:$[n|$$lw$$|0.95]>,FEI XIAO',
-        'Pony02': '<lora:SH_HSR_Feixiao_Civ:$[n|$$lw$$|0.7]>,SH_HSR_Feixiao,',
+        'Pony02': '<lora:SH_HSR_Feixiao_Civ:$[n|$$lw$$|0.7]>,SH_HSR_Feixiao',
     },
     'C': {
         'App': """

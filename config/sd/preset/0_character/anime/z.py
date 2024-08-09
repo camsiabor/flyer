@@ -71,11 +71,35 @@ black_clover = {
     }
 }
 
+# bleach =====================================================================================
+
+bleach = {
+    # Riruka Dokugamine
+    'riruka': {
+        'L': {
+            'Pony': "<lora:RirukaDokugamine:$[n|$$lw$$|0.9]>, RirukaDokugamine",
+        },
+        'C': {
+            'App': """long hair, (magenta eyes:0.85), twintails, (magenta hair:0.85)""",
+            'Cloth': """
+                hat, fur hat,                
+                dress, (black dress:0.9), 
+                (bow:0.1), (striped:0.9),
+                gloves, (white gloves:0.95),
+                thighhighs, zettai ryouiki,                            
+                """,
+            'Shoe': """thigh boots, (black boots:0.9)"""
+        }
+    }
+}
+
+# ============================================================================================
 
 everyone = {
-    'tsubaki': tsubaki,
-    'keroro': keroro,
+    'bleach': bleach,
     'black_clover': black_clover,
+    'keroro': keroro,
+    'tsubaki': tsubaki,
 }
 
 
